@@ -1,0 +1,158 @@
+<header class="page-header">
+    <h2>Номенклатура</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-table"></i>
+                </a>
+            </li>
+            <li><span>Номенклатура</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<!-- Таблицы -->
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Товары</h2>
+    </header>
+    <div class="panel-body">
+        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+            <i class="fa fa-plus"></i> Добавить товар
+        </button>
+        <div class="zag">
+            <h1>заглушка</h1>
+        </div>
+        <div class="table-responsive">
+            <table id="js-nomenclature-products-table" class="display table table-bordered table-striped table-condensed mb-none customize" style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Цена закупа</th>
+                        <th>Цена продажи</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each goods}}
+                        <tr>
+                            <td>{{this.title}}</td>
+                            <td>{{this.purchase_price}}</td>
+                            <td>{{this.selling_price}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Цена закупа</th>
+                        <th>Цена продажи</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Услуги</h2>
+    </header>
+    <div class="panel-body">
+        <button href="#add-services" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+            <i class="fa fa-plus"></i> Добавить услугу
+        </button>
+        <div class="table-responsive">
+            <table id="js-nomenclature-services-table" class="display table table-bordered table-striped mb-none" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each services}}
+                        <tr>
+                            <td>{{title}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Наименование</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+<!-- Модалки -->
+<div id="add-products" class="modal-block modal-block-primary mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Добавление товара</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-nomenclature-products-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Название товара</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="product-name" class="form-control js-nomenclature-products-name" placeholder="Введите название"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Цена закупа</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="product-price_buy" class="form-control js-nomenclature-products-priceBuy" placeholder="Введите цену"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Цена продажи</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="product-price_sale" class="form-control js-nomenclature-products-priceSale" placeholder="Введите цену"
+                            required>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary js-nomenclature-products-add">Подтвердить</button>
+                    <button class="btn btn-default modal-dismiss js-nomenclature-products-cancel">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+<div id="add-services" class="modal-block modal-block-primary mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Добавление услуги</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-nomenclature-services-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Название услуги</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="services-name" class="form-control js-nomenclature-services-name" placeholder="Введите название"
+                            required>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary js-nomenclature-services-add">Подтвердить</button>
+                    <button class="btn btn-default modal-dismiss js-nomenclature-services-cancel">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,43 @@
+<header class="page-header">
+    <h2>Отчет</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-tasks"></i>
+                </a>
+            </li>
+            <li><span>Отчет финансовый</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Финансовый</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <div class="date-header">
+                                Отчет с <input type="date" class="form-control date-from js-report-getLeftDate js-report-selectPeriod">
+                                по <input type="date" class="form-control date-to js-report-getRightDate js-report-selectPeriod">
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="js-report-loadedTable">
+                    {{> report-table}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

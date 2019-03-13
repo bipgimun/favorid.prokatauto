@@ -1,0 +1,80 @@
+<header class="page-header">
+    <h2>Учёт услуг</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Учёт услуг</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Реализация услуг</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize services-inp">
+                <thead>
+                    <tr>
+                        <th>Мастер</th>
+                        <th>Работа</th>
+                        <th>Цена</th>
+                        <th>% Мастера</th>
+                        <th>% Ад-ра</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody id="js-services-container">
+                    <tr>
+                        <td>
+                            <select name="master" class="form-control">
+                                <option value="0" selected disabled>...</option>
+                                {{#each masters}}
+                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td>
+                            <select data-placeholder="Выберите услугу из списка" name="service" id="" class="form-control js-select2-init">
+                                <option></option>
+                                {{#each services}}
+                                    <option value="{{this.id}}">{{this.title}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td>
+                            <input name="price" type="number" class="form-control">
+                        </td>
+                        <td>
+                            <input data-default="45" name="percent_master" max="100" type="number" class="form-control"
+                                value="45">
+                        </td>
+                        <td>
+                            <input data-default="10" name="percent_admin" max="100" type="number" class="form-control"
+                                value="10">
+                        </td>
+                        <td>
+                            <input name="comment" type="text" class="form-control">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="submit-select">
+            <button id="js-sale-service-add" type="button" class="mb-xs mt-xs btn btn-success">
+                <i class="fa fa-check"></i>
+                Провести услугу
+            </button>
+        </div>
+    </div>
+</section>

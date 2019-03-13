@@ -1,0 +1,27 @@
+{
+  "name": "_erp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.7.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "ejs": "^2.6.1",
+    "express": "^5.0.0-alpha.7",
+    "express-handlebars": "^3.0.0",
+    "hbs": "^4.0.1",
+    "jquery": "^3.3.1",
+    "md5": "^2.2.1",
+    "moment": "^2.22.2",
+    "mysql2": "^1.6.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}

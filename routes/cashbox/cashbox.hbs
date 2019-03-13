@@ -1,0 +1,46 @@
+<header class="page-header">
+    <h2>Касса</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-key"></i>
+                </a>
+            </li>
+            <li><span>Касса</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Данные из кассы</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none">
+                <tr>
+                    <th colspan="4" class="date-custom">
+                        <div class="date-block date-header">
+                            С <input id="js-cashbox-setLeftPeriod" class="form-control js-cashbox-setPeriod date-from" type="date">
+                            по <input id="js-cashbox-setRightPeriod" class="form-control js-cashbox-setPeriod date-to" type="date">
+                        </div>
+                        <div class="btn-group">
+                            <button data-period="week" type="button" class="btn btn-default js-cashbox-loadPeriod">Неделя</button>
+                            <button data-period="month" type="button" class="btn btn-default js-cashbox-loadPeriod">Месяц</button>
+                            <button data-period="year" type="button" class="btn btn-default js-cashbox-loadPeriod">Год</button>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div id="js-cashbox-tableWrapper" class="table-responsive">
+            {{> cashbox-table}}
+        </div>
+    </div>
+</section>

@@ -1,0 +1,74 @@
+<header class="page-header">
+    <h2>Отчет</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-credit-card"></i>
+                </a>
+            </li>
+            <li><span>Отчет о продажах</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+        <h2 class="panel-title">О продажах товаров</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            <div class="date-header">
+                                <span>Отчет с</span>
+                                <input id="js-salesReport-goods-leftDate" type="date" class="form-control date-from js-salesReport-goods-loadTable">
+                                <span>по </span>
+                                <input id="js-salesReport-goods-rightDate" type="date" class="form-control date-to js-salesReport-goods-loadTable">
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="js-salesReport-goods-body">
+                    {{> sales-goods-report-table}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+        <h2 class="panel-title">О продажах услуг</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            <div class="date-header">
+                                <span>Отчет с</span>
+                                <input id="js-salesReport-services-leftDate" type="date" class="form-control date-from js-salesReport-services-loadTable">
+                                <span>по </span>
+                                <input id="js-salesReport-services-rightDate" type="date" class="form-control date-to js-salesReport-services-loadTable">
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="js-salesReport-services-body">
+                    {{> sales-services-report-table}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

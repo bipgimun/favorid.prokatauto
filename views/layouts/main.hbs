@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{> head }}
+
+<body>
+    <section class="body">
+        {{> header }}
+        <div class="inner-wrapper">
+            {{> sidebar }}
+            <section role="main" class="content-body">
+                {{{ body }}}
+            </section>
+        </div>
+    </section>
+    {{> footer }}
+</body>
+
+</html>

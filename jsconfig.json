@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "commonjs",
+        "checkJs": true
+    },
+    "exclude": [
+        "node_modules",
+        "app/public/vendors",
+        "content",
+        "assets"
+    ]
+}

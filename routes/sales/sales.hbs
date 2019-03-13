@@ -1,0 +1,86 @@
+<header class="page-header">
+    <h2>Продажи товара</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+            </li>
+            <li><span>Продажи товара</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Реализация товаров</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th>Наименование товара</th>
+                        <th>Кол-во (шт)</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
+                        <th>% Ад-ра</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody id="js-goods-container">
+                    <tr class="js-goods-item">
+                        <td>
+                            <select data-placeholder="Выберите товар из списка" data-default="0" name="good" class="form-control js-salesGoods-selectGood js-select2-init">
+                                <option></option>
+                                {{#each goods}}
+                                    <option value="{{this.id}}">{{this.title}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td>
+                            <input name="count" type="number" class="form-control js-salesGoods-inputCount">
+                        </td>
+                        <td>
+                            <input name="price" type="number" class="form-control" disabled>
+                        </td>
+                        <td>
+                            <input name="sum" type="number" value="0" class="form-control js-salesGoods-calcSum"
+                                disabled>
+                        </td>
+                        <td>
+                            <input data-default="5" name="percent_admin" type="number" max="100" class="form-control"
+                                value="5">
+                        </td>
+                        <td>
+                            <input name="comment" type="text" class="form-control">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="submit-select">
+            <div>
+                <div class="radio-custom radio-primary">
+                    <input class="js-salesGoods-changePriceType" type="radio" id="radioExample2" value="0" name="js-is-purchase-price"
+                        checked>
+                    <label for="radioExample2">Розничная цена</label>
+                </div>
+                <div class="radio-custom radio-warning">
+                    <input class="js-salesGoods-changePriceType" type="radio" id="radioExample4" value="1" name="js-is-purchase-price">
+                    <label for="radioExample4">Закупочная цена</label>
+                </div>
+            </div>
+            <button id="js-sale-good-add" type="button" class="mb-xs mt-xs btn btn-success">
+                <i class="fa fa-check"></i>
+                Провести продажу
+            </button>
+        </div>
+    </div>
+</section>

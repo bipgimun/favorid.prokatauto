@@ -1,0 +1,118 @@
+<style>
+    .delete-product {
+        border: none;
+        background: transparent;
+        font-size: 18px;
+        width: 100%;
+        max-width: 100%;
+        min-height: 31px;
+        outline: none;
+    }
+</style>
+<header class="page-header">
+    <h2>Приход товара</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-truck"></i>
+                </a>
+            </li>
+            <li><span>Приход товара</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Оприходование товара</h2>
+    </header>
+    <div class="panel-body">
+        <button type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default add-product"><i class="fa fa-plus"></i>
+            Добавить товар</button>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Наименование товара</th>
+                        <th>Кол-во (шт)</th>
+                        <th>Цена закупа (руб)</th>
+                        <th colspan="2">Сумма</th>
+                    </tr>
+                </thead>
+                <tbody id="js-coming-goods-container">
+                    <tr class="js-comingGoods-item">
+                        <td>
+                            <input name="date" type="date" class="form-control">
+                        </td>
+                        <td>
+                            <select name="good" class="form-control js-comingGoods-selectGood">
+                                <option value="0" selected disabled>...</option>
+                                {{#each goods}}
+                                    <option value="{{this.id}}">{{this.title}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td>
+                            <input name="count" type="number" class="form-control js-comingGoods-inputCount">
+                        </td>
+                        <td>
+                            <input name="price" type="number" class="form-control" disabled>
+                        </td>
+                        <td>
+                            <input name="sum" type="number" class="form-control" disabled>
+                        </td>
+                        <td>
+                            <button class="delete-product" type="button" title="Удалить товар">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="submit-select">
+            <button id="js-coming-goods-add" type="button" class="mb-xs mt-xs btn btn-success"><i class="fa fa-check"></i>
+                Оприходовать</button>
+        </div>
+    </div>
+</section>
+<script>
+    var btnAddProduct = document.querySelector('.add-product');
+    var btnDeleteProduct = document.querySelector('.delete-product');
+    var table = document.querySelector('table');
+
+    btnAddProduct.addEventListener('click', function insRow() {
+
+        var tbody = table.querySelector('tbody');
+        var new_row = tbody.rows[0].cloneNode(true);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        tbody.appendChild(new_row);
+    });
+
+    table.addEventListener('click', function delRow() {
+        var target = event.target;
+        var closeBtn = target.closest('.delete-product');
+        if (!closeBtn) return;
+
+        var tbody = table.querySelector('tbody');
+        var actualTbody = tbody.querySelectorAll('tr').length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.rowIndex;
+            table.deleteRow(indexRow);
+        }
+    });
+</script>

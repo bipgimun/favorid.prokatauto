@@ -1,0 +1,85 @@
+<header class="page-header">
+    <h2>Остатки товара</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-codepen"></i>
+                </a>
+            </li>
+            <li><span>Остатки товара</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Таблица остатков</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Остаток</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each resData}}
+                        <tr>
+                            <td>{{title}}</td>
+                            {{#if isRed}}
+                                <td style="background: red; color: #000000; font-weight: 700;">{{remnant}}</td>
+                            {{else if isOrange}}
+                                <td style="background: orange; color: #000000; font-weight: 700;">{{remnant}}</td>
+                            {{else}}
+                                <td>{{remnant}}</td>
+                            {{/if}}
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Таблица прихода/расхода товаров</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            <div class="date-header">
+                                <span>Отчет с</span>
+                                <input id="js-remnantsOfGoods-oborot-leftDate" type="date" class="form-control date-from js-remnantsOfGoods-oborot-loadTable">
+                                <span>по </span>
+                                <input id="js-remnantsOfGoods-oborot-rightDate" type="date" class="form-control date-to js-remnantsOfGoods-oborot-loadTable">
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Приход</th>
+                        <th>Расход</th>
+                    </tr>
+                </thead>
+                <tbody id="js-remnantsOfGoods-oborot-table">
+                    {{> oborot-goods-table}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

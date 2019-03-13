@@ -1,0 +1,99 @@
+<header class="page-header">
+    <h2>Расходы/доходы</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-exchange"></i>
+                </a>
+            </li>
+            <li><span>Расходы/доходы</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Расходы</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th>Категория расхода</th>
+                        <th>Сумма</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody id="js-costs-container">
+                    <tr>
+                        <td>
+                            <select name="category" class="form-control">
+                                <option value="0" selected>...</option>
+                                {{#each costsCategories}}
+                                    <option value="{{this.id}}">{{this.title}}</option>
+                                {{/each}}
+                            </select>
+                        </td>
+                        <td>
+                            <input name="sum" type="number" class="form-control">
+                        </td>
+                        <td>
+                            <input name="comment" type="text" class="form-control">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="submit-select">
+            <button id="js-costs-add" type="button" class="mb-xs mt-xs btn btn-success">
+                <i class="fa fa-check"></i>
+                Провести расход
+            </button>
+        </div>
+    </div>
+</section>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+
+        <h2 class="panel-title">Прочие доходы</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th>Статья дохода</th>
+                        <th>Сумма</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody id="js-incomes-container">
+                    <tr>
+                        <td>
+                            <input name="item" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input name="sum" type="number" class="form-control">
+                        </td>
+                        <td>
+                            <input name="comment" type="text" class="form-control">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="submit-select">
+            <button id="js-income-add" type="button" class="mb-xs mt-xs btn btn-success"><i class="fa fa-check"></i> Провести доход</button>
+        </div>
+    </div>
+</section>

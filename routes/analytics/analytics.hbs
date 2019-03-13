@@ -1,0 +1,58 @@
+<header class="page-header">
+    <h2>Аналитика</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-bar-chart-o"></i>
+                </a>
+            </li>
+            <li><span>Аналитика</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+        <h2 class="panel-title">Аналитика</h2>
+    </header>
+    <div class="panel-body">
+        <div class="analytic-date_header">
+            <div class="analytic-date_children">
+                <label>
+                    <span>C </span>
+                    <input id="js-analytics-leftDate" type="date" class="form-control date-from js-analytics-loadCharts">
+                </label>
+            </div>
+            <div class="analytic-date_children">
+                <label>
+                    <span> по </span>
+                    <input id="js-analytics-rightDate" type="date" class="form-control date-to js-analytics-loadCharts">
+                </label>
+            </div>
+        </div>
+
+        <div class="chart-container" style="position: relative; min-height:40vh; width:auto">
+            <canvas id="myChart1"></canvas>
+        </div>
+
+        <div class="chart-container" style="position: relative; min-height:40vh; width:auto; margin-top: 30px; padding-top: 15px; border-top: 2px solid black">
+            <canvas id="myChart2"></canvas>
+        </div>
+        <div>
+            {{#each groupCosts as |value key|}}
+                <p>{{inc @index}} - {{key}}</p>
+            {{/each}}
+        </div>
+
+        <div class="chart-container" style="position: relative; min-height:40vh; width:auto; margin-top: 30px; padding-top: 15px; border-top: 2px solid black">
+            <canvas id="myChart3"></canvas>
+        </div>
+    </div>
+</section>
+<script src="/assets/javascripts/Chart.js"></script>
+

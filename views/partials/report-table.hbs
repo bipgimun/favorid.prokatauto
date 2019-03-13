@@ -1,0 +1,42 @@
+<tr>
+    <td>Выручка</td>
+    <td>{{round proceeds}}</td>
+</tr>
+<tr>
+    <td>Салон</td>
+    <td>{{round salon}}</td>
+</tr>
+<tr>
+    <td>Магазин</td>
+    <td>{{round shop}}</td>
+</tr>
+<tr>
+    <td>Прочие доходы</td>
+    <td>{{round incomes}}</td>
+</tr>
+<tr>
+    <td>Себестоимость (зп мастер)</td>
+    <td>{{round salonEmployees}}</td>
+</tr>
+<tr>
+    <td>Валовая прибыль (маржа)</td>
+    <td>{{round grossProfit}}</td>
+</tr>
+{{#each costsByCategory as |sum title|}}
+    <tr>
+        <td>{{title}}</td>
+        <td>{{round sum}}</td>
+    </tr>
+{{/each}}
+<tr>
+    <td>ВСЕГО Расходов</td>
+    <td>{{round totalCosts}}</td>
+</tr>
+<tr>
+    <td>Прибыль</td>
+    <td>{{round profit}}</td>
+</tr>
+<tr>
+    <td>Рентабельность</td>
+    <td>{{round profitability}}</td>
+</tr>

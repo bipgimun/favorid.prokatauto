@@ -1,0 +1,98 @@
+<!-- start: sidebar -->
+<aside id="sidebar-left" class="sidebar-left">
+
+    <div class="sidebar-header">
+        <div class="sidebar-title">
+            Навигация
+        </div>
+        <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+            data-fire-event="sidebar-left-toggle">
+            <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
+    </div>
+
+    <div class="nano">
+        <div class="nano-content">
+            <nav id="menu" class="nav-main" role="navigation">
+                <ul class="nav nav-main">
+                    <li class="{{setActive reqUrl '/'}}">
+                        <a href="/">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            <span>Учёт услуг</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/sales.html'}}">
+                        <a href="/sales.html">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            <span>Продажи товара</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/cashbox.html'}}">
+                        <a href="/cashbox.html">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            <span>Касса</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/costs-income.html'}}">
+                        <a href="/costs-income.html">
+                            <i class="fa fa-exchange" aria-hidden="true"></i>
+                            <span>Расходы/доходы</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/incoming-goods.html'}}">
+                        <a href="/incoming-goods.html">
+                            <i class="fa fa-truck" aria-hidden="true"></i>
+                            <span>Приход товара</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/remnants-of-goods.html'}}">
+                        <a href="/remnants-of-goods.html">
+                            <i class="fa fa-codepen" aria-hidden="true"></i>
+                            <span>Остатки товара</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/commodity-nomenclature.html'}}">
+                        <a href="/commodity-nomenclature.html">
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <span>Номенклатура</span>
+                        </a>
+                    </li>
+                    <li class="nav-parent {{setOpen reqUrl '/report.html' '/sales-report' '/analytics' }}">
+                        <a>
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span>Отчет</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{setActive reqUrl '/report.html'}}">
+                                <a href="/report.html">
+                                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                                    <span>Финансовый</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/sales-report'}}">
+                                <a href="/sales-report">
+                                    <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                    <span>О продажах</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/analytics'}}">
+                                <a href="/analytics">
+                                    <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                                    <span>Аналитика</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    </li>
+                    <li class="{{setActive reqUrl '/salary-statement'}}">
+                        <a href="/salary-statement">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span>Зарплатная ведомость</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</aside>
+<!-- end: sidebar -->

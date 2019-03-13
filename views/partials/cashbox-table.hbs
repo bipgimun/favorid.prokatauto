@@ -1,0 +1,40 @@
+<table class="table table-bordered table-striped table-condensed mb-none">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Приход</th>
+            <th>Расход</th>
+            <th>Комментарий</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="3">{{date}}</td>
+            <td>{{round lastBalance}}</td>
+            <td class="text-right"></td>
+            <td class="text-right">Остаток с {{dateOfLastBalance}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="text-right">{{round costs}}</td>
+            <td class="text-right">Ушло из кассы</td>
+        </tr>
+        <tr>
+            <td>{{round incomes}}</td>
+            <td class="text-right"></td>
+            <td class="text-right">Пришло в кассу</td>
+        </tr>
+        <tr>
+            <td>Оборот за день</td>
+            <td>{{round incomes}}</td>
+            <td class="text-right">{{round costs}}</td>
+            <td class="text-right"></td>
+        </tr>
+        <tr>
+            <td>Остаток</td>
+            <td>{{round balance}}</td>
+            <td class="text-right"></td>
+            <td class="text-right"></td>
+        </tr>
+    </tbody>
+</table>
