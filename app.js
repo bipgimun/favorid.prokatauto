@@ -86,6 +86,11 @@ app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 
+app.get('/new-page-:id', (req, res, next) => {
+    const { id } = req.params;
+    res.render('new-page-' + id);
+})
+
 app.get('/logout', (req, res, next) => {
     req.session.user = {};
     res.redirect('/pages-signin');
