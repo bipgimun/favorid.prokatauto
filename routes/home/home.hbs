@@ -1,5 +1,5 @@
 <header class="page-header">
-    <h2>Учёт услуг</h2>
+    <h2>Выбор услуг</h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -8,7 +8,7 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Учёт услуг</span> <span class="separator"></span></li>
+            <li><span>Выбор услуг</span> <span class="separator"></span></li>
         </ol>
     </div>
 </header>
@@ -75,6 +75,114 @@
                 <i class="fa fa-check"></i>
                 Провести услугу
             </button>
+        </div>
+    </div>
+</section>
+<section class=".col-md-12 ">
+    <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block">ПРОКАТ АВТО С ВОДИТЕЛЕМ</button>
+    <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block">ПРОКАТ АВТО БЕЗ ВОДИТЕЛЯ</button>
+    <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block">КВАРТИРЫ</button>
+    <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block">МУЗы</button>
+    <div class="panel-body">
+        <a class="modal-with-form btn btn-default" href="#modalForm">Open Form</a>
+        <!-- Modal Form -->
+        <div id="modalForm" class="modal-block modal-block-primary mfp-hide">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Заявка на авто с водителем</h2>
+                </header>
+                <div class="panel-body">
+                    <form id="demo-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <div class="form-group mt-lg">
+                            <label class="col-sm-3 control-label">Заказчик</label>
+                            <div class="col-sm-9">
+                                <!--<input type="text" name="name" class="form-control" placeholder="Выберете заказчика" required="">-->
+                                <select name="master" class="form-control">
+                                    <option value="0" selected disabled>Выберете заказчика</option>
+                                    {{#each masters}}
+                                        <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Пассажир</label>
+                            <div class="col-sm-9">
+                                <input type="email" name="email" class="form-control" placeholder="Выберете пассажира" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Телефон пассажира</label>
+                            <div class="col-sm-9">
+                                <input type="tel" name="email" class="form-control" placeholder="Телефон пассажира" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Водитель</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Выберете водителя">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Авто</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Выберете авто">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Класс авто</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Выберете класс авто">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Маршрут</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Type an URL...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Цена</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Type an URL...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Выбор оплаты</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Type an URL...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Доп. услуги</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Type an URL...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Комментарий</label>
+                            <div class="col-sm-9">
+                                <input type="url" name="url" class="form-control" placeholder="Type an URL...">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Общая сумма</label>
+                            <input type="url" name="url" class="form-control" placeholder="Type an URL...">
+                        </div>
+                    </form>
+                    
+                </div>
+                
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-success modal-confirm">Принять</button>
+                            <button class="btn btn-primary">Изменить</button>
+                            <button class="btn btn-danger modal-dismiss">Завершить</button>
+                        </div>
+                    </div>
+                </footer>
+            </section>
         </div>
     </div>
 </section>
