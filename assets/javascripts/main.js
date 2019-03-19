@@ -399,7 +399,6 @@ $(document).ready(() => {
 
     });
 
-
     $('.js-salesReport-goods-loadTable').on('input', async () => {
         const leftDate = $('#js-salesReport-goods-leftDate').val();
         const rightDate = $('#js-salesReport-goods-rightDate').val();
@@ -467,6 +466,167 @@ $(document).ready(() => {
         $('.js-nomenclature-services-name').val('');
         return false;
     });
+
+    $('#js-cars-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/cars/add', { values }, { showNotify: true });
+
+        return false;
+    })
+    
+    $('#js-customers-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/customers/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-passengers-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/passengers/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-drivers-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/drivers/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-itineraries-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/itineraries/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-cashStorages-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/cashStorages/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-additionalServices-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/additionalServices/add', { values }, { showNotify: true });
+
+        return false;
+    })
 
     const loadSalaryTable = (data) => {
         return request('/api/salaryStatement/getTable', data);

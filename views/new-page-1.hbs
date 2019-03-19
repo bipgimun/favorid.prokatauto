@@ -14,7 +14,7 @@
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-      <h2 class="panel-title">Авто в распоряжении</h2>
+        <h2 class="panel-title">Авто в распоряжении</h2>
     </header>
     <div class="panel-body">
         <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
@@ -24,7 +24,9 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-nomenclature-products-table" class="display table table-bordered table-striped table-condensed mb-none customize" style="width:100%; display: none">
+            <table id="js-nomenclature-products-table"
+                class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
                 <thead>
                     <tr>
                         <th>Марка</th>
@@ -34,11 +36,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each goods}}
+                    {{#each cars}}
                         <tr>
-                            <td>{{this.title}}</td>
-                            <td>{{this.purchase_price}}</td>
-                            <td>{{this.selling_price}}</td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.model}}</td>
+                            <td>{{this.number}}</td>
+                            <td></td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -63,98 +66,102 @@
             <h2 class="panel-title">Добавление нового автомобиля</h2>
         </header>
         <div class="panel-body">
-            <form id="js-nomenclature-products-form" class="form-horizontal mb-lg" novalidate="novalidate">
-              <div class="form-group mt-lg">
-                <label class="col-sm-4 control-label">Название автомобиля</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-name" placeholder="Введите название"
-                        required>
+            <form id="js-cars-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group mt-lg">
+                    <label class="col-sm-4 control-label">Название автомобиля</label>
+                    <div class="col-sm-8">
+                        <input name="name" type="text" class="form-control js-nomenclature-products-name"
+                            placeholder="Введите название" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Модель</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-priceBuy" placeholder="Введите модель"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Модель</label>
+                    <div class="col-sm-8">
+                        <input name="model" type="text" class="form-control js-nomenclature-products-priceBuy"
+                            placeholder="Введите модель" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Гос.номер</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите номер"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Гос.номер</label>
+                    <div class="col-sm-8">
+                        <input name="number" type="text" class="form-control js-nomenclature-products-priceSale"
+                            placeholder="Введите номер" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Фактический пробег</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите пробег"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Фактический пробег</label>
+                    <div class="col-sm-8">
+                        <input name="mileage" type="text" class="form-control js-nomenclature-products-priceSale"
+                            placeholder="Введите пробег" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Состояние кузова</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите состояние"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Состояние кузова</label>
+                    <div class="col-sm-8">
+                        <input name="carcass_condition" type="text" class="form-control js-nomenclature-products-priceSale"
+                            placeholder="Введите состояние" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Фактический уровень топлива</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите цену"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Фактический уровень топлива</label>
+                    <div class="col-sm-8">
+                        <input name="fuel_level" type="number" class="form-control"
+                            placeholder="Введите уровень топлива" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Номер ОСАГО</label>
-                <div class="col-sm-3">
-                  <input data-plugin-masked-input="" data-input-mask="aaa 999999" placeholder="AAA 123456" class="form-control">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Номер ОСАГО</label>
+                    <div class="col-sm-3">
+                        <input name="osago_number" data-plugin-masked-input="" data-input-mask="aaa 999999" placeholder="AAA 123456"
+                            class="form-control">
+                    </div>
+                    <label class="col-sm-3 control-label">Дата окончания</label>
+                    <div class="col-sm-3">
+                        <input name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999.99.99" placeholder="yyyy.mm.dd"
+                            class="form-control">
+                    </div>
                 </div>
-                <label class="col-sm-3 control-label">Дата окончания</label>
-                <div class="col-sm-3">
-                    <input data-plugin-masked-input="" data-input-mask="99.99.9999" placeholder="__.__.____" class="form-control">
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">ТО</label>
+                    <div class="col-sm-8">
+                        <input name="maintenance" type="text" class="form-control"
+                            placeholder="Введите цену" required>
+                    </div>
                 </div>
-              </div>
-              
-              <div class="form-group">
-                <label class="col-sm-4 control-label">ТО</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите цену"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Рыночная стоимость</label>
+                    <div class="col-sm-3">
+                        <input name="market_price" type="text" class="form-control"
+                            placeholder="Введите цену" required>
+                    </div>
+                    <label class="col-sm-3 control-label">Стоимость покупки</label>
+                    <div class="col-sm-3">
+                        <input name="purchase_price" type="text" class="form-control"
+                            placeholder="Введите цену" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Рыночная стоимость</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите цену"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-12 control-label"
+                        style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
                 </div>
-                <label class="col-sm-3 control-label">Стоимость покупки</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите цену"
-                        required>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Размер платежа</label>
+                    <div class="col-sm-3">
+                        <input name="payment_amount" type="text" class="form-control"
+                            placeholder="Введите сумму" required>
+                    </div>
+                    <label class="col-sm-3 control-label">Дата платежа</label>
+                    <div class="col-sm-3">
+                        <input name="payment_date" type="text" class="form-control"
+                            data-plugin-masked-input="" data-input-mask="9999.99.99" placeholder="yyyy.mm.dd"
+                            placeholder="Введите дату" required>
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Размер платежа</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите сумму"
-                        required>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary">Подтвердить</button>
+                    <button class="btn btn-default modal-dismiss">Отмена</button>
                 </div>
-                <label class="col-sm-3 control-label">Дата платежа</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control js-nomenclature-products-priceSale" placeholder="Введите дату"
-                        required>
-                </div>
-              </div>
-              <div class="col-md-12 text-right">
-                <button class="btn btn-primary js-nomenclature-products-add">Подтвердить</button>
-                <button class="btn btn-default modal-dismiss js-nomenclature-products-cancel">Отмена</button>
-              </div>
             </form>
         </div>
     </section>

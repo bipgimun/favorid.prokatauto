@@ -3,6 +3,8 @@ const app = express();
 
 const checkAuth = require('../libs/middlewares/check-auth');
 
+const db = require('../libs/db');
+
 app.post('/login', require('./routes/login'));
 
 app.post('/salesServices/add', checkAuth, require('./routes/sales-services/add'));
@@ -21,12 +23,154 @@ app.post('/remnants-of-goods/loadTableOborotGoods', checkAuth, require('./routes
 app.post('/nomenclature/addProduct', checkAuth, require('./routes/nomenclature/addProduct'));
 app.post('/nomenclature/addService', checkAuth, require('./routes/nomenclature/addService'));
 
+app.post('/cars/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO cars SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/customers/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO customers SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/passengers/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO passengers SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/drivers/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO drivers SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/itineraries/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO itineraries SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/cashStorages/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO cash_storages SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/additionalServices/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO additional_services SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
 app.use((req, res, next) => next(new Error('Страница не найдена')));
 
 app.use((error, req, res, next) => {
+    console.error(error);
 
     if (req.method !== 'POST')
         return next(error);
+
 
     return res.json({ status: 'bad', message: error.message, stack: error.stack });
 })

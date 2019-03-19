@@ -6,6 +6,8 @@ const config = require('./config');
 
 const app = express();
 
+const db = require('./libs/db');
+
 app.engine('hbs', hbs({
     extname: 'hbs',
     defaultLayout: 'main',
@@ -85,6 +87,55 @@ app.get(['/report', '/report.html'], report);
 app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
+
+app.get('/new-page-1', async (req, res, next) => {
+
+    const cars = await db.execQuery(`SELECT * FROM cars`);
+
+    res.render('new-page-1', { cars });
+})
+
+app.get('/new-page-2', async (req, res, next) => {
+
+    const customers = await db.execQuery(`SELECT * FROM customers`);
+
+    res.render('new-page-2', { customers });
+})
+
+app.get('/new-page-3', async (req, res, next) => {
+
+    const passengers = await db.execQuery(`SELECT * FROM passengers`);
+
+    res.render('new-page-3', { passengers });
+})
+
+app.get('/new-page-4', async (req, res, next) => {
+
+    const drivers = await db.execQuery(`SELECT * FROM drivers`);
+
+    res.render('new-page-4', { drivers });
+})
+
+app.get('/new-page-5', async (req, res, next) => {
+
+    const itineraries = await db.execQuery(`SELECT * FROM itineraries`);
+
+    res.render('new-page-5', { itineraries });
+})
+
+app.get('/new-page-7', async (req, res, next) => {
+
+    const storages = await db.execQuery(`SELECT * FROM cash_storages`);
+
+    res.render('new-page-7', { storages });
+})
+
+app.get('/new-page-8', async (req, res, next) => {
+
+    const services = await db.execQuery(`SELECT * FROM additional_services`);
+
+    res.render('new-page-8', { services });
+})
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
