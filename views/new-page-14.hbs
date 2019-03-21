@@ -1,5 +1,5 @@
 <header class="page-header">
-    <h2>Квартиры</h2>
+    <h2>Дополнительные услуги (квартиры)</h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -8,54 +8,50 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Квартиры</span> <span class="separator"></span></li>
+            <li><span>Доп.услуги (квартиры)</span> <span class="separator"></span></li>
         </ol>
     </div>
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-        <h2 class="panel-title">Список квартир</h2>
+        <h2 class="panel-title">Список дополнительных услуг для квартир</h2>
     </header>
     <div class="panel-body">
         <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-            <i class="fa fa-plus"></i> Добавить квартиру
+            <i class="fa fa-plus"></i> Добавить услугу
         </button>
         <div class="zag">
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-nomenclature-products-table"
-                class="display table table-bordered table-striped table-condensed mb-none customize"
-                style="width:100%; display: none">
-                <thead>
-                    <tr>
-                        <th>Адрес</th>
-                        <th>Комнаты</th>
-                        <th>Цена</th>
-                        <th>Статус</th>
-                        <th>Подробнее</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each storages}}
-                        <tr>
-                            <td>{{this.cashbox}}</td>
-                            <td>{{this.name}}</td>
-                            <td>{{this.number}}</td>
-                            <td></td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Адрес</th>
-                        <th>Комнаты</th>
-                        <th>Цена</th>
-                        <th>Статус</th>
-                        <th>Подробнее</th>
-                    </tr>
-                </tfoot>
-            </table>
+          <table id="js-nomenclature-products-table"
+              class="display table table-bordered table-striped table-condensed mb-none customize"
+              style="width:100%; display: none">
+            <thead>
+              <tr>
+                <th>Услуга</th>
+                <th>Цена</th>
+                <th>Подробнее</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each storages}}
+                  <tr>
+                      <td>{{this.cashbox}}</td>
+                      <td>{{this.name}}</td>
+                      <td>{{this.number}}</td>
+                      <td></td>
+                  </tr>
+              {{/each}}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Услуга</th>
+                <th>Цена</th>
+                <th>Подробнее</th>
+              </tr>
+            </tfoot>
+          </table>
         </div>
     </div>
 </section>
