@@ -163,6 +163,26 @@ app.post('/additionalServices/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: req.body });
 })
 
+app.post('/apartments/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    await db.insertQuery(`INSERT INTO apartments SET ?`, values);
+
+    res.json({ status: 'ok', data: req.body });
+})
+
 app.use((req, res, next) => next(new Error('Страница не найдена')));
 
 app.use((error, req, res, next) => {

@@ -489,7 +489,7 @@ $(document).ready(() => {
 
         return false;
     })
-    
+
     $('#js-customers-add-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -624,6 +624,56 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/additionalServices/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-apartments-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        await request('/api/apartments/add', { values }, { showNotify: true });
+
+        return false;
+    })
+
+    $('#js-apartmentReservations-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+
+        const arrayData = $form.serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        console.log(values);
+
+        return false;
+
+        await request('/api/apartments/add', { values }, { showNotify: true });
 
         return false;
     })

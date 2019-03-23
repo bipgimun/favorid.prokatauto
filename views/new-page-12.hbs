@@ -37,11 +37,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each storages}}
+                    {{#each apartments}}
                         <tr>
-                            <td>{{this.cashbox}}</td>
-                            <td>{{this.name}}</td>
-                            <td>{{this.number}}</td>
+                            <td>{{this.address}}</td>
+                            <td>{{this.rooms}}</td>
+                            <td>{{this.price_per_day}}</td>
+                            <td>{{this.status}}</td>
                             <td></td>
                         </tr>
                     {{/each}}
@@ -63,41 +64,41 @@
 <!-- Модалки-->
 
 <div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
-  <section class="panel">
-    <header class="panel-heading">
-      <h2 class="panel-title">Добавление новой квартиры</h2>
-    </header>
-    <div class="panel-body">
-      <form class="form-horizontal mb-lg" novalidate="novalidate">
-        <div class="form-group">
-          <label class="col-sm-5 control-label">Адрес</label>
-          <div class="col-sm-7">
-              <input type="text" class="form-control" placeholder="Введите адрес" required>
-          </div>
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Добавление новой квартиры</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-apartments-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">Адрес</label>
+                    <div class="col-sm-7">
+                        <input name="address" type="text" class="form-control" placeholder="Введите адрес" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">Количество комнат</label>
+                    <div class="col-sm-7">
+                        <input name="rooms" type="number" class="form-control" placeholder="Введите количество" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">Цена за сутки, руб.</label>
+                    <div class="col-sm-7">
+                        <input name="price_per_day" type="number" class="form-control" placeholder="Введите цену" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">Коммунальные услуги в месяц, руб.</label>
+                    <div class="col-sm-7">
+                        <input name="utilities_per_month" type="number" class="form-control" placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary">Подтвердить</button>
+                    <button class="btn btn-default modal-dismiss">Отмена</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-          <label class="col-sm-5 control-label">Количество комнат</label>
-          <div class="col-sm-7">
-              <input type="number" class="form-control" placeholder="Введите количество" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-5 control-label">Цена за сутки, руб.</label>
-          <div class="col-sm-7">
-              <input type="number" class="form-control" placeholder="Введите цену" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-5 control-label">Коммунальные услуги в месяц, руб.</label>
-          <div class="col-sm-7">
-              <input type="number" class="form-control" placeholder="Введите сумму" required>
-          </div>
-        </div>
-        <div class="col-md-12 text-right">
-          <button class="btn btn-primary">Подтвердить</button>
-          <button class="btn btn-default modal-dismiss">Отмена</button>
-        </div>
-      </form>
-      </div>
-  </section>
+    </section>
 </div>

@@ -137,6 +137,24 @@ app.get('/new-page-8', async (req, res, next) => {
     res.render('new-page-8', { services });
 })
 
+app.get('/new-page-12', async (req, res, next) => {
+
+    const apartments = await db.execQuery(`SELECT * FROM apartments`);
+
+    res.render('new-page-12', { apartments });
+})
+
+app.get('/new-page-13', async (req, res, next) => {
+
+    const customers = await db.execQuery(`SELECT * FROM customers`);
+    const passengers = await db.execQuery(`SELECT * FROM passengers`);
+    const apartments = await db.execQuery(`SELECT * FROM apartments`);
+    const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
+    const additionalServices = await db.execQuery(`SELECT * FROM additional_services`);
+
+    res.render('new-page-13', { customers, passengers, apartments, cashStorages, additionalServices });
+})
+
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
     res.render('new-page-' + id);

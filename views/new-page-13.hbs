@@ -14,7 +14,7 @@
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-      <h2 class="panel-title">Список заказов квартир</h2>
+        <h2 class="panel-title">Список заказов квартир</h2>
     </header>
     <div class="panel-body">
         <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
@@ -24,14 +24,16 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-nomenclature-products-table" class="display table table-bordered table-striped table-condensed mb-none customize" style="width:100%; display: none">
+            <table id="js-nomenclature-products-table"
+                class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
                 <thead>
                     <tr>
-                      <th>Дата заказа</th>
-                      <th>Адрес</th>
-                      <th>Клиент</th>
-                      <th>Статус</th>
-                      <th>Подробнее</th>
+                        <th>Дата заказа</th>
+                        <th>Адрес</th>
+                        <th>Клиент</th>
+                        <th>Статус</th>
+                        <th>Подробнее</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,11 +47,11 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                      <th>Дата заказа</th>
-                      <th>Адрес</th>
-                      <th>Клиент</th>
-                      <th>Статус</th>
-                      <th>Подробнее</th>
+                        <th>Дата заказа</th>
+                        <th>Адрес</th>
+                        <th>Клиент</th>
+                        <th>Статус</th>
+                        <th>Подробнее</th>
                     </tr>
                 </tfoot>
             </table>
@@ -61,175 +63,180 @@
 
 <div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
     <section class="panel">
-      <header class="panel-heading">
-          <h2 class="panel-title">Заявка на бронь квартиры</h2>
-      </header>
-      <div class="panel-body">
-        <form id="js-nomenclature-products-form" class="form-horizontal mb-lg" novalidate="novalidate">
-          <div class="form-group mt-lg">
-            <label class="col-sm-3 control-label">Заказчик</label>
-            <div class="col-sm-9">
-              <div class="input-group">
-                <select name="master" class="form-control">
-                  <option value="0" selected disabled>Выберете заказчика</option>
-                  <option value="0">ООО "Рога и Копыта"</option>
-                  <option value="0">ИП Иванов Иван Иванович</option>
-                  <option value="0">ИП Василий Васильевич Васильев</option>
-                </select>
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Добавить</button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Клиент</label>
-            <div class="col-sm-9">
-              <div class="input-group">
-                <select name="master" class="form-control">
-                  <option value="0" selected disabled>Выберете пассажира</option>
-                  <option value="0">Иван Иванов Иванович</option>
-                  <option value="0">Василиса Ивановна</option>
-                </select>
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Добавить</button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Контактный телефон</label>
-            <div class="col-sm-9">
-              <div class="input-group">
-                <input data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234" class="form-control" required>
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Добавить</button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Квартира</label>
-            <div class="col-sm-9">
-              <div class="input-group">
-                <select name="master" class="form-control">
-                  <option value="0" selected disabled>Выберете Адрес</option>
-                  <option value="0">Карла Маркса 118, кв. 87</option>
-                  <option value="0">Ленина 54/1, кв. 99</option>
-                </select>
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Добавить</button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Цена за сутки, руб.</label>
-            <div class="col-sm-9">
-              <input type="number" class="form-control" placeholder="Введите сумму" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Количество суток</label>
-            <div class="col-sm-9">
-              <input type="number" class="form-control" placeholder="Введите количество" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Въезд</label>
-            <div class="col-sm-4">
-              <input type="time" class="form-control" placeholder="Введите время" required>
-            </div>
-            <div class="col-sm-4">
-              <input type="date" class="form-control" placeholder="Введите дату" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Выезд</label>
-            <div class="col-sm-4">
-              <input type="time" class="form-control" placeholder="Введите время" required>
-            </div>
-            <div class="col-sm-4">
-              <input type="date" class="form-control" placeholder="Введите дату" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-4 control-label">Предварительная сумма</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" placeholder="Введите сумму" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Выбор оплаты</label>
-            <div class="col-sm-9">
-              <div class="input-group">
-                <select name="master" class="form-control">
-                  <option value="0" selected disabled>Выберете способ оплаты</option>
-                  <option value="0">Касса1</option>
-                  <option value="0">Р/С "КУБ" 408121212124324432</option>
-                </select>
-                <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Добавить</button>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group services-group">
-            <div class="col-sm-12 control-label" style="text-align:center;"><span>ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</span></div>
-            <div class="form-group col-sm-12 services-group__item">
-              <label class="col-sm-3 control-label">Услуга</label>
-              <div class="col-sm-9">
-                <div class="input-group">
-                  <select name="master" class="form-control">
-                    <option value="0" selected disabled>Выберете услугу</option>
-                    <option value="0">Услуга1</option>
-                    <option value="0">Услуга2</option>
-                  </select>
-                  <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button">Добавить</button>
-                  </span>
-                  <span class="input-group-btn">
-                    <button class="btn btn-warning adding-item" type="button">+</button>
-                  </span>
-                  <span class="input-group-btn">
-                    <button class="btn btn-danger deliting-item" type="button">-</button>
-                  </span>
+        <header class="panel-heading">
+            <h2 class="panel-title">Заявка на бронь квартиры</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-apartmentReservations-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Заказчик</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <select name="customer_id" class="form-control">
+                                <option value="0" selected disabled>Выберете заказчика</option>
+                                {{#each customers}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Комментарий</label>
-            <div class="col-sm-9">
-                <textarea class="form-control" id="" cols="30" rows="5" placeholder="Введите комментарий"></textarea>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label">Общая сумма, руб.</label>
-            <div class="col-sm-9">
-                <input type="number" class="form-control" placeholder="Введите сумму" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-9"></div>
-            <div class="checkbox-custom checkbox-warning col-sm-3">
-              <input type="checkbox" id="checkboxExample4">
-              <label for="checkboxExample4">На приеме</label>
-            </div>
-          </div>
-        </form>
-      </div>
-      <footer class="panel-footer">
-        <div class="row">
-          <div class="col-md-12 text-right">
-            <button class="btn btn-success modal-confirm">Принять</button>
-            <button class="btn btn-primary">Изменить</button>
-            <button class="btn btn-danger modal-dismiss">Завершить</button>
-          </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Клиент</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <select name="passenger_id" class="form-control">
+                                <option value="0" selected disabled>Выберете пассажира</option>
+                                {{#each passengers}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Контактный телефон</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input name="contact_number" data-input-mask="+7 (999) 999-9999"
+                                placeholder="+7 (123) 123-1234" class="form-control" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Квартира</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <select name="apartment_id" class="form-control">
+                                <option value="0" selected disabled>Выберете Адрес</option>
+                                {{#each apartments}}
+                                    <option value="{{this.id}}">{{this.address}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Цена за сутки, руб.</label>
+                    <div class="col-sm-9">
+                        <input name="price_per_day" type="number" class="form-control" placeholder="Введите сумму"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Количество суток</label>
+                    <div class="col-sm-9">
+                        <input name="number_days" type="number" class="form-control" placeholder="Введите количество"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Въезд</label>
+                    <div class="col-sm-9">
+                        <input name="entry" type="datetime-local" class="form-control" placeholder="Введите время" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Выезд</label>
+                    <div class="col-sm-9">
+                        <input name="departure" type="datetime-local" class="form-control" placeholder="Введите время"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Предварительная сумма</label>
+                    <div class="col-sm-8">
+                        <input name="prepayment" type="text" class="form-control" placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Выбор оплаты</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <select name="cash_storage_id" class="form-control">
+                                <option value="0" selected disabled>Выберете способ оплаты</option>
+                                {{#each cashStorages}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group services-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</span>
+                    </div>
+                    <div class="form-group col-sm-12 services-group__item">
+                        <label class="col-sm-3 control-label">Услуга</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <select class="js-apartmentReservations-services form-control">
+                                    <option value="0" selected disabled>Выберете услугу</option>
+                                    {{#each additionalServices}}
+                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    {{/each}}
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button">Добавить</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning adding-item" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger deliting-item" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Комментарий</label>
+                    <div class="col-sm-9">
+                        <textarea name="comment" class="form-control" id="" cols="30" rows="5"
+                            placeholder="Введите комментарий"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Общая сумма, руб.</label>
+                    <div class="col-sm-9">
+                        <input name="sum" type="number" class="form-control" placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9"></div>
+                    <div class="checkbox-custom checkbox-warning col-sm-3">
+                        <input id="at_reception" type="checkbox" id="checkboxExample4">
+                        <label for="checkboxExample4">На приеме</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-success">Принять</button>
+                        <button class="btn btn-primary">Изменить</button>
+                        <button class="btn btn-danger modal-dismiss">Завершить</button>
+                    </div>
+                </div>
+
+            </form>
         </div>
-      </footer>
     </section>
 </div>
 <script>
