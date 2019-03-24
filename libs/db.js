@@ -63,7 +63,12 @@ module.exports = new class Db {
      * @param {Object | Array} [data] данные для подстановки в запрос
      */
     async insertQuery(query = '', data) {
-        const [rows, fields] = await this.connection.query(query, data);
-        return rows.insertId;
+        try {
+            const [rows, fields] = await this.connection.query(query, data);
+            return rows.insertId;
+        } catch(error) {
+            console.log(query, data);
+            throw new Error(error);
+        }
     }
 }

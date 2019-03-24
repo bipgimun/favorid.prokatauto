@@ -2,3 +2,4 @@ node_modules
 package-lock.json
 config/db.js
 yarn.lock
+db.errors.log

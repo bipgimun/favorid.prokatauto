@@ -669,11 +669,17 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        console.log(values);
+        const $services = $form.find('.js-apartmentReservations-services');
+        const at_reception = $form.find('#at_reception').is(':checked') ? '1' : '0';
 
-        return false;
+        const servicesIds = [...$services]
+            .map(el => $(el).val())
+            .join(',');
 
-        await request('/api/apartments/add', { values }, { showNotify: true });
+        values.services = servicesIds;
+        values.at_reception = at_reception;
+
+        await request('/api/apartmentReservations/add', { values }, { showNotify: true });
 
         return false;
     })
