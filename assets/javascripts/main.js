@@ -651,7 +651,9 @@ $(document).ready(() => {
         return false;
     })
 
-    $('#js-apartmentReservations-form').on('submit', async function (e) {
+    const $apartmentReservations = $('#js-apartmentReservations-form');
+
+    $apartmentReservations.on('submit', async function (e) {
         e.preventDefault();
 
         const $form = $(this);

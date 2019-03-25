@@ -151,8 +151,20 @@ app.get('/new-page-13', async (req, res, next) => {
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
     const additionalServices = await db.execQuery(`SELECT * FROM additional_services`);
+    
+    const apartmentReservations = (await db.execQuery(`
+        SELECT ar.*,
+            a.address,
+            p.name as client_name
+        FROM apartment_reservations ar
+            LEFT JOIN apartments a ON ar.apartment_id = a.id
+            LEFT JOIN passengers p ON ar.passenger_id = p.id
+    `)).map(item => {
+        item.at_reception = item.at_reception == '1' ? 'На приёме' : 'Не на приёме';
+        return item;
+    });
 
-    res.render('new-page-13', { customers, passengers, apartments, cashStorages, additionalServices });
+    res.render('new-page-13', { customers, passengers, apartments, cashStorages, additionalServices, apartmentReservations });
 })
 
 app.get('/new-page-:id', (req, res, next) => {
