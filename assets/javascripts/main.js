@@ -8,8 +8,8 @@ $(document).ready(() => {
         }
     });
 
-    $('.js-select2-init').select2({
-        allowClear: true
+    $('select.js-select2-init').select2({
+        allowClear: true,
     });
 
     $('#js-sale-service-add').click(async () => {
@@ -686,7 +686,7 @@ $(document).ready(() => {
         return false;
     })
 
-    $('.js-toggleEditable').on('click', function(e) {
+    $('.js-toggleEditable').on('click', function (e) {
         $('.js-editable-body').toggleClass('editable-on');
     })
 
