@@ -1,7 +1,6 @@
 const db = require('../../libs/db');
 
 module.exports = async (req, res, next) => {
-    const customers = await db.execQuery(`SELECT * FROM customers`);
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
@@ -18,6 +17,8 @@ module.exports = async (req, res, next) => {
         item.at_reception = item.at_reception == '1' ? 'На приёме' : 'Не на приёме';
         return item;
     });
+    
+    const customers = await db.execQuery(`SELECT * FROM customers`);
 
     return res.render(__dirname + '/apartment-reservations', { customers, passengers, apartments, cashStorages, additionalServices, apartmentReservations });
 };

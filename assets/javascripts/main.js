@@ -686,6 +686,10 @@ $(document).ready(() => {
         return false;
     })
 
+    $('.js-toggleEditable').on('click', function(e) {
+        $('.js-editable-body').toggleClass('editable-on');
+    })
+
     const loadSalaryTable = (data) => {
         return request('/api/salaryStatement/getTable', data);
     };

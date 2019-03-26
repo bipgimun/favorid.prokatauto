@@ -8,6 +8,8 @@ const app = express();
 
 const db = require('./libs/db');
 
+const moment = require('moment');
+
 app.engine('hbs', hbs({
     extname: 'hbs',
     defaultLayout: 'main',
@@ -26,6 +28,12 @@ app.engine('hbs', hbs({
             const round = Number(Number(value).toFixed(1));
             return isNaN(round) ? '' : round;
         },
+        ifTrue: (condition, valueTrue, valueFalse) => {
+            return !!condition ? valueTrue : false;
+        },
+        toIsoString(date) {
+            return moment(date).format(moment.HTML5_FMT.DATETIME_LOCAL);
+        }
     }
 }));
 
@@ -137,15 +145,10 @@ app.get('/new-page-8', async (req, res, next) => {
     res.render('new-page-8', { services });
 })
 
-app.get('/new-page-12', async (req, res, next) => {
+app.get('/apartments', require('./routes/apartments'));
 
-    const apartments = await db.execQuery(`SELECT * FROM apartments`);
-
-    res.render('new-page-12', { apartments });
-})
-
-app.get('/apartment-reservations', require('./routes/apartmnent-reservations').list);
-app.get('/apartment-reservations/:id', require('./routes/apartmnent-reservations').view);
+app.get('/apartment-reservations', require('./routes/apartment-reservations').list);
+app.get('/apartment-reservations/:id', require('./routes/apartment-reservations').view);
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;

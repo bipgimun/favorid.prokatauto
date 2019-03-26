@@ -1,0 +1,271 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+</style>
+<header class="page-header">
+    <h2>Заказ квартир</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <span>Заказ квартир</span>
+                <span class="separator"></span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        {{#each apartmentReservations}}
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Заявка на бронь квартиры</h2>
+                </header>
+                <div class="panel-body js-editable-body">
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Заказчик</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="non-editable-content">
+                                    {{this.customer_name}}
+                                </div>
+                                <div class="editable-content">
+                                    <select name="customer_id" value="{{this.customer_id}}" class="form-control">
+                                        <option value="0" selected disabled>Выберете заказчика</option>
+                                        {{#each ../customers}}
+                                            <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
+                                                {{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Клиент</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="non-editable-content">
+                                    {{this.client_name}}
+                                </div>
+                                <div class="editable-content">
+                                    <select name="passenger_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете пассажира</option>
+                                        {{#each ../passengers}}
+                                            <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
+                                                {{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Контактный телефон</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="non-editable-content">
+                                    {{this.client_number}}
+                                </div>
+                                <div class="editable-content">
+                                    <input value="{{this.client_number}}" name="contact_number"
+                                        data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Квартира</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="non-editable-content">
+                                    {{this.address}}
+                                </div>
+                                <div class="editable-content">
+                                    <select name="apartment_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете Адрес</option>
+                                        {{#each ../apartments}}
+                                            <option {{ifTrue this.selected 'selected' : ''}} value="{{this.id}}">
+                                                {{this.address}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Цена за сутки, руб.</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.price_per_day}}
+                            </div>
+                            <div class="editable-content">
+                                <input value="{{this.price_per_day}}" name="price_per_day" type="number"
+                                    class="form-control" placeholder="Введите сумму" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Количество суток</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.number_days}}
+                            </div>
+                            <div class="editable-content">
+                                <input value="{{this.number_days}}" name="number_days" type="number"
+                                    class="form-control" placeholder="Введите количество" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Въезд</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.entry}}
+                            </div>
+                            <div class="editable-content">
+                                <input value="{{toIsoString this.entry}}" name="entry" type="datetime-local"
+                                    class="form-control" placeholder="Введите время" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Выезд</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.departure}}
+                            </div>
+                            <div class="editable-content">
+                                <input value="{{toIsoString this.departure}}" name="departure" type="datetime-local"
+                                    class="form-control" placeholder="Введите время" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Предварительная сумма</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.prepayment}}
+                            </div>
+                            <div class="editable-content">
+                                <input value="{{this.prepayment}}" name="prepayment" type="text" class="form-control"
+                                    placeholder="Введите сумму" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Выбор оплаты</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="non-editable-content">
+                                    {{this.cash_storage}}
+                                </div>
+                                <div class="editable-content">
+                                    <select name="cash_storage_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете способ оплаты</option>
+                                        {{#each ../cashStorages}}
+                                            <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
+                                                {{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group services-group">
+                        <div class="col-sm-12 control-label" style="text-align:center;">
+                            <span>ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</span>
+                        </div>
+                        {{#each ../additionalServices}}
+                            <div class="form-group col-sm-12 services-group__item">
+                                <label class="col-sm-3 control-label">Услуга</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="non-editable-content">
+                                            {{this.name}}
+                                        </div>
+                                        <div class="editable-content">
+                                            <select class="js-apartmentReservations-services form-control">
+                                                <option value="0" selected disabled>Выберете услугу</option>
+                                                {{#each ../../servicesList}}
+                                                    <option {{ifTrue ../selected 'selected' ''}} value="{{../id}}">
+                                                        {{../name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Комментарий</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.comment}}
+                            </div>
+                            <div class="editable-content">
+                                <textarea name="comment" class="form-control" id="" cols="30" rows="5"
+                                    placeholder="Введите комментарий">{{this.comment}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Общая сумма, руб.</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.sum}}
+                            </div>
+                            <div class="editable-content">
+                                <input value="{{this.sum}}" name="sum" type="number" class="form-control"
+                                    placeholder="Введите сумму" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Статус</label>
+                        <div class="col-sm-9">
+                            <div class="non-editable-content">
+                                {{this.at_reception_title}}
+                            </div>
+                            <div class="editable-content">
+                                <div class="checkbox-custom checkbox-warning col-sm-3">
+                                    <input {{ifTrue this.at_reception 'checked' ''}} id="at_reception" type="checkbox" id="checkboxExample4">
+                                    <label for="checkboxExample4">На приеме</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                </div>
+            </section>
+        {{/each}}
+
+    </div>
+</section>
+
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
