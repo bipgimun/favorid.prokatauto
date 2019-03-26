@@ -486,7 +486,8 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/cars/add', { values }, { showNotify: true });
-
+        $(e.target).find('.modal-dismiss').click();
+        
         return false;
     })
 
@@ -509,6 +510,7 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/customers/add', { values }, { showNotify: true });
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -532,6 +534,7 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/passengers/add', { values }, { showNotify: true });
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -555,6 +558,7 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/drivers/add', { values }, { showNotify: true });
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -578,6 +582,7 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/itineraries/add', { values }, { showNotify: true });
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -601,6 +606,7 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/cashStorages/add', { values }, { showNotify: true });
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -624,6 +630,7 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/additionalServices/add', { values }, { showNotify: true });
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -647,6 +654,8 @@ $(document).ready(() => {
         }, values);
 
         await request('/api/apartments/add', { values }, { showNotify: true });
+
+        $(e.target).find('.modal-dismiss').click();
 
         return false;
     })
@@ -682,6 +691,7 @@ $(document).ready(() => {
         values.at_reception = at_reception;
 
         await request('/api/apartmentReservations/add', { values }, { showNotify: true });
+        $apartmentReservations.find('.modal-dismiss').click();
 
         return false;
     })
