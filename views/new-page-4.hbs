@@ -1,5 +1,5 @@
 <header class="page-header">
-    <h2>Водители (прокат)</h2>
+    <h2>Водители</h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -8,13 +8,13 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Водители (прокат)</span> <span class="separator"></span></li>
+            <li><span>Водители</span> <span class="separator"></span></li>
         </ol>
     </div>
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-        <h2 class="panel-title">Список водителей (прокат)</h2>
+        <h2 class="panel-title">Список водителей</h2>
     </header>
     <div class="panel-body">
         <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
@@ -86,16 +86,56 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Водительское удостоверение</label>
                     <div class="col-sm-8">
-                        <input name="driver_license" type="text" placeholder="Введите данные" class="form-control">
+                        <input name="driver_license" type="text" placeholder="12 34 567891" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Паспортные данные</label>
-                    <div class="col-sm-8">
-                        <input name="passport" type="text" placeholder="Введите данные" class="form-control">
+                    <label class="col-sm-2 control-label">Дата выдачи</label>
+                    <div class="col-sm-4">
+                        <input type="date" placeholder="Введите дату" class="form-control">
+                    </div>
+                    <label class="col-sm-2 control-label">окончания</label>
+                    <div class="col-sm-4">
+                        <input type="date" placeholder="Введите дату" class="form-control">
                     </div>
                 </div>
-                <div class="form-group mt-lg">
+                <div class="form-group">
+                    <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Паспортные данные</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Серия, номер</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="12 34 567891" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата выдачи</label>
+                    <div class="col-sm-8">
+                        <input type="date" placeholder="Введите дату" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Кем выдан</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="Введите данные" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Код подразделения</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="123-456" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Место жительства</label>
+                    <div class="col-sm-8">
+                        <textarea cols="20" rows="4" class="form-control" placeholder="Введите данные" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Автомобиль</label>
+                </div>
+                <div class="form-group mt-lg drivers-auto">
                     <label class="col-sm-4 control-label"></label>
                     <div class="col-sm-4">
                         <div class="radio-custom">
@@ -110,6 +150,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group drivers-auto__car" style="display: none;">
+                    <label class="col-sm-3 control-label">Автомобиль</label>
+                    <div class="col-sm-9">
+                    <div class="input-group">
+                        <select name="master" class="form-control">
+                        <option value="0" selected disabled>Выберете автомобиль</option>
+                        <option value="0">Hyndai Solaris  xa777a-174</option>
+                        <option value="0">Kia Rio  xa757a-74</option>
+                        </select>
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button">Добавить</button>
+                        </span>
+                    </div>
+                    </div>
+                </div>
                 <div class="col-md-12 text-right">
                     <button class="btn btn-primary js-nomenclature-products-add">Подтвердить</button>
                     <button class="btn btn-default modal-dismiss js-nomenclature-products-cancel">Отмена</button>
@@ -119,3 +174,9 @@
     </section>
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script>
+    const driversAutoGroup = document.querySelector('.drivers-auto');
+    driversAutoGroup.addEventListener('change', function() {
+        document.querySelector('.drivers-auto__car').style.display="block";
+    })
+</script>
