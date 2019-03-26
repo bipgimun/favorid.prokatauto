@@ -43,7 +43,9 @@
                             <td>{{this.address}}</td>
                             <td>{{this.client_name}}</td>
                             <td>{{this.at_reception}}</td>
-                            <td></td>
+                            <td>
+                                <a href="/apartment-reservations/{{this.id}}">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -278,4 +280,4 @@
 
     table.addEventListener('click', delRow);
 </script>
-<script src="assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
