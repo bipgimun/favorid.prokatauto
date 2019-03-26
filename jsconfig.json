@@ -8,6 +8,6 @@
         "node_modules",
         "app/public/vendors",
         "content",
-        "assets"
+        "/assets"
     ]
 }
