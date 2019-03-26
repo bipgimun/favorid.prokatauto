@@ -49,7 +49,7 @@
                                     {{this.customer_name}}
                                 </div>
                                 <div class="editable-content">
-                                    <select name="customer_id" value="{{this.customer_id}}" class="form-control">
+                                    <select name="customer_id" value="{{this.customer_id}}" class="form-control js-select2-init">
                                         <option value="0" selected disabled>Выберете заказчика</option>
                                         {{#each ../customers}}
                                             <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
