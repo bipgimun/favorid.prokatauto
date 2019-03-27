@@ -35,9 +35,11 @@
                 <tbody>
                     {{#each services}}
                         <tr>
-                          <td>{{this.name}}</td>
-                          <td>{{this.price}}</td>
-                          <td></td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.price}}</td>
+                            <td>
+                                <a href="/new-page-8/{{this.id}}" target="_blank">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>

@@ -41,7 +41,9 @@
                             <td>{{this.name}}</td>
                             <td>{{this.model}}</td>
                             <td>{{this.number}}</td>
-                            <td></td>
+                            <td>
+                                <a href="/new-page-1/{{this.id}}" target="_blank">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -145,9 +147,18 @@
                     <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Размер платежа</label>
+                    <label class="col-sm-3" style="text-align: right;">Статус</label>
+                    <div class="col-sm-9">
+                        <div class="checkbox-custom checkbox-primary col-sm-3">
+                            <input type="checkbox" id="checkboxLising" class="checkbox-lising">
+                            <label for="checkboxLising">В лизинге</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group checkbox-lising-info" style="display: none;">
+                    <label class="col-sm-3 control-label">Размер платежа, руб</label>
                     <div class="col-sm-3">
-                        <input name="payment_amount" type="text" class="form-control"
+                        <input name="payment_amount" type="number" class="form-control"
                             placeholder="Введите сумму" required>
                     </div>
                     <label class="col-sm-3 control-label">Дата платежа</label>
@@ -155,6 +166,11 @@
                         <input name="payment_date" type="text" class="form-control"
                             data-plugin-masked-input="" data-input-mask="9999.99.99" placeholder="yyyy.mm.dd"
                             placeholder="Введите дату" required>
+                    </div>
+                    <label class="col-sm-5 control-label">Дата окончания</label>
+                    <div class="col-sm-5">
+                        <input name="payment_amount" type="date" class="form-control"
+                            placeholder="Введите сумму" required>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">
@@ -166,3 +182,14 @@
     </section>
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script>
+    const checkLising = document.querySelector('.checkbox-lising');
+    const checkLisingInfo = document.querySelector('.checkbox-lising-info');
+    checkLising.addEventListener('change', function() {
+        if (this.checked) {
+            checkLisingInfo.style.display="block";
+        } else {
+            checkLisingInfo.style.display="none";
+        }
+    });
+</script>

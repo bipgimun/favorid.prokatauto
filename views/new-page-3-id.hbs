@@ -1,0 +1,76 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Клиенты</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Клиенты</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Добавление нового клиента</h2>
+            </header>
+            <div class="panel-body js-editable-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Наименование/ФИО</label>
+                    <div class="non-editable-content">
+                        {{this. }}
+                    </div>
+                    <div class="col-sm-8 editable-conten">
+                        <input name="name" type="text" class="form-control" placeholder="Введите данные" value="{{this. }}"required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата рождения</label>
+                    <div class="non-editable-content">
+                        {{this. }}
+                    </div>
+                    <div class="col-sm-8 editable-conten">
+                        <input type="date" class="form-control" placeholder="Введите дату" value="{{this. }}"required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Контактный телефон</label>
+                    <div class="non-editable-content">
+                        {{this. }}
+                    </div>
+                    <div class="col-sm-8 editable-conten">
+                        <input name="contact_number" id="phone" data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
+                            placeholder="+7 (123) 123-1234" class="form-control" value="{{this. }}"required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>

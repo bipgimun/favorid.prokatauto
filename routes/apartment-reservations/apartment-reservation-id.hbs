@@ -37,7 +37,7 @@
         {{#each apartmentReservations}}
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">Заявка на бронь квартиры</h2>
+                    <h2 class="panel-title">Редактирование заявки</h2>
                 </header>
                 <div class="panel-body js-editable-body">
 
@@ -212,6 +212,15 @@
                                                         {{../name}}</option>
                                                 {{/each}}
                                             </select>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary" type="button">Добавить</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-warning adding-item" type="button">+</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-danger deliting-item" type="button">-</button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -261,6 +270,7 @@
                 </div>
                 <div>
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button class="btn btn-danger">Завершить</button>
                 </div>
             </section>
         {{/each}}
@@ -268,4 +278,41 @@
     </div>
 </section>
 
+<script>
+    var btnAddProduct = document.querySelector('.adding-item');
+    var btnDeleteProduct = document.querySelector('.deliting-item');
+    var table = document.querySelector('.services-group');
+
+    function insRow() {
+        var target = event.target;
+        var grItem = table.querySelectorAll('.services-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item').addEventListener('click', insRow);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table.appendChild(new_row);
+    }
+
+    function delRow() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item');
+        if (!closeBtn) return;
+
+        var grItem = table.querySelectorAll('.services-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    }
+
+    btnAddProduct.addEventListener('click', insRow);
+
+    table.addEventListener('click', delRow);
+</script>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
