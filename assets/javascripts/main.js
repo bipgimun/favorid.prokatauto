@@ -485,9 +485,12 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/cars/add', { values }, { showNotify: true });
+        const { data } = await request('/api/cars/add', { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
-        
+        $('#js-cars-table')
+            .dataTable()
+            .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
+
         return false;
     })
 

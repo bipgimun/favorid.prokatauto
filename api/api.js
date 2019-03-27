@@ -38,9 +38,11 @@ app.post('/cars/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO cars SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO cars SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/customers/add', checkAuth, async (req, res, next) => {

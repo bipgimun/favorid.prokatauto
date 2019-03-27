@@ -96,19 +96,10 @@ app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 
-app.get('/new-page-1', async (req, res, next) => {
+app.get('/cars', require('./routes/cars/index').list);
+app.get('/cars/:id', require('./routes/cars/index').view);
 
-    const cars = await db.execQuery(`SELECT * FROM cars`);
-
-    res.render('new-page-1', { cars });
-})
-
-app.get('/new-page-2', async (req, res, next) => {
-
-    const customers = await db.execQuery(`SELECT * FROM customers`);
-
-    res.render('new-page-2', { customers });
-})
+app.get('/customers', require('./routes/customers/index').list);
 
 app.get('/new-page-3', async (req, res, next) => {
 
