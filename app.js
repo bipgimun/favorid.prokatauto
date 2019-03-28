@@ -101,12 +101,8 @@ app.get('/cars/:id', require('./routes/cars/index').view);
 
 app.get('/customers', require('./routes/customers/index').list);
 
-app.get('/new-page-3', async (req, res, next) => {
-
-    const passengers = await db.execQuery(`SELECT * FROM passengers`);
-
-    res.render('new-page-3', { passengers });
-})
+app.get('/clients', require('./routes/clients').list);
+app.get('/clients/:id', require('./routes/clients').view);
 
 app.get('/new-page-4', async (req, res, next) => {
 
