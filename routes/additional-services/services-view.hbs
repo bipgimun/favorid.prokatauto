@@ -37,25 +37,30 @@
                 <header class="panel-heading">
                     <h2 class="panel-title">Добавление новой услуги</h2>
                 </header>
-                <div class="panel-body js-editable-body">                
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Название услуги</label>
-                        <div class="non-editable-content">
-                            {{this.name }}
+                <div class="panel-body js-editable-body">  
+                    <form action="/api/additionalServices/update" id="js-additionalServices-add-form" class="form-horizontal mb-lg" novalidate="novalidate">           
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Название услуги</label>
+                            <div class="non-editable-content">
+                                {{this.name }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="name" type="text" class="form-control" placeholder="Введите данные" value="{{this.name }}" required>
+                            </div>
                         </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="name" type="text" class="form-control" placeholder="Введите данные" value="{{this.name }}" required>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Цена, руб.</label>
+                            <div class="non-editable-content">
+                                {{this.price }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="price" type="number" class="form-control" placeholder="Введите данные" value="{{this.price }}" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Цена, руб.</label>
-                        <div class="non-editable-content">
-                            {{this.price }}
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
                         </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="price" type="number" class="form-control" placeholder="Введите данные" value="{{this.price }}" required>
-                        </div>
-                    </div>
+                    </form>
                     <div class="col-md-12">
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     </div>

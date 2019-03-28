@@ -38,36 +38,40 @@
                     <h2 class="panel-title">Добавление нового клиента</h2>
                 </header>
                 <div class="panel-body js-editable-body">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Наименование/ФИО</label>
-                        <div class="non-editable-content">
-                            {{this.name }}
+                    <form action="/api/passengers/update" id="js-passengers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Наименование/ФИО</label>
+                            <div class="non-editable-content">
+                                {{this.name }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="name" type="text" class="form-control" placeholder="Введите данные" value="{{this.name }}" required>
+                            </div>
                         </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="name" type="text" class="form-control" placeholder="Введите данные"
-                                value="{{this.name }}" required>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Дата рождения</label>
+                            <div class="non-editable-content">
+                                {{this.birthday }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input type="date" class="form-control" placeholder="Введите дату" value="{{this.birthday }}" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Дата рождения</label>
-                        <div class="non-editable-content">
-                            {{this.birthday }}
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Контактный телефон</label>
+                            <div class="non-editable-content">
+                                {{this.contact_number }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="contact_number" id="phone" data-plugin-masked-input=""
+                                    data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234" class="form-control"
+                                    value="{{this.contact_number }}" required>
+                            </div>
                         </div>
-                        <div class="col-sm-8 editable-content">
-                            <input type="date" class="form-control" placeholder="Введите дату" value="{{this.birthday }}" required>
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Контактный телефон</label>
-                        <div class="non-editable-content">
-                            {{this.contact_number }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="contact_number" id="phone" data-plugin-masked-input=""
-                                data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234" class="form-control"
-                                value="{{this.contact_number }}" required>
-                        </div>
-                    </div>
+                    </form>
                     <div class="col-md-12">
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     </div>
