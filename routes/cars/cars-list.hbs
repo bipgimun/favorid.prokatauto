@@ -136,11 +136,12 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Рыночная стоимость</label>
                     <div class="col-sm-3">
-                        <input name="market_price" type="text" class="form-control" placeholder="Введите цену" required>
+                        <input name="market_price" type="number" class="form-control" placeholder="Введите цену"
+                            required>
                     </div>
                     <label class="col-sm-3 control-label">Стоимость покупки</label>
                     <div class="col-sm-3">
-                        <input name="purchase_price" type="text" class="form-control" placeholder="Введите цену"
+                        <input name="purchase_price" type="number" class="form-control" placeholder="Введите цену"
                             required>
                     </div>
                 </div>
@@ -152,7 +153,7 @@
                     <label class="col-sm-3" style="text-align: right;">Статус</label>
                     <div class="col-sm-9">
                         <div class="checkbox-custom checkbox-primary col-sm-3">
-                            <input type="checkbox" id="checkboxLising" class="checkbox-lising">
+                            <input type="checkbox" name="in_leasing" id="checkboxLising" class="checkbox-lising">
                             <label for="checkboxLising">В лизинге</label>
                         </div>
                     </div>
@@ -165,12 +166,12 @@
                     </div>
                     <label class="col-sm-3 control-label">Дата платежа</label>
                     <div class="col-sm-3">
-                        <input name="payment_date" type="text" class="form-control" data-plugin-masked-input=""
-                            data-input-mask="9999-99-99" placeholder="yyyy.mm.dd" placeholder="Введите дату" required>
+                        <input type="date" name="payment_date" class="form-control" required>
                     </div>
                     <label class="col-sm-5 control-label">Дата окончания</label>
                     <div class="col-sm-5">
-                        <input name="" type="date" class="form-control" placeholder="Введите сумму" required>
+                        <input name="leasing_expiration_date" type="date" class="form-control"
+                            placeholder="Введите сумму" required>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">
