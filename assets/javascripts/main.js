@@ -515,8 +515,8 @@ $(document).ready(() => {
 
             return acc;
         }, values);
-
-        await request('/api/customers/add', { values }, { showNotify: true });
+        
+        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -565,7 +565,7 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/drivers/add', { values }, { showNotify: true });
+        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         return false;
