@@ -1,0 +1,90 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Квартиры</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Квартиры</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        {{#each apartments}}
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Добавление новой квартиры</h2>
+                </header>
+                <div class="panel-body js-editable-body">
+                    <form action="/api/apartments/update" id="js-apartments-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Адрес</label>
+                            <div class="non-editable-content">
+                                {{this.address }}
+                            </div>
+                            <div class="col-sm-7 editable-content">
+                                <input name="address" type="text" class="form-control" placeholder="Введите адрес" value="{{this.address }}"required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Количество комнат</label>
+                            <div class="non-editable-content">
+                                {{this.rooms }}
+                            </div>
+                            <div class="col-sm-7 editable-content">
+                                <input name="rooms" type="number" class="form-control" placeholder="Введите количество" value="{{this.rooms }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Цена за сутки, руб.</label>
+                            <div class="non-editable-content">
+                                {{this.price_per_day }}
+                            </div>
+                            <div class="col-sm-7 editable-content">
+                                <input name="price_per_day" type="number" class="form-control" placeholder="Введите цену" value="{{this.price_per_day }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">Коммунальные услуги в месяц, руб.</label>
+                            <div class="non-editable-content">
+                                {{this.utilities_per_month }}
+                            </div>
+                            <div class="col-sm-7 editable-content">
+                                <input name="utilities_per_month" type="number" class="form-control" placeholder="Введите сумму" value="{{this.utilities_per_month }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    </div>
+                </div>
+            </section>
+        {{/each}}
+    </div>
+</section>

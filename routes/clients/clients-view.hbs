@@ -38,7 +38,7 @@
                     <h2 class="panel-title">Добавление нового клиента</h2>
                 </header>
                 <div class="panel-body js-editable-body">
-                    <form action="/api/clients/update" id="js-passengers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                    <form action="/api/passengers/update" id="js-passengers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Наименование/ФИО</label>
                             <div class="non-editable-content">
@@ -68,10 +68,13 @@
                                     value="{{this.contact_number }}" required>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
                         </div>
                     </form>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    </div>
                 </div>
             </section>
         {{/each}}

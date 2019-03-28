@@ -466,7 +466,7 @@ $(document).ready(() => {
         $('.js-nomenclature-services-name').val('');
         return false;
     });
-
+    /* */
     $('#js-cars-add-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -485,12 +485,14 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        const { data } = await request('/api/cars/add', { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-cars-table').length){
         $('#js-cars-table')
             .dataTable()
             .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
-
+        }
         return false;
     })
 
@@ -536,7 +538,7 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/passengers/add', { values }, { showNotify: true });
+        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -609,7 +611,7 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/cashStorages/add', { values }, { showNotify: true });
+        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -633,7 +635,7 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/additionalServices/add', { values }, { showNotify: true });
+        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -657,7 +659,7 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/apartments/add', { values }, { showNotify: true });
+        await request(url, { values }, { showNotify: true });
 
         $(e.target).find('.modal-dismiss').click();
 

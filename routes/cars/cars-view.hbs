@@ -38,169 +38,174 @@
                     <h2 class="panel-title">Добавление нового автомобиля</h2>
                 </header>
                 <div class="panel-body js-editable-body">
-                    <div class="form-group mt-lg">
-                        <label class="col-sm-4 control-label">Название автомобиля</label>
-                        <div class="non-editable-content">
-                            {{this.name }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="name" type="text" class="form-control" placeholder="Введите название"
-                                value="{{this.name }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Модель</label>
-                        <div class="non-editable-content">
-                            {{this.model }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="model" type="text" class="form-control" placeholder="Введите модель"
-                                value="{{this.model }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Гос.номер</label>
-                        <div class="non-editable-content">
-                            {{this.number }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="number" type="text" class="form-control" placeholder="Введите номер"
-                                value="{{this.number }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Дата выпуска</label>
-                        <div class="non-editable-content">
-                            {{this.release_date }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input type="datetime-local" class="form-control" placeholder="Введите модель"
-                                value="{{this.release_date }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Фактический пробег</label>
-                        <div class="non-editable-content">
-                            {{this.mileage }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="mileage" type="text" class="form-control" placeholder="Введите пробег"
-                                value="{{this.mileage }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Состояние кузова</label>
-                        <div class="non-editable-content">
-                            {{this.carcass_condition }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="carcass_condition" type="text" class="form-control"
-                                placeholder="Введите состояние" value="{{this.carcass_condition }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Фактический уровень топлива</label>
-                        <div class="non-editable-content">
-                            {{this.fuel_level }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="fuel_level" type="number" class="form-control"
-                                placeholder="Введите уровень топлива" value="{{this.fuel_level }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Номер ОСАГО</label>
-                        <div class="non-editable-content">
-                            {{this.osago_number }}
-                        </div>
-                        <div class="col-sm-3 editable-content">
-                            <input name="osago_number" data-plugin-masked-input="" data-input-mask="aaa 999999"
-                                placeholder="AAA 123456" class="form-control" value="{{this.osago_number }}" required>
-                        </div>
-                        <label class="col-sm-3 control-label">Дата окончания</label>
-                        <div class="non-editable-content">
-                            {{this.osago_expiration_date }}
-                        </div>
-                        <div class="col-sm-3 editable-content">
-                            <input name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999.99.99"
-                                placeholder="yyyy.mm.dd" class="form-control" value="{{this.osago_expiration_date }}"
-                                required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Расстояние для ТО, км</label>
-                        <div class="non-editable-content">
-                            {{this.maintenance }}
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <input name="maintenance" type="number" class="form-control"
-                                placeholder="Введите расстояние" value="{{this.maintenance }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Рыночная стоимость</label>
-                        <div class="non-editable-content">
-                            {{this.market_price }}
-                        </div>
-                        <div class="col-sm-3 editable-content">
-                            <input name="market_price" type="text" class="form-control" placeholder="Введите цену"
-                                value="{{this.market_price }}" required>
-                        </div>
-                        <label class="col-sm-3 control-label">Стоимость покупки</label>
-                        <div class="non-editable-content">
-                            {{this.purchase_price }}
-                        </div>
-                        <div class="col-sm-3 editable-content">
-                            <input name="purchase_price" type="text" class="form-control" placeholder="Введите цену"
-                                value="{{this.purchase_price }}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-12 control-label"
-                            style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3" style="text-align: right;">Статус</label>
-                        <div class="col-sm-9">
+                    <form action="/api/cars/update" id="js-cars-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <div class="form-group mt-lg">
+                            <label class="col-sm-4 control-label">Название автомобиля</label>
                             <div class="non-editable-content">
-                                {{this.at_reception_title}}
+                                {{this.name }}
                             </div>
-                            <div class="editable-content">
-                                <div class="checkbox-custom checkbox-primary col-sm-3">
-                                    <input {{ifTrue this.at_reception_title  'checked' ''}} type="checkbox" id="checkboxLising"
-                                        class="checkbox-lising">
-                                    <label for="checkboxLising">В лизинге</label>
+                            <div class="col-sm-8 editable-content">
+                                <input name="name" type="text" class="form-control" placeholder="Введите название"
+                                    value="{{this.name }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Модель</label>
+                            <div class="non-editable-content">
+                                {{this.model }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="model" type="text" class="form-control" placeholder="Введите модель"
+                                    value="{{this.model }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Гос.номер</label>
+                            <div class="non-editable-content">
+                                {{this.number }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="number" type="text" class="form-control" placeholder="Введите номер"
+                                    value="{{this.number }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Дата выпуска</label>
+                            <div class="non-editable-content">
+                                {{this.release_date }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input type="datetime-local" class="form-control" placeholder="Введите модель"
+                                    value="{{this.release_date }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Фактический пробег</label>
+                            <div class="non-editable-content">
+                                {{this.mileage }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="mileage" type="text" class="form-control" placeholder="Введите пробег"
+                                    value="{{this.mileage }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Состояние кузова</label>
+                            <div class="non-editable-content">
+                                {{this.carcass_condition }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="carcass_condition" type="text" class="form-control"
+                                    placeholder="Введите состояние" value="{{this.carcass_condition }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Фактический уровень топлива</label>
+                            <div class="non-editable-content">
+                                {{this.fuel_level }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="fuel_level" type="number" class="form-control"
+                                    placeholder="Введите уровень топлива" value="{{this.fuel_level }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Номер ОСАГО</label>
+                            <div class="non-editable-content">
+                                {{this.osago_number }}
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input name="osago_number" data-plugin-masked-input="" data-input-mask="aaa 999999"
+                                    placeholder="AAA 123456" class="form-control" value="{{this.osago_number }}" required>
+                            </div>
+                            <label class="col-sm-3 control-label">Дата окончания</label>
+                            <div class="non-editable-content">
+                                {{this.osago_expiration_date }}
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999.99.99"
+                                    placeholder="yyyy.mm.dd" class="form-control" value="{{this.osago_expiration_date }}"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Расстояние для ТО, км</label>
+                            <div class="non-editable-content">
+                                {{this.maintenance }}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="maintenance" type="number" class="form-control"
+                                    placeholder="Введите расстояние" value="{{this.maintenance }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Рыночная стоимость</label>
+                            <div class="non-editable-content">
+                                {{this.market_price }}
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input name="market_price" type="text" class="form-control" placeholder="Введите цену"
+                                    value="{{this.market_price }}" required>
+                            </div>
+                            <label class="col-sm-3 control-label">Стоимость покупки</label>
+                            <div class="non-editable-content">
+                                {{this.purchase_price }}
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input name="purchase_price" type="text" class="form-control" placeholder="Введите цену"
+                                    value="{{this.purchase_price }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-12 control-label"
+                                style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3" style="text-align: right;">Статус</label>
+                            <div class="col-sm-9">
+                                <div class="non-editable-content">
+                                    {{this.at_reception_title}}
+                                </div>
+                                <div class="editable-content">
+                                    <div class="checkbox-custom checkbox-primary col-sm-3">
+                                        <input {{ifTrue this.at_reception_title  'checked' ''}} type="checkbox" id="checkboxLising"
+                                            class="checkbox-lising">
+                                        <label for="checkboxLising">В лизинге</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group checkbox-lising-info" style="display: none;">
-                        <label class="col-sm-3 control-label">Размер платежа, руб</label>
-                        <div class="non-editable-content">
-                            {{this.payment_amount}}
+                        <div class="form-group checkbox-lising-info" style="display: none;">
+                            <label class="col-sm-3 control-label">Размер платежа, руб</label>
+                            <div class="non-editable-content">
+                                {{this.payment_amount}}
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input name="payment_amount" type="number" class="form-control" placeholder="Введите сумму"
+                                    value="{{this.payment_amount }}" required>
+                            </div>
+                            <label class="col-sm-3 control-label">Дата платежа</label>
+                            <div class="non-editable-content">
+                                {{this.payment_date}}
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input name="payment_date" type="text" class="form-control" data-plugin-masked-input=""
+                                    data-input-mask="9999.99.99" placeholder="yyyy.mm.dd" placeholder="Введите дату"
+                                    value="{{this.payment_date }}" required>
+                            </div>
+                            <label class="col-sm-5 control-label">Дата окончания</label>
+                            <div class="non-editable-content">
+                                {{this.payment_amount}}
+                            </div>
+                            <div class="col-sm-5 editable-content">
+                                <input name="payment_amount" type="date" class="form-control" placeholder="Введите дату"
+                                    value="" required>
+                            </div>
                         </div>
-                        <div class="col-sm-3 editable-content">
-                            <input name="payment_amount" type="number" class="form-control" placeholder="Введите сумму"
-                                value="{{this.payment_amount }}" required>
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
                         </div>
-                        <label class="col-sm-3 control-label">Дата платежа</label>
-                        <div class="non-editable-content">
-                            {{this.payment_date}}
-                        </div>
-                        <div class="col-sm-3 editable-content">
-                            <input name="payment_date" type="text" class="form-control" data-plugin-masked-input=""
-                                data-input-mask="9999.99.99" placeholder="yyyy.mm.dd" placeholder="Введите дату"
-                                value="{{this.payment_date }}" required>
-                        </div>
-                        <label class="col-sm-5 control-label">Дата окончания</label>
-                        <div class="non-editable-content">
-                            
-                        </div>
-                        <div class="col-sm-5 editable-content">
-                            <input name="payment_amount" type="date" class="form-control" placeholder="Введите дату"
-                                value="" required>
-                        </div>
-                    </div>
+                    </form>
                     <div class="col-md-12">
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     </div>
