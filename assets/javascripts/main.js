@@ -542,6 +542,7 @@ $(document).ready(() => {
         }, values);
 
         await request(url, { values }, { showNotify: true });
+        $('.js-toggleEditable').click();
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -591,6 +592,7 @@ $(document).ready(() => {
         }, values);
 
         await request(url, { values }, { showNotify: true });
+        $('.js-toggleEditable').click();
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -616,6 +618,7 @@ $(document).ready(() => {
         }, values);
 
         await request(url, { values }, { showNotify: true });
+        $('.js-toggleEditable').click();
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -641,6 +644,7 @@ $(document).ready(() => {
         }, values);
 
         await request(url, { values }, { showNotify: true });
+        $('.js-toggleEditable').click();
         $(e.target).find('.modal-dismiss').click();
 
         return false;
@@ -666,6 +670,7 @@ $(document).ready(() => {
 
         await request(url, { values }, { showNotify: true });
 
+        $('.js-toggleEditable').click();
         $(e.target).find('.modal-dismiss').click();
 
         return false;
