@@ -701,7 +701,9 @@ $(document).ready(() => {
     })
 
     $('.js-toggleEditable').on('click', function (e) {
+        e.preventDefault();
         $('.js-editable-body').toggleClass('editable-on');
+        return false;
     })
 
     const loadSalaryTable = (data) => {
