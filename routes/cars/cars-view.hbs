@@ -39,6 +39,7 @@
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/cars/update" id="js-cars-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group mt-lg">
                             <label class="col-sm-4 control-label">Название автомобиля</label>
                             <div class="non-editable-content">
@@ -120,11 +121,11 @@
                             </div>
                             <label class="col-sm-3 control-label">Дата окончания</label>
                             <div class="non-editable-content">
-                                {{this.osago_expiration_date }}
+                                {{toIsoString this.osago_expiration_date 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-3 editable-content">
-                                <input name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999.99.99"
-                                    placeholder="yyyy.mm.dd" class="form-control" value="{{this.osago_expiration_date }}"
+                                <input type="date" name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999-99-99"
+                                    placeholder="yyyy-mm-dd" class="form-control" value="{{toIsoString this.osago_expiration_date 'YYYY-MM-DD' }}"
                                     required>
                             </div>
                         </div>
@@ -190,16 +191,16 @@
                             </div>
                             <div class="col-sm-3 editable-content">
                                 <input name="payment_date" type="text" class="form-control" data-plugin-masked-input=""
-                                    data-input-mask="9999.99.99" placeholder="yyyy.mm.dd" placeholder="Введите дату"
+                                    data-input-mask="9999-99-99" placeholder="yyyy-mm-dd" placeholder="Введите дату"
                                     value="{{this.payment_date }}" required>
                             </div>
                             <label class="col-sm-5 control-label">Дата окончания</label>
                             <div class="non-editable-content">
-                                {{this.payment_amount}}
+                                {{this.asd}}
                             </div>
                             <div class="col-sm-5 editable-content">
-                                <input name="payment_amount" type="date" class="form-control" placeholder="Введите дату"
-                                    value="" required>
+                                <input name="" type="date" class="form-control" placeholder="Введите дату"
+                                    value="{{this.asd}}" required>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">

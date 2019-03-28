@@ -381,7 +381,7 @@ app.post('/apartmentReservations/update', checkAuth, async (req, res, next) => {
 app.use((req, res, next) => next(new Error('Страница не найдена')));
 
 app.use((error, req, res, next) => {
-    console.error(error);
+    console.error('[' + new Date().toLocaleString() + ']:', error);
 
     if (req.method !== 'POST')
         return next(error);

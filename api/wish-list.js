@@ -26,6 +26,7 @@ exports.wishList = {
     ],
     passengers: [
         'name',
+        'birthday',
         'contact_number'
     ],
     drivers: [

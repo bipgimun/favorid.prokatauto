@@ -471,27 +471,29 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
-
-        const arrayData = $form.serializeArray();
+        const $inputs = $form.find('input');
+        const url = $form.attr('action');
 
         const values = {};
 
-        arrayData.reduce((acc, item) => {
+        $inputs.each((index, input) => {
+            const $input = $(input);
+            const isHidden = $input.is(':hidden');
+            const name = $input.attr('name');
+            const value = $input.val();
+            const type = $input.attr('type');
 
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
+            if ((isHidden && type === 'hidden' || !isHidden && type !== 'hidden') && name)
+                values[name] = value
+        })
 
         const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
-        if ($('#js-cars-table').length){
-        $('#js-cars-table')
-            .dataTable()
-            .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
+        if ($('#js-cars-table').length) {
+            $('#js-cars-table')
+                .dataTable()
+                .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
         }
         return false;
     })
@@ -524,6 +526,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
 
         const arrayData = $form.serializeArray();
 
@@ -597,6 +600,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
 
         const arrayData = $form.serializeArray();
 
@@ -621,6 +625,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
 
         const arrayData = $form.serializeArray();
 
@@ -645,7 +650,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
-
+        const url = $form.attr('action');
         const arrayData = $form.serializeArray();
 
         const values = {};
