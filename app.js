@@ -29,7 +29,7 @@ app.engine('hbs', hbs({
             return isNaN(round) ? '' : round;
         },
         ifTrue: (condition, valueTrue, valueFalse) => {
-            return !!condition ? valueTrue : false;
+            return !!condition ? valueTrue : valueFalse;
         },
         toIsoString(date, format = moment.HTML5_FMT.DATETIME_LOCAL) {
             return moment(date).format(format);

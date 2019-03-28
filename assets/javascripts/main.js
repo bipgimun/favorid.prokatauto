@@ -480,11 +480,17 @@ $(document).ready(() => {
             const $input = $(input);
             const isHidden = $input.is(':hidden');
             const name = $input.attr('name');
-            const value = $input.val();
+            let value = $input.val();
             const type = $input.attr('type');
 
-            if ((isHidden && type === 'hidden' || !isHidden && type !== 'hidden') && name)
-                values[name] = value
+
+            if ((isHidden && type === 'hidden' || !isHidden && type !== 'hidden') && name) {
+                if (type === 'checkbox') {
+                    value = $input.is(':checked') ? '1' : '0';
+                }
+
+                values[name] = value;
+            }
         })
 
         const { data } = await request(url, { values }, { showNotify: true });
@@ -502,6 +508,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
 
         const arrayData = $form.serializeArray();
 
@@ -515,7 +522,7 @@ $(document).ready(() => {
 
             return acc;
         }, values);
-        
+
         await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
@@ -552,6 +559,8 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
+
 
         const arrayData = $form.serializeArray();
 
