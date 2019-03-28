@@ -78,6 +78,20 @@ const cashBox = require('./routes/cashbox');
 const report = require('./routes/report');
 const salaryStatement = require('./routes/salary-statement');
 
+const checkParams = (paramName) => {
+    return (req, res, next) => {
+        const { [paramName]: param } = req.params;
+
+        if (!param)
+            throw new Error('Отсутствует id');
+
+        if (!Number(param))
+            throw new Error('Id type error');
+
+        next();
+    }
+}
+
 app.use((req, res, next) => {
     res.locals.reqUrl = req.url;
     next();
@@ -97,12 +111,12 @@ app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 
 app.get('/cars', require('./routes/cars/index').list);
-app.get('/cars/:id', require('./routes/cars/index').view);
+app.get('/cars/:id', checkParams('id'), require('./routes/cars/index').view);
 
 app.get('/customers', require('./routes/customers/index').list);
 
 app.get('/clients', require('./routes/clients').list);
-app.get('/clients/:id', require('./routes/clients').view);
+app.get('/clients/:id', checkParams('id'), require('./routes/clients').view);
 
 app.get('/new-page-4', async (req, res, next) => {
 
@@ -111,31 +125,19 @@ app.get('/new-page-4', async (req, res, next) => {
     res.render('new-page-4', { drivers });
 })
 
-app.get('/new-page-5', async (req, res, next) => {
+app.get('/itineraries', require('./routes/itineraries').list);
+app.get('/itineraries/:id', checkParams('id'), require('./routes/itineraries').view);
 
-    const itineraries = await db.execQuery(`SELECT * FROM itineraries`);
+app.get('/cash-storages', require('./routes/cash-storages').list);
+app.get('/cash-storages/:id', checkParams('id'), require('./routes/cash-storages').view);
 
-    res.render('new-page-5', { itineraries });
-})
-
-app.get('/new-page-7', async (req, res, next) => {
-
-    const storages = await db.execQuery(`SELECT * FROM cash_storages`);
-
-    res.render('new-page-7', { storages });
-})
-
-app.get('/new-page-8', async (req, res, next) => {
-
-    const services = await db.execQuery(`SELECT * FROM additional_services`);
-
-    res.render('new-page-8', { services });
-})
+app.get('/additional-services', require('./routes/additional-services').list);
+app.get('/additional-services/:id', checkParams('id'), require('./routes/additional-services').view);
 
 app.get('/apartments', require('./routes/apartments'));
 
-app.get('/apartment-reservations', require('./routes/apartment-reservations').list);
-app.get('/apartment-reservations/:id', require('./routes/apartment-reservations').view);
+app.get('/apartment-reservations', checkParams('id'), require('./routes/apartment-reservations').list);
+app.get('/apartment-reservations/:id', checkParams('id'), require('./routes/apartment-reservations').view);
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
