@@ -570,6 +570,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
 
         const arrayData = $form.serializeArray();
 
@@ -584,7 +585,7 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        await request('/api/itineraries/add', { values }, { showNotify: true });
+        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         return false;
