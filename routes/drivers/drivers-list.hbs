@@ -1,0 +1,186 @@
+<header class="page-header">
+    <h2>Водители</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Водители</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Список водителей</h2>
+    </header>
+    <div class="panel-body">
+        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+            <i class="fa fa-plus"></i> Добавить водителя
+        </button>
+        <div class="zag">
+            <h1>заглушка</h1>
+        </div>
+        <div class="table-responsive">
+            <table id="js-nomenclature-products-table"
+                class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Телефон</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each drivers}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.contact_number}}</td>
+                            <td></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Телефон</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Модалки-->
+
+<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Добавление нового водителя (прокат)</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-drivers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">ФИО</label>
+                    <div class="col-sm-8">
+                        <input name="name" type="text" class="form-control" placeholder="Введите данные" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата рождения</label>
+                    <div class="col-sm-8">
+                        <input type="date" class="form-control" placeholder="Введите дату" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Контактный телефон</label>
+                    <div class="col-sm-8">
+                        <input name="contact_number" id="phone" data-plugin-masked-input=""
+                            data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Водительское удостоверение</label>
+                    <div class="col-sm-8">
+                        <input name="driver_license" type="text" placeholder="12 34 567891" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Дата выдачи</label>
+                    <div class="col-sm-4">
+                        <input type="date" placeholder="Введите дату" class="form-control">
+                    </div>
+                    <label class="col-sm-2 control-label">окончания</label>
+                    <div class="col-sm-4">
+                        <input type="date" placeholder="Введите дату" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-12 control-label"
+                        style="text-transform: uppercase; font-weight: bold; text-align: center;">Паспортные
+                        данные</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Серия, номер</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="12 34 567891" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата выдачи</label>
+                    <div class="col-sm-8">
+                        <input type="date" placeholder="Введите дату" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Кем выдан</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="Введите данные" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Код подразделения</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="123-456" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Место жительства</label>
+                    <div class="col-sm-8">
+                        <textarea cols="20" rows="4" class="form-control" placeholder="Введите данные"
+                            required></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-12 control-label"
+                        style="text-transform: uppercase; font-weight: bold; text-align: center;">Автомобиль</label>
+                </div>
+                <div class="form-group mt-lg drivers-auto">
+                    <label class="col-sm-4 control-label"></label>
+                    <div class="col-sm-4">
+                        <div class="radio-custom">
+                            <input type="radio" id="radioExample1" value="1" name="is_individual">
+                            <label for="radioExample1">Личный</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="radio-custom">
+                            <input type="radio" id="radioExample2" value="0" name="is_individual">
+                            <label for="radioExample2">Закрепленный</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group drivers-auto__car" style="display: none;">
+                    <label class="col-sm-3 control-label">Автомобиль</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <select name="master" class="form-control">
+                                <option value="0" selected disabled>Выберете автомобиль</option>
+                                <option value="0">Hyndai Solaris xa777a-174</option>
+                                <option value="0">Kia Rio xa757a-74</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <a class="btn btn-primary" href="/cars" type="button">Добавить</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary js-nomenclature-products-add">Подтвердить</button>
+                    <button class="btn btn-default modal-dismiss js-nomenclature-products-cancel">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script>
+    const driversAutoGroup = document.querySelector('.drivers-auto');
+    driversAutoGroup.addEventListener('change', function () {
+        document.querySelector('.drivers-auto__car').style.display = "block";
+    })
+</script>
