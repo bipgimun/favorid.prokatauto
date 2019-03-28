@@ -471,7 +471,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
-        const $inputs = $form.find('input');
+        const $inputs = $form.find('[name]');
         const url = $form.attr('action');
 
         const values = {};
