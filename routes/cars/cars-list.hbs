@@ -72,8 +72,7 @@
                 <div class="form-group mt-lg">
                     <label class="col-sm-4 control-label">Название автомобиля</label>
                     <div class="col-sm-8">
-                        <input name="name" type="text" class="form-control"
-                            placeholder="Введите название" required>
+                        <input name="name" type="text" class="form-control" placeholder="Введите название" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -91,7 +90,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата выпуска</label>
                     <div class="col-sm-8">
-                        <input type="date" name="release_date" class="form-control" placeholder="Введите модель" required>
+                        <input type="date" name="release_date" class="form-control" placeholder="Введите модель"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -103,48 +103,50 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Состояние кузова</label>
                     <div class="col-sm-8">
-                        <input name="carcass_condition" type="text" class="form-control" placeholder="Введите состояние" required>
+                        <input name="carcass_condition" type="text" class="form-control" placeholder="Введите состояние"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Фактический уровень топлива</label>
                     <div class="col-sm-8">
-                        <input name="fuel_level" type="number" class="form-control" placeholder="Введите уровень топлива" required>
+                        <input name="fuel_level" type="number" class="form-control"
+                            placeholder="Введите уровень топлива" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Номер ОСАГО</label>
                     <div class="col-sm-3">
-                        <input name="osago_number" data-plugin-masked-input="" data-input-mask="aaa 999999" placeholder="AAA 123456"
-                            class="form-control">
+                        <input name="osago_number" data-plugin-masked-input="" data-input-mask="aaa 999999"
+                            placeholder="AAA 123456" class="form-control">
                     </div>
                     <label class="col-sm-3 control-label">Дата окончания</label>
                     <div class="col-sm-3">
-                        <input name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999.99.99" placeholder="yyyy.mm.dd" class="form-control">
+                        <input type="date" name="osago_expiration_date" class="form-control">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label">ТО</label>
                     <div class="col-sm-8">
-                        <input name="maintenance" type="number" class="form-control"
-                            placeholder="Введите цену" required>
+                        <input name="maintenance" type="number" class="form-control" placeholder="Введите цену"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Рыночная стоимость</label>
                     <div class="col-sm-3">
-                        <input name="market_price" type="text" class="form-control"
-                            placeholder="Введите цену" required>
+                        <input name="market_price" type="text" class="form-control" placeholder="Введите цену" required>
                     </div>
                     <label class="col-sm-3 control-label">Стоимость покупки</label>
                     <div class="col-sm-3">
-                        <input name="purchase_price" type="text" class="form-control"
-                            placeholder="Введите цену" required>
+                        <input name="purchase_price" type="text" class="form-control" placeholder="Введите цену"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
+                    <label class="col-sm-12 control-label"
+                        style="text-transform: uppercase; font-weight: bold; text-align: center;">Лизинг</label>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3" style="text-align: right;">Статус</label>
@@ -158,19 +160,17 @@
                 <div class="form-group checkbox-lising-info" style="display: none;">
                     <label class="col-sm-3 control-label">Размер платежа, руб</label>
                     <div class="col-sm-3">
-                        <input name="payment_amount" type="number" class="form-control"
-                            placeholder="Введите сумму" required>
+                        <input name="payment_amount" type="number" class="form-control" placeholder="Введите сумму"
+                            required>
                     </div>
                     <label class="col-sm-3 control-label">Дата платежа</label>
                     <div class="col-sm-3">
-                        <input name="payment_date" type="text" class="form-control"
-                            data-plugin-masked-input="" data-input-mask="9999-99-99" placeholder="yyyy.mm.dd"
-                            placeholder="Введите дату" required>
+                        <input name="payment_date" type="text" class="form-control" data-plugin-masked-input=""
+                            data-input-mask="9999-99-99" placeholder="yyyy.mm.dd" placeholder="Введите дату" required>
                     </div>
                     <label class="col-sm-5 control-label">Дата окончания</label>
                     <div class="col-sm-5">
-                        <input name="" type="date" class="form-control"
-                            placeholder="Введите сумму" required>
+                        <input name="" type="date" class="form-control" placeholder="Введите сумму" required>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">
@@ -185,11 +185,11 @@
 <script>
     const checkLising = document.querySelector('.checkbox-lising');
     const checkLisingInfo = document.querySelector('.checkbox-lising-info');
-    checkLising.addEventListener('change', function() {
+    checkLising.addEventListener('change', function () {
         if (this.checked) {
-            checkLisingInfo.style.display="block";
+            checkLisingInfo.style.display = "block";
         } else {
-            checkLisingInfo.style.display="none";
+            checkLisingInfo.style.display = "none";
         }
     });
 </script>
