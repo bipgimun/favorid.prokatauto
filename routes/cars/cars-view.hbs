@@ -38,7 +38,8 @@
                     <h2 class="panel-title">Добавление нового автомобиля</h2>
                 </header>
                 <div class="panel-body js-editable-body">
-                    <form action="/api/cars/update" id="js-cars-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                    <form action="/api/cars/update" id="js-cars-add-form" class="form-horizontal mb-lg"
+                        novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group mt-lg">
                             <label class="col-sm-4 control-label">Название автомобиля</label>
@@ -73,11 +74,11 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата выпуска</label>
                             <div class="non-editable-content">
-                                {{this.release_date }}
+                                {{toIsoString this.release_date 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="datetime-local" class="form-control" placeholder="Введите модель"
-                                    value="{{this.release_date }}" required>
+                                <input type="date" class="form-control"
+                                    value="{{toIsoString this.release_date 'YYYY-MM-DD'}}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -117,16 +118,17 @@
                             </div>
                             <div class="col-sm-3 editable-content">
                                 <input name="osago_number" data-plugin-masked-input="" data-input-mask="aaa 999999"
-                                    placeholder="AAA 123456" class="form-control" value="{{this.osago_number }}" required>
+                                    placeholder="AAA 123456" class="form-control" value="{{this.osago_number }}"
+                                    required>
                             </div>
                             <label class="col-sm-3 control-label">Дата окончания</label>
                             <div class="non-editable-content">
                                 {{toIsoString this.osago_expiration_date 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-3 editable-content">
-                                <input type="date" name="osago_expiration_date" data-plugin-masked-input="" data-input-mask="9999-99-99"
-                                    placeholder="yyyy-mm-dd" class="form-control" value="{{toIsoString this.osago_expiration_date 'YYYY-MM-DD' }}"
-                                    required>
+                                <input type="date" name="osago_expiration_date" data-plugin-masked-input=""
+                                    data-input-mask="9999-99-99" placeholder="yyyy-mm-dd" class="form-control"
+                                    value="{{toIsoString this.osago_expiration_date 'YYYY-MM-DD' }}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -165,12 +167,12 @@
                             <label class="col-sm-3" style="text-align: right;">Статус</label>
                             <div class="col-sm-9">
                                 <div class="non-editable-content">
-                                    {{this.at_reception_title}}
+                                    {{ifTrue this.in_leasing 'Лизинг' 'Не лизинг'}}
                                 </div>
                                 <div class="editable-content">
                                     <div class="checkbox-custom checkbox-primary col-sm-3">
-                                        <input {{ifTrue this.at_reception_title  'checked' ''}} type="checkbox" id="checkboxLising"
-                                            class="checkbox-lising">
+                                        <input {{ifTrue this.in_leasing  'checked' ''}} type="checkbox"
+                                            id="checkboxLising" name="in_leasing" class="checkbox-lising">
                                         <label for="checkboxLising">В лизинге</label>
                                     </div>
                                 </div>
@@ -182,25 +184,24 @@
                                 {{this.payment_amount}}
                             </div>
                             <div class="col-sm-3 editable-content">
-                                <input name="payment_amount" type="number" class="form-control" placeholder="Введите сумму"
-                                    value="{{this.payment_amount }}" required>
+                                <input name="payment_amount" type="number" class="form-control"
+                                    placeholder="Введите сумму" value="{{this.payment_amount }}" required>
                             </div>
                             <label class="col-sm-3 control-label">Дата платежа</label>
                             <div class="non-editable-content">
-                                {{this.payment_date}}
+                                {{toIsoString this.payment_date 'DD.MM.YYYY'}}
                             </div>
                             <div class="col-sm-3 editable-content">
-                                <input name="payment_date" type="text" class="form-control" data-plugin-masked-input=""
-                                    data-input-mask="9999-99-99" placeholder="yyyy-mm-dd" placeholder="Введите дату"
-                                    value="{{this.payment_date }}" required>
+                                <input name="payment_date" type="date" class="form-control"
+                                    value="{{toIsoString this.payment_date 'YYYY-MM-DD' }}" required>
                             </div>
                             <label class="col-sm-5 control-label">Дата окончания</label>
                             <div class="non-editable-content">
-                                {{this.asd}}
+                                {{toIsoString this.leasing_expiration_date 'DD.MM.YYYY'}}
                             </div>
                             <div class="col-sm-5 editable-content">
-                                <input name="" type="date" class="form-control" placeholder="Введите дату"
-                                    value="{{this.asd}}" required>
+                                <input name="leasing_expiration_date" type="date" class="form-control"
+                                    value="{{toIsoString this.leasing_expiration_date 'YYYY-MM-DD'}}" required>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -219,6 +220,13 @@
 <script>
     const checkLising = document.querySelector('.checkbox-lising');
     const checkLisingInfo = document.querySelector('.checkbox-lising-info');
+
+    if (checkLising.checked) {
+        checkLisingInfo.style.display = "block";
+    } else {
+        checkLisingInfo.style.display = "none";
+    }
+
     checkLising.addEventListener('change', function () {
         if (this.checked) {
             checkLisingInfo.style.display = "block";

@@ -480,16 +480,16 @@ $(document).ready(() => {
             const $input = $(input);
             const isHidden = $input.is(':hidden');
             const name = $input.attr('name');
-            const value = $input.val();
+            let value = $input.val();
             const type = $input.attr('type');
 
 
             if ((isHidden && type === 'hidden' || !isHidden && type !== 'hidden') && name) {
                 if (type === 'checkbox') {
-                    values[name] = $input.is(':checked') ? '1' : '0';
-                } else {
-                    values[name] = value;
+                    value = $input.is(':checked') ? '1' : '0';
                 }
+
+                values[name] = value;
             }
         })
 

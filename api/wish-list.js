@@ -14,6 +14,8 @@ exports.wishList = {
         'purchase_price',
         'payment_amount',
         'payment_date',
+        'in_leasing',
+        'leasing_expiration_date'
     ],
     customers: [
         'is_legal_entity',
