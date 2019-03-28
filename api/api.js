@@ -60,7 +60,7 @@ app.post('/cars/update', checkAuth, async (req, res, next) => {
 
     if (Object.keys(validValues).length < 1)
         throw new Error(messages.missingUpdateValues);
-    
+
     await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [validValues, id]);
 
     res.json({ status: 'ok' });
@@ -99,7 +99,7 @@ app.post('/customers/update', checkAuth, async (req, res, next) => {
 
     if (Object.keys(validValues).length < 1)
         throw new Error(messages.missingUpdateValues);
-    
+
     await db.execQuery(`UPDATE customers SET ? WHERE id = ?`, [validValues, id]);
 
     res.json({ status: 'ok' });
@@ -138,7 +138,7 @@ app.post('/passengers/update', checkAuth, async (req, res, next) => {
 
     if (Object.keys(validValues).length < 1)
         throw new Error(messages.missingUpdateValues);
-    
+
     await db.execQuery(`UPDATE passengers SET ? WHERE id = ?`, [validValues, id]);
 
     res.json({ status: 'ok' });
@@ -164,6 +164,25 @@ app.post('/drivers/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: req.body });
 })
 
+app.post('/drivers/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.drivers.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+
+    await db.execQuery(`UPDATE drivers SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
+})
+
 app.post('/itineraries/add', checkAuth, async (req, res, next) => {
 
     const { values } = req.body;
@@ -182,6 +201,25 @@ app.post('/itineraries/add', checkAuth, async (req, res, next) => {
     await db.insertQuery(`INSERT INTO itineraries SET ?`, values);
 
     res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/itineraries/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.itineraries.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+
+    await db.execQuery(`UPDATE itineraries SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
 })
 
 app.post('/cashStorages/add', checkAuth, async (req, res, next) => {
@@ -204,6 +242,25 @@ app.post('/cashStorages/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: req.body });
 })
 
+app.post('/cashStorages/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.cashStorages.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+
+    await db.execQuery(`UPDATE cash_storages SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
+})
+
 app.post('/additionalServices/add', checkAuth, async (req, res, next) => {
 
     const { values } = req.body;
@@ -222,6 +279,25 @@ app.post('/additionalServices/add', checkAuth, async (req, res, next) => {
     await db.insertQuery(`INSERT INTO additional_services SET ?`, values);
 
     res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/additionalServices/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.additionalServices.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+
+    await db.execQuery(`UPDATE additional_services SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
 })
 
 app.post('/apartments/add', checkAuth, async (req, res, next) => {
@@ -244,6 +320,25 @@ app.post('/apartments/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: req.body });
 })
 
+app.post('/apartments/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.apartments.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+
+    await db.execQuery(`UPDATE apartments SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
+})
+
 app.post('/apartmentReservations/add', checkAuth, async (req, res, next) => {
 
     const { values } = req.body;
@@ -262,6 +357,25 @@ app.post('/apartmentReservations/add', checkAuth, async (req, res, next) => {
     await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, values);
 
     res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/apartmentReservations/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.apartmentReservations.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+
+    await db.execQuery(`UPDATE apartment_reservations SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
 })
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));

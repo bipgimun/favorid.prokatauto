@@ -27,5 +27,48 @@ exports.wishList = {
     passengers: [
         'name',
         'contact_number'
+    ],
+    drivers: [
+        'name',
+        'contact_number',
+        'driver_license',
+        'passport',
+        'is_individual',
+    ],
+    itineraries: [
+        'name',
+        'price',
+    ],
+    cashStorages: [
+        'cashbox',
+        'name',
+        'number',
+    ],
+    additionalServices: [
+        'name',
+        'price',
+    ],
+    apartments: [
+        'address',
+        'rooms',
+        'price_per_day',
+        'utilities_per_month',
+        'status',
+    ],
+    apartmentReservations: [
+        'apartment_id',
+        'customer_id',
+        'passenger_id',
+        'prepayment',
+        'cash_storage_id',
+        'services',
+        'number_days',
+        'price_per_day',
+        'contact_number',
+        'comment',
+        'sum',
+        'entry',
+        'at_reception',
+        'departure',
     ]
 };
