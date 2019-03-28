@@ -53,6 +53,7 @@ module.exports = new class Db {
      * 
      * @param {String} query строка запроса
      * @param {Object | Array} [data] данные для подстановки в запрос
+     * @returns {Promise<Array>}
      */
     async execQuery(query = '', data) {
         const [rows, fields] = await this.connection.query(query, data);
@@ -66,7 +67,7 @@ module.exports = new class Db {
         try {
             const [rows, fields] = await this.connection.query(query, data);
             return rows.insertId;
-        } catch(error) {
+        } catch (error) {
             console.log(query, data);
             throw new Error(error);
         }

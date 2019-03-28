@@ -110,11 +110,11 @@ app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 
-app.get('/cars', require('./routes/cars/index').list);
-app.get('/cars/:id', checkParams('id'), require('./routes/cars/index').view);
+app.get('/cars', require('./routes/cars').list);
+app.get('/cars/:id', checkParams('id'), require('./routes/cars').view);
 
-app.get('/customers', require('./routes/customers/index').list);
-app.get('/customers/:id', checkParams('id'), require('./routes/customers/index').view);
+app.get('/customers', require('./routes/customers').list);
+app.get('/customers/:id', checkParams('id'), require('./routes/customers').view);
 
 app.get('/clients', require('./routes/clients').list);
 app.get('/clients/:id', checkParams('id'), require('./routes/clients').view);
