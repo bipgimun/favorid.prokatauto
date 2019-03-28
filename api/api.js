@@ -4,6 +4,8 @@ const app = express();
 const checkAuth = require('../libs/middlewares/check-auth');
 
 const db = require('../libs/db');
+const { wishList } = require('./wish-list');
+const messages = require('./messages');
 
 app.post('/login', require('./routes/login'));
 
@@ -45,6 +47,25 @@ app.post('/cars/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: values });
 })
 
+app.post('/cars/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.cars.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+    
+    await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
+})
+
 app.post('/customers/add', checkAuth, async (req, res, next) => {
 
     const { values } = req.body;
@@ -65,6 +86,25 @@ app.post('/customers/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: req.body });
 })
 
+app.post('/customers/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.customers.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+    
+    await db.execQuery(`UPDATE customers SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
+})
+
 app.post('/passengers/add', checkAuth, async (req, res, next) => {
 
     const { values } = req.body;
@@ -83,6 +123,25 @@ app.post('/passengers/add', checkAuth, async (req, res, next) => {
     await db.insertQuery(`INSERT INTO passengers SET ?`, values);
 
     res.json({ status: 'ok', data: req.body });
+})
+
+app.post('/passengers/update', checkAuth, async (req, res, next) => {
+
+    const { id, ...fields } = req.body.values;
+
+    const validValues = Object.keys(fields)
+        .filter(field => wishList.passengers.includes(field))
+        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    if (Object.keys(validValues).length < 1)
+        throw new Error(messages.missingUpdateValues);
+    
+    await db.execQuery(`UPDATE passengers SET ? WHERE id = ?`, [validValues, id]);
+
+    res.json({ status: 'ok' });
 })
 
 app.post('/drivers/add', checkAuth, async (req, res, next) => {
