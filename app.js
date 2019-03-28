@@ -114,16 +114,13 @@ app.get('/cars', require('./routes/cars/index').list);
 app.get('/cars/:id', checkParams('id'), require('./routes/cars/index').view);
 
 app.get('/customers', require('./routes/customers/index').list);
+app.get('/customers/:id', checkParams('id'), require('./routes/customers/index').view);
 
 app.get('/clients', require('./routes/clients').list);
 app.get('/clients/:id', checkParams('id'), require('./routes/clients').view);
 
-app.get('/new-page-4', async (req, res, next) => {
-
-    const drivers = await db.execQuery(`SELECT * FROM drivers`);
-
-    res.render('new-page-4', { drivers });
-})
+app.get('/drivers', require('./routes/drivers').list);
+app.get('/drivers/:id', checkParams('id'), require('./routes/drivers').view);
 
 app.get('/itineraries', require('./routes/itineraries').list);
 app.get('/itineraries/:id', checkParams('id'), require('./routes/itineraries').view);
@@ -134,9 +131,10 @@ app.get('/cash-storages/:id', checkParams('id'), require('./routes/cash-storages
 app.get('/additional-services', require('./routes/additional-services').list);
 app.get('/additional-services/:id', checkParams('id'), require('./routes/additional-services').view);
 
-app.get('/apartments', require('./routes/apartments'));
+app.get('/apartments', require('./routes/apartments').list);
+app.get('/apartments/:id', checkParams('id'), require('./routes/apartments').view);
 
-app.get('/apartment-reservations', checkParams('id'), require('./routes/apartment-reservations').list);
+app.get('/apartment-reservations', require('./routes/apartment-reservations').list);
 app.get('/apartment-reservations/:id', checkParams('id'), require('./routes/apartment-reservations').view);
 
 app.get('/new-page-:id', (req, res, next) => {
