@@ -150,7 +150,7 @@
                                     {{this.entry}}
                                 </div>
                                 <div class="editable-content">
-                                    <input value="{{toIsoString this.entry}}" name="entry" type="datetime-local"
+                                    <input value="{{toIsoString this.entry 'YYYY-MM-DD'}}" name="entry" type="datetime-local"
                                         class="form-control" placeholder="Введите время" required>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@
                                     {{this.departure}}
                                 </div>
                                 <div class="editable-content">
-                                    <input value="{{toIsoString this.departure}}" name="departure" type="datetime-local"
+                                    <input value="{{toIsoString this.departure 'YYYY-MM-DD'}}" name="departure" type="datetime-local"
                                         class="form-control" placeholder="Введите время" required>
                                 </div>
                             </div>
