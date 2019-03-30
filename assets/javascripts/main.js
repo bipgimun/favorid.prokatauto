@@ -640,25 +640,25 @@ $(document).ready(() => {
         e.preventDefault();
 
         const $form = $(this);
+        const url = $form.attr('action');
 
         const values = getFormValues($form);
 
         const at_reception = $form.find('#at_reception').is(':checked') ? '1' : '0';
 
-        const servicesIds = $('#js-select2-services-id')
-            .select2('data')
+        const services = $('#js-select2-services-id').select2('data') || [];
+
+        const servicesIds = services
             .map(item => item.id)
             .join(',');
 
         values.services = servicesIds;
         values.at_reception = at_reception;
 
-        const { data } = await request('/api/apartmentReservations/add', { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $apartmentReservations.find('.modal-dismiss').click();
 
-        console.log(data);
-
-        if($('#js-apartment-reservations-table').length) {
+        if ($('#js-apartment-reservations-table').length) {
             insertTable('apartment-reservations', data.id, [data.created_at, data.address, data.client_name, data.at_reception]);
         }
 

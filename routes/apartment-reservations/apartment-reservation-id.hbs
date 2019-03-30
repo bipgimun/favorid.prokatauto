@@ -41,6 +41,7 @@
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/apartmentReservations/update" id="js-apartmentReservations-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group mt-lg">
                             <label class="col-sm-3 control-label">Заказчик</label>
                             <div class="col-sm-9">
@@ -150,7 +151,7 @@
                                     {{this.entry}}
                                 </div>
                                 <div class="editable-content">
-                                    <input value="{{toIsoString this.entry 'YYYY-MM-DD'}}" name="entry" type="datetime-local"
+                                    <input value="{{toIsoString this.entry 'YYYY-MM-DDTHH:mm'}}" name="entry" type="datetime-local"
                                         class="form-control" placeholder="Введите время" required>
                                 </div>
                             </div>
@@ -162,7 +163,7 @@
                                     {{this.departure}}
                                 </div>
                                 <div class="editable-content">
-                                    <input value="{{toIsoString this.departure 'YYYY-MM-DD'}}" name="departure" type="datetime-local"
+                                    <input value="{{toIsoString this.departure 'YYYY-MM-DDTHH:mm'}}" name="departure" type="datetime-local"
                                         class="form-control" placeholder="Введите время" required>
                                 </div>
                             </div>
