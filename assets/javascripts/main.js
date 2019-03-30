@@ -501,6 +501,7 @@ $(document).ready(() => {
                 .dataTable()
                 .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
         }
+
         return false;
     })
 
@@ -510,21 +511,17 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
+        const { data } = await request(url, { values }, { showNotify: true });
 
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-customers-table').length) {
+            $('#js-customers-table')
+                .dataTable()
+                .fnAddData([data.is_legal_entity, data.name, `<a href="/customers/${data.id}" target="_blank">Подробнее</a>`]);
+        }
 
         return false;
     })
@@ -535,21 +532,15 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-clients-table').length) {
+            console.log('here');
+            insertTable('clients', data.id, [data.name, data.contact_number]);
+        }
 
         return false;
     })
@@ -560,22 +551,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
+        const values = getFormValues($form);
 
-        const arrayData = $form.serializeArray();
-
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-drivers-table').length) {
+            insertTable('drivers', data.id, [data.name, data.contact_number]);
+        }
 
         return false;
     })
@@ -586,21 +569,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-itineraries-table').length) {
+            insertTable('itineraries', data.id, [data.name, data.price]);
+        }
 
         return false;
     })
@@ -611,21 +587,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-cash-storages-table').length) {
+            insertTable('cash-storages', data.id, [data.cashbox, data.name, data.number]);
+        }
 
         return false;
     })
@@ -636,21 +605,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-additional-services-table').length) {
+            insertTable('additional-services', data.id, [data.name, data.price]);
+        }
 
         return false;
     })
@@ -660,22 +622,16 @@ $(document).ready(() => {
 
         const $form = $(this);
         const url = $form.attr('action');
-        const arrayData = $form.serializeArray();
 
-        const values = {};
+        const values = getFormValues($form);
 
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
 
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-apartments-table').length) {
+            insertTable('apartments', data.id, [data.address, data.rooms, data.price_per_day, data.status]);
+        }
 
         return false;
     })
@@ -715,6 +671,30 @@ $(document).ready(() => {
 
         return false;
     })
+
+    const getFormValues = (form, selectors = 'textarea, select, input:not(:hidden), input[type=hidden]') => {
+
+        const arrayData = $(form).find(selectors).serializeArray();
+
+        const values = {};
+
+        arrayData.reduce((acc, item) => {
+
+            const { name, value } = item;
+
+            acc[name] = value;
+
+            return acc;
+        }, values);
+
+        return values;
+    };
+
+    const insertTable = (name, id, values = []) => {
+        $('#js-' + name + '-table')
+            .dataTable()
+            .fnAddData([...values, `<a href="/${name}/${id}" target="_blank">Подробнее</a>`]);
+    }
 
     $('.js-toggleEditable').on('click', function (e) {
         e.preventDefault();
