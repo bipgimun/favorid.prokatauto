@@ -24,7 +24,7 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-nomenclature-products-table"
+            <table id="js-apartment-reservations-table"
                 class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none">
                 <thead>
@@ -39,7 +39,7 @@
                 <tbody>
                     {{#each apartmentReservations}}
                         <tr>
-                            <td>{{this.created_at}}</td>
+                            <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.address}}</td>
                             <td>{{this.client_name}}</td>
                             <td>{{this.at_reception}}</td>
@@ -71,16 +71,15 @@
             <h2 class="panel-title">Заявка на бронь квартиры</h2>
         </header>
         <div class="panel-body">
-            <form action="/api/apartmentReservations/add" id="js-apartmentReservations-form" class="form-horizontal mb-lg" novalidate="novalidate">
+            <form action="/api/apartmentReservations/add" id="js-apartmentReservations-form"
+                class="form-horizontal mb-lg" novalidate="novalidate">
                 <div class="form-group mt-lg">
                     <label class="col-sm-3 control-label">Заказчик</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select id="customer_id" name="customer_id" class="form-control js-select2-init">
+                            <select style="width: 100%" id="js-select2-customer-id" name="customer_id"
+                                class="form-control">
                                 <option value="0" selected disabled>Выберете заказчика</option>
-                                {{#each customers}}
-                                    <option value="{{this.id}}">{{this.name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/customers" target="_blank">Добавить</a>
@@ -92,11 +91,9 @@
                     <label class="col-sm-3 control-label">Клиент</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="passenger_id" class="form-control">
+                            <select style="width: 100%" id="js-select2-clients-id" name="passenger_id"
+                                class="form-control">
                                 <option value="0" selected disabled>Выберете клиента</option>
-                                {{#each passengers}}
-                                    <option value="{{this.id}}">{{this.name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/clients" target="_blank">Добавить</a>
@@ -107,18 +104,17 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Контактный телефон</label>
                     <div class="col-sm-9">
-                        <input name="contact_number" data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234" class="form-control" required>
+                        <input name="contact_number" data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
+                            class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Квартира</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="apartment_id" class="form-control">
+                            <select style="width: 100%" name="apartment_id" id="js-select2-apartments-id"
+                                class="form-control">
                                 <option value="0" selected disabled>Выберете Адрес</option>
-                                {{#each apartments}}
-                                    <option value="{{this.id}}">{{this.address}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/apartments" target="_blank">Добавить</a>
@@ -143,7 +139,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Въезд</label>
                     <div class="col-sm-9">
-                        <input name="entry" type="datetime-local" class="form-control" placeholder="Введите время" required>
+                        <input name="entry" type="datetime-local" class="form-control" placeholder="Введите время"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -163,14 +160,13 @@
                     <label class="col-sm-3 control-label">Выбор оплаты</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="cash_storage_id" class="form-control">
+                            <select style="width: 100%" name="cash_storage_id" id="js-select2-cashStorages-id"
+                                class="form-control">
                                 <option value="0" selected disabled>Выберете способ оплаты</option>
-                                {{#each cashStorages}}
-                                    <option value="{{this.id}}">{{this.name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
-                                <a class="btn btn-primary" type="button" href="/cash-storages" target="_blank">Добавить</a>
+                                <a class="btn btn-primary" type="button" href="/cash-storages"
+                                    target="_blank">Добавить</a>
                             </span>
                         </div>
                     </div>
@@ -183,20 +179,11 @@
                         <label class="col-sm-3 control-label">Услуга</label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <select class="js-apartmentReservations-services form-control">
-                                    <option value="0" selected disabled>Выберете услугу</option>
-                                    {{#each additionalServices}}
-                                        <option value="{{this.id}}">{{this.name}}</option>
-                                    {{/each}}
-                                </select>
+                                <select id="js-select2-services-id" style="width: 100%"
+                                    class="js-apartmentReservations-services form-control" multiple="multiple"></select>
                                 <span class="input-group-btn">
-                                    <a class="btn btn-primary" type="button" href="/additional-services" target="_blank">Добавить</a>
-                                </span>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-warning adding-item" type="button">+</button>
-                                </span>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger deliting-item" type="button">-</button>
+                                    <a class="btn btn-primary" type="button" href="/additional-services"
+                                        target="_blank">Добавить</a>
                                 </span>
                             </div>
                         </div>
@@ -229,41 +216,4 @@
         </div>
     </section>
 </div>
-<script>
-    var btnAddProduct = document.querySelector('.adding-item');
-    var btnDeleteProduct = document.querySelector('.deliting-item');
-    var table = document.querySelector('.services-group');
-
-    function insRow() {
-        var target = event.target;
-        var grItem = table.querySelectorAll('.services-group__item');
-        var new_row = grItem[0].cloneNode(true);
-        new_row.querySelector('.adding-item').addEventListener('click', insRow);
-
-        var dateInp = new_row.querySelectorAll('input');
-        for (var i = 0; i < dateInp.length; i++) {
-            dateInp[i].value = '';
-        }
-
-        table.appendChild(new_row);
-    }
-
-    function delRow() {
-        var target = event.target;
-        var closeBtn = target.closest('.deliting-item');
-        if (!closeBtn) return;
-
-        var grItem = table.querySelectorAll('.services-group__item');
-        var actualTbody = grItem.length;
-        if (actualTbody == 1) {
-            return;
-        } else {
-            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
-        }
-    }
-
-    btnAddProduct.addEventListener('click', insRow);
-
-    table.addEventListener('click', delRow);
-</script>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
