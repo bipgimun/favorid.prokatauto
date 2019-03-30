@@ -66,6 +66,66 @@ app.post('/cars/update', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok' });
 })
 
+app.post('/customers/get', checkAuth, async (req, res, next) => {
+
+    const customers = await db.execQuery(`SELECT * FROM customers`);
+
+    res.json({ status: 'ok', customers });
+})
+
+app.post('/clients/get', checkAuth, async (req, res, next) => {
+
+    const clients = await db.execQuery(`SELECT * FROM passengers`);
+
+    res.json({ status: 'ok', clients });
+})
+
+app.post('/clients/getOne', checkAuth, async (req, res, next) => {
+
+    const { id = '' } = req.body;
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    const [client = {}] = await db.execQuery(`SELECT * FROM passengers WHERE id = ?`, [id]);
+
+    res.json({ status: 'ok', client });
+})
+
+app.post('/apartments/get', checkAuth, async (req, res, next) => {
+
+    const apartments = await db.execQuery(`SELECT * FROM apartments`);
+
+    res.json({ status: 'ok', apartments });
+})
+
+app.post('/apartments/getOne', checkAuth, async (req, res, next) => {
+
+    const { id = '' } = req.body;
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+
+    const [apartment = {}] = await db.execQuery(`SELECT * FROM apartments WHERE id = ?`, [id]);
+
+    res.json({ status: 'ok', apartment });
+})
+
+app.post('/cashStorages/get', checkAuth, async (req, res, next) => {
+
+    const storages = await db.execQuery(`SELECT * FROM cash_storages`);
+
+    res.json({ status: 'ok', items: storages });
+})
+
+app.post('/additionalServices/get', checkAuth, async (req, res, next) => {
+
+    const services = await db.execQuery(`SELECT * FROM additional_services`);
+
+    res.json({ status: 'ok', items: services });
+})
+
 app.post('/customers/add', checkAuth, async (req, res, next) => {
 
     const { values } = req.body;
@@ -81,9 +141,12 @@ app.post('/customers/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO customers SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO customers SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+    values.is_legal_entity = values.is_legal_entity == '1' ? 'Юридическре лицо' : 'Физ. лицо'
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/customers/update', checkAuth, async (req, res, next) => {
@@ -120,9 +183,11 @@ app.post('/passengers/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO passengers SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO passengers SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/passengers/update', checkAuth, async (req, res, next) => {
@@ -159,9 +224,11 @@ app.post('/drivers/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO drivers SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO drivers SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/drivers/update', checkAuth, async (req, res, next) => {
@@ -198,9 +265,11 @@ app.post('/itineraries/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO itineraries SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO itineraries SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/itineraries/update', checkAuth, async (req, res, next) => {
@@ -237,9 +306,11 @@ app.post('/cashStorages/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO cash_storages SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO cash_storages SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/cashStorages/update', checkAuth, async (req, res, next) => {
@@ -276,9 +347,11 @@ app.post('/additionalServices/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO additional_services SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO additional_services SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/additionalServices/update', checkAuth, async (req, res, next) => {
@@ -354,9 +427,11 @@ app.post('/apartmentReservations/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
 })
 
 app.post('/apartmentReservations/update', checkAuth, async (req, res, next) => {

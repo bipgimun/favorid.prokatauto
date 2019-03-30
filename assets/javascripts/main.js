@@ -501,6 +501,7 @@ $(document).ready(() => {
                 .dataTable()
                 .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
         }
+
         return false;
     })
 
@@ -510,21 +511,17 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
+        const { data } = await request(url, { values }, { showNotify: true });
 
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-customers-table').length) {
+            $('#js-customers-table')
+                .dataTable()
+                .fnAddData([data.is_legal_entity, data.name, `<a href="/customers/${data.id}" target="_blank">Подробнее</a>`]);
+        }
 
         return false;
     })
@@ -535,22 +532,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
-
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
-        $('.js-toggleEditable').click();
+        const values = getFormValues($form);
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-clients-table').length) {
+            console.log('here');
+            insertTable('clients', data.id, [data.name, data.contact_number]);
+        }
 
         return false;
     })
@@ -561,22 +550,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
+        const values = getFormValues($form);
 
-        const arrayData = $form.serializeArray();
-
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-drivers-table').length) {
+            insertTable('drivers', data.id, [data.name, data.contact_number]);
+        }
 
         return false;
     })
@@ -587,22 +568,13 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
-
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
-        $('.js-toggleEditable').click();
+        const values = getFormValues($form);
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-itineraries-table').length) {
+            insertTable('itineraries', data.id, [data.name, data.price]);
+        }
 
         return false;
     })
@@ -613,22 +585,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
-        $('.js-toggleEditable').click();
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-cash-storages-table').length) {
+            insertTable('cash-storages', data.id, [data.cashbox, data.name, data.number]);
+        }
 
         return false;
     })
@@ -639,22 +603,14 @@ $(document).ready(() => {
         const $form = $(this);
         const url = $form.attr('action');
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
 
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
-        $('.js-toggleEditable').click();
+        const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-additional-services-table').length) {
+            insertTable('additional-services', data.id, [data.name, data.price]);
+        }
 
         return false;
     })
@@ -664,23 +620,16 @@ $(document).ready(() => {
 
         const $form = $(this);
         const url = $form.attr('action');
-        const arrayData = $form.serializeArray();
 
-        const values = {};
+        const values = getFormValues($form);
 
-        arrayData.reduce((acc, item) => {
+        const { data } = await request(url, { values }, { showNotify: true });
 
-            const { name, value } = item;
-
-            acc[name] = value;
-
-            return acc;
-        }, values);
-
-        await request(url, { values }, { showNotify: true });
-
-        $('.js-toggleEditable').click();
         $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-apartments-table').length) {
+            insertTable('apartments', data.id, [data.address, data.rooms, data.price_per_day, data.status]);
+        }
 
         return false;
     })
@@ -692,7 +641,51 @@ $(document).ready(() => {
 
         const $form = $(this);
 
-        const arrayData = $form.serializeArray();
+        const values = getFormValues($form);
+
+        const at_reception = $form.find('#at_reception').is(':checked') ? '1' : '0';
+
+        const servicesIds = $('#js-select2-services-id')
+            .select2('data')
+            .map(item => item.id)
+            .join(',');
+
+        values.services = servicesIds;
+        values.at_reception = at_reception;
+
+        const { data } = await request('/api/apartmentReservations/add', { values }, { showNotify: true });
+        $apartmentReservations.find('.modal-dismiss').click();
+
+        console.log(data);
+
+        if($('#js-apartment-reservations-table').length) {
+            insertTable('apartment-reservations', data.id, [data.created_at, data.address, data.client_name, data.at_reception]);
+        }
+
+        return false;
+    })
+
+    $('#js-select2-clients-id').on('select2:select', function (e) {
+        const val = $(this).val();
+
+        request('/api/clients/getOne', { id: val })
+            .then(result => {
+                $apartmentReservations.find('[name=contact_number]').val(result.client.contact_number);
+            })
+    })
+
+    $('#js-select2-apartments-id').on('select2:select', function (e) {
+        const val = $(this).val();
+
+        request('/api/apartments/getOne', { id: val })
+            .then(result => {
+                $apartmentReservations.find('[name=price_per_day]').val(result.apartment.price_per_day);
+            })
+    })
+
+    const getFormValues = (form, selectors = 'textarea, select, input:not(:hidden), input[type=hidden]') => {
+
+        const arrayData = $(form).find(selectors).serializeArray();
 
         const values = {};
 
@@ -705,21 +698,14 @@ $(document).ready(() => {
             return acc;
         }, values);
 
-        const $services = $form.find('.js-apartmentReservations-services');
-        const at_reception = $form.find('#at_reception').is(':checked') ? '1' : '0';
+        return values;
+    };
 
-        const servicesIds = [...$services]
-            .map(el => $(el).val())
-            .join(',');
-
-        values.services = servicesIds;
-        values.at_reception = at_reception;
-
-        await request('/api/apartmentReservations/add', { values }, { showNotify: true });
-        $apartmentReservations.find('.modal-dismiss').click();
-
-        return false;
-    })
+    const insertTable = (name, id, values = []) => {
+        $('#js-' + name + '-table')
+            .dataTable()
+            .fnAddData([...values, `<a href="/${name}/${id}" target="_blank">Подробнее</a>`]);
+    }
 
     $('.js-toggleEditable').on('click', function (e) {
         e.preventDefault();

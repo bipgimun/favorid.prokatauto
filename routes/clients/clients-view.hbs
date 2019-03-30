@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата рождения</label>
                             <div class="non-editable-content">
-                                {{this.birthday }}
+                                {{toIsoString this.birthday 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="birthday" type="date" class="form-control" placeholder="Введите дату"

@@ -24,7 +24,7 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-nomenclature-products-table"
+            <table id="js-drivers-table"
                 class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none">
                 <thead>
@@ -39,7 +39,9 @@
                         <tr>
                             <td>{{this.name}}</td>
                             <td>{{this.contact_number}}</td>
-                            <td></td>
+                            <td>
+                                <a href="/drives/{{this.id}}">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -73,7 +75,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата рождения</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control" placeholder="Введите дату" required>
+                        <input type="date" name="birthday" class="form-control" placeholder="Введите дату" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -92,11 +94,11 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Дата выдачи</label>
                     <div class="col-sm-4">
-                        <input type="date" placeholder="Введите дату" class="form-control">
+                        <input type="date" name="license_date_issue" placeholder="Введите дату" class="form-control">
                     </div>
                     <label class="col-sm-2 control-label">окончания</label>
                     <div class="col-sm-4">
-                        <input type="date" placeholder="Введите дату" class="form-control">
+                        <input type="date" name="license_date_expiration" placeholder="Введите дату" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -107,31 +109,31 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Серия, номер</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="12 34 567891" class="form-control" required>
+                        <input type="text" name="passport" placeholder="12 34 567891" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата выдачи</label>
                     <div class="col-sm-8">
-                        <input type="date" placeholder="Введите дату" class="form-control" required>
+                        <input type="date" name="passport_date_issue" placeholder="Введите дату" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Кем выдан</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="Введите данные" class="form-control" required>
+                        <input type="text" name="passport_issued_by" placeholder="Введите данные" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Код подразделения</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="123-456" class="form-control" required>
+                        <input type="text" name="passport_division_code" placeholder="123-456" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Место жительства</label>
                     <div class="col-sm-8">
-                        <textarea cols="20" rows="4" class="form-control" placeholder="Введите данные"
+                        <textarea name="passport_location" cols="20" rows="4" class="form-control" placeholder="Введите данные"
                             required></textarea>
                     </div>
                 </div>
@@ -143,7 +145,7 @@
                     <label class="col-sm-4 control-label"></label>
                     <div class="col-sm-4">
                         <div class="radio-custom">
-                            <input type="radio" id="radioExample1" value="1" name="is_individual">
+                            <input type="radio" id="radioExample1" checked value="1" name="is_individual">
                             <label for="radioExample1">Личный</label>
                         </div>
                     </div>
@@ -154,14 +156,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group drivers-auto__car" style="display: none;">
+                <div class="form-group drivers-auto__car">
                     <label class="col-sm-3 control-label">Автомобиль</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="master" class="form-control">
+                            <select name="car_id" class="form-control js-select2-init">
                                 <option value="0" selected disabled>Выберете автомобиль</option>
-                                <option value="0">Hyndai Solaris xa777a-174</option>
-                                <option value="0">Kia Rio xa757a-74</option>
+                                {{#each cars}}
+                                    <option value="{{this.id}}">{{this.name}}-{{this.model}} {{this.number}}</option>
+                                {{/each}}
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" href="/cars" type="button">Добавить</a>
