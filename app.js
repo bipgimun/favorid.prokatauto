@@ -32,6 +32,9 @@ app.engine('hbs', hbs({
             return !!condition ? valueTrue : valueFalse;
         },
         toIsoString(date, format = moment.HTML5_FMT.DATETIME_LOCAL) {
+            if(!date)
+                return '';
+                
             return moment(date).format(format);
         }
     }
