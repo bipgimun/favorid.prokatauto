@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Модель</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="model">
                                 {{this.model }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -69,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Гос.номер</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="number">
                                 {{this.number }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -79,7 +79,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата выпуска</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="release_date">
                                 {{toIsoString this.release_date 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Фактический пробег</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="mileage">
                                 {{this.mileage }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Состояние кузова</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="carcass_condition">
                                 {{this.carcass_condition }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -109,7 +109,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Фактический уровень топлива</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="fuel_level">
                                 {{this.fuel_level }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -119,7 +119,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Номер ОСАГО</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="osago_number">
                                 {{this.osago_number }}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -128,7 +128,7 @@
                                     required>
                             </div>
                             <label class="col-sm-3 control-label">Дата окончания</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="osago_expiration_date">
                                 {{toIsoString this.osago_expiration_date 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -139,7 +139,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Расстояние для ТО, км</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="maintenance">
                                 {{this.maintenance }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -149,7 +149,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Рыночная стоимость</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="market_price">
                                 {{this.market_price }}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -157,7 +157,7 @@
                                     value="{{this.market_price }}" required>
                             </div>
                             <label class="col-sm-3 control-label">Стоимость покупки</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="purchase_price">
                                 {{this.purchase_price }}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -175,7 +175,7 @@
                         <div class="form-group">
                             <label class="col-sm-3" style="text-align: right;">Статус</label>
                             <div class="col-sm-9">
-                                <div class="non-editable-content" data-target="name">
+                                <div class="non-editable-content" data-target="in_leasing">
                                     {{ifTrue this.in_leasing 'Лизинг' 'Не лизинг'}}
                                 </div>
                                 <div class="editable-content">
@@ -189,7 +189,7 @@
                         </div>
                         <div class="form-group checkbox-lising-info" style="display: none;">
                             <label class="col-sm-3 control-label">Размер платежа, руб</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="payment_amount">
                                 {{this.payment_amount}}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -197,7 +197,7 @@
                                     placeholder="Введите сумму" value="{{this.payment_amount }}" required>
                             </div>
                             <label class="col-sm-3 control-label">Дата платежа</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="payment_date">
                                 {{toIsoString this.payment_date 'DD.MM.YYYY'}}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -205,7 +205,7 @@
                                     value="{{toIsoString this.payment_date 'YYYY-MM-DD' }}" required>
                             </div>
                             <label class="col-sm-5 control-label">Дата окончания</label>
-                            <div class="non-editable-content" data-target="name">
+                            <div class="non-editable-content" data-target="leasing_expiration_date">
                                 {{toIsoString this.leasing_expiration_date 'DD.MM.YYYY'}}
                             </div>
                             <div class="col-sm-5 editable-content">
