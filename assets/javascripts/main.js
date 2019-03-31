@@ -526,7 +526,12 @@ $(document).ready(() => {
             $('#js-customers-table')
                 .dataTable()
                 .fnAddData([data.is_legal_entity, data.name, `<a href="/customers/${data.id}" target="_blank">Подробнее</a>`]);
-        } 
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
+        }
 
         return false;
     })
@@ -584,6 +589,11 @@ $(document).ready(() => {
 
         if ($('#js-itineraries-table').length) {
             insertTable('itineraries', data.id, [data.name, data.price]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
         }
 
         return false;
@@ -620,7 +630,13 @@ $(document).ready(() => {
 
         if ($('#js-additional-services-table').length) {
             insertTable('additional-services', data.id, [data.name, data.price]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
         }
+
 
         return false;
     })
