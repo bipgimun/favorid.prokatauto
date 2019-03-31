@@ -48,8 +48,8 @@
                                 {{this.name }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="name" value="{{this.name }}" type="text" class="form-control" placeholder="Введите данные"
-                                    required>
+                                <input name="name" value="{{this.name }}" type="text" class="form-control"
+                                    placeholder="Введите данные" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -58,7 +58,8 @@
                                 {{this.birthday }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="birthday" type="date" value="{{this.birthday }}" class="form-control" placeholder="Введите дату" required>
+                                <input name="birthday" type="date" value="{{toIsoString this.birthday 'YYYY-MM-DD' }}"
+                                    class="form-control" placeholder="Введите дату" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -67,9 +68,9 @@
                                 {{this.contact_number }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" value="{{this.contact_number }}" id="phone" data-plugin-masked-input=""
-                                    data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
-                                    class="form-control">
+                                <input name="contact_number" value="{{this.contact_number }}" id="phone"
+                                    data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
+                                    placeholder="+7 (123) 123-1234" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -78,8 +79,8 @@
                                 {{this.driver_license }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="driver_license" value="{{this.driver_license }}" type="text" placeholder="12 34 567891"
-                                    class="form-control">
+                                <input name="driver_license" value="{{this.driver_license }}" type="text"
+                                    placeholder="12 34 567891" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -88,16 +89,18 @@
                                 {{this.license_date_issue }}
                             </div>
                             <div class="col-sm-4 editable-content">
-                                <input type="date" name="license_date_issue" value="{{this.license_date_issue }}" placeholder="Введите дату"
-                                    class="form-control">
+                                <input type="date" name="license_date_issue"
+                                    value="{{toIsoString this.license_date_issue 'YYYY-MM-DD' }}"
+                                    placeholder="Введите дату" class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">окончания</label>
                             <div class="non-editable-content" data-target="license_date_expiration">
                                 {{this.license_date_expiration }}
                             </div>
                             <div class="col-sm-4 editable-content">
-                                <input type="date" name="license_date_expiration" value="{{this.license_date_expiration }}" placeholder="Введите дату"
-                                    class="form-control">
+                                <input type="date" name="license_date_expiration"
+                                    value="{{toIsoString this.license_date_expiration 'YYYY-MM-DD' }}"
+                                    placeholder="Введите дату" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -111,7 +114,8 @@
                                 {{this.passport }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="text" name="passport" value="{{this.passport}}" placeholder="12 34 567891" class="form-control" required>
+                                <input type="text" name="passport" value="{{this.passport}}" placeholder="12 34 567891"
+                                    class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -120,7 +124,9 @@
                                 {{this.passport_date_issue }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="date" name="passport_date_issue" value="{{this.passport_date_issue}}" placeholder="Введите дату" class="form-control" required>
+                                <input type="date" name="passport_date_issue"
+                                    value="{{toIsoString this.passport_date_issue 'YYYY-MM-DD'}}"
+                                    placeholder="Введите дату" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -129,7 +135,8 @@
                                 {{this.passport_issued_by }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="text" name="passport_issued_by" value="{{this.passport_issued_by}}" placeholder="Введите данные" class="form-control" required>
+                                <input type="text" name="passport_issued_by" value="{{this.passport_issued_by}}"
+                                    placeholder="Введите данные" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -138,7 +145,8 @@
                                 {{this.passport_division_code }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="text" name="passport_division_code" value="{{this.passport_division_code}}" placeholder="123-456" class="form-control" required>
+                                <input type="text" name="passport_division_code" value="{{this.passport_division_code}}"
+                                    placeholder="123-456" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -147,7 +155,8 @@
                                 {{this.passport_location }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <textarea cols="20" name="passport_location" value="{{this.passport_location}}" rows="4" class="form-control" placeholder="Введите данные"
+                                <textarea cols="20" name="passport_location" value="{{this.passport_location}}" rows="4"
+                                    class="form-control" placeholder="Введите данные"
                                     required>{{this.passport_location}}</textarea>
                             </div>
                         </div>
