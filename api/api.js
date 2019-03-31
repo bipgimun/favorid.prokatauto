@@ -63,7 +63,7 @@ app.post('/cars/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/customers/get', checkAuth, async (req, res, next) => {
@@ -165,7 +165,7 @@ app.post('/customers/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE customers SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/passengers/add', checkAuth, async (req, res, next) => {
@@ -247,7 +247,7 @@ app.post('/drivers/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE drivers SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/itineraries/add', checkAuth, async (req, res, next) => {
@@ -288,7 +288,7 @@ app.post('/itineraries/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE itineraries SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/cashStorages/add', checkAuth, async (req, res, next) => {
@@ -329,7 +329,7 @@ app.post('/cashStorages/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE cash_storages SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/additionalServices/add', checkAuth, async (req, res, next) => {
@@ -370,7 +370,7 @@ app.post('/additionalServices/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE additional_services SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/apartments/add', checkAuth, async (req, res, next) => {
@@ -409,7 +409,7 @@ app.post('/apartments/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE apartments SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/apartmentReservations/add', checkAuth, async (req, res, next) => {
@@ -450,7 +450,7 @@ app.post('/apartmentReservations/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE apartment_reservations SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));
