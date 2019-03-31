@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата рождения</label>
                             <div class="non-editable-content" data-target="birthday">
-                                {{this.birthday }}
+                                {{toIsoString this.birthday 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="birthday" type="date" value="{{toIsoString this.birthday 'YYYY-MM-DD' }}"
@@ -86,7 +86,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Дата выдачи</label>
                             <div class="non-editable-content" data-target="license_date_issue">
-                                {{this.license_date_issue }}
+                                {{toIsoString this.license_date_issue 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-4 editable-content">
                                 <input type="date" name="license_date_issue"
@@ -95,7 +95,7 @@
                             </div>
                             <label class="col-sm-2 control-label">окончания</label>
                             <div class="non-editable-content" data-target="license_date_expiration">
-                                {{this.license_date_expiration }}
+                                {{toIsoString this.license_date_expiration 'DD.MM.YYYY'}}
                             </div>
                             <div class="col-sm-4 editable-content">
                                 <input type="date" name="license_date_expiration"
@@ -121,7 +121,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата выдачи</label>
                             <div class="non-editable-content" data-target="passport_date_issue">
-                                {{this.passport_date_issue }}
+                                {{toIsoString this.passport_date_issue 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input type="date" name="passport_date_issue"

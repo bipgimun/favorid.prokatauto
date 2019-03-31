@@ -274,6 +274,22 @@ app.post('/drivers/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE drivers SET ? WHERE id = ?`, [validValues, id]);
 
+    if (validValues.birthday) {
+        validValues.birthday = moment(validValues.birthday).format('DD.MM.YYYY');
+    }
+    
+    if (validValues.license_date_issue) {
+        validValues.license_date_issue = moment(validValues.license_date_issue).format('DD.MM.YYYY');
+    }
+    
+    if (validValues.license_date_expiration) {
+        validValues.license_date_expiration = moment(validValues.license_date_expiration).format('DD.MM.YYYY');
+    }
+    
+    if (validValues.passport_date_issue) {
+        validValues.passport_date_issue = moment(validValues.passport_date_issue).format('DD.MM.YYYY');
+    }
+
     res.json({ status: 'ok', data: validValues });
 })
 
