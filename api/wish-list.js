@@ -33,9 +33,17 @@ exports.wishList = {
     ],
     drivers: [
         'name',
+        'birthday',
         'contact_number',
+        'car_id',
         'driver_license',
+        'license_date_issue',
+        'license_date_expiration',
         'passport',
+        'passport_date_issue',
+        'passport_issued_by',
+        'passport_division_code',
+        'passport_location',
         'is_individual',
     ],
     itineraries: [
