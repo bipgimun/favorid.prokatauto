@@ -40,6 +40,7 @@
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/customers/update" id="js-customers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
                         <div class="customer__company" style="margin-bottom: 15px;">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Наименование</label>
