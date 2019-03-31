@@ -206,7 +206,7 @@ app.post('/passengers/update', checkAuth, async (req, res, next) => {
 
     await db.execQuery(`UPDATE passengers SET ? WHERE id = ?`, [validValues, id]);
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/drivers/add', checkAuth, async (req, res, next) => {

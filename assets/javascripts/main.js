@@ -536,9 +536,13 @@ $(document).ready(() => {
         const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
+
         if ($('#js-clients-table').length) {
-            console.log('here');
             insertTable('clients', data.id, [data.name, data.contact_number]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
         }
 
         return false;

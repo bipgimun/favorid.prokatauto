@@ -43,7 +43,7 @@
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Наименование/ФИО</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="name">
                                 {{this.name }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата рождения</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="birthday">
                                 {{toIsoString this.birthday 'DD.MM.YYYY' }}
                             </div>
                             <div class="col-sm-8 editable-content">
@@ -63,7 +63,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Контактный телефон</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="contact_number">
                                 {{this.contact_number }}
                             </div>
                             <div class="col-sm-8 editable-content">
