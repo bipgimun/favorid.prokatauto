@@ -572,6 +572,11 @@ $(document).ready(() => {
 
         if ($('#js-drivers-table').length) {
             insertTable('drivers', data.id, [data.name, data.contact_number]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
         }
 
         return false;

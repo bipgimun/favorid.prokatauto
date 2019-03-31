@@ -36,66 +36,67 @@
         {{#each drivers}}
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">Добавление нового водителя (прокат)</h2>
+                    <h2 class="panel-title">Добавление нового водителя</h2>
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/drivers/update" id="js-drivers-add-form" class="form-horizontal mb-lg"
                         novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ФИО</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="name">
                                 {{this.name }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="name" type="text" class="form-control" placeholder="Введите данные"
+                                <input name="name" value="{{this.name }}" type="text" class="form-control" placeholder="Введите данные"
                                     required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата рождения</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="birthday">
                                 {{this.birthday }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="date" class="form-control" placeholder="Введите дату" required>
+                                <input name="birthday" type="date" value="{{this.birthday }}" class="form-control" placeholder="Введите дату" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Контактный телефон</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="contact_number">
                                 {{this.contact_number }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" id="phone" data-plugin-masked-input=""
+                                <input name="contact_number" value="{{this.contact_number }}" id="phone" data-plugin-masked-input=""
                                     data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
                                     class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Водительское удостоверение</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="driver_license">
                                 {{this.driver_license }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="driver_license" type="text" placeholder="12 34 567891"
+                                <input name="driver_license" value="{{this.driver_license }}" type="text" placeholder="12 34 567891"
                                     class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Дата выдачи</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="license_date_issue">
                                 {{this.license_date_issue }}
                             </div>
                             <div class="col-sm-4 editable-content">
-                                <input type="date" name="license_date_issue" placeholder="Введите дату"
+                                <input type="date" name="license_date_issue" value="{{this.license_date_issue }}" placeholder="Введите дату"
                                     class="form-control">
                             </div>
                             <label class="col-sm-2 control-label">окончания</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="license_date_expiration">
                                 {{this.license_date_expiration }}
                             </div>
                             <div class="col-sm-4 editable-content">
-                                <input type="date" name="license_date_expiration" placeholder="Введите дату"
+                                <input type="date" name="license_date_expiration" value="{{this.license_date_expiration }}" placeholder="Введите дату"
                                     class="form-control">
                             </div>
                         </div>
@@ -106,47 +107,47 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Серия, номер</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="passport">
                                 {{this.passport }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="text" name="passport" placeholder="12 34 567891" class="form-control" required>
+                                <input type="text" name="passport" value="{{this.passport}}" placeholder="12 34 567891" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата выдачи</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="passport_date_issue">
                                 {{this.passport_date_issue }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="date" name="passport_date_issue" placeholder="Введите дату" class="form-control" required>
+                                <input type="date" name="passport_date_issue" value="{{this.passport_date_issue}}" placeholder="Введите дату" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Кем выдан</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="passport_issued_by">
                                 {{this.passport_issued_by }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="text" name="passport_issued_by" placeholder="Введите данные" class="form-control" required>
+                                <input type="text" name="passport_issued_by" value="{{this.passport_issued_by}}" placeholder="Введите данные" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Код подразделения</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="passport_division_code">
                                 {{this.passport_division_code }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input type="text" name="passport_division_code" placeholder="123-456" class="form-control" required>
+                                <input type="text" name="passport_division_code" value="{{this.passport_division_code}}" placeholder="123-456" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Место жительства</label>
-                            <div class="non-editable-content">
+                            <div class="non-editable-content" data-target="passport_location">
                                 {{this.passport_location }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <textarea cols="20" name="passport_location" rows="4" class="form-control" placeholder="Введите данные"
+                                <textarea cols="20" name="passport_location" value="{{this.passport_location}}" rows="4" class="form-control" placeholder="Введите данные"
                                     required>{{this.passport_location}}</textarea>
                             </div>
                         </div>
