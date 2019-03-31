@@ -500,6 +500,11 @@ $(document).ready(() => {
             $('#js-cars-table')
                 .dataTable()
                 .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
         }
 
         return false;
@@ -543,6 +548,7 @@ $(document).ready(() => {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);
             })
+            $('.js-toggleEditable').click();
         }
 
         return false;
