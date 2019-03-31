@@ -40,21 +40,6 @@
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/customers/update" id="js-customers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
-                        <div class="form-group mt-lg">
-                            <label class="col-sm-4 control-label"></label>
-                            <div class="col-sm-4 ">
-                                <div class="radio-custom">
-                                    <input type="radio" id="radioExample1" value="1" name="is_legal_entity" class="customer__company-radio" checked>
-                                    <label for="radioExample1">Юридическое лицо</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 ">
-                                <div class="radio-custom">
-                                    <input type="radio" id="radioExample2" value="0" name="is_legal_entity" class="customer__person-radio">
-                                    <label for="radioExample2">Физ. лицо</label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="customer__company" style="margin-bottom: 15px;">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Наименование</label>
@@ -62,7 +47,7 @@
                                     {{this.name}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="name" type="text" class="form-control" placeholder="Введите данные" required>
+                                    <input name="name" value="{{this.name}}" type="text" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -74,7 +59,7 @@
                                     {{this.legal_address}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="legal_address" type="text" class="form-control" placeholder="Введите индекс, адрес" required>
+                                    <input name="legal_address" value="{{this.legal_address}}" type="text" class="form-control" placeholder="Введите индекс, адрес" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -83,7 +68,7 @@
                                     {{this.actual_address}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="actual_address" type="text" class="form-control" placeholder="Введите индекс, адрес" required>
+                                    <input name="actual_address" value="{{this.actual_address}}" type="text" class="form-control" placeholder="Введите индекс, адрес" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -92,7 +77,7 @@
                                     {{this.email}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="email" type="email" class="form-control" placeholder="Введите email">
+                                    <input name="email" value="{{this.email}}" type="email" class="form-control" placeholder="Введите email">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -101,7 +86,7 @@
                                     {{this.ogrn}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="ogrn" type="number" class="form-control" placeholder="Введите ОГРН" required>
+                                    <input name="ogrn" value="{{this.ogrn}}" type="number" class="form-control" placeholder="Введите ОГРН" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -110,7 +95,7 @@
                                     {{this.inn}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="inn" type="number" class="form-control" placeholder="Введите ИНН" required>
+                                    <input name="inn" value="{{this.inn}}" type="number" class="form-control" placeholder="Введите ИНН" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -119,7 +104,7 @@
                                     {{this.bank_name}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="bank_name" type="text" class="form-control" placeholder="ООО 'БАНК', г.Уфа" required>
+                                    <input name="bank_name" value="{{this.bank_name}}" type="text" class="form-control" placeholder="ООО 'БАНК', г.Уфа" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -128,7 +113,7 @@
                                     {{this.r_account}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="r_account" type="number" class="form-control" placeholder="Введите данные" required>
+                                    <input name="r_account" value="{{this.r_account}}" type="number" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -137,7 +122,7 @@
                                     {{this.k_account}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="k_account" type="number" class="form-control" placeholder="Введите данные" required>
+                                    <input name="k_account" value="{{this.k_account}}" type="number" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -146,7 +131,7 @@
                                     {{this.bik}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="bik" type="number" class="form-control" placeholder="Введите данные" required>
+                                    <input name="bik" value="{{this.bik}}" type="number" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +142,7 @@
                                     {{this.name}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="name" type="text" class="form-control" placeholder="Введите данные" required>
+                                    <input name="name" value="{{this.name}}" type="text" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -166,7 +151,7 @@
                                     {{this.birthday}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="birthday" type="date" class="form-control" placeholder="Введите дату" required>
+                                    <input name="birthday" value="{{this.birthday}}" type="date" class="form-control" placeholder="Введите дату" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -175,7 +160,7 @@
                                     {{this.driver_license}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="driver_license" type="text" placeholder="12 34 567891" class="form-control" required>
+                                    <input name="driver_license" value="{{this.driver_license}}" type="text" placeholder="12 34 567891" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -184,14 +169,14 @@
                                     {{this.driver_license_issue_date}}
                                 </div>
                                 <div class="col-sm-4 editable-content">
-                                    <input name="driver_license_issue_date" type="date" placeholder="Введите дату" class="form-control" required>
+                                    <input name="driver_license_issue_date" value="{{this.driver_license_issue_date}}" type="date" placeholder="Введите дату" class="form-control" required>
                                 </div>
                                 <label class="col-sm-2 control-label">окончания</label>
                                 <div class="non-editable-content" data-target="driver_license_expiration_date">
                                     {{this.driver_license_expiration_date}}
                                 </div>
                                 <div class="col-sm-4 editable-content">
-                                    <input name="driver_license_expiration_date" type="date" placeholder="Введите дату" class="form-control" required>
+                                    <input name="driver_license_expiration_date" value="{{this.driver_license_expiration_date}}" type="date" placeholder="Введите дату" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -203,7 +188,7 @@
                                     {{this.passport}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="passport" type="text" placeholder="12 34 567891" class="form-control" required>
+                                    <input name="passport" value="{{this.passport}}" type="text" placeholder="12 34 567891" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -212,7 +197,7 @@
                                     {{this.passport_issue_date}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="passport_issue_date" type="date" placeholder="Введите дату" class="form-control" required>
+                                    <input name="passport_issue_date" value="{{this.passport_issue_date}}" type="date" placeholder="Введите дату" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -221,7 +206,7 @@
                                     {{this.passport_issued_by}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="passport_issued_by" type="text" placeholder="Введите данные" class="form-control" required>
+                                    <input name="passport_issued_by" value="{{this.passport_issued_by}}" type="text" placeholder="Введите данные" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -230,7 +215,7 @@
                                     {{this.passport_division_code}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input name="passport_division_code" type="text" placeholder="123-456" class="form-control" required>
+                                    <input name="passport_division_code" value="{{this.passport_division_code}}" type="text" placeholder="123-456" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -239,7 +224,7 @@
                                     {{this.location}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <textarea name="location" cols="20" rows="4" class="form-control" placeholder="Введите данные" required></textarea>
+                                    <textarea name="location" value="{{this.location}}" cols="20" rows="4" class="form-control" placeholder="Введите данные" required></textarea>
                                 </div>
                             </div>
                         </div>                
@@ -249,7 +234,7 @@
                                     {{this.contact_number}}
                                 </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" id="phone" data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
+                                <input name="contact_number" value="{{this.contact_number}}" id="phone" data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
                                     placeholder="+7 (123) 123-1234" class="form-control" required>
                             </div>
                         </div>
@@ -259,7 +244,7 @@
                                     {{this.discount}}
                                 </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="discount" type="number" placeholder="Введите размер скидки" max="100" min="0" class="form-control">
+                                <input name="discount" value="{{this.discount}}" type="number" placeholder="Введите размер скидки" max="100" min="0" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
