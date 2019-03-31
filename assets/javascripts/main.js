@@ -526,7 +526,7 @@ $(document).ready(() => {
             $('#js-customers-table')
                 .dataTable()
                 .fnAddData([data.is_legal_entity, data.name, `<a href="/customers/${data.id}" target="_blank">Подробнее</a>`]);
-        }
+        } 
 
         return false;
     })

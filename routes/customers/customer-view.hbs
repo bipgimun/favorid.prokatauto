@@ -38,7 +38,7 @@
                 <header class="panel-heading">
                     <h2 class="panel-title">Добавление нового заказчика</h2>
                 </header>
-                <div class="panel-body js-editable-body"">
+                <div class="panel-body js-editable-body">
                     <form action="/api/customers/update" id="js-customers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
                         <div class="form-group mt-lg">
                             <label class="col-sm-4 control-label"></label>
@@ -58,8 +58,8 @@
                         <div class="customer__company" style="margin-bottom: 15px;">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Наименование</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="name">
+                                    {{this.name}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
                                     <input name="name" type="text" class="form-control" placeholder="Введите данные" required>
@@ -70,91 +70,91 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Юр.адрес</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="legal_address">
+                                    {{this.legal_address}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" class="form-control" placeholder="Введите индекс, адрес" required>
+                                    <input name="legal_address" type="text" class="form-control" placeholder="Введите индекс, адрес" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Фактический адрес</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="actual_address">
+                                    {{this.actual_address}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" class="form-control" placeholder="Введите индекс, адрес" required>
+                                    <input name="actual_address" type="text" class="form-control" placeholder="Введите индекс, адрес" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Email</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="email">
+                                    {{this.email}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="email" class="form-control" placeholder="Введите email">
+                                    <input name="email" type="email" class="form-control" placeholder="Введите email">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">ОГРН</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="ogrn">
+                                    {{this.ogrn}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control" placeholder="Введите ОГРН" required>
+                                    <input name="ogrn" type="number" class="form-control" placeholder="Введите ОГРН" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">ИНН</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="inn">
+                                    {{this.inn}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control" placeholder="Введите ИНН" required>
+                                    <input name="inn" type="number" class="form-control" placeholder="Введите ИНН" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Наимен-ие банка</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="bank_name">
+                                    {{this.bank_name}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" class="form-control" placeholder="ООО 'БАНК', г.Уфа" required>
+                                    <input name="bank_name" type="text" class="form-control" placeholder="ООО 'БАНК', г.Уфа" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Р/счет</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="r_account">
+                                    {{this.r_account}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control" placeholder="Введите данные" required>
+                                    <input name="r_account" type="number" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">К/счет</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="k_account">
+                                    {{this.k_account}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control" placeholder="Введите данные" required>
+                                    <input name="k_account" type="number" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">БИК</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="bik">
+                                    {{this.bik}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control" placeholder="Введите данные" required>
+                                    <input name="bik" type="number" class="form-control" placeholder="Введите данные" required>
                                 </div>
                             </div>
                         </div>
                         <div class="customer__person" style="display: none; margin-bottom: 15px;">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">ФИО</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="name">
+                                    {{this.name}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
                                     <input name="name" type="text" class="form-control" placeholder="Введите данные" required>
@@ -162,17 +162,17 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Дата рождения</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="birthday">
+                                    {{this.birthday}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="date" class="form-control" placeholder="Введите дату" required>
+                                    <input name="birthday" type="date" class="form-control" placeholder="Введите дату" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Водительское удостоверение</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="driver_license">
+                                    {{this.driver_license}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
                                     <input name="driver_license" type="text" placeholder="12 34 567891" class="form-control" required>
@@ -180,18 +180,18 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Дата выдачи</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="driver_license_issue_date">
+                                    {{this.driver_license_issue_date}}
                                 </div>
                                 <div class="col-sm-4 editable-content">
-                                    <input type="date" placeholder="Введите дату" class="form-control" required>
+                                    <input name="driver_license_issue_date" type="date" placeholder="Введите дату" class="form-control" required>
                                 </div>
                                 <label class="col-sm-2 control-label">окончания</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="driver_license_expiration_date">
+                                    {{this.driver_license_expiration_date}}
                                 </div>
                                 <div class="col-sm-4 editable-content">
-                                    <input type="date" placeholder="Введите дату" class="form-control" required>
+                                    <input name="driver_license_expiration_date" type="date" placeholder="Введите дату" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -199,54 +199,54 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Серия, номер</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="passport">
+                                    {{this.passport}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" placeholder="12 34 567891" class="form-control" required>
+                                    <input name="passport" type="text" placeholder="12 34 567891" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Дата выдачи</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="passport_issue_date">
+                                    {{this.passport_issue_date}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="date" placeholder="Введите дату" class="form-control" required>
+                                    <input name="passport_issue_date" type="date" placeholder="Введите дату" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Кем выдан</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="passport_issued_by">
+                                    {{this.passport_issued_by}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" placeholder="Введите данные" class="form-control" required>
+                                    <input name="passport_issued_by" type="text" placeholder="Введите данные" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Код подразделения</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="passport_division_code">
+                                    {{this.passport_division_code}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" placeholder="123-456" class="form-control" required>
+                                    <input name="passport_division_code" type="text" placeholder="123-456" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Место жительства</label>
-                                <div class="non-editable-content">
-                                    {{this. }}
+                                <div class="non-editable-content" data-target="location">
+                                    {{this.location}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <textarea cols="20" rows="4" class="form-control" placeholder="Введите данные" required></textarea>
+                                    <textarea name="location" cols="20" rows="4" class="form-control" placeholder="Введите данные" required></textarea>
                                 </div>
                             </div>
                         </div>                
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Контактный телефон</label>
-                            <div class="non-editable-content">
-                                    {{this. }}
+                            <div class="non-editable-content" data-target="contact_number">
+                                    {{this.contact_number}}
                                 </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="contact_number" id="phone" data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
@@ -255,8 +255,8 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Скидка, %</label>
-                            <div class="non-editable-content">
-                                    {{this. }}
+                            <div class="non-editable-content" data-target="discount">
+                                    {{this.discount}}
                                 </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="discount" type="number" placeholder="Введите размер скидки" max="100" min="0" class="form-control">
