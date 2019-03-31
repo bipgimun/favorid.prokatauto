@@ -655,6 +655,11 @@ $(document).ready(() => {
 
         if ($('#js-apartments-table').length) {
             insertTable('apartments', data.id, [data.address, data.rooms, data.price_per_day, data.status]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
         }
 
         return false;
@@ -686,6 +691,11 @@ $(document).ready(() => {
 
         if ($('#js-apartment-reservations-table').length) {
             insertTable('apartment-reservations', data.id, [data.created_at, data.address, data.client_name, data.at_reception]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
         }
 
         return false;
