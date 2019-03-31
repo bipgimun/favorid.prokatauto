@@ -7,6 +7,9 @@ const db = require('../libs/db');
 const { wishList } = require('./wish-list');
 const messages = require('./messages');
 
+const Helpers = require('../libs/Helpers');
+const moment = require('moment');
+
 app.post('/login', require('./routes/login'));
 
 app.post('/salesServices/add', checkAuth, require('./routes/sales-services/add'));
@@ -62,6 +65,30 @@ app.post('/cars/update', checkAuth, async (req, res, next) => {
         throw new Error(messages.missingUpdateValues);
 
     await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [validValues, id]);
+
+    if (validValues.in_leasing) {
+        if (validValues.in_leasing === '1') {
+            validValues.in_leasing = 'Лизинг';
+        } else {
+            validValues.in_leasing = 'Не лизинг';
+        }
+    }
+
+    if (validValues.release_date) {
+        validValues.release_date = moment(validValues.release_date).format('DD.MM.YYYY');
+    }
+
+    if (validValues.osago_expiration_date) {
+        validValues.osago_expiration_date = moment(validValues.osago_expiration_date).format('DD.MM.YYYY');
+    }
+
+    if (validValues.payment_date) {
+        validValues.payment_date = moment(validValues.payment_date).format('DD.MM.YYYY');
+    }
+
+    if (validValues.leasing_expiration_date) {
+        validValues.leasing_expiration_date = moment(validValues.leasing_expiration_date).format('DD.MM.YYYY');
+    }
 
     res.json({ status: 'ok', data: validValues });
 })

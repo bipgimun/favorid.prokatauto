@@ -2,8 +2,6 @@ var ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
 
-const configPaths = require('../configPaths');
-
 module.exports = {
 
     getFilesFromDirectoryWithRecursive(dir) {
@@ -76,50 +74,6 @@ module.exports = {
         }
 
         return getTree(resultTreeObj);
-    },
-
-    replaceImageIfNotExist(photoPath, replaceStr = '/img/image-not-found.jpg') {
-        if (!!photoPath === false) {
-            return replaceStr;
-        }
-
-        const absolutePhotoPath = path.join(configPaths.public, photoPath);
-        let photoStat;
-        try {
-            photoStat = fs.statSync(absolutePhotoPath);
-
-            if (photoStat.isFile() == false) {
-                throw new Error();
-            }
-
-            return photoPath;
-        }
-        catch (e) {
-            return replaceStr;
-        }
-    },
-
-    checkPhoto(photoPath) {
-
-        if (!!photoPath === false) {
-            return false;
-        }
-
-        let photoStat;
-        photoPath = path.join(configPaths.public, photoPath);
-
-        try {
-            photoStat = fs.statSync(photoPath);
-
-            if (photoStat.isFile() == false) {
-                throw new Error();
-            }
-
-            return true;
-        }
-        catch (e) {
-            return false;
-        }
     },
 
     formatPrice(data) {
