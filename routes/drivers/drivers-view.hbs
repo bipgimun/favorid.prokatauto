@@ -164,32 +164,35 @@
                             <label class="col-sm-12 control-label"
                                 style="text-transform: uppercase; font-weight: bold; text-align: center;">Автомобиль</label>
                         </div>
-                        <div class="form-group mt-lg drivers-auto">
+                        <div class="form-group mt-lg drivers-auto editable-content">
                             <label class="col-sm-4 control-label"></label>
                             <div class="col-sm-4">
                                 <div class="radio-custom">
-                                    <input type="radio" id="radioExample1" value="1" name="is_individual">
+                                    <input {{ifTrue this.is_individual 'checked' ''}} type="radio" id="radioExample1"
+                                        value="1" name="is_individual">
                                     <label for="radioExample1">Личный</label>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="radio-custom">
-                                    <input type="radio" id="radioExample2" value="0" name="is_individual">
+                                    <input {{ifTrue this.is_individual '' 'checked'}} type="radio" id="radioExample2" value="0" name="is_individual">
                                     <label for="radioExample2">Закрепленный</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group drivers-auto__car" style="display: none;">
+                        <div class="form-group drivers-auto__car">
                             <label class="col-sm-3 control-label">Автомобиль</label>
-                            <div class="non-editable-content">
-                                {{this.master }}
+                            <div class="non-editable-content" data-target="car_name">
+                                {{this.car_name }}
                             </div>
                             <div class="col-sm-9 editable-content">
                                 <div class="input-group">
-                                    <select name="master" class="form-control">
+                                    <select name="car_id" class="form-control">
                                         <option value="0" selected disabled>Выберете автомобиль</option>
-                                        <option value="0">Hyndai Solaris xa777a-174</option>
-                                        <option value="0">Kia Rio xa757a-74</option>
+                                        {{#each ../cars}}
+                                            <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
+                                                {{this.name}} {{this.model}}</option>
+                                        {{/each}}
                                     </select>
                                     <span class="input-group-btn">
                                         <a class="btn btn-primary" href="/cars" type="button">Добавить</a>

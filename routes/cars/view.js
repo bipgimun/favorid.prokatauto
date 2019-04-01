@@ -11,6 +11,9 @@ module.exports = async (req, res, next) => {
         throw new Error('Id type error');
 
     const cars = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [id]);
+    const [car = {}] = cars;
 
-    res.render(__dirname + '/cars-view.hbs', { cars });
+    const [driver = {}] = await db.execQuery(`SELECT * FROM drivers WHERE car_id = ?`, [car.id]);
+
+    res.render(__dirname + '/cars-view.hbs', { cars, driver });
 }

@@ -277,17 +277,22 @@ app.post('/drivers/update', checkAuth, async (req, res, next) => {
     if (validValues.birthday) {
         validValues.birthday = moment(validValues.birthday).format('DD.MM.YYYY');
     }
-    
+
     if (validValues.license_date_issue) {
         validValues.license_date_issue = moment(validValues.license_date_issue).format('DD.MM.YYYY');
     }
-    
+
     if (validValues.license_date_expiration) {
         validValues.license_date_expiration = moment(validValues.license_date_expiration).format('DD.MM.YYYY');
     }
-    
+
     if (validValues.passport_date_issue) {
         validValues.passport_date_issue = moment(validValues.passport_date_issue).format('DD.MM.YYYY');
+    }
+
+    if (validValues.car_id) {
+        const [car = {}] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [validValues.car_id]);
+        validValues.car_name = `${car.name} ${car.model}`;
     }
 
     res.json({ status: 'ok', data: validValues });
