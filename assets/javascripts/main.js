@@ -659,7 +659,7 @@ $(document).ready(() => {
         $(e.target).find('.modal-dismiss').click();
 
         if ($('#js-apartments-table').length) {
-            insertTable('apartments', data.id, [data.address, data.rooms, data.price_per_day, data.status]);
+            insertTable('apartments', data.id, [data.address, data.rooms, data.price_per_day, data.statusName]);
         } else {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);
@@ -680,8 +680,6 @@ $(document).ready(() => {
 
         const values = getFormValues($form);
 
-        const at_reception = $form.find('#at_reception').is(':checked') ? '1' : '0';
-
         const services = $('#js-select2-services-id').select2('data') || [];
 
         const servicesIds = services
@@ -689,13 +687,12 @@ $(document).ready(() => {
             .join(',');
 
         values.services = servicesIds;
-        values.at_reception = at_reception;
 
         const { data } = await request(url, { values }, { showNotify: true });
         $apartmentReservations.find('.modal-dismiss').click();
 
         if ($('#js-apartment-reservations-table').length) {
-            insertTable('apartment-reservations', data.id, [data.created_at, data.address, data.client_name, data.at_reception]);
+            insertTable('apartment-reservations', data.id, [data.created_at, data.address, data.client_name, data.statusName]);
         } else {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);
@@ -714,6 +711,42 @@ $(document).ready(() => {
                 $apartmentReservations.find('[name=contact_number]').val(result.client.contact_number);
             })
     })
+
+    $('#js-select2-clients-id').select2({
+        ajax: {
+            url: '/api/clients/get',
+            type: "POST",
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: $.map(data.clients, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id
+                        }
+                    })
+                }
+            }
+        }
+    });
+
+    $('#js-select2-apartments-id').select2({
+        ajax: {
+            url: '/api/apartments/get',
+            type: "POST",
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: $.map(data.apartments, function (item) {
+                        return {
+                            text: item.address,
+                            id: item.id
+                        }
+                    })
+                }
+            }
+        }
+    });
 
     $('#js-select2-apartments-id').on('select2:select', function (e) {
         const val = $(this).val();

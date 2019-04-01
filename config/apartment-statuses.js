@@ -1,0 +1,8 @@
+module.exports = new Map()
+    .set(0, 'Свободна')
+    .set(1, 'В работе')
+    .set(2, 'На приёме')
+    .set(3, 'Завершена')
+    .set('IN_WORK', 1)
+    .set('AT_RECEPTION', 2)
+    .set('COMPLETED', 3)

@@ -64,7 +64,6 @@ exports.wishList = {
         'rooms',
         'price_per_day',
         'utilities_per_month',
-        'status',
     ],
     apartmentReservations: [
         'apartment_id',
@@ -79,7 +78,7 @@ exports.wishList = {
         'comment',
         'sum',
         'entry',
-        'at_reception',
+        'status',
         'departure',
     ]
 };

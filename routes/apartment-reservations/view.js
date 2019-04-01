@@ -1,4 +1,5 @@
 const db = require('../../libs/db');
+const APARTMENT_STATUSES = require('../../config/apartment-statuses');
 
 module.exports = async (req, res, next) => {
 
@@ -10,13 +11,14 @@ module.exports = async (req, res, next) => {
     if (!Number(id))
         throw new Error('Id type error');
 
-    const apartmentReservations = (await db.execQuery(`
+    const apartmentReservations = await db.execQuery(`
         SELECT ar.*,
             a.address,
             p.name as client_name,
             c.name as customer_name,
             p.contact_number as client_number,
-            cs.name as cash_storage
+            cs.name as cash_storage,
+            c.discount as customer_discount
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id
@@ -24,9 +26,11 @@ module.exports = async (req, res, next) => {
             LEFT JOIN cash_storages cs ON ar.cash_storage_id = cs.id
         WHERE
             ar.id = ?
-    `, [id])).map(item => {
-        item.at_reception_title = item.at_reception == '1' ? 'На приёме' : 'Не на приёме';
-        return item;
+    `, [id])
+
+    apartmentReservations.forEach(item => {
+        item.status_name = APARTMENT_STATUSES.get(item.status);
+        item.nonEditable = [APARTMENT_STATUSES.get('AT_RECEPTION'), APARTMENT_STATUSES.get('COMPLETED')].includes(+item.status);
     });
 
     const [reservation = {}] = apartmentReservations;
@@ -41,14 +45,13 @@ module.exports = async (req, res, next) => {
     const servicesList = await db.execQuery(`SELECT * FROM additional_services`);
 
 
-    const customers = (await db.execQuery(`SELECT * FROM customers`))
-        .map(item => {
-            if (item.id == reservation.customer_id) {
-                item.selected = true;
-            }
+    const customers = await db.execQuery(`SELECT * FROM customers`);
 
-            return item;
-        });
+    customers.map(item => {
+        if (item.id == reservation.customer_id) {
+            item.selected = true;
+        }
+    });
 
     const passengers = (await db.execQuery(`SELECT * FROM passengers`))
         .map(item => {

@@ -7,8 +7,8 @@ const db = require('../libs/db');
 const { wishList } = require('./wish-list');
 const messages = require('./messages');
 
-const Helpers = require('../libs/Helpers');
 const moment = require('moment');
+const apartments_statuses = require('../config/apartment-statuses');
 
 app.post('/login', require('./routes/login'));
 
@@ -436,9 +436,13 @@ app.post('/apartments/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
-    await db.insertQuery(`INSERT INTO apartments SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO apartments SET ?`, values);
 
-    res.json({ status: 'ok', data: req.body });
+    const [apartment = {}] = await db.execQuery(`SELECT * FROM apartments WHERE id = ?`, [id]);
+
+    apartment.statusName = apartments_statuses.get(0);
+
+    res.json({ status: 'ok', data: apartment });
 })
 
 app.post('/apartments/update', checkAuth, async (req, res, next) => {
@@ -475,9 +479,18 @@ app.post('/apartmentReservations/add', checkAuth, async (req, res, next) => {
     if (errors.length)
         throw new Error('Заполнены не все поля');
 
+    const { apartment_id: apId } = values;
+
+    const apInWorks = await db.execQuery('SELECT * FROM apartment_reservations WHERE apartment_id = ? AND status NOT IN (0, 3)', [apId]);
+
+    if(apInWorks.length > 0)
+        throw new Error('Данная квартира уже находится в работе');
+
     const id = await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, values);
 
     values.id = id;
+
+    values.statusName = apartments_statuses.get(0);
 
     res.json({ status: 'ok', data: values });
 })
@@ -497,6 +510,18 @@ app.post('/apartmentReservations/update', checkAuth, async (req, res, next) => {
         throw new Error(messages.missingUpdateValues);
 
     await db.execQuery(`UPDATE apartment_reservations SET ? WHERE id = ?`, [validValues, id]);
+
+    if (typeof validValues.status !== 'undefined') {
+        validValues.status_name = apartments_statuses.get(+validValues.status);
+    }
+
+    if (validValues.entry) {
+        validValues.entry = moment(validValues.entry).format('DD.MM.YYYY в HH:mm');
+    }
+
+    if (validValues.departure) {
+        validValues.departure = moment(validValues.departure).format('DD.MM.YYYY в HH:mm');
+    }
 
     res.json({ status: 'ok', data: validValues });
 })

@@ -1,5 +1,7 @@
 const db = require('../../libs/db');
 
+const APARTMENT_STATUS = require('../../config/apartment-statuses');
+
 module.exports = async (req, res, next) => {
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
@@ -13,11 +15,12 @@ module.exports = async (req, res, next) => {
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id
-    `)).map(item => {
-        item.at_reception = item.at_reception == '1' ? 'На приёме' : 'Не на приёме';
-        return item;
+    `));
+
+    apartmentReservations.forEach(item => {
+        item.statusName = APARTMENT_STATUS.get(item.status);
     });
-    
+
     const customers = await db.execQuery(`SELECT * FROM customers`);
 
     return res.render(__dirname + '/apartment-reservations', { customers, passengers, apartments, cashStorages, additionalServices, apartmentReservations });
