@@ -17,8 +17,7 @@ module.exports = async (req, res, next) => {
             p.name as client_name,
             c.name as customer_name,
             p.contact_number as client_number,
-            cs.name as cash_storage,
-            c.discount as customer_discount
+            cs.name as cash_storage
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id

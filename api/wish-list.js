@@ -72,6 +72,7 @@ exports.wishList = {
         'prepayment',
         'cash_storage_id',
         'services',
+        'discount',
         'number_days',
         'price_per_day',
         'contact_number',

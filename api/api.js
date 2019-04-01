@@ -100,6 +100,18 @@ app.post('/customers/get', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', customers });
 })
 
+app.post('/customers/getOne', checkAuth, async (req, res, next) => {
+
+    const { id = '' } = req.body;
+
+    if (!id)
+        throw new Error(messages.missingId);
+
+    const [customer = {}] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [id]);
+
+    res.json({ status: 'ok', data: customer });
+})
+
 app.post('/clients/get', checkAuth, async (req, res, next) => {
 
     const clients = await db.execQuery(`SELECT * FROM passengers`);
@@ -483,16 +495,25 @@ app.post('/apartmentReservations/add', checkAuth, async (req, res, next) => {
 
     const apInWorks = await db.execQuery('SELECT * FROM apartment_reservations WHERE apartment_id = ? AND status NOT IN (0, 3)', [apId]);
 
-    if(apInWorks.length > 0)
+    if (apInWorks.length > 0)
         throw new Error('Данная квартира уже находится в работе');
 
     const id = await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, values);
 
-    values.id = id;
+    const [ap = {}] = await db.execQuery(`
+        SELECT ar.*,
+            a.address,
+            p.name as client_name
+        FROM apartment_reservations ar
+            LEFT JOIN apartments a ON ar.apartment_id = a.id
+            LEFT JOIN passengers p ON ar.passenger_id = p.id
+        WHERE ar.id = ?`, [id]
+    );
 
-    values.statusName = apartments_statuses.get(0);
+    ap.statusName = apartments_statuses.get(0);
+    ap.created_at = moment(ap.created_at).format('DD.MM.YYYY');
 
-    res.json({ status: 'ok', data: values });
+    res.json({ status: 'ok', data: ap });
 })
 
 app.post('/apartmentReservations/update', checkAuth, async (req, res, next) => {

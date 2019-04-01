@@ -757,6 +757,15 @@ $(document).ready(() => {
             })
     })
 
+    $('#js-select2-customer-id').on('select2:select', function (e) {
+        const val = $(this).val();
+
+        request('/api/customers/getOne', { id: val })
+            .then(result => {
+                $apartmentReservations.find('[name=discount]').val(result.data.discount);
+            })
+    })
+
     const getFormValues = (form, selectors = 'textarea, select, input:not(:hidden), input[type=hidden]') => {
 
         const arrayData = $(form).find(selectors).serializeArray();
