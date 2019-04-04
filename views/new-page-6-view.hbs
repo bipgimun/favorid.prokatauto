@@ -1,3 +1,21 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+</style>
+
 <header class="page-header">
     <h2>Прайс</h2>
 
@@ -13,54 +31,8 @@
     </div>
 </header>
 <section class="panel panel-featured panel-featured-primary">
-    <header class="panel-heading">
-      <h2 class="panel-title">Заказчики услуг</h2>
-    </header>
-    <div class="panel-body">
-        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-            <i class="fa fa-plus"></i> Добавить авто
-        </button>
-        <div class="zag">
-            <h1>заглушка</h1>
-        </div>
-        <div class="table-responsive">
-            <table id="js-nomenclature-products-table" class="display table table-bordered table-striped table-condensed mb-none customize" style="width:100%; display: none">
-                <thead>
-                    <tr>
-                      <th>Марка, модель</th>
-                      <th>Цена, руб/сут.</th>
-                      <th>Лимит, км/сут.</th>
-                      <th>Пер-ег, руб/км</th>
-                      <th>Подробнее</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each goods}}
-                        <tr>
-                            <td>{{this.title}}</td>
-                            <td>{{this.purchase_price}}</td>
-                            <td>{{this.selling_price}}</td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-                <tfoot>
-                    <tr>
-                      <th>Марка, модель</th>
-                      <th>Цена, руб/сут.</th>
-                      <th>Лимит, км/сут.</th>
-                      <th>Пер-ег, руб/км</th>
-                      <th>Подробнее</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- Модалки-->
-
-<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
-  <section class="panel">
+  <div class="panel-body">
+    <section class="panel">
       <header class="panel-heading">
           <h2 class="panel-title">Добавление нового авто</h2>
       </header>
@@ -114,5 +86,6 @@
               </div>
           </form>
       </div>
-  </section>
-</div>
+    </section>
+  </div>
+</section>
