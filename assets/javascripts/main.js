@@ -789,10 +789,11 @@ $(document).ready(() => {
 
         request('/api/cars/getModels', { name }).then(result => {
             const { data: models } = result;
+            
+            $('#js-pricesList-carModels-select').empty().trigger('change');
 
             models.forEach(({ model }) => {
                 const option = new Option(model, model);
-                $('#js-pricesList-carModels-select').empty().trigger('change');
                 $('#js-pricesList-carModels-select').append(option);
             })
         })

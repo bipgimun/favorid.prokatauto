@@ -80,6 +80,8 @@ app.post('/cars/getModels', checkAuth, async (req, res, next) => {
             ${name ? `AND name = '${safeStr(name)}'` : ''}
     `);
 
+	console.log("TCL: models", models)
+    
     res.json({ status: 'ok', data: models });
 })
 
