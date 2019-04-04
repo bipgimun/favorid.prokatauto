@@ -7,6 +7,8 @@ const db = require('../libs/db');
 const { wishList } = require('./wish-list');
 const messages = require('./messages');
 
+const mysql = require('mysql2');
+
 const moment = require('moment');
 const apartments_statuses = require('../config/apartment-statuses');
 
@@ -27,6 +29,8 @@ app.post('/salesReport/loadServicesTable', checkAuth, require('./routes/sales-re
 app.post('/remnants-of-goods/loadTableOborotGoods', checkAuth, require('./routes/remnants-of-goods/loadTableOborotGoods'));
 app.post('/nomenclature/addProduct', checkAuth, require('./routes/nomenclature/addProduct'));
 app.post('/nomenclature/addService', checkAuth, require('./routes/nomenclature/addService'));
+
+const safeStr = (str) => str.replace(/[^a-zа-яё]/ig, '');
 
 app.post('/cars/add', checkAuth, async (req, res, next) => {
 
@@ -58,7 +62,7 @@ app.post('/cars/getNames', checkAuth, async (req, res, next) => {
         SELECT id, name 
         FROM cars 
         WHERE id > 0
-            AND name LIKE '%${search}%'
+            AND name LIKE '%${safeStr(search)}%'
         GROUP BY name
     `);
 
@@ -74,7 +78,7 @@ app.post('/cars/getModels', checkAuth, async (req, res, next) => {
         FROM cars
             WHERE
                 id > 0
-                ${name ? `AND name = '${name}'` : ''}
+                ${name ? `AND name = ${safeStr(name)}` : ''}
         GROUP BY model
     `);
 
