@@ -30,7 +30,7 @@ app.post('/remnants-of-goods/loadTableOborotGoods', checkAuth, require('./routes
 app.post('/nomenclature/addProduct', checkAuth, require('./routes/nomenclature/addProduct'));
 app.post('/nomenclature/addService', checkAuth, require('./routes/nomenclature/addService'));
 
-const safeStr = (str) => str.replace(/[^a-zа-яё]/ig, '');
+const safeStr = (str) => str.replace(/[^a-zа-яё\s]/ig, '');
 
 app.post('/cars/add', checkAuth, async (req, res, next) => {
 
@@ -59,7 +59,7 @@ app.post('/cars/getNames', checkAuth, async (req, res, next) => {
     const { search = '' } = req.body;
 
     const names = await db.execQuery(`
-        SELECT id, name 
+        SELECT DISTINCT name 
         FROM cars 
         WHERE id > 0
             AND name LIKE '%${safeStr(search)}%'
@@ -71,15 +71,13 @@ app.post('/cars/getNames', checkAuth, async (req, res, next) => {
 
 app.post('/cars/getModels', checkAuth, async (req, res, next) => {
 
-    const { name } = req.body;
+    const { name = '' } = req.body;
 
     const models = await db.execQuery(`
-        SELECT id, model 
+        SELECT DISTINCT model 
         FROM cars
-            WHERE
-                id > 0
-                ${name ? `AND name = '${safeStr(name)}'` : ''}
-        GROUP BY model
+            WHERE id > 0
+            ${name ? `AND name = '${safeStr(name)}'` : ''}
     `);
 
     res.json({ status: 'ok', data: models });
