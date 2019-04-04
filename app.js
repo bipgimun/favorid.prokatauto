@@ -140,6 +140,8 @@ app.get('/apartments/:id', checkParams('id'), require('./routes/apartments').vie
 app.get('/apartment-reservations', require('./routes/apartment-reservations').list);
 app.get('/apartment-reservations/:id', checkParams('id'), require('./routes/apartment-reservations').view);
 
+app.get('/price-list', require('./routes/price-list').list);
+
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
     res.render('new-page-' + id);

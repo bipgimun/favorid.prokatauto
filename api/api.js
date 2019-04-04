@@ -50,6 +50,59 @@ app.post('/cars/add', checkAuth, async (req, res, next) => {
     res.json({ status: 'ok', data: values });
 })
 
+app.post('/cars/getNames', checkAuth, async (req, res, next) => {
+
+    const { search = '' } = req.body;
+
+    const names = await db.execQuery(`
+        SELECT id, name 
+        FROM cars 
+        WHERE id > 0
+            AND name LIKE '%${search}%'
+        GROUP BY name
+    `);
+
+    res.json({ status: 'ok', data: names });
+})
+
+app.post('/cars/getModels', checkAuth, async (req, res, next) => {
+
+    const { name } = req.body;
+
+    const models = await db.execQuery(`
+        SELECT id, model 
+        FROM cars
+            WHERE
+                id > 0
+                ${name ? `AND name = '${name}'` : ''}
+        GROUP BY model
+    `);
+
+    res.json({ status: 'ok', data: models });
+})
+
+app.post('/priceList/add', checkAuth, async (req, res, next) => {
+
+    const { values } = req.body;
+    const errors = [];
+
+    Object.keys(values).forEach(key => {
+        const value = values[key];
+
+        if (!value)
+            errors.push(`Missing "${key}" value`);
+    })
+
+    if (errors.length)
+        throw new Error('Заполнены не все поля');
+
+    const id = await db.insertQuery(`INSERT INTO cars_price SET ?`, values);
+
+    values.id = id;
+
+    res.json({ status: 'ok', data: values });
+})
+
 app.post('/cars/update', checkAuth, async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;

@@ -670,6 +670,31 @@ $(document).ready(() => {
         return false;
     })
 
+    $('#js-price-list-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const url = $form.attr('action');
+
+        const values = getFormValues($form);
+
+        const { data } = await request(url, { values }, { showNotify: true });
+
+        $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-price-list-table').length) {
+            insertTable('price-list', data.id, [`${data.name} ${data.model}`, data.price_per_day, data.limit_per_day, data.surcharge]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+
+            $('.js-toggleEditable').click();
+        }
+
+        return false;
+    })
+
     const $apartmentReservations = $('#js-apartmentReservations-form');
 
     $apartmentReservations.on('submit', async function (e) {
@@ -728,6 +753,54 @@ $(document).ready(() => {
                 }
             }
         }
+    });
+
+    $('#js-pricesList-carNames-select').select2({
+        dropdownParent: $('#add-products'),
+        placeholder: 'Выберите марку автомобиля',
+        ajax: {
+            url: '/api/cars/getNames',
+            type: "POST",
+            dataType: 'json',
+            delay: 250,
+            data(params) {
+                var query = {
+                    search: params.term,
+                }
+
+                return query;
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data.data, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.name
+                        }
+                    })
+                }
+            }
+        }
+    });
+
+    $('#js-pricesList-carNames-select').on('select2:select', function (e) {
+
+        const name = $(this).select2('val');
+
+        request('/api/cars/getModels', { name }).then(result => {
+            const { data: models } = result;
+
+            models.forEach(({ model }) => {
+                const option = new Option(model, model);
+                $('#js-pricesList-carModels-select').empty().trigger('change');
+                $('#js-pricesList-carModels-select').append(option);
+            })
+        })
+    })
+
+    $('#js-pricesList-carModels-select').select2({
+        dropdownParent: $('#add-products'),
+        placeholder: 'Выберите модель автомобиля'
     });
 
     $('#js-select2-apartments-id').select2({
