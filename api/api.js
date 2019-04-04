@@ -78,7 +78,7 @@ app.post('/cars/getModels', checkAuth, async (req, res, next) => {
         FROM cars
             WHERE
                 id > 0
-                ${name ? `AND name = ${safeStr(name)}` : ''}
+                ${name ? `AND name = '${safeStr(name)}'` : ''}
         GROUP BY model
     `);
 
