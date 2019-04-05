@@ -501,10 +501,14 @@ $(document).ready(() => {
                 .dataTable()
                 .fnAddData([data.name, data.model, data.number, `<a href="/cars/${data.id}" target="_blank">Подробнее</a>`]);
         } else {
+
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);
             })
-            $('.js-toggleEditable').click();
+
+            if ($('.js-editable-body').hasClass('editable-on')) {
+                $('.js-toggleEditable').click();
+            }
         }
 
         return false;
@@ -789,7 +793,7 @@ $(document).ready(() => {
 
         request('/api/cars/getModels', { name }).then(result => {
             const { data: models } = result;
-            
+
             $('#js-pricesList-carModels-select').empty().trigger('change');
 
             models.forEach(({ model }) => {
