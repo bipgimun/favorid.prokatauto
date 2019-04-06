@@ -2,6 +2,7 @@ exports.wishList = {
     cars: [
         'name',
         'model',
+        'class_name',
         'number',
         'mileage',
         'carcass_condition',
@@ -15,7 +16,7 @@ exports.wishList = {
         'payment_amount',
         'payment_date',
         'in_leasing',
-        'leasing_expiration_date'
+        'leasing_expiration_date',
     ],
     customers: [
         'is_legal_entity',
@@ -81,5 +82,14 @@ exports.wishList = {
         'entry',
         'status',
         'departure',
+    ],
+    carsPrice: [
+        'name',
+        'model',
+        'class_name',
+        'price_per_day',
+        'pledge',
+        'limit_per_day',
+        'surcharge',
     ]
 };

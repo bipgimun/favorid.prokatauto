@@ -141,6 +141,7 @@ app.get('/apartment-reservations', require('./routes/apartment-reservations').li
 app.get('/apartment-reservations/:id', checkParams('id'), require('./routes/apartment-reservations').view);
 
 app.get('/price-list', require('./routes/price-list').list);
+app.get('/price-list/:id', checkParams('id'), require('./routes/price-list').view);
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
