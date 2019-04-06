@@ -32,9 +32,9 @@ app.engine('hbs', hbs({
             return !!condition ? valueTrue : valueFalse;
         },
         toIsoString(date, format = moment.HTML5_FMT.DATETIME_LOCAL) {
-            if(!date)
+            if (!date)
                 return '';
-                
+
             return moment(date).format(format);
         }
     }
@@ -113,35 +113,17 @@ app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 
-app.get('/cars', require('./routes/cars').list);
-app.get('/cars/:id', checkParams('id'), require('./routes/cars').view);
-
-app.get('/customers', require('./routes/customers').list);
-app.get('/customers/:id', checkParams('id'), require('./routes/customers').view);
-
-app.get('/clients', require('./routes/clients').list);
-app.get('/clients/:id', checkParams('id'), require('./routes/clients').view);
-
-app.get('/drivers', require('./routes/drivers').list);
-app.get('/drivers/:id', checkParams('id'), require('./routes/drivers').view);
-
-app.get('/itineraries', require('./routes/itineraries').list);
-app.get('/itineraries/:id', checkParams('id'), require('./routes/itineraries').view);
-
-app.get('/cash-storages', require('./routes/cash-storages').list);
-app.get('/cash-storages/:id', checkParams('id'), require('./routes/cash-storages').view);
-
-app.get('/additional-services', require('./routes/additional-services').list);
-app.get('/additional-services/:id', checkParams('id'), require('./routes/additional-services').view);
-
-app.get('/apartments', require('./routes/apartments').list);
-app.get('/apartments/:id', checkParams('id'), require('./routes/apartments').view);
-
-app.get('/apartment-reservations', require('./routes/apartment-reservations').list);
-app.get('/apartment-reservations/:id', checkParams('id'), require('./routes/apartment-reservations').view);
-
-app.get('/price-list', require('./routes/price-list').list);
-app.get('/price-list/:id', checkParams('id'), require('./routes/price-list').view);
+app.use('/cars', require('./routes/cars'));
+app.use('/customers', require('./routes/customers'));
+app.use('/clients', require('./routes/clients'));
+app.use('/drivers', require('./routes/drivers'));
+app.use('/itineraries', require('./routes/itineraries'));
+app.use('/cash-storages', require('./routes/cash-storages'));
+app.use('/additional-services', require('./routes/additional-services'));
+app.use('/apartments', require('./routes/apartments'));
+app.use('/apartment-reservations', require('./routes/apartment-reservations'));
+app.use('/price-list', require('./routes/price-list'));
+app.use('/car-reservation', require('./routes/car-reservation'));
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;

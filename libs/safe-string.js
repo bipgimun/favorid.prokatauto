@@ -1,0 +1,1 @@
+module.exports = (str) => str.replace(/[^a-zа-яё\s]/ig, '');

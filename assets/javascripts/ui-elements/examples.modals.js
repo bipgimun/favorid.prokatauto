@@ -144,7 +144,7 @@
                         }
                     }
                 });
-                
+
                 $('#js-select2-apartments-id').select2({
                     dropdownParent: $('#add-products'),
                     ajax: {

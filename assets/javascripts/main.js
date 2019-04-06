@@ -738,6 +738,7 @@ $(document).ready(() => {
         request('/api/clients/getOne', { id: val })
             .then(result => {
                 $apartmentReservations.find('[name=contact_number]').val(result.client.contact_number);
+                $('#js-carReservations-form').find('[name=contact_number]').val(result.client.contact_number);
             })
     })
 
@@ -794,7 +795,18 @@ $(document).ready(() => {
         request('/api/cars/getModels', { name }).then(result => {
             const { data: models } = result;
 
-            $('#js-pricesList-carModels-select').empty().trigger('change');
+            $('#js-pricesList-carModels-select')
+                .find('option:not(:first)')
+                .remove();
+
+            $('#js-pricesList-carModels-select').val('0');
+
+            $('#js-carsListModal-select')
+                .find('option:not(:first)')
+                .remove();
+
+            $('#js-pricesList-carModels-select').change();
+            $('#js-carsListModal-select').change();
 
             models.forEach(({ model }) => {
                 const option = new Option(model, model);
@@ -807,6 +819,47 @@ $(document).ready(() => {
         dropdownParent: $('#add-products'),
         placeholder: 'Выберите модель автомобиля'
     });
+
+    $('#js-carsListModal-select').select2({
+        dropdownParent: $('#add-products'),
+        placeholder: 'Выберите модель автомобиля'
+    });
+
+    var carsState = [];
+
+    $('#js-pricesList-carModels-select').on('select2:select', async function (e) {
+        var carName = $('#js-pricesList-carNames-select').val();
+        var carModel = $(this).val();
+
+        const { data: cars } = await request('/api/cars/get', { name: carName, model: carModel });
+
+        carsState = cars;
+
+        $('#js-carsListModal-select')
+            .find('option:not(:first)')
+            .remove();
+
+        $('#js-carsListModal-select').change();
+
+         $('#js-carsListModal-select').val('0');
+
+        cars.forEach((car) => {
+            const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
+            $('#js-carsListModal-select').append(option);
+        })
+    })
+
+    $('#js-carsListModal-select').select2({
+        dropdownParent: $('#add-products'),
+        placeholder: 'Выберите автомобиль'
+    });
+
+     $('#js-carsListModal-select').on('select2:select', function(e) {
+         var carId = $(this).val();
+         var car = carsState.find(car => car.id == carId);
+
+         $('#js-carClassNameModal-input').val(car.class_name)
+     })
 
     $('#js-select2-apartments-id').select2({
         ajax: {
@@ -840,6 +893,7 @@ $(document).ready(() => {
 
         request('/api/customers/getOne', { id: val })
             .then(result => {
+                console.log("TCL: result", result)
                 $apartmentReservations.find('[name=discount]').val(result.data.discount);
             })
     })
