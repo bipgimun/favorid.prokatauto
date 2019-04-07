@@ -1,5 +1,5 @@
 <header class="page-header">
-    <h2>Заказы авто с водителем</h2>
+    <h2>Заказы аренды авто</h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -8,13 +8,13 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Заказы авто с водителем</span> <span class="separator"></span></li>
+            <li><span>Заказы авто</span> <span class="separator"></span></li>
         </ol>
     </div>
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-        <h2 class="panel-title">Список заказов авто с водителем</h2>
+        <h2 class="panel-title">Список заказов авто в аренду</h2>
     </header>
     <div class="panel-body">
         <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
@@ -71,7 +71,7 @@
 <div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
     <section class="panel">
         <header class="panel-heading">
-            <h2 class="panel-title">Заявка на авто</h2>
+            <h2 class="panel-title">Заявка на аренду авто</h2>
         </header>
         <div class="panel-body">
             <form id="js-carReservations-form" action="/api/carReservations/add" class="form-horizontal mb-lg"
@@ -98,6 +98,12 @@
                                 <button class="btn btn-primary" type="button">Добавить</button>
                             </span>
                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Cкидка заказчика</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" value="{{this.discount}}">
                     </div>
                 </div>
                 <div class="form-group">
