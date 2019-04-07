@@ -34,7 +34,10 @@ app.post('/add', async (req, res, next) => {
 
 app.post('/get', async (req, res, next) => {
 
-    const { name = '', model = '' } = req.body;
+    const {
+        name = '',
+        model = '',
+    } = req.body;
 
     const cars = await db.execQuery(`
         SELECT c.*,

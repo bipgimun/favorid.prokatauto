@@ -36,200 +36,221 @@
             <header class="panel-heading">
                 <h2 class="panel-title">Заявка на авто</h2>
             </header>
-            <div class="panel-body">
-                <form id="js-nomenclature-products-form" class="form-horizontal mb-lg" novalidate="novalidate">
-                    <div class="form-group mt-lg group-drivers">
-                        <div class="col-sm-4">
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="checkbox-custom checkbox-primary">
-                                <input class="group-drivers__checkbox" type="checkbox" id="checkboxdriver">
-                                <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
+            {{#each reservs}}
+                <div class="panel-body">
+                    <form id="js-carReservations-form" action="/api/carReservations/update"
+                        class="form-horizontal mb-lg" novalidate="novalidate">
+                        <div class="form-group mt-lg group-drivers">
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="checkbox-custom checkbox-primary">
+                                    <input {{ifTrue this.driver_id 'checked' : ''}} class="group-drivers__checkbox"
+                                        type="checkbox" id="checkboxdriver">
+                                    <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group mt-lg">
-                        <label class="col-sm-3 control-label">Заказчик</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <select name="master" class="form-control">
-                                    <option value="0" selected disabled>Выберете заказчика</option>
-                                    <option value="0">ООО "Рога и Копыта"</option>
-                                    <option value="0">ИП Иванов Иван Иванович</option>
-                                    <option value="0">ИП Василий Васильевич Васильев</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Добавить</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Пассажир</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <select name="master" class="form-control">
-                                    <option value="0" selected disabled>Выберете пассажира</option>
-                                    <option value="0">Иван Иванов Иванович</option>
-                                    <option value="0">Василиса Ивановна</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Добавить</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Контактный телефон</label>
-                        <div class="col-sm-9">
-                            <input data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
-                                class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group group-drivers__hide-vis" style="display: none;">
-                        <label class="col-sm-3 control-label">Водитель</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <select name="master" class="form-control">
-                                    <option value="0" selected disabled>Выберете водителя</option>
-                                    <option value="0">Иван Иванов Иванович</option>
-                                    <option value="0">Василиса Ивановна</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Добавить</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mt-lg">
-                        <label class="col-sm-3 control-label">Марка автомобиля</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Введите марку" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Модель</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Введите модель" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Автомобиль</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <select name="master" class="form-control">
-                                    <option value="0" selected disabled>Выберете автомобиль</option>
-                                    <option value="0">Hyndai Solaris xa777a-174</option>
-                                    <option value="0">Kia Rio xa757a-74</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Добавить</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Класс автомобиля</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" placeholder="Введите класс" required>
-                        </div>
-                    </div>
-                    <div class="form-group group-drivers__hide-vis" style="display: none;">
-                        <label class="col-sm-2 control-label">Маршрут</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <select name="master" class="form-control">
-                                    <option value="0" selected disabled>Выберете маршрут</option>
-                                    <option value="0">Магнитогорск-Банное</option>
-                                    <option value="0">Магнитогорск-Аэропорт города</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Добавить</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Выбор оплаты</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <select name="master" class="form-control">
-                                    <option value="0" selected disabled>Выберете способ оплаты</option>
-                                    <option value="0">Касса1</option>
-                                    <option value="0">Р/С "КУБ" 408121212124324432</option>
-                                </select>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Добавить</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group services-group">
-                        <div class="form-group">
-                            <label class="col-sm-12 control-label"
-                                style="text-transform: uppercase; font-weight: bold; text-align: center;">Дополнительные
-                                услуги</label>
-                        </div>
-                        <div class="form-group col-sm-12 services-group__item">
-                            <label class="col-sm-2 control-label">Услуга</label>
-                            <div class="col-sm-10">
+                        <div class="form-group mt-lg">
+                            <label class="col-sm-3 control-label">Заказчик</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
-                                    <select class="form-control">
-                                        <option value="0" selected disabled>Выберете услугу</option>
-                                        <option value="{{this.id}}">{{this.name}}</option>
+                                    <select name="customer_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете заказчика</option>
+                                        {{#each ../customers}}
+                                            <option {{compare this.id ../customer_id 'selected' ''}}
+                                                value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
                                     </select>
                                     <span class="input-group-btn">
-                                        <a class="btn btn-primary" type="button" href="/new-page-8"
-                                            target="_blank">Добавить</a>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-warning adding-item" type="button">+</button>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-danger deliting-item" type="button">-</button>
+                                        <button class="btn btn-primary" type="button">Добавить</button>
                                     </span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Предварительная сумма</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="Введите сумму" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Комментарий</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" id="" cols="30" rows="5"
-                                placeholder="Введите комментарий"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">Общая сумма</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" placeholder="Введите сумму" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Статус</label>
-                        <div class="col-sm-9">
-                            <div class="non-editable-content">
-
-                            </div>
-                            <div class="editable-content">
-                                <div class="checkbox-custom checkbox-warning col-sm-3">
-                                    <input value="2" type="checkbox" id="checkboxExample4">
-                                    <label for="checkboxExample4">На приеме</label>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Пассажир</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select name="master" class="form-control">
+                                        <option value="0" selected disabled>Выберете пассажира</option>
+                                        {{#each ../passengers}}
+                                            <option {{compare this.id ../passenger_id 'selected' ''}}
+                                                value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">Добавить</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 text-right editable-content">
-                        <button class="btn btn-success">Сохранить</button>
-                    </div>
-                </form>
-            </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Контактный телефон</label>
+                            <div class="col-sm-9">
+                                <input name="contact_number" value="{{this.contact_number}}" data-input-mask="+7 (999) 999-9999"
+                                    placeholder="+7 (123) 123-1234" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group group-drivers__hide-vis" style="display: none;">
+                            <label class="col-sm-3 control-label">Водитель</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select name="driver_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете водителя</option>
+                                        {{#each ../drivers}}
+                                            <option {{compare this.id ../driver_id 'selected' ''}} value="{{this.id}}">
+                                                {{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">Добавить</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-lg">
+                            <label class="col-sm-3 control-label">Марка автомобиля</label>
+                            <div class="col-sm-9">
+                                <input name="car_name" value="{{this.car_name}}" type="text" class="form-control"
+                                    placeholder="Введите марку" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Модель</label>
+                            <div class="col-sm-9">
+                                <input name="car_model" value="{{this.car_model}}" type="text" class="form-control"
+                                    placeholder="Введите модель" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Автомобиль</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select name="car_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете автомобиль</option>
+                                        {{#each ../cars}}
+                                            <option {{compare this.id ../car_id 'selected' ''}} value="{{this.id}}">
+                                                {{this.name}} {{this.model}} - {{this.number}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">Добавить</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Класс автомобиля</label>
+                            <div class="col-sm-3">
+                                <input name="class_name" value="{{this.class_name}}" type="text" class="form-control"
+                                    placeholder="Введите класс" required>
+                            </div>
+                        </div>
+                        <div class="form-group group-drivers__hide-vis" style="display: none;">
+                            <label class="col-sm-2 control-label">Маршрут</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <select name="itinerarie_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете маршрут</option>
+                                        {{#each ../itineraries}}
+                                            <option {{compare this.id ../itinerarie_id 'selected' ''}}
+                                                value="{{this.id}}">
+                                                {{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">Добавить</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Выбор оплаты</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select name="cash_storage_id" class="form-control">
+                                        <option value="0" selected disabled>Выберете способ оплаты</option>
+                                        {{#each ../cashStorages}}
+                                            <option {{compare this.id ../cash_storage_id 'selected' ''}}
+                                                value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">Добавить</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group services-group">
+                            <div class="form-group">
+                                <label class="col-sm-12 control-label"
+                                    style="text-transform: uppercase; font-weight: bold; text-align: center;">Дополнительные
+                                    услуги</label>
+                            </div>
+                            <div class="form-group col-sm-12 services-group__item">
+                                <label class="col-sm-2 control-label">Услуга</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <select class="form-control">
+                                            <option value="0" selected disabled>Выберете услугу</option>
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <a class="btn btn-primary" type="button" href="/new-page-8"
+                                                target="_blank">Добавить</a>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning adding-item" type="button">+</button>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-danger deliting-item" type="button">-</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Предварительная сумма</label>
+                            <div class="col-sm-8">
+                                <input name="prepayment" value="{{this.prepayment}}" type="text" class="form-control"
+                                    placeholder="Введите сумму" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Комментарий</label>
+                            <div class="col-sm-9">
+                                <textarea name="comment" class="form-control" cols="30" rows="5"
+                                    placeholder="Введите комментарий">{{this.comment}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Общая сумма</label>
+                            <div class="col-sm-8">
+                                <input name="sum" value="{{this.sum}}" type="text" class="form-control" placeholder="Введите сумму"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Статус</label>
+                            <div class="col-sm-9">
+                                <div class="non-editable-content">
+                                    {{this.status}}
+                                </div>
+                                <div class="editable-content">
+                                    <div class="checkbox-custom checkbox-warning col-sm-3">
+                                        <input value="2" type="checkbox" id="checkboxExample4">
+                                        <label for="checkboxExample4">На приеме</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+            {{/each}}
             <div>
                 <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                 <button class="btn btn-danger">Завершить</button>

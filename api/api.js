@@ -3,15 +3,9 @@ const app = express();
 
 const checkAuth = require('../libs/middlewares/check-auth');
 
-const db = require('../libs/db');
-const { wishList } = require('./wish-list');
-const messages = require('./messages');
-
-const moment = require('moment');
-const apartments_statuses = require('../config/apartment-statuses');
-
 app.post('/login', require('./routes/login'));
 
+// -------------OLD API------------------------------------
 app.post('/salesServices/add', checkAuth, require('./routes/sales-services/add'));
 app.post('/salesGoods/add', checkAuth, require('./routes/sales-goods/add'));
 app.post('/costs/add', checkAuth, require('./routes/costs/add'));
@@ -27,6 +21,7 @@ app.post('/salesReport/loadServicesTable', checkAuth, require('./routes/sales-re
 app.post('/remnants-of-goods/loadTableOborotGoods', checkAuth, require('./routes/remnants-of-goods/loadTableOborotGoods'));
 app.post('/nomenclature/addProduct', checkAuth, require('./routes/nomenclature/addProduct'));
 app.post('/nomenclature/addService', checkAuth, require('./routes/nomenclature/addService'));
+// ------------------------------------------------------------------------
 
 app.use('/cars', checkAuth, require('./routes/cars'));
 app.use('/priceList', checkAuth, require('./routes/cars-price'));
@@ -38,6 +33,7 @@ app.use('/additionalServices', checkAuth, require('./routes/additional-services'
 app.use('/drivers', checkAuth, require('./routes/drivers'));
 app.use('/itineraries', checkAuth, require('./routes/itineraries'));
 app.use('/apartmentReservations', checkAuth, require('./routes/apartment-reservations'));
+app.use('/carReservations', checkAuth, require('./routes/car-reservations'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));
