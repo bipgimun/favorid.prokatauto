@@ -3,6 +3,9 @@ const db = require('../../libs/db');
 const APARTMENT_STATUS = require('../../config/apartment-statuses');
 
 module.exports = async (req, res, next) => {
+
+    const isArchive = req.route.path === '/archive';
+
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
@@ -15,6 +18,9 @@ module.exports = async (req, res, next) => {
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id
+        WHERE 
+            ar.id > 0
+            AND ar.status IN (${isArchive ? '3' : '0,1,2'})
     `));
 
     apartmentReservations.forEach(item => {
