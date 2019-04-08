@@ -8,6 +8,7 @@ const statues = {
 
 module.exports = async (req, res, next) => {
 
+    const isArchive = req.route.path === '/archive';
 
     const reservs = await db.execQuery(`
         SELECT cr.*,
@@ -28,6 +29,9 @@ module.exports = async (req, res, next) => {
             LEFT JOIN cars_price cp ON cp.id = cr.price_id
             LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
             LEFT JOIN cash_storages cs ON cs.id = cr.cash_storage_id
+        WHERE 
+            cr.id > 0
+            AND cr.status IN (${isArchive ? '2' : '0,1'})
     `);
 
     reservs.forEach(item => {
