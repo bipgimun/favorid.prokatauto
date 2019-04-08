@@ -49,9 +49,16 @@ app.post('/update', async (req, res, next) => {
     await db.execQuery(`UPDATE cars_reservations SET ? WHERE id = ?`, [validValues, id]);
 
     const [item = {}] = await db.execQuery(`
-         SELECT cr.*,
+          SELECT cr.*,
             c.name as car_name,
-            c.model as car_model
+            c.model as car_model,
+            c.number as car_number,
+            cu.name as customer_name,
+            cu.discount as customer_discount,
+            p.name as passenger_name,
+            d.name as driver_name,
+            i.name as itinerarie_name,
+            cs.name as cash_storage_name
         FROM cars_reservations cr
             LEFT JOIN cars c ON c.id = cr.car_id
             LEFT JOIN customers cu ON cu.id = cr.customer_id
@@ -62,10 +69,9 @@ app.post('/update', async (req, res, next) => {
             LEFT JOIN cash_storages cs ON cs.id = cr.cash_storage_id
         WHERE cr.id = ?`, [id]);
 
-    console.log('item', item);
-    console.log('validValues', validValues);
+    const returnData = { ...validValues, ...item };
 
-    res.json({ status: 'ok', data: validValues });
+    res.json({ status: 'ok', data: returnData });
 });
 
 module.exports = app;

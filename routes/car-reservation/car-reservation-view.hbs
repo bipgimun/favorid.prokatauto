@@ -41,7 +41,7 @@
                     <form id="js-carReservations-form" action="/api/carReservations/update"
                         class="form-horizontal mb-lg" novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
-                        <div class="form-group mt-lg group-drivers">
+                        <div class="form-group mt-lg group-drivers editable-content">
                             <div class="col-sm-4">
                             </div>
                             <div class="col-sm-8">
@@ -57,7 +57,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="non-editable-content" data-target="customer_id">
-                                        {{this.customer_id}}
+                                        {{this.customer_name}}
                                     </div>
                                     <div class="editable-content">
                                         <select name="customer_id" class="form-control">
@@ -77,21 +77,21 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Cкидка заказчика</label>
                             <div class="non-editable-content" data-target="discount">
-                                {{this.discount}}
+                                {{this.customer_discount}}
                             </div>
                             <div class="col-sm-6 editable-content">
-                                <input class="form-control" value="{{this.discount}}">
+                                <input class="form-control" value="{{this.customer_discount}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Пассажир</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="master">
-                                        {{this.master}}
+                                    <div class="non-editable-content" data-target="passenger_name">
+                                        {{this.passenger_name}}
                                     </div>
                                     <div class="editable-content">
-                                        <select name="master" class="form-control">
+                                        <select name="passenger_id" class="form-control">
                                             <option value="0" selected disabled>Выберете пассажира</option>
                                             {{#each ../passengers}}
                                                 <option {{compare this.id ../passenger_id 'selected' ''}}
@@ -120,8 +120,8 @@
                             <label class="col-sm-3 control-label">Водитель</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="driver_id">
-                                        {{this.driver_id}}
+                                    <div class="non-editable-content" data-target="driver_name">
+                                        {{this.driver_name}}
                                     </div>
                                     <div class="editable-content">
                                         <select name="driver_id" class="form-control">
@@ -163,8 +163,8 @@
                             <label class="col-sm-3 control-label">Автомобиль</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="car_id">
-                                        {{this.car_id}}
+                                    <div class="non-editable-content">
+                                        {{this.car_name}} {{this.car_model}} - {{this.car_number}}
                                     </div>
                                     <div class="editable-content">
                                         <select name="car_id" class="form-control">
@@ -195,8 +195,8 @@
                             <label class="col-sm-2 control-label">Маршрут</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="itinerarie_id">
-                                        {{this.itinerarie_id}}
+                                    <div class="non-editable-content" data-target="itinerarie_name">
+                                        {{this.itinerarie_name}}
                                     </div>
                                     <div class="editable-content">
                                         <select name="itinerarie_id" class="form-control">
@@ -218,8 +218,8 @@
                             <label class="col-sm-3 control-label">Выбор оплаты</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="cash_storage_id">
-                                        {{this.cash_storage_id}}
+                                    <div class="non-editable-content" data-target="cash_storage_name">
+                                        {{this.cash_storage_name}}
                                     </div>
                                     <div class="editable-content">
                                         <select name="cash_storage_id" class="form-control">
@@ -255,7 +255,6 @@
                                         <div class="editable-content">
                                             <select class="form-control">
                                                 <option value="0" selected disabled>Выберете услугу</option>
-                                                <option value="{{this.id}}">{{this.name}}</option>
                                             </select>
                                             <span class="input-group-btn">
                                                 <a class="btn btn-primary" type="button" href="/new-page-8"
@@ -377,15 +376,15 @@
 
     if ($galka.is(':checked')) {
         driversGroupLabel.innerHTML = 'С ВОДИТЕЛЕМ';
-        
+
         for (let i = 0; i < driversGroupHV.length; i++) {
             driversGroupHV[i].style.display = 'block';
         }
 
     } else {
-        
+
         driversGroupLabel.innerHTML = 'БЕЗ ВОДИТЕЛЯ';
-        
+
         for (let i = 0; i < driversGroupHV.length; i++) {
             driversGroupHV[i].style.display = 'none';
         }
