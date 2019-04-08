@@ -54,7 +54,7 @@ app.post('/update', async (req, res, next) => {
     const { id, ...fields } = req.body.values;
 
     const validValues = Object.keys(fields)
-        .filter(field => wishList.apartmentReservations.includes(field))
+        .filter(field => wishList.apartmentReservations.includes(field) && fields[field].trim())
         .reduce((acc, item) => (acc[item] = fields[item], acc), {});
 
     if (!id)
@@ -93,7 +93,7 @@ app.post('/update', async (req, res, next) => {
         validValues.departure = moment(validValues.departure).format('DD.MM.YYYY в HH:mm');
     }
 
-    validValues.status_name = apartments_statuses[+item.status];
+    validValues.status_name = apartments_statuses.get([+item.status]);
 
     res.json({ status: 'ok', data: validValues });
 })
