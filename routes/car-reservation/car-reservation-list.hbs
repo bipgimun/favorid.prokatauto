@@ -29,6 +29,7 @@
                 style="width:100%; display: none">
                 <thead>
                     <tr>
+                        <th>Номер</th>
                         <th>Дата заказа</th>
                         <th>Заказчик</th>
                         <th>Пассажир</th>
@@ -40,6 +41,7 @@
                 <tbody>
                     {{#each reservs}}
                         <tr>
+                            <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.customer_name}}</td>
                             <td>{{this.passenger_name}}</td>
