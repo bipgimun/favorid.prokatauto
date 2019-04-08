@@ -37,65 +37,88 @@
                 <h2 class="panel-title">Добавление нового авто</h2>
             </header>
             {{#each prices}}
-                <div class="panel-body">
+                <div class="panel-body js-editable-body">
                     <form action="/api/priceList/update" id="js-price-list-add-form" class="form-horizontal mb-lg"
                         novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group mt-lg">
                             <label class="col-sm-4 control-label">Марка автомобиля</label>
-                            <div class="col-sm-8">
+                            <div class="non-editable-content" data-target="name">
+                                {{this.name}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
                                 <input value="{{this.name}}" name="name" type="text" class="form-control"
                                     placeholder="Введите марку" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Модель</label>
-                            <div class="col-sm-8">
-                                <input value="{{this.model}}" name="model" type="text" class="form-control"
-                                    placeholder="Введите модель" required>
+                            <div class="non-editable-content" data-target="model">
+                                {{this.model}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input value="{{this.model}}" name="model" type="text" class="form-control" placeholder="Введите модель" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Класс</label>
-                            <div class="col-sm-4">
+                            <div class="non-editable-content" data-target="class_name">
+                                {{this.class_name}}
+                            </div>
+                            <div class="col-sm-4 editable-content">
                                 <input value="{{this.class_name}}" name="class_name" type="text" class="form-control"
                                     placeholder="Введите класс">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Цена в сутки, руб</label>
-                            <div class="col-sm-8">
+                            <div class="non-editable-content" data-target="price_per_day">
+                                {{this.price_per_day}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
                                 <input value="{{this.price_per_day}}" name="price_per_day" type="number"
                                     class="form-control" placeholder="Введите цену" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Залог, руб.</label>
-                            <div class="col-sm-8">
+                            <div class="non-editable-content" data-target="pledge">
+                                {{this.pledge}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
                                 <input value="{{this.pledge}}" name="pledge" type="number" class="form-control"
                                     placeholder="Введите цену" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Лимит км в сутки</label>
-                            <div class="col-sm-8">
-                                <input value="{{this.limit_per_day}}" name="limit_per_day" type="number"
-                                    class="form-control" placeholder="Введите расстояние" required>
+                            <div class="non-editable-content" data-target="limit_per_day">
+                                {{this.limit_per_day}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input value="{{this.limit_per_day}}" name="limit_per_day" type="number" class="form-control" placeholder="Введите расстояние" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Цена перепробега за км, руб.</label>
-                            <div class="col-sm-8">
+                            <div class="non-editable-content" data-target="surcharge">
+                                {{this.surcharge}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
                                 <input value="{{this.surcharge}}" name="surcharge" type="number" class="form-control" placeholder="Введите пробег" required>
                             </div>
                         </div>
-                        <div class="col-md-12 text-right">
-                            <button class="btn btn-primary">Подтвердить</button>
-                            <button class="btn btn-default modal-dismiss">Отмена</button>
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
                         </div>
                     </form>
                 </div>
-            {{/each}}
+                <div>
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button class="btn btn-danger">Завершить</button>
+                    <button  class="btn btn-danger">Удалить заявку</button>
+                </div>
         </section>
+        {{/each}}
     </div>
 </section>

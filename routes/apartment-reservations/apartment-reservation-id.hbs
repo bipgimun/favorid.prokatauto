@@ -68,7 +68,7 @@
                             <div class="non-editable-content" data-target="discount">
                                 {{this.discount}}
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 editable-content">
                                 <input class="form-control" value="{{this.discount}}">
                             </div>
                         </div>
@@ -293,6 +293,7 @@
                         <button data-id="{{id}}" id="js-apartmentReserv-view-complete"
                             class="btn btn-danger">Завершить</button>
                     {{/unless}}
+                    <button  class="btn btn-danger">Удалить заявку</button>
                 </div>
             </section>
         {{/each}}
