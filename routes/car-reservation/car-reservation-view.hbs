@@ -22,7 +22,7 @@
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
             <li>
-                <a href="index.html">
+                <a href="/">
                     <i class="fa fa-book"></i>
                 </a>
             </li>
@@ -37,9 +37,10 @@
                 <h2 class="panel-title">Заявка на авто</h2>
             </header>
             {{#each reservs}}
-                <div class="panel-body">
+                <div class="panel-body js-editable-body">
                     <form id="js-carReservations-form" action="/api/carReservations/update"
                         class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group mt-lg group-drivers">
                             <div class="col-sm-4">
                             </div>
@@ -110,8 +111,9 @@
                                 {{this.contact_number}}
                             </div>
                             <div class="col-sm-9 editable-content">
-                                <input name="contact_number" value="{{this.contact_number}}" data-input-mask="+7 (999) 999-9999"
-                                    placeholder="+7 (123) 123-1234" class="form-control" required>
+                                <input name="contact_number" value="{{this.contact_number}}"
+                                    data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
+                                    class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group group-drivers__hide-vis" style="display: none;">
@@ -125,7 +127,8 @@
                                         <select name="driver_id" class="form-control">
                                             <option value="0" selected disabled>Выберете водителя</option>
                                             {{#each ../drivers}}
-                                                <option {{compare this.id ../driver_id 'selected' ''}} value="{{this.id}}">
+                                                <option {{compare this.id ../driver_id 'selected' ''}}
+                                                    value="{{this.id}}">
                                                     {{this.name}}</option>
                                             {{/each}}
                                         </select>
@@ -183,7 +186,7 @@
                             <div class="non-editable-content" data-target="class_name">
                                 {{this.class_name}}
                             </div>
-                            <div class="col-sm-3 editable-content"">
+                            <div class="col-sm-3 editable-content">
                                 <input name="class_name" value="{{this.class_name}}" type="text" class="form-control"
                                     placeholder="Введите класс" required>
                             </div>
@@ -235,17 +238,19 @@
                         </div>
                         <div class="form-group services-group">
                             <div class="form-group">
-                                <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Дополнительные услуги</label>
+                                <label class="col-sm-12 control-label"
+                                    style="text-transform: uppercase; font-weight: bold; text-align: center;">Дополнительные
+                                    услуги</label>
                             </div>
                             <div class="form-group col-sm-12 services-group__item">
                                 <label class="col-sm-2 control-label">Услуга</label>
-                                <div class="non-editable-content" >
+                                <div class="non-editable-content">
                                     <!-- NAME data target-->
                                 </div>
                                 <div class="col-sm-10">
                                     <div class="input-group">
-                                        <div class="non-editable-content" >
-                                            
+                                        <div class="non-editable-content">
+
                                         </div>
                                         <div class="editable-content">
                                             <select class="form-control">
@@ -293,8 +298,8 @@
                                 {{this.sum}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="sum" value="{{this.sum}}" type="text" class="form-control" placeholder="Введите сумму"
-                                    required>
+                                <input name="sum" value="{{this.sum}}" type="text" class="form-control"
+                                    placeholder="Введите сумму" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -368,6 +373,23 @@
     const driversGroupCheckbox = driversGroup.querySelector('.group-drivers__checkbox');
     const driversGroupLabel = driversGroup.querySelector('.group-drivers__label');
     const driversGroupHV = document.querySelectorAll('.group-drivers__hide-vis');
+    const $galka = $('#checkboxdriver');
+
+    if ($galka.is(':checked')) {
+        driversGroupLabel.innerHTML = 'С ВОДИТЕЛЕМ';
+        
+        for (let i = 0; i < driversGroupHV.length; i++) {
+            driversGroupHV[i].style.display = 'block';
+        }
+
+    } else {
+        
+        driversGroupLabel.innerHTML = 'БЕЗ ВОДИТЕЛЯ';
+        
+        for (let i = 0; i < driversGroupHV.length; i++) {
+            driversGroupHV[i].style.display = 'none';
+        }
+    }
 
     driversGroupCheckbox.addEventListener('click', () => {
         if (driversGroupCheckbox.checked) {

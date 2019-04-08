@@ -91,5 +91,21 @@ exports.wishList = {
         'pledge',
         'limit_per_day',
         'surcharge',
+    ],
+    carReservation: [
+        'customer_id',
+        'contact_number',
+        'passenger_id',
+        'driver_id',
+        'car_id',
+        'price_id',
+        'class_name',
+        'itinerarie_id',
+        'cash_storage_id',
+        'services',
+        'prepayment',
+        'comment',
+        'sum',
+        'status',
     ]
 };
