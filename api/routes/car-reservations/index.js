@@ -10,6 +10,12 @@ const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
 
+const statues = {
+    '0': 'Новая заявка',
+    '1': 'В работе',
+    '2': 'Завершена'
+};
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
@@ -28,6 +34,7 @@ app.post('/add', async (req, res, next) => {
     const id = await db.insertQuery(`INSERT INTO cars_reservations SET ?`, values);
 
     values.id = id;
+    values.status_name = statues['0'];
 
     res.json({ status: 'ok', data: values });
 })
@@ -68,6 +75,9 @@ app.post('/update', async (req, res, next) => {
             LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
             LEFT JOIN cash_storages cs ON cs.id = cr.cash_storage_id
         WHERE cr.id = ?`, [id]);
+
+
+    validValues.status_name = statues[validValues.status];
 
     const returnData = { ...validValues, ...item };
 

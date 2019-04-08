@@ -1,5 +1,11 @@
 const db = require('../../libs/db');
 
+const statues = {
+    '0': 'Новая заявка',
+    '1': 'В работе',
+    '2': 'Завершена'
+};
+
 module.exports = async (req, res, next) => {
 
     const { id } = req.params;
@@ -26,14 +32,17 @@ module.exports = async (req, res, next) => {
         WHERE cr.id = ?`, [id]
     );
 
+    reservs.forEach(item => {
+        item.status_name = statues[String(item.status)];
+        item.completed = item.status == '2';
+    })
+
     const customers = await db.execQuery(`SELECT * FROM customers`);
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
     const drivers = await db.execQuery('SELECT * FROM drivers');
     const cars = await db.execQuery('SELECT * FROM cars');
     const itineraries = await db.execQuery('SELECT * FROM itineraries');
     const cashStorages = await db.execQuery('SELECT * FROM cash_storages');
-
-    const carPrices = await db.execQuery('SELECT * FROM cars_price');
 
     res.render(__dirname + '/car-reservation-view', {
         reservs,
@@ -43,5 +52,7 @@ module.exports = async (req, res, next) => {
         cars,
         itineraries,
         cashStorages,
+        id,
+        item: reservs[0]
     });
 }

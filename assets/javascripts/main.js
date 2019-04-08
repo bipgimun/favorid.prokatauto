@@ -698,7 +698,7 @@ $(document).ready(() => {
 
         return false;
     })
-    
+
     $('#js-carReservations-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -873,6 +873,15 @@ $(document).ready(() => {
         dropdownParent: $('#add-products'),
         placeholder: 'Выберите автомобиль'
     });
+
+    $('#js-carReserv-complete').on('click', async function () {
+        const $btn = $(this);
+        const { id } = $btn.data();
+
+        const { data } = await request('/api/carReservations/update', { values: { id, status: 2 } });
+
+        location.reload();
+    })
 
     $('#js-carsListModal-select').on('select2:select', function (e) {
         var carId = $(this).val();

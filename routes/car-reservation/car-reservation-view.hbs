@@ -304,13 +304,20 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Статус</label>
                             <div class="col-sm-9">
-                                <div class="non-editable-content">
-                                    <!-- NAME data target и т.д.-->
+                                <div class="non-editable-content" data-target="status_name">
+                                    {{this.status_name}}
                                 </div>
                                 <div class="editable-content">
                                     <div class="checkbox-custom checkbox-warning col-sm-3">
-                                        <input value="2" type="checkbox" id="checkboxExample4">
-                                        <label for="checkboxExample4">На приеме</label>
+                                        <input {{compare this.status '0' '' 'checked disabled'}} name="status" value="1"
+                                            type="checkbox" id="checkboxExample4">
+                                        <label for="checkboxExample4">
+                                            {{#unless this.status}}
+                                                На приеме
+                                            {{else}}
+                                                {{this.status_name}}
+                                            {{/unless}}
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -322,8 +329,10 @@
                 </div>
             {{/each}}
             <div>
-                <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                <button class="btn btn-danger">Завершить</button>
+                {{#unless item.completed}}
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button id="js-carReserv-complete" data-id="{{id}}" class="btn btn-danger">Завершить</button>
+                {{/unless}}
             </div>
         </section>
     </div>
