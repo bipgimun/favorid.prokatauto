@@ -30,6 +30,7 @@ module.exports = async (req, res, next) => {
     apartmentReservations.forEach(item => {
         item.status_name = APARTMENT_STATUSES.get(item.status);
         item.nonEditable = [APARTMENT_STATUSES.get('AT_RECEPTION'), APARTMENT_STATUSES.get('COMPLETED')].includes(+item.status);
+        item.completed = item.status == APARTMENT_STATUSES.get('COMPLETED');
     });
 
     const [reservation = {}] = apartmentReservations;
@@ -96,6 +97,8 @@ module.exports = async (req, res, next) => {
         apartmentReservations,
         apartments,
         cashStorages,
-        servicesList
+        servicesList,
+        id,
+        reservation
     });
 };

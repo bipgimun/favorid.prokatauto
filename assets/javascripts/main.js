@@ -882,6 +882,15 @@ $(document).ready(() => {
 
         location.reload();
     })
+    
+    $('#js-apartmentReserv-view-complete').on('click', async function () {
+        const $btn = $(this);
+        const { id } = $btn.data();
+
+        const { data } = await request('/api/apartmentReservations/update', { values: { id, status: 3 } });
+
+        location.reload();
+    })
 
     $('#js-carsListModal-select').on('select2:select', function (e) {
         var carId = $(this).val();

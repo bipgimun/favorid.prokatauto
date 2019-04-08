@@ -80,7 +80,8 @@
                                         {{this.client_name}}
                                     </div>
                                     <div class="editable-content">
-                                        <select style="width: 100%" name="passenger_id" class="form-control" id="js-select2-clients-id">
+                                        <select style="width: 100%" name="passenger_id" class="form-control"
+                                            id="js-select2-clients-id">
                                             <option value="0" selected disabled>Выберете пассажира</option>
                                             {{#each ../passengers}}
                                                 <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
@@ -114,7 +115,8 @@
                                         {{this.address}}
                                     </div>
                                     <div class="editable-content">
-                                        <select style="width: 100%" name="apartment_id" class="form-control" id="js-select2-apartments-id">
+                                        <select style="width: 100%" name="apartment_id" class="form-control"
+                                            id="js-select2-apartments-id">
                                             <option value="0" selected disabled>Выберете Адрес</option>
                                             {{#each ../apartments}}
                                                 <option {{ifTrue this.selected 'selected' : ''}} value="{{this.id}}">
@@ -286,8 +288,11 @@
                     </form>
                 </div>
                 <div>
-                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                    <button class="btn btn-danger">Завершить</button>
+                    {{#unless this.completed}}
+                        <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                        <button data-id="{{id}}" id="js-apartmentReserv-view-complete"
+                            class="btn btn-danger">Завершить</button>
+                    {{/unless}}
                 </div>
             </section>
         {{/each}}

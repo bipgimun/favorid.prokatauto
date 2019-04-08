@@ -69,6 +69,22 @@ app.post('/update', async (req, res, next) => {
         validValues.status_name = apartments_statuses.get(+validValues.status);
     }
 
+    const [item = {}] = await db.execQuery(`
+        SELECT ar.*,
+            a.address,
+            p.name as client_name,
+            c.name as customer_name,
+            p.contact_number as client_number,
+            cs.name as cash_storage
+        FROM apartment_reservations ar
+            LEFT JOIN apartments a ON ar.apartment_id = a.id
+            LEFT JOIN passengers p ON ar.passenger_id = p.id
+            LEFT JOIN customers c ON ar.customer_id = c.id
+            LEFT JOIN cash_storages cs ON ar.cash_storage_id = cs.id
+        WHERE
+            ar.id = ?
+    `, [id])
+
     if (validValues.entry) {
         validValues.entry = moment(validValues.entry).format('DD.MM.YYYY в HH:mm');
     }
@@ -76,6 +92,8 @@ app.post('/update', async (req, res, next) => {
     if (validValues.departure) {
         validValues.departure = moment(validValues.departure).format('DD.MM.YYYY в HH:mm');
     }
+
+    validValues.status_name = apartments_statuses[+item.status];
 
     res.json({ status: 'ok', data: validValues });
 })
