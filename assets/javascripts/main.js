@@ -882,12 +882,38 @@ $(document).ready(() => {
 
         location.reload();
     })
-    
+
     $('#js-apartmentReserv-view-complete').on('click', async function () {
         const $btn = $(this);
         const { id } = $btn.data();
 
         const { data } = await request('/api/apartmentReservations/update', { values: { id, status: 3 } });
+
+        location.reload();
+    })
+
+    $('.js-tableEssence-remove').on('click', async function (e) {
+
+        const $btn = $(this);
+
+        if (!confirm('Подтвердить удаление?'))
+            return false;
+
+        const { id, target } = $btn.data();
+
+        if (!id) {
+            alert('Что-то пошло не так. Попробуйте позже');
+            console.log('Отсутствует id');
+            return false;
+        }
+        
+        if (!target) {
+            alert('Что-то пошло не так. Попробуйте позже');
+            console.log('Отсутствует target');
+            return false;
+        }
+
+        const { data } = await request('/api/' + target + '/delete', { id });
 
         location.reload();
     })

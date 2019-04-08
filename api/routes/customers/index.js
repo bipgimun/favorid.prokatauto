@@ -68,4 +68,16 @@ app.post('/update', async (req, res, next) => {
     res.json({ status: 'ok', data: validValues });
 })
 
+app.post('/delete', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('id missing');
+
+    await db.execQuery('DELETE FROM customers WHERE id = ?', [id]);
+
+    res.json({ status: 'ok' });
+})
+
 module.exports = app;

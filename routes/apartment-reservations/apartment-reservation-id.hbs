@@ -293,7 +293,8 @@
                         <button data-id="{{id}}" id="js-apartmentReserv-view-complete"
                             class="btn btn-danger">Завершить</button>
                     {{/unless}}
-                    <button id="js-apartmentReserv-view-delete" class="btn btn-danger">Удалить заявку</button>
+                    <button data-id="{{id}}" data-target="apartmentReservations" class="btn btn-danger js-tableEssence-remove">Удалить
+                        заявку</button>
                 </div>
             </section>
         {{/each}}

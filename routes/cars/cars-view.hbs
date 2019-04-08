@@ -64,7 +64,8 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Класс</label>
                             <div class="col-sm-4">
-                                <input type="text" value="{{this.class_name}}" name="class_name" class="form-control" placeholder="Введите класс">
+                                <input type="text" value="{{this.class_name}}" name="class_name" class="form-control"
+                                    placeholder="Введите класс">
                             </div>
                         </div>
                         <div class="form-group">
@@ -166,15 +167,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <p class="col-sm-12">Автомобиль 
+                            <p class="col-sm-12">Автомобиль
                                 {{#if ../driver.is_individual}}
                                     <span class="car-own">принадлежит</span>
                                 {{else}}
-                                    <span class="car-assigned">зареплен за</span> 
+                                    <span class="car-assigned">зареплен за</span>
                                 {{/if}}
                                 <span class="car-driver-name">
                                     <a href="/drivers/{{../driver.id}}">{{../driver.name}}</a>
-                                </span>, водительское удостоверение 
+                                </span>, водительское удостоверение
                                 <span class="car-driver-license">№ {{../driver.driver_license}}</span>
                             </p>
                         </div>
@@ -229,7 +230,8 @@
                     </form>
                     <div class="col-md-12">
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                        <button class="btn btn-danger">Удалить</button>
+                        <button data-id="{{id}}" data-target="cars"
+                            class="btn btn-danger js-tableEssence-remove">Удалить</button>
                     </div>
                 </div>
             </section>

@@ -38,7 +38,8 @@
                     <h2 class="panel-title">Добавление новой квартиры</h2>
                 </header>
                 <div class="panel-body js-editable-body">
-                    <form action="/api/apartments/update" id="js-apartments-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                    <form action="/api/apartments/update" id="js-apartments-add-form" class="form-horizontal mb-lg"
+                        novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Адрес</label>
@@ -46,7 +47,8 @@
                                 {{this.address }}
                             </div>
                             <div class="col-sm-7 editable-content">
-                                <input name="address" type="text" class="form-control" placeholder="Введите адрес" value="{{this.address }}"required>
+                                <input name="address" type="text" class="form-control" placeholder="Введите адрес"
+                                    value="{{this.address }}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,7 +63,8 @@
                                 {{this.rooms }}
                             </div>
                             <div class="col-sm-7 editable-content">
-                                <input name="rooms" type="number" class="form-control" placeholder="Введите количество" value="{{this.rooms }}" required>
+                                <input name="rooms" type="number" class="form-control" placeholder="Введите количество"
+                                    value="{{this.rooms }}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -70,7 +73,8 @@
                                 {{this.price_per_day }}
                             </div>
                             <div class="col-sm-7 editable-content">
-                                <input name="price_per_day" type="number" class="form-control" placeholder="Введите цену" value="{{this.price_per_day }}" required>
+                                <input name="price_per_day" type="number" class="form-control"
+                                    placeholder="Введите цену" value="{{this.price_per_day }}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -79,7 +83,8 @@
                                 {{this.utilities_per_month }}
                             </div>
                             <div class="col-sm-7 editable-content">
-                                <input name="utilities_per_month" type="number" class="form-control" placeholder="Введите сумму" value="{{this.utilities_per_month }}" required>
+                                <input name="utilities_per_month" type="number" class="form-control"
+                                    placeholder="Введите сумму" value="{{this.utilities_per_month }}" required>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -88,9 +93,9 @@
                     </form>
                     <div class="col-md-12">
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                        <button  class="btn btn-danger">Удалить</button>
+                        <button data-id="{{id}}" data-target="apartments"
+                            class="btn btn-danger js-tableEssence-remove">Удалить</button>
                     </div>
-
                 </div>
             </section>
         {{/each}}
