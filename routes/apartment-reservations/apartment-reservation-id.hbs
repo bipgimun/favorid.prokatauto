@@ -1,6 +1,7 @@
 <style>
     .js-editable-body .non-editable-content {
         display: block;
+        padding-top: 7px;
     }
 
     .js-editable-body .editable-content {
@@ -14,7 +15,21 @@
     .js-editable-body.editable-on .non-editable-content {
         display: none;
     }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
 </style>
+
 <header class="page-header">
     <h2>Заказ квартир</h2>
 
@@ -283,15 +298,17 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
-                            <button class="btn btn-success">Сохранить</button>
+                            <div class="footer-btn-block-resrvation">
+                                <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                            </div>
                         </div>
                     </form>
                 </div>
-                <div>
+                <div class="footer-btn-block-resrvation">
                     {{#unless this.completed}}
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                         <button data-id="{{id}}" id="js-apartmentReserv-view-complete"
-                            class="btn btn-danger">Завершить</button>
+                            class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
                     {{/unless}}
                     <button data-id="{{id}}" data-target="apartmentReservations" class="btn btn-danger js-tableEssence-remove">Удалить
                         заявку</button>

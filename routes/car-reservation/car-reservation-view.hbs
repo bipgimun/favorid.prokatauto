@@ -1,6 +1,7 @@
 <style>
     .js-editable-body .non-editable-content {
         display: block;
+        padding-top: 7px;
     }
 
     .js-editable-body .editable-content {
@@ -13,6 +14,19 @@
 
     .js-editable-body.editable-on .non-editable-content {
         display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
     }
 </style>
 
@@ -323,15 +337,17 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
-                            <button class="btn btn-success">Сохранить</button>
+                            <div class="footer-btn-block-resrvation">
+                                <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                            </div>
                         </div>
                     </form>
                 </div>
             {{/each}}
-            <div>
+            <div class="footer-btn-block-resrvation">
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                    <button id="js-carReserv-complete" data-id="{{id}}" class="btn btn-danger">Завершить</button>
+                    <button id="js-carReserv-complete" data-id="{{id}}" class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
                     <button data-id="{{id}}" data-target="carReservations"
                         class="btn btn-danger js-tableEssence-remove">Удалить заявку</button>
                 {{/unless}}
