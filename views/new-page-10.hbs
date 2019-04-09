@@ -1,0 +1,138 @@
+<header class="page-header">
+    <h2>Расход денежных средств</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="index.html">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Расход</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Список документов расхода</h2>
+    </header>
+    <div class="panel-body">
+        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+            <i class="fa fa-plus"></i> Добавить документ
+        </button>
+        <div class="zag">
+            <h1>заглушка</h1>
+        </div>
+        <div class="table-responsive">
+            <table id="js-nomenclature-products-table"
+                class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Номер</th>
+                        <th>Статья</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each drivers}}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Номер</th>
+                        <th>Статья</th>
+                        <th>Сумма</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<!-- Модалки-->
+
+<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Новый документ расхода</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-drivers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата</label>
+                    <div class="col-sm-8">
+                        <input type="date" class="form-control" placeholder="Введите дату" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Основание</label>
+                    <div class="col-sm-8">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-accordion">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1One">
+                                            Документ заказа
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse1One" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <input type="text" class="form-control" placeholder="Введите основание" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1Two">
+                                             Другое
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse1Two" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <input type="text" class="form-control" placeholder="Введите основание" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Статья расходов</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Выберете статью" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Касса / счет</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Выберете кассу" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Комментарий</label>
+                    <div class="col-sm-8">
+                        <textarea cols="20" rows="4" class="form-control" placeholder="Введите комментарий" required></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-primary js-nomenclature-products-add">Подтвердить</button>
+                    <button class="btn btn-default modal-dismiss js-nomenclature-products-cancel">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
