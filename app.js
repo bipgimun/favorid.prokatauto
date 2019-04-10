@@ -107,7 +107,7 @@ app.use((req, res, next) => {
 app.get(['/', '/index.html'], index);
 app.get(['/sales', '/sales.html'], sales);
 app.get(['/cashbox', '/cashbox.html'], cashBox);
-app.get(['/costs-income', '/costs-income.html'], costsIncome);
+// app.get(['/costs-income', '/costs-income.html'], costsIncome);
 app.get(['/incoming-goods', '/incoming-goods.html'], incomingGoods);
 app.get(['/remnants-of-goods', '/remnants-of-goods.html'], remnantsOfGoods);
 app.get(['/commodity-nomenclature', '/commodity-nomenclature.html'], commodityNomenclature);
@@ -127,6 +127,8 @@ app.use('/apartments', require('./routes/apartments'));
 app.use('/apartment-reservations', require('./routes/apartment-reservations'));
 app.use('/price-list', require('./routes/price-list'));
 app.use('/car-reservation', require('./routes/car-reservation'));
+app.use('/incomes', require('./routes/incomes'));
+app.use('/costs', require('./routes/costs'));
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;

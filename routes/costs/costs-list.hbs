@@ -4,7 +4,7 @@
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
             <li>
-                <a href="index.html">
+                <a href="/">
                     <i class="fa fa-book"></i>
                 </a>
             </li>
@@ -24,7 +24,7 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-nomenclature-products-table"
+            <table id="js-costs-table"
                 class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none">
                 <thead>
@@ -36,12 +36,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each drivers}}
+                    {{#each costs}}
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
+                            <td>{{id}}</td>
+                            <td>{{category}}</td>
+                            <td>{{sum}}</td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -67,11 +67,11 @@
             <h2 class="panel-title">Новый документ расхода</h2>
         </header>
         <div class="panel-body">
-            <form id="js-drivers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+            <form id="js-costs-add-form" action="/api/costs/add" class="form-horizontal mb-lg" novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата</label>
                     <div class="col-sm-8">
-                        <input type="date" class="form-control" placeholder="Введите дату" required>
+                        <input name="date" type="date" class="form-control" placeholder="Введите дату" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -81,28 +81,40 @@
                             <div class="panel panel-accordion">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1One">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapse1One">
                                             Документ заказа
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="collapse1One" class="accordion-body collapse">
                                     <div class="panel-body">
-                                        <input type="text" class="form-control" placeholder="Введите основание" required>
+                                        <select style="width: 100%" name="base_id" id="js-costsForm-documents">
+                                            <option value="" selected disabled>Выберите документ из списка</option>
+                                            {{#each groupDocuments}}
+                                                <optgroup label="{{this.label}}">
+                                                    {{#each documents}}
+                                                        <option value="{{code}}">{{code}}</option>
+                                                    {{/each}}
+                                                </optgroup>
+                                            {{/each}}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-accordion">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1Two">
-                                             Другое
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapse1Two">
+                                            Другое
                                         </a>
                                     </h4>
                                 </div>
                                 <div id="collapse1Two" class="accordion-body collapse">
                                     <div class="panel-body">
-                                        <input type="text" class="form-control" placeholder="Введите основание" required>
+                                        <input type="text" name="base_other" class="form-control"
+                                            placeholder="Введите основание" required>
                                     </div>
                                 </div>
                             </div>
@@ -112,19 +124,36 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Статья расходов</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="Выберете статью" required>
+                        <select style="width: 100%" name="category_id" id="js-costsForm-category">
+                            <option value="" selected disabled>Выберите статью расхода из списка</option>
+                            {{#each costsCategories}}
+                                <option value="{{id}}">{{title}}</option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Касса / счет</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" placeholder="Выберете кассу" required>
+                        <select style="width: 100%" name="cash_storage_id" id="js-costsForm-cashStorages">
+                            <option value="" selected disabled>Выберите кассу / счёт из списка</option>
+                            {{#each cashStorages}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Сумма</label>
+                    <div class="col-sm-8">
+                        <input type="number" name="sum" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Комментарий</label>
                     <div class="col-sm-8">
-                        <textarea cols="20" rows="4" class="form-control" placeholder="Введите комментарий" required></textarea>
+                        <textarea name="comment" cols="20" rows="4" class="form-control"
+                            placeholder="Введите комментарий" required></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">

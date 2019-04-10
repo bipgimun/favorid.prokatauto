@@ -1,25 +1,20 @@
 const db = require('../../../libs/db');
-const calcCashbox = require('../../../libs/cashbox/calc');
 
 module.exports = async (req, res, next) => {
     try {
-        const { category_id, sum, comment = '' } = req.body;
+        const { sum, item, comment = '' } = req.body;
         const { employee_id: admin_id } = req.session.user;
 
-        if (!category_id)
-            throw new Error('Отсутствует категория расхода');
-
         if (!sum || +sum < 1)
-            throw new Error('Отсутствует сумма расхода');
+            throw new Error('Отсутствует сумма дохода');
 
-        const { balance } = await calcCashbox();
+        if (!item)
+            throw new Error('Отсутствует статья дохода');
 
-        if (Number(balance) < Number(sum))
-            throw new Error('Недостаточно денег в кассе');
-
-        await db.insertQuery(`INSERT INTO costs SET ?`, { admin_id, category_id, sum, comment });
+        await db.insertQuery(`INSERT INTO incomes SET ?`, { admin_id, item, sum, comment });
 
         return res.json({ status: 'ok' });
+
     } catch (error) {
         return res.json({ status: 'bad', message: error.message });
     }

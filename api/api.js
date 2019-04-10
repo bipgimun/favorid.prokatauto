@@ -8,8 +8,8 @@ app.post('/login', require('./routes/login'));
 // -------------OLD API------------------------------------
 app.post('/salesServices/add', checkAuth, require('./routes/sales-services/add'));
 app.post('/salesGoods/add', checkAuth, require('./routes/sales-goods/add'));
-app.post('/costs/add', checkAuth, require('./routes/costs/add'));
-app.post('/income/add', checkAuth, require('./routes/incomes/add'));
+// app.post('/costs/add', checkAuth, require('./routes/costs/add'));
+// app.post('/income/add', checkAuth, require('./routes/incomes/add'));
 app.post('/comingGoods/add', checkAuth, require('./routes/coming-goods/add'));
 app.post('/cashbox/loadData', checkAuth, require('./routes/cashbox/loadData'));
 app.post('/goods/getInfo', checkAuth, require('./routes/goods/getInfo'));
@@ -34,6 +34,8 @@ app.use('/drivers', checkAuth, require('./routes/drivers'));
 app.use('/itineraries', checkAuth, require('./routes/itineraries'));
 app.use('/apartmentReservations', checkAuth, require('./routes/apartment-reservations'));
 app.use('/carReservations', checkAuth, require('./routes/car-reservations'));
+app.use('/incomes', checkAuth, require('./routes/incomes'));
+app.use('/costs', checkAuth, require('./routes/costs'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));

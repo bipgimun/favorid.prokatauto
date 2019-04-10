@@ -474,24 +474,7 @@ $(document).ready(() => {
         const $inputs = $form.find('[name]');
         const url = $form.attr('action');
 
-        const values = {};
-
-        $inputs.each((index, input) => {
-            const $input = $(input);
-            const isHidden = $input.is(':hidden');
-            const name = $input.attr('name');
-            let value = $input.val();
-            const type = $input.attr('type');
-
-
-            if ((isHidden && type === 'hidden' || !isHidden && type !== 'hidden') && name) {
-                if (type === 'checkbox') {
-                    value = $input.is(':checked') ? '1' : '0';
-                }
-
-                values[name] = value;
-            }
-        })
+        const values = getFormValues($form);
 
         const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
@@ -727,6 +710,56 @@ $(document).ready(() => {
         return false;
     })
 
+    $('#js-incomes-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const url = $form.attr('action');
+
+        const values = getFormValues($form);
+
+        const { data } = await request(url, { values }, { showNotify: true });
+
+        $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-incomes-table').length) {
+            insertTable('incomes', data.id, [data.date, data.id, data.base, data.sum]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+
+            $('.js-toggleEditable').click();
+        }
+
+        return false;
+    })
+    
+    $('#js-costs-add-form').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const url = $form.attr('action');
+
+        const values = getFormValues($form);
+
+        const { data } = await request(url, { values }, { showNotify: true });
+
+        $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-costs-table').length) {
+            insertTable('costs', data.id, [data.date, data.id, data.category, data.sum]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+
+            $('.js-toggleEditable').click();
+        }
+
+        return false;
+    })
+
     const $apartmentReservations = $('#js-apartmentReservations-form');
 
     $apartmentReservations.on('submit', async function (e) {
@@ -848,6 +881,18 @@ $(document).ready(() => {
         placeholder: 'Выберите модель автомобиля'
     });
 
+    $('#js-incomesForm-documents, #js-costsForm-documents').select2({
+        dropdownParent: $('#add-products'),
+    });
+
+    $('#js-incomesForm-cashStorages, #js-costsForm-cashStorages').select2({
+        dropdownParent: $('#add-products'),
+    });
+    
+    $('#js-costsForm-category').select2({
+        dropdownParent: $('#add-products'),
+    });
+
     let carsState = [];
 
     $('#js-carsPrice-id')
@@ -906,7 +951,7 @@ $(document).ready(() => {
             console.log('Отсутствует id');
             return false;
         }
-        
+
         if (!target) {
             alert('Что-то пошло не так. Попробуйте позже');
             console.log('Отсутствует target');
