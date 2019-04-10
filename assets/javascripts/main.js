@@ -961,7 +961,7 @@ $(document).ready(() => {
             })
     })
 
-    const getFormValues = (form, selectors = 'textarea, select, input:not(:hidden), input[type=hidden]') => {
+    const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') => {
 
         const arrayData = $(form).find(selectors).serializeArray();
 

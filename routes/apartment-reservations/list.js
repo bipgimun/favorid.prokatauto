@@ -29,5 +29,13 @@ module.exports = async (req, res, next) => {
 
     const customers = await db.execQuery(`SELECT * FROM customers`);
 
-    return res.render(__dirname + '/apartment-reservations', { customers, passengers, apartments, cashStorages, additionalServices, apartmentReservations });
+    return res.render(__dirname + '/apartment-reservations', {
+        customers,
+        passengers,
+        apartments,
+        cashStorages,
+        additionalServices,
+        apartmentReservations,
+        isArchive,
+    });
 };

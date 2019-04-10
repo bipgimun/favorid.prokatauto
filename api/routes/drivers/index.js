@@ -8,26 +8,39 @@ const messages = require('../../messages');
 const { wishList } = require('../../wish-list');
 const moment = require('moment');
 
+const Joi = require('joi');
+
+const addSchema = Joi.object({
+    name: Joi.string().required(),
+    birthday: Joi.string().required(),
+    contact_number: Joi.string().required(),
+    driver_license: Joi.string().required(),
+    license_date_issue: Joi.string().required(),
+    license_date_expiration: Joi.string().required(),
+    passport: Joi.string().required(),
+    passport_date_issue: Joi.date().iso().required(),
+    passport_issued_by: Joi.string().required(),
+    passport_division_code: Joi.string().required(),
+    passport_location: Joi.string().required(),
+    car_id: Joi.number().optional(),
+    is_individual: [Joi.only([null, '']).strip(), Joi.number()],
+}).with('is_individual', 'car_id');
+
 app.post('/add', async (req, res, next) => {
+    try {
 
-    const { values } = req.body;
-    const errors = [];
+        const { values } = req.body;
+        const validValues = await Joi.validate(values, addSchema);
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
+        const id = await db.insertQuery(`INSERT INTO drivers SET ?`, validValues);
 
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
+        validValues.id = id;
 
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
+        res.json({ status: 'ok', data: validValues });
+    } catch (error) {
 
-    const id = await db.insertQuery(`INSERT INTO drivers SET ?`, values);
-
-    values.id = id;
-
-    res.json({ status: 'ok', data: values });
+        throw new Error(error);
+    }
 })
 
 app.post('/update', async (req, res, next) => {

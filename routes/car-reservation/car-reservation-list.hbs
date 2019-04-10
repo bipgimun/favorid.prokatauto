@@ -17,9 +17,11 @@
         <h2 class="panel-title">Список заказов авто в аренду</h2>
     </header>
     <div class="panel-body">
-        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-            <i class="fa fa-plus"></i> Создать заказ
-        </button>
+        {{#unless isArchive}}
+            <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+                <i class="fa fa-plus"></i> Создать заказ
+            </button>
+        {{/unless}}
         <div class="zag">
             <h1>заглушка</h1>
         </div>
@@ -67,7 +69,9 @@
             </table>
         </div>
     </div>
-    <a class="btn btn-primary" href="/car-reservation/archive" target="_blank">Завершенные заявки</a>
+    {{#unless isArchive}}
+        <a class="btn btn-primary" href="/car-reservation/archive" target="_blank">Завершенные заявки</a>
+    {{/unless}}
 </section>
 
 <!-- Модалки-->

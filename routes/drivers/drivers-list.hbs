@@ -65,7 +65,8 @@
             <h2 class="panel-title">Добавление нового водителя (прокат)</h2>
         </header>
         <div class="panel-body">
-            <form action="/api/drivers/add" id="js-drivers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+            <form action="/api/drivers/add" id="js-drivers-add-form" class="form-horizontal mb-lg"
+                novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">ФИО</label>
                     <div class="col-sm-8">
@@ -98,7 +99,8 @@
                     </div>
                     <label class="col-sm-2 control-label">окончания</label>
                     <div class="col-sm-4">
-                        <input type="date" name="license_date_expiration" placeholder="Введите дату" class="form-control">
+                        <input type="date" name="license_date_expiration" placeholder="Введите дату"
+                            class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -115,26 +117,29 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата выдачи</label>
                     <div class="col-sm-8">
-                        <input type="date" name="passport_date_issue" placeholder="Введите дату" class="form-control" required>
+                        <input type="date" name="passport_date_issue" placeholder="Введите дату" class="form-control"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Кем выдан</label>
                     <div class="col-sm-8">
-                        <input type="text" name="passport_issued_by" placeholder="Введите данные" class="form-control" required>
+                        <input type="text" name="passport_issued_by" placeholder="Введите данные" class="form-control"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Код подразделения</label>
                     <div class="col-sm-8">
-                        <input type="text" name="passport_division_code" placeholder="123-456" class="form-control" required>
+                        <input type="text" name="passport_division_code" placeholder="123-456" class="form-control"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Место жительства</label>
                     <div class="col-sm-8">
-                        <textarea name="passport_location" cols="20" rows="4" class="form-control" placeholder="Введите данные"
-                            required></textarea>
+                        <textarea name="passport_location" cols="20" rows="4" class="form-control"
+                            placeholder="Введите данные" required></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -142,21 +147,27 @@
                         style="text-transform: uppercase; font-weight: bold; text-align: center;">Автомобиль</label>
                 </div>
                 <div class="form-group mt-lg drivers-auto">
-                    <label class="col-sm-4 control-label"></label>
-                    <div class="col-sm-4">
+                    <label class="col-sm-3 control-label"></label>
+                    <div class="col-sm-3">
                         <div class="radio-custom">
-                            <input type="radio" id="radioExample1" checked value="1" name="is_individual">
+                            <input type="radio" id="js-drivers-autoless" value="" checked name="is_individual">
+                            <label for="js-drivers-autoless">Отсутствует</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="radio-custom">
+                            <input type="radio" id="radioExample1" value="1" name="is_individual">
                             <label for="radioExample1">Личный</label>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="radio-custom">
                             <input type="radio" id="radioExample2" value="0" name="is_individual">
                             <label for="radioExample2">Закрепленный</label>
                         </div>
                     </div>
                 </div>
-                <div class="form-group drivers-auto__car">
+                <div class="form-group drivers-auto__car" style="display: none">
                     <label class="col-sm-3 control-label">Автомобиль</label>
                     <div class="col-sm-9">
                         <div class="input-group">
@@ -182,8 +193,16 @@
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
 <script>
-    const driversAutoGroup = document.querySelector('.drivers-auto');
-    driversAutoGroup.addEventListener('change', function () {
-        document.querySelector('.drivers-auto__car').style.display = "block";
+    var driversAutoGroup = document.querySelector('.drivers-auto');
+    driversAutoGroup.addEventListener('change', function (e) {
+        var $wrapper = $(this);
+        var [{ value: is_individual }] = $wrapper.find('input').serializeArray();
+
+        if (is_individual !== '') {
+            $('.drivers-auto__car').show();
+        } else {
+            $('.drivers-auto__car').hide();
+        }
+
     })
 </script>
