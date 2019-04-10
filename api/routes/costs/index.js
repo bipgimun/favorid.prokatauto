@@ -11,14 +11,14 @@ const Joi = require('joi');
 const moment = require('moment');
 
 const addScheme = Joi.object({
-    base_id: Joi.string(),
-    base_other: Joi.string(),
+    base_id: Joi.string().empty(''),
+    base_other: Joi.string().empty(''),
     sum: Joi.number().required(),
     cash_storage_id: Joi.number().integer().required(),
     category_id: Joi.number().integer().required(),
-    comment: Joi.string().allow(''),
+    comment: Joi.string().empty(''),
     date: Joi.date().iso().required(),
-}).or('base_id', 'base_other');
+}).xor('base_id', 'base_other');
 
 app.post('/add', async (req, res, next) => {
 

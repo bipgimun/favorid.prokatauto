@@ -12,7 +12,7 @@ const Joi = require('joi');
 
 const addSchema = Joi.object({
     name: Joi.string().required(),
-    birthday: Joi.string().required(),
+    birthday: Joi.date().iso().required(),
     contact_number: Joi.string().required(),
     driver_license: Joi.string().required(),
     license_date_issue: Joi.string().required(),
@@ -22,8 +22,8 @@ const addSchema = Joi.object({
     passport_issued_by: Joi.string().required(),
     passport_division_code: Joi.string().required(),
     passport_location: Joi.string().required(),
-    car_id: Joi.number().optional(),
-    is_individual: [Joi.only([null, '']).strip(), Joi.number()],
+    car_id: Joi.number().empty([null, '']).optional(),
+    is_individual: Joi.number().empty(''),
 }).with('is_individual', 'car_id');
 
 app.post('/add', async (req, res, next) => {

@@ -17,7 +17,7 @@ const addScheme = Joi.object({
     sum: Joi.number().required(),
     cash_storage_id: Joi.number().integer().required(),
     comment: Joi.string().allow('')
-}).or('base_id', 'base_other');
+}).xor('base_id', 'base_other');
 
 app.post('/add', async (req, res, next) => {
 
