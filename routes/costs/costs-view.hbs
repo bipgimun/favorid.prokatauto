@@ -1,0 +1,199 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Расход денежных средств</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Расход</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Новый документ расхода</h2>
+            </header>
+            {{#each costs}}
+                <div class="panel-body js-editable-body">
+                    <form id="js-costs-add-form" action="/api/costs/update" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Дата</label>
+                            <div class="non-editable-content" data-target="date">
+                                {{this.date}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input value="{{this.date}}" name="date" type="date" class="form-control" placeholder="Введите дату" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Основание</label>
+                            <div class="col-sm-8">
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-accordion">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                                    href="#collapse1One">
+                                                    Документ заказа
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapse1One" class="accordion-body collapse">
+                                            <div class="panel-body">
+                                                <select style="width: 100%" name="base_id" id="js-costsForm-documents">
+                                                    <option value="" selected disabled>Выберите документ из списка</option>
+                                                    {{#each groupDocuments}}
+                                                        <optgroup label="{{this.label}}">
+                                                            {{#each documents}}
+                                                                <option value="{{code}}">{{code}}</option>
+                                                            {{/each}}
+                                                        </optgroup>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-accordion">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                                    href="#collapse1Two">
+                                                    Другое
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapse1Two" class="accordion-body collapse">
+                                            <div class="panel-body">
+                                                <input type="text" name="base_other" class="form-control"
+                                                    placeholder="Введите основание" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Статья расходов</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <div class="non-editable-content" data-target="category_id">
+                                        {{this.category_id"}}
+                                    </div>
+                                    <div class="editable-content">
+                                        <select style="width: 100%" name="category_id" id="js-costsForm-category">
+                                            <option value="" selected disabled>Выберите статью расхода из списка</option>
+                                            {{#each costsCategories}}
+                                                <option value="{{this.id}}">{{this.title}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button">Добавить</button>
+                                        </span> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Касса / счет</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <div class="non-editable-content" data-target="cash_storage_id">
+                                        {{this.cash_storage_id"}}
+                                    </div>
+                                    <div class="editable-content">
+                                        <select style="width: 100%" name="cash_storage_id" id="js-costsForm-cashStorages">
+                                            <option value="" selected disabled>Выберите кассу / счёт из списка</option>
+                                            {{#each cashStorages}}
+                                                <option value="{{this.id}}">{{this.name}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button">Добавить</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Сумма</label>
+                            <div class="non-editable-content" data-target="sum">
+                                {{this.sum"}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input value="{{this.sum}}" type="number" name="sum" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Комментарий</label>
+                            <div class="non-editable-content" data-target="comment">
+                                {{this.comment}}
+                            </div>
+                            <div class="col-sm-8">
+                                <textarea value="{{this.comment}}" name="comment" cols="20" rows="4" class="form-control"
+                                    placeholder="Введите комментарий" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right editable-content">
+                            <div class="footer-btn-block-resrvation">
+                                <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {{/each}}
+             <div class="footer-btn-block-resrvation">
+                {{#unless item.completed}}
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
+                    <button class="btn btn-danger js-tableEssence-remove">Удалить документ</button>
+                {{/unless}}
+            </div>
+        </section>
+    </div>
+</section>
+
+<!-- Модалки-->
+
+<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    
+</div>
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>

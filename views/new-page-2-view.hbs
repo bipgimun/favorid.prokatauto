@@ -1,0 +1,62 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Статьи расходов</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Статьи расходов</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Статья расходов</h2>
+            </header>
+            <div class="panel-body js-editable-body">
+                <form class="form-horizontal mb-lg" novalidate="novalidate">
+                    <input type="hidden" name="id" value="{{this.id}}">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Название</label>
+                        <div class="non-editable-content">
+                            
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <input type="text" class="form-control" placeholder="Введите данные" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-right editable-content">
+                        <button class="btn btn-success">Сохранить</button>
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>

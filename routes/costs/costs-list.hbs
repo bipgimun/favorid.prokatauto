@@ -33,6 +33,7 @@
                         <th>Номер</th>
                         <th>Статья</th>
                         <th>Сумма</th>
+                        <th>Подробнее</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,7 @@
                             <td>{{id}}</td>
                             <td>{{category}}</td>
                             <td>{{sum}}</td>
+                            <td><a href="/costs/{{this.id}}" target="_blank">Подробнее</a></td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -51,6 +53,7 @@
                         <th>Номер</th>
                         <th>Статья</th>
                         <th>Сумма</th>
+                        <th>Подробнее</th>
                     </tr>
                 </tfoot>
             </table>
@@ -124,23 +127,33 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Статья расходов</label>
                     <div class="col-sm-8">
-                        <select style="width: 100%" name="category_id" id="js-costsForm-category">
-                            <option value="" selected disabled>Выберите статью расхода из списка</option>
-                            {{#each costsCategories}}
-                                <option value="{{id}}">{{title}}</option>
-                            {{/each}}
-                        </select>
+                        <div class="input-group">
+                            <select style="width: 100%" name="category_id" id="js-costsForm-category">
+                                <option value="" selected disabled>Выберите статью расхода из списка</option>
+                                {{#each costsCategories}}
+                                    <option value="{{id}}">{{title}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div> 
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Касса / счет</label>
                     <div class="col-sm-8">
-                        <select style="width: 100%" name="cash_storage_id" id="js-costsForm-cashStorages">
-                            <option value="" selected disabled>Выберите кассу / счёт из списка</option>
-                            {{#each cashStorages}}
-                                <option value="{{id}}">{{name}}</option>
-                            {{/each}}
-                        </select>
+                        <div class="input-group">
+                            <select style="width: 100%" name="cash_storage_id" id="js-costsForm-cashStorages">
+                                <option value="" selected disabled>Выберите кассу / счёт из списка</option>
+                                {{#each cashStorages}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">

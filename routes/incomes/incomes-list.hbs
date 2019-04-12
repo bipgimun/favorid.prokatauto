@@ -33,6 +33,7 @@
                         <th>Номер</th>
                         <th>Основание</th>
                         <th>Сумма</th>
+                        <th>Подробнее</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,6 +45,9 @@
                             <td>
                                 {{this.sum}}
                             </td>
+                            <td>
+                                <a href="/incomes/{{this.id}}" target="_blank">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -53,6 +57,7 @@
                         <th>Номер</th>
                         <th>Основание</th>
                         <th>Сумма</th>
+                        <th>Подробнее</th>
                     </tr>
                 </tfoot>
             </table>
@@ -126,12 +131,17 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Касса / счет</label>
                     <div class="col-sm-8">
-                        <select style="width: 100%" name="cash_storage_id" id="js-incomesForm-cashStorages">
-                            <option value="" selected disabled>Выберите кассу / счёт из списка</option>
-                            {{#each cashStorages}}
-                                <option value="{{id}}">{{name}}</option>
-                            {{/each}}
-                        </select>
+                        <div class="input-group">
+                            <select style="width: 100%" name="cash_storage_id" id="js-incomesForm-cashStorages">
+                                <option value="" selected disabled>Выберите кассу / счёт из списка</option>
+                                {{#each cashStorages}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span> 
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
