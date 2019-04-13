@@ -20,6 +20,15 @@ const addScheme = Joi.object({
     date: Joi.date().iso().required(),
 }).xor('base_id', 'base_other');
 
+const updateScheme = Joi.object({
+    date: Joi.date().iso().empty([null, '']),
+    category_id: Joi.number().integer().empty([null, '']),
+    cash_storage_id: Joi.number().integer().empty([null, '']),
+    sum: Joi.number().empty([null, '']),
+    comment: Joi.string().allow(''),
+    id: Joi.number().required()
+}).or('date', 'cash_storage_id', 'sum', 'comment');
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
@@ -27,9 +36,10 @@ app.post('/add', async (req, res, next) => {
     const validValues = await Joi.validate(values, addScheme);
 
     if (validValues.base_id) {
-        const [, code = ''] = /([\w]+)-[\d]+/.exec(validValues.base_id) || [];
+        const [, code = '', document_id = ''] = /([\w]+)-([\d]+)/.exec(validValues.base_id) || [];
 
         validValues.code = code;
+        validValues.document_id = document_id;
     }
 
     const id = await db.insertQuery('INSERT INTO costs SET ?', [validValues]);
@@ -42,6 +52,47 @@ app.post('/add', async (req, res, next) => {
 
     res.json({
         status: 'ok', data: validValues
+    });
+})
+
+app.post('/update', async (req, res, next) => {
+
+    const { values } = req.body;
+
+    const { id, ...validValues } = await Joi.validate(values, updateScheme);
+
+    await db.insertQuery('UPDATE costs SET ? WHERE id = ?', [validValues, id]);
+
+    const [cost = {}] = await db.execQuery(`
+        SELECT c.*,
+            cc.title as category,
+            cs.name as cashbox_name
+        FROM costs c
+            LEFT JOIN costs_categories cc ON cc.id = c.category_id
+            JOIN cash_storages cs ON cs.id = c.cash_storage_id
+        WHERE c.id = ?
+    `, [id]);
+
+    const returnValues = { validValues, ...cost };
+
+    returnValues.date = moment(returnValues.date).format('DD.MM.YYYY');
+
+    res.json({
+        status: 'ok', data: returnValues
+    });
+})
+
+app.post('/delete', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует номер расхода');
+
+    await db.execQuery('DELETE FROM costs WHERE id = ?', [id]);
+
+    res.json({
+        status: 'ok',
     });
 })
 

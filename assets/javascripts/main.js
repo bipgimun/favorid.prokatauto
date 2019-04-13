@@ -54,34 +54,34 @@ $(document).ready(() => {
         $service.find(`[name]`).each(resetValue);
     });
 
-    $('#js-costs-add').click(async () => {
+    // $('#js-costs-add').click(async () => {
 
-        const $cost = $('#js-costs-container');
+    //     const $cost = $('#js-costs-container');
 
-        const category_id = $cost.find(`[name=category]`).val();
-        const sum = $cost.find(`[name=sum]`).val();
-        const comment = $cost.find(`[name=comment]`).val();
+    //     const category_id = $cost.find(`[name=category]`).val();
+    //     const sum = $cost.find(`[name=sum]`).val();
+    //     const comment = $cost.find(`[name=comment]`).val();
 
-        const postData = { category_id, sum, comment };
+    //     const postData = { category_id, sum, comment };
 
-        await request('/api/costs/add', postData, { showNotify: true });
+    //     await request('/api/costs/add', postData, { showNotify: true });
 
-        $cost.find(`[name]`).each(resetValue);
-    });
+    //     $cost.find(`[name]`).each(resetValue);
+    // });
 
-    $('#js-income-add').click(async () => {
-        const $income = $('#js-incomes-container');
+    // $('#js-income-add').click(async () => {
+    //     const $income = $('#js-incomes-container');
 
-        const item = $income.find(`[name=item]`).val();
-        const sum = $income.find(`[name=sum]`).val();
-        const comment = $income.find(`[name=comment]`).val();
+    //     const item = $income.find(`[name=item]`).val();
+    //     const sum = $income.find(`[name=sum]`).val();
+    //     const comment = $income.find(`[name=comment]`).val();
 
-        const postData = { sum, comment, item };
+    //     const postData = { sum, comment, item };
 
-        await request('/api/income/add', postData, { showNotify: true });
+    //     await request('/api/income/add', postData, { showNotify: true });
 
-        $income.find(`[name]`).each(resetValue);
-    });
+    //     $income.find(`[name]`).each(resetValue);
+    // });
 
     $('#js-coming-goods-add').click(async () => {
         const incomingContainer = $('#js-coming-goods-container');
@@ -734,7 +734,7 @@ $(document).ready(() => {
 
         return false;
     })
-    
+
     $('#js-costs-add-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -884,13 +884,24 @@ $(document).ready(() => {
     $('#js-incomesForm-documents, #js-costsForm-documents').select2({
         dropdownParent: $('#add-products'),
     });
+    
+    $('#js-incomesForm-documents-view, #js-costsForm-documents-view').select2({
+        dropdownParent: null,
+    });
 
     $('#js-incomesForm-cashStorages, #js-costsForm-cashStorages').select2({
         dropdownParent: $('#add-products'),
     });
     
+    $('#js-incomesForm-cashStorages-view, #js-costsForm-cashStorages-view').select2({
+        dropdownParent: null,
+    });
+
     $('#js-costsForm-category').select2({
         dropdownParent: $('#add-products'),
+    });
+    $('#js-costsForm-category-view').select2({
+        dropdownParent: null,
     });
 
     let carsState = [];
