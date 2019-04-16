@@ -692,8 +692,6 @@ $(document).ready(() => {
 
         const { data } = await request(url, { values }, { showNotify: true });
 
-        console.log(data);
-
         $(e.target).find('.modal-dismiss').click();
 
         if ($('#js-carReservations-table').length) {
@@ -884,7 +882,7 @@ $(document).ready(() => {
     $('#js-incomesForm-documents, #js-costsForm-documents').select2({
         dropdownParent: $('#add-products'),
     });
-    
+
     $('#js-incomesForm-documents-view, #js-costsForm-documents-view').select2({
         dropdownParent: null,
     });
@@ -892,7 +890,7 @@ $(document).ready(() => {
     $('#js-incomesForm-cashStorages, #js-costsForm-cashStorages').select2({
         dropdownParent: $('#add-products'),
     });
-    
+
     $('#js-incomesForm-cashStorages-view, #js-costsForm-cashStorages-view').select2({
         dropdownParent: null,
     });
@@ -1027,7 +1025,9 @@ $(document).ready(() => {
 
             const { name, value } = item;
 
-            acc[name] = value;
+            acc[name] = acc[name]
+                ? [...acc[name].split(','), value].join(',')
+                : value;
 
             return acc;
         }, values);

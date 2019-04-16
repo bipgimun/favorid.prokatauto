@@ -10,6 +10,8 @@ module.exports = async (req, res, next) => {
 
     const isArchive = req.route.path === '/archive';
 
+    const additionalServices = await db.execQuery(`SELECT * FROM additional_services`);
+
     const reservs = await db.execQuery(`
         SELECT cr.*,
             c.name as car_name,
@@ -54,6 +56,7 @@ module.exports = async (req, res, next) => {
         cashStorages,
         itineraries,
         drivers,
-        isArchive
+        isArchive,
+        additionalServices
     });
 }
