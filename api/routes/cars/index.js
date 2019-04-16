@@ -9,27 +9,54 @@ const safeStr = require('../../../libs/safe-string');
 const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
+const Joi = require('joi');
+
+const addSchema = Joi.object({
+    name: Joi.string().required(),
+    model: Joi.string().required(),
+    class_name: Joi.string().required(),
+    number: Joi.string().required(),
+    mileage: Joi.number().required(),
+    carcass_condition: Joi.string().required(),
+    release_date: Joi.date().required(),
+    fuel_level: Joi.number().required(),
+    osago_number: Joi.string().required(),
+    osago_expiration_date: Joi.date().required(),
+    maintenance: Joi.number().required(),
+    market_price: Joi.number().required(),
+    purchase_price: Joi.number().required(),
+    in_leasing: Joi.number().default(0).valid([1, 0]),
+    payment_amount: Joi.number().not(['']),
+    payment_date: Joi.date().not(['']),
+    leasing_expiration_date: Joi.date(),
+}).when(
+    Joi.object({
+        in_leasing: Joi.number().valid(1).required()
+    }).unknown(), {
+        then: Joi.object().with('in_leasing', [
+            'payment_amount',
+            'payment_date',
+            'leasing_expiration_date'
+        ]),
+        otherwise: Joi.object({
+            payment_amount: Joi.strip(),
+            payment_date: Joi.strip(),
+            leasing_expiration_date: Joi.strip()
+        })
+    }
+)
 
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const errors = [];
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
+    const validValues = await addSchema.validate(values);
 
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
+    const id = await db.insertQuery(`INSERT INTO cars SET ?`, validValues);
 
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
+    validValues.id = id;
 
-    const id = await db.insertQuery(`INSERT INTO cars SET ?`, values);
-
-    values.id = id;
-
-    res.json({ status: 'ok', data: values });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/get', async (req, res, next) => {
@@ -81,7 +108,7 @@ app.post('/getModels', async (req, res, next) => {
     res.json({ status: 'ok', data: models });
 });
 
-app.post('/cars/update', async (req, res, next) => {
+app.post('/update', async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;
 
