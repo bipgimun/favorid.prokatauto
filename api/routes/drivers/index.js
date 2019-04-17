@@ -30,7 +30,7 @@ app.post('/add', async (req, res, next) => {
     try {
 
         const { values } = req.body;
-        const validValues = await Joi.validate(values, addSchema);
+        const validValues = await addSchema.validate(values);
 
         const id = await db.insertQuery(`INSERT INTO drivers SET ?`, validValues);
 
