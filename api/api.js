@@ -22,6 +22,8 @@ app.post('/remnants-of-goods/loadTableOborotGoods', checkAuth, require('./routes
 app.post('/nomenclature/addProduct', checkAuth, require('./routes/nomenclature/addProduct'));
 app.post('/nomenclature/addService', checkAuth, require('./routes/nomenclature/addService'));
 // ------------------------------------------------------------------------
+app.use('/apartmentReservations', checkAuth, require('./routes/apartment-reservations'));
+app.use('/carReservations', checkAuth, require('./routes/car-reservations'));
 
 app.use('/cars', checkAuth, require('./routes/cars'));
 app.use('/priceList', checkAuth, require('./routes/cars-price'));
@@ -32,8 +34,6 @@ app.use('/cashStorages', checkAuth, require('./routes/cash-storages'));
 app.use('/additionalServices', checkAuth, require('./routes/additional-services'));
 app.use('/drivers', checkAuth, require('./routes/drivers'));
 app.use('/itineraries', checkAuth, require('./routes/itineraries'));
-app.use('/apartmentReservations', checkAuth, require('./routes/apartment-reservations'));
-app.use('/carReservations', checkAuth, require('./routes/car-reservations'));
 app.use('/incomes', checkAuth, require('./routes/incomes'));
 app.use('/costs', checkAuth, require('./routes/costs'));
 
