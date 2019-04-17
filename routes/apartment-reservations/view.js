@@ -78,7 +78,7 @@ module.exports = async (req, res, next) => {
             return item;
         });
 
-    const servicesIds = reservation.services.split(',');
+    const servicesIds = (reservation.services || '').split(',');
 
     const servicesWithSelected = additionalServices.map(item => {
         if (servicesIds.includes(String(item.id))) {

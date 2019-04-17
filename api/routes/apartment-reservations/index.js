@@ -14,6 +14,12 @@ app.post('/add', async (req, res, next) => {
     const { values } = req.body;
     const errors = [];
 
+    if (typeof values.services !== 'undefined' && values.services === '')
+        delete values.services;
+
+    if (typeof values.comment !== 'undefined' && values.comment === '')
+        delete values.comment;
+
     Object.keys(values).forEach(key => {
         const value = values[key];
 
@@ -26,7 +32,17 @@ app.post('/add', async (req, res, next) => {
 
     const { apartment_id: apId } = values;
 
-    const apInWorks = await db.execQuery('SELECT * FROM apartment_reservations WHERE apartment_id = ? AND status NOT IN (0, 3)', [apId]);
+    const apInWorks = await db.execQuery(`
+        SELECT id, entry, departure
+        FROM apartment_reservations 
+        WHERE 
+            apartment_id = ${apId} 
+            AND status NOT IN (0, 3)
+            AND (
+                ((entry BETWEEN '${values.entry}' AND '${values.departure}') OR (departure BETWEEN '${values.entry}' AND '${values.departure}'))
+                OR (('${values.entry}' BETWEEN entry AND departure) AND ('${values.departure}' BETWEEN entry AND departure))
+            )
+    `);
 
     if (apInWorks.length > 0)
         throw new Error('Данная квартира уже находится в работе');
@@ -43,7 +59,7 @@ app.post('/add', async (req, res, next) => {
         WHERE ar.id = ?`, [id]
     );
 
-    ap.statusName = apartments_statuses.get(0);
+    ap.statusName = apartments_statuses.get(1);
     ap.created_at = moment(ap.created_at).format('DD.MM.YYYY');
 
     res.json({ status: 'ok', data: ap });
@@ -62,6 +78,28 @@ app.post('/update', async (req, res, next) => {
 
     if (Object.keys(validValues).length < 1)
         throw new Error(messages.missingUpdateValues);
+
+    if(new Date(validValues.entry) >= new Date(validValues.departure))
+        throw new Error('Дата въезда не должна быть позднее даты выезда');
+
+
+    if(validValues.apartment_id) {
+        const apInWorks = await db.execQuery(`
+            SELECT id, entry, departure
+            FROM apartment_reservations 
+            WHERE
+                id <> ${id}
+                AND apartment_id = ${validValues.apartment_id} 
+                AND status NOT IN (0, 3)
+                AND (
+                    ((entry BETWEEN '${validValues.entry}' AND '${validValues.departure}') OR (departure BETWEEN '${validValues.entry}' AND '${validValues.departure}'))
+                    OR (('${validValues.entry}' BETWEEN entry AND departure) AND ('${validValues.departure}' BETWEEN entry AND departure))
+                )
+        `);
+
+        if (apInWorks.length > 0)
+            throw new Error('В указанное время квартира забронирована');
+    }
 
     await db.execQuery(`UPDATE apartment_reservations SET ? WHERE id = ?`, [validValues, id]);
 
