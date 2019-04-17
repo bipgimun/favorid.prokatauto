@@ -19,6 +19,14 @@ const addScheme = Joi.object({
     comment: Joi.string().allow('')
 }).xor('base_id', 'base_other');
 
+const updateScheme = Joi.object({
+    date: Joi.date().iso().empty([null, '']),
+    cash_storage_id: Joi.number().integer().empty([null, '']),
+    sum: Joi.number().empty([null, '']),
+    comment: Joi.string().allow(''),
+    id: Joi.number().required()
+}).or('date', 'cash_storage_id', 'sum', 'comment');
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
@@ -39,6 +47,45 @@ app.post('/add', async (req, res, next) => {
 
     res.json({
         status: 'ok', data: validValues
+    });
+})
+
+app.post('/update', async (req, res, next) => {
+
+    const { values } = req.body;
+
+    const { id, ...validValues } = await Joi.validate(values, updateScheme);
+
+    await db.insertQuery('UPDATE incomes SET ? WHERE id = ?', [validValues, id]);
+
+    const [income = {}] = await db.execQuery(`
+       SELECT i.*,
+            cs.name as cashbox_name
+        FROM incomes i
+            LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id 
+        WHERE i.id = ?
+    `, [id]);
+
+    const returnValues = { validValues, ...income };
+
+    returnValues.date = moment(returnValues.date).format('DD.MM.YYYY');
+
+    res.json({
+        status: 'ok', data: returnValues
+    });
+})
+
+app.post('/delete', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует номер прихода');
+
+    await db.execQuery('DELETE FROM incomes WHERE id = ?', [id]);
+
+    res.json({
+        status: 'ok',
     });
 })
 

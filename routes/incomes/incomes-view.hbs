@@ -53,81 +53,48 @@
             </header>
             {{#each incomes}}
                 <div class="panel-body js-editable-body">
-                    <form id="js-incomes-form" action="/api/incomes/update" class="form-horizontal mb-lg" novalidate="novalidate">
-                        <input type="hidden" name="id" value="{{this.id}}">
+                    <form id="js-incomes-form" action="/api/incomes/update" class="form-horizontal mb-lg"
+                        novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{id}}">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата</label>
                             <div class="non-editable-content" data-target="date">
-                                {{this.date}}
+                                {{toIsoString date 'DD.MM.YYYY'}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input value="{{this.date}}" type="date" name="date" class="form-control" placeholder="Введите дату" required>
+                                <input value="{{toIsoString date 'YYYY-MM-DD'}}" type="date" name="date"
+                                    class="form-control" placeholder="Введите дату" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Основание</label>
                             <div class="col-sm-8">
-                                <div class="panel-group" id="accordion">
-                                    <div class="panel panel-accordion">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                                                    href="#collapse1One">
-                                                    Документ заказа
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapse1One" class="accordion-body collapse">
-                                            <div class="panel-body">
-                                                <select style="width: 100%" name="base_id" id="js-incomesForm-documents">
-                                                    <option value="" selected disabled>Выберите документ из списка</option>
-                                                    {{#each groupDocuments}}
-                                                        <optgroup label="{{this.label}}">
-                                                            {{#each documents}}
-                                                                <option value="{{code}}">{{code}}</option>
-                                                            {{/each}}
-                                                        </optgroup>
-                                                    {{/each}}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-accordion">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                                                    href="#collapse1Two">
-                                                    Другое
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapse1Two" class="accordion-body collapse">
-                                            <div class="panel-body">
-                                                <input type="text" name="base_other" class="form-control"
-                                                    placeholder="Введите основание" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{#if document_id}}
+                                    <a
+                                        href="/{{compare code 'CRR' 'car-reservation' 'apartment-reservations'}}/{{document_id}}">{{base}}</a>
+                                {{else}}
+                                    <p>{{base}}</p>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Касса / счет</label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="cash_storage_id">
-                                        {{this.cash_storage_id}}
+                                    <div class="non-editable-content" data-target="cashbox_name">
+                                        {{cashbox_name}}
                                     </div>
                                     <div class="editable-content">
-                                        <select style="width: 100%" name="cash_storage_id" id="js-incomesForm-cashStorages">
+                                        <select style="width: 100%" name="cash_storage_id"
+                                            id="js-incomesForm-cashStorages-view">
                                             <option value="" selected disabled>Выберите кассу / счёт из списка</option>
-                                            {{#each cashStorages}}
-                                                <option value="{{this.id}}">{{this.name}}</option>
+                                            {{#each ../cashStorages}}
+                                                <option {{compare id ../cash_storage_id 'selected' ''}} value="{{this.id}}">{{this.name}}</option>
                                             {{/each}}
                                         </select>
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button">Добавить</button>
-                                        </span> 
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -135,20 +102,20 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Сумма</label>
                             <div class="non-editable-content" data-target="sum">
-                                {{this.sum}}
+                                {{sum}}
                             </div>
-                            <div class="col-sm-8">
-                                <input value="{{this.sum}}" type="number" name="sum" class="form-control">
+                            <div class="col-sm-8 editable-content">
+                                <input value="{{sum}}" type="number" name="sum" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Комментарий</label>
                             <div class="non-editable-content" data-target="comment">
-                                {{this.comment}}
+                                {{comment}}
                             </div>
-                            <div class="col-sm-8">
-                                <textarea value="{{this.comment}}" name="comment" cols="20" rows="4" class="form-control" placeholder="Введите комментарий"
-                                    required></textarea>
+                            <div class="col-sm-8 editable-content">
+                                <textarea value="{{comment}}" name="comment" cols="20" rows="4"
+                                    class="form-control" placeholder="Введите комментарий" required></textarea>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -163,7 +130,7 @@
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
-                    <button class="btn btn-danger js-tableEssence-remove">Удалить документ</button>
+                    <button data-target="incomes" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить документ</button>
                 {{/unless}}
             </div>
         </section>

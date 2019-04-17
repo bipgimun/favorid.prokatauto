@@ -32,6 +32,14 @@ module.exports = async (req, res, next) => {
         WHERE cr.id = ?`, [id]
     );
 
+    const [reservation = {}] = reservs;
+
+    const servicesList = await db.execQuery(`SELECT * FROM additional_services`);
+
+    const additionalServices = (reservation.services || '')
+        .split(',')
+        .map(item => servicesList.find(service => service.id == item));
+
     reservs.forEach(item => {
         item.status_name = statues[String(item.status)];
         item.completed = item.status == '2';
@@ -53,6 +61,8 @@ module.exports = async (req, res, next) => {
         itineraries,
         cashStorages,
         id,
-        item: reservs[0]
+        item: reservs[0],
+        additionalServices,
+        servicesList
     });
 }

@@ -38,12 +38,10 @@ module.exports = async (req, res, next) => {
     if (!reservation.id)
         throw new Error('Reservation not found');
 
-    const additionalServices = reservation.services
-        ? (await db.execQuery(`SELECT * FROM additional_services WHERE id IN (${reservation.services})`))
-        : [];
-
     const servicesList = await db.execQuery(`SELECT * FROM additional_services`);
 
+    const additionalServices = servicesList
+        .filter(item => (reservation.services || '').split(',').includes(String(item.id)))
 
     const customers = await db.execQuery(`SELECT * FROM customers`);
 
@@ -80,7 +78,7 @@ module.exports = async (req, res, next) => {
             return item;
         });
 
-    const servicesIds = reservation.services.split(',');
+    const servicesIds = (reservation.services || '').split(',');
 
     const servicesWithSelected = additionalServices.map(item => {
         if (servicesIds.includes(String(item.id))) {

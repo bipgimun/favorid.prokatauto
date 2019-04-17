@@ -63,7 +63,10 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Класс</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 non-editable-content" data-target="class_name">
+                                {{class_name}}
+                            </div>
+                            <div class="col-sm-4 editable-content">
                                 <input type="text" value="{{this.class_name}}" name="class_name" class="form-control"
                                     placeholder="Введите класс">
                             </div>
@@ -89,12 +92,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">Фактический пробег</label>
+                            <label class="col-sm-4 control-label">Фактический пробег, км</label>
                             <div class="non-editable-content" data-target="mileage">
                                 {{this.mileage }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="mileage" type="text" class="form-control" placeholder="Введите пробег"
+                                <input name="mileage" type="number" class="form-control" placeholder="Введите пробег"
                                     value="{{this.mileage }}" required>
                             </div>
                         </div>
@@ -191,7 +194,7 @@
                                 </div>
                                 <div class="editable-content">
                                     <div class="checkbox-custom checkbox-primary col-sm-3">
-                                        <input {{ifTrue this.in_leasing  'checked' ''}} type="checkbox"
+                                        <input {{ifTrue this.in_leasing  'checked' ''}} value="1" type="checkbox"
                                             id="checkboxLising" name="in_leasing" class="checkbox-lising">
                                         <label for="checkboxLising">В лизинге</label>
                                     </div>

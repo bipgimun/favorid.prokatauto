@@ -9,6 +9,7 @@ const safeStr = require('../../../libs/safe-string');
 const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
+const Joi = require('joi');
 
 const statues = {
     '0': 'Новая заявка',
@@ -16,27 +17,36 @@ const statues = {
     '2': 'Завершена'
 };
 
+const addScheme = Joi.object({
+    customer_id: Joi.number().required(),
+    discount: Joi.number().default(0).empty(''),
+    passenger_id: Joi.number().required(),
+    contact_number: Joi.string().required(),
+    driver_id: Joi.number().empty([null, '']),
+    itinerarie_id: Joi.number().empty([null, '']),
+    price_id: Joi.number().required(),
+    car_id: Joi.number().required(),
+    class_name: Joi.string().required(),
+    cash_storage_id: Joi.number().required(),
+    services: Joi.string(),
+    prepayment: Joi.number().min(0).required(),
+    sum: Joi.number().min(0).required(),
+    comment: Joi.string().empty([null, '']),
+    has_driver: Joi.number()
+}).with('has_driver', ['driver_id', 'itinerarie_id']);
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const errors = [];
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
+    const { has_driver, ...validValues } = await Joi.validate(values, addScheme);
 
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
+    const id = await db.insertQuery(`INSERT INTO cars_reservations SET ?`, validValues);
 
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
+    validValues.id = id;
+    validValues.status_name = statues['0'];
 
-    const id = await db.insertQuery(`INSERT INTO cars_reservations SET ?`, values);
-
-    values.id = id;
-    values.status_name = statues['0'];
-
-    res.json({ status: 'ok', data: values });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/update', async (req, res, next) => {

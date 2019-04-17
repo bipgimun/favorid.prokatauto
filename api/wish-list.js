@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 exports.wishList = {
     cars: [
         'name',
@@ -18,15 +20,55 @@ exports.wishList = {
         'in_leasing',
         'leasing_expiration_date',
     ],
-    customers: [
-        'is_legal_entity',
-        'name',
-        'requisites',
-        'passport',
-        'driver_license',
-        'contact_number',
-        'discount',
-    ],
+    customers: Joi.object({
+        'birthday': Joi.date().iso(),
+        'driver_license_issue_date': Joi.date().iso(),
+        'driver_license_expiration_date': Joi.date().iso(),
+        'driver_license': Joi.string().trim(),
+        'passport_issue_date': Joi.date().iso(),
+        'passport_issued_by': Joi.string().trim(),
+        'passport_division_code': Joi.string().trim(),
+        'location': Joi.string().trim(),
+        'is_legal_entity': Joi.number().valid([0, 1]),
+        'legal_address': Joi.string().trim(),
+        'actual_address': Joi.string().trim(),
+        'email': Joi.string().trim(),
+        'ogrn': Joi.string().trim(),
+        'bank_name': Joi.string().trim(),
+        'r_account': Joi.string().trim(),
+        'k_account': Joi.string().trim(),
+        'bik': Joi.string().trim(),
+        'inn': Joi.string().trim(),
+        'name': Joi.string().trim(),
+        'passport': Joi.string().trim(),
+        'contact_number': Joi.string().trim(),
+        'discount': Joi.number(),
+    }).when(Joi.object({
+        is_legal_entity: Joi.number().valid(1)
+    }).unknown(), {
+            then: Joi.object().with('is_legal_entity', [
+                'legal_address',
+                'actual_address',
+                'email',
+                'ogrn',
+                'inn',
+                'bank_name',
+                'r_account',
+                'k_account',
+                'bik',
+                'inn',
+            ]),
+            otherwise: Joi.object().with('is_legal_entity', [
+                'birthday',
+                'driver_license_issue_date',
+                'driver_license_expiration_date',
+                'driver_license',
+                'passport_issue_date',
+                'passport_issued_by',
+                'passport_division_code',
+                'location',
+            ])
+        }),
     passengers: [
         'name',
         'birthday',

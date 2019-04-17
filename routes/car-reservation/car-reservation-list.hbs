@@ -89,7 +89,8 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="checkbox-custom checkbox-primary">
-                            <input class="group-drivers__checkbox" type="checkbox" id="checkboxdriver">
+                            <input class="group-drivers__checkbox" type="checkbox" name="has_driver" value="1"
+                                id="checkboxdriver">
                             <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
                         </div>
                     </div>
@@ -111,7 +112,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Cкидка заказчика</label>
                     <div class="col-sm-6">
-                        <input class="form-control" value="{{this.discount}}">
+                        <input name="discount" class="form-control" value="{{this.discount}}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -155,7 +156,7 @@
                     </div>
                 </div>
                 <div class="form-group mt-lg">
-                    <label class="col-sm-3 control-label">Позиия из прайса</label>
+                    <label class="col-sm-3 control-label">Позиция из прайса</label>
                     <div class="col-sm-9">
                         <select style="width: 100%" name="price_id" id="js-carsPrice-id">
                             <option value="0" selected disabled>Выберите позицию</option>
@@ -212,8 +213,11 @@
                         <label class="col-sm-2 control-label">Услуга</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <select class="form-control">
+                                <select class="form-control" name="services">
                                     <option value="0" selected disabled>Выберете услугу</option>
+                                    {{#each additionalServices}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
                                 </select>
                                 <span class="input-group-btn">
                                     <a class="btn btn-primary" type="button" href="/new-page-8"
