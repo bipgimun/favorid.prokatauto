@@ -7,6 +7,8 @@ const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
 
+const moment = require('moment');
+
 app.post('/get', async (req, res, next) => {
 
     const customers = await db.execQuery(`SELECT * FROM customers`);
@@ -29,33 +31,22 @@ app.post('/getOne', async (req, res, next) => {
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const errors = [];
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
+    const validValues = await wishList.customers.validate(values);
 
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
+    const id = await db.insertQuery(`INSERT INTO customers SET ?`, validValues);
 
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
+    validValues.id = id;
+    validValues.is_legal_entity = validValues.is_legal_entity == '1' ? 'Юридическре лицо' : 'Физ. лицо'
 
-    const id = await db.insertQuery(`INSERT INTO customers SET ?`, values);
-
-    values.id = id;
-    values.is_legal_entity = values.is_legal_entity == '1' ? 'Юридическре лицо' : 'Физ. лицо'
-
-    res.json({ status: 'ok', data: values });
+    res.json({ status: 'ok', data: validValues });
 })
 
 app.post('/update', async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;
 
-    const validValues = Object.keys(fields)
-        .filter(field => wishList.customers.includes(field))
-        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+    const validValues = await wishList.customers.validate(fields);
 
     if (!id)
         throw new Error(messages.missingId);
@@ -64,6 +55,12 @@ app.post('/update', async (req, res, next) => {
         throw new Error(messages.missingUpdateValues);
 
     await db.execQuery(`UPDATE customers SET ? WHERE id = ?`, [validValues, id]);
+
+    if (validValues.birthday)
+        validValues.birthday = moment(validValues.birthday).format('DD.MM.YYYY');
+
+    if (validValues.driver_license_issue_date)
+        validValues.driver_license_issue_date = moment(validValues.driver_license_issue_date).format('DD.MM.YYYY');
 
     res.json({ status: 'ok', data: validValues });
 })
