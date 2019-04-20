@@ -149,5 +149,9 @@ exports.wishList = {
         'comment',
         'sum',
         'status',
-    ]
+    ],
+    costsCategories: Joi.object({
+        id: Joi.number(),
+        title: Joi.string().trim()
+    })
 };

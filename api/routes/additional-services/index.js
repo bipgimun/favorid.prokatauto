@@ -11,7 +11,7 @@ app.post('/get', async (req, res, next) => {
 
     const services = await db.execQuery(`SELECT * FROM additional_services`);
 
-    res.json({ status: 'ok', items: services });
+    res.json({ status: 'ok', data: services });
 })
 
 app.post('/add', async (req, res, next) => {

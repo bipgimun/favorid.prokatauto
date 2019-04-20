@@ -6,6 +6,14 @@ const safeStr = require('../../../libs/safe-string');
 const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
+const { carsPrice: carsPriceModel } = require('../../../models');
+
+app.post('/get', async (req, res, next) => {
+
+    const carsPrice = await carsPriceModel.get();
+
+    return res.json({ status: 'ok', data: carsPrice });
+})
 
 app.post('/add', async (req, res, next) => {
 

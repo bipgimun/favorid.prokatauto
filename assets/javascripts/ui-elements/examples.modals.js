@@ -153,7 +153,7 @@
                         dataType: 'json',
                         processResults: function (data) {
                             return {
-                                results: $.map(data.apartments, function (item) {
+                                results: $.map(data.data, function (item) {
                                     return {
                                         text: item.address,
                                         id: item.id
@@ -174,7 +174,7 @@
                         quietMillis: 50,
                         processResults: function (data) {
                             return {
-                                results: $.map(data.items, function (item) {
+                                results: $.map(data.data, function (item) {
                                     return {
                                         text: item.name,
                                         id: item.id
@@ -194,7 +194,7 @@
                         quietMillis: 50,
                         processResults: function (data) {
                             return {
-                                results: $.map(data.items, function (item) {
+                                results: $.map(data.data, function (item) {
                                     return {
                                         text: item.name,
                                         id: item.id

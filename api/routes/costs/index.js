@@ -29,6 +29,8 @@ const updateScheme = Joi.object({
     id: Joi.number().required()
 }).or('date', 'cash_storage_id', 'sum', 'comment');
 
+const { costsCategories: costsCategoriesModel } = require('../../../models');
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
@@ -47,7 +49,7 @@ app.post('/add', async (req, res, next) => {
     validValues.id = id;
     validValues.base = validValues.base_id || validValues.base_other;
     validValues.date = moment(validValues.date).format('DD.MM.YYYY');
-    validValues.category = (await db.execQuery(`SELECT * FROM costs_categories WHERE id = ?`, [validValues.category_id]))
+    validValues.category = (await costsCategoriesModel.get({ id: validValues.category_id }))
         .reduce((acc, item) => item.title, '');
 
     res.json({

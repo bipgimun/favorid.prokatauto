@@ -1,4 +1,5 @@
 const db = require('../../libs/db');
+const { costsCategories: costsCategoriesModel } = require('../../models');
 
 module.exports = async (req, res, next) => {
 
@@ -13,7 +14,7 @@ module.exports = async (req, res, next) => {
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);
 
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
-    const costsCategories = await db.execQuery(`SELECT * FROM costs_categories`);
+    const costsCategories = await costsCategoriesModel.get();
 
     costs.forEach(item => {
         item.base = item.base_id || item.base_other;

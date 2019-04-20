@@ -26,6 +26,14 @@ const addSchema = Joi.object({
     is_individual: Joi.number().empty(''),
 }).with('is_individual', 'car_id');
 
+const { drivers: driversModel } = require('../../../models');
+
+app.post('/get', async (req, res, next) => {
+    const drivers = await driversModel.get();
+
+    return res.json({ status: 'ok', data: drivers })
+})
+
 app.post('/add', async (req, res, next) => {
     try {
 

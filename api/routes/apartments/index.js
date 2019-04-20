@@ -12,7 +12,7 @@ app.post('/get', async (req, res, next) => {
 
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
 
-    res.json({ status: 'ok', apartments });
+    res.json({ status: 'ok', data: apartments });
 })
 
 app.post('/getOne', async (req, res, next) => {

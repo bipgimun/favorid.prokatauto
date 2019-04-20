@@ -36,6 +36,7 @@ app.use('/drivers', checkAuth, require('./routes/drivers'));
 app.use('/itineraries', checkAuth, require('./routes/itineraries'));
 app.use('/incomes', checkAuth, require('./routes/incomes'));
 app.use('/costs', checkAuth, require('./routes/costs'));
+app.use('/costs-categories', checkAuth, require('./routes/costs-categories'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));

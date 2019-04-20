@@ -8,6 +8,14 @@ const messages = require('../../messages');
 const { wishList } = require('../../wish-list');
 const moment = require('moment');
 
+const { itineraries: itinerariesModel } = require('../../../models');
+
+app.post('/get', async (req, res, next) => {
+    const itineraries = itinerariesModel.get();
+
+    return res.json({ status: 'ok', data: itineraries });
+})
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
