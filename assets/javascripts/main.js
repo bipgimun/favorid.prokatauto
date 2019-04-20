@@ -926,7 +926,12 @@ $(document).ready(() => {
     $('#js-carsListModal-select').select2({
         dropdownParent: $('#add-products'),
         placeholder: 'Выберите автомобиль'
-    });
+    }).on('select2:select', function (e) {
+        var carId = $(this).val();
+        var car = carsState.find(car => car.id == carId);
+
+        $('#js-carClassNameModal-input').val(car.class_name)
+    })
 
     $('#js-carReserv-complete').on('click', async function () {
         const $btn = $(this);
@@ -972,13 +977,6 @@ $(document).ready(() => {
         location.reload();
     })
 
-    $('#js-carsListModal-select').on('select2:select', function (e) {
-        var carId = $(this).val();
-        var car = carsState.find(car => car.id == carId);
-
-        $('#js-carClassNameModal-input').val(car.class_name)
-    })
-
     $('#js-select2-apartments-id').select2({
         ajax: {
             url: '/api/apartments/get',
@@ -1012,6 +1010,7 @@ $(document).ready(() => {
         request('/api/customers/getOne', { id: val })
             .then(result => {
                 $apartmentReservations.find('[name=discount]').val(result.data.discount);
+                $('#js-carReservations-form').find('[name=discount]').val(result.data.discount);
             })
     })
 

@@ -27,7 +27,8 @@ const addScheme = Joi.object({
     price_id: Joi.number().required(),
     car_id: Joi.number().required(),
     class_name: Joi.string().required(),
-    cash_storage_id: Joi.number().required(),
+    rent_start: Joi.date().iso().required(),
+    rent_finished: Joi.date().iso().required(),
     services: Joi.string(),
     prepayment: Joi.number().min(0).required(),
     sum: Joi.number().min(0).required(),
@@ -40,6 +41,38 @@ app.post('/add', async (req, res, next) => {
     const { values } = req.body;
 
     const { has_driver, ...validValues } = await Joi.validate(values, addScheme);
+
+    const carInWorks = await db.execQuery(`
+        SELECT id
+        FROM cars_reservations 
+        WHERE 
+            car_id = ${values.car_id} 
+            AND status NOT IN (3)
+            AND (
+                ((rent_start BETWEEN '${values.rent_start}' AND '${values.rent_finished}') OR (rent_finished BETWEEN '${values.rent_start}' AND '${values.rent_finished}'))
+                OR (('${values.rent_start}' BETWEEN rent_start AND rent_finished) AND ('${values.rent_finished}' BETWEEN rent_start AND rent_finished))
+            )
+    `);
+
+    if (carInWorks.length > 0)
+        throw new Error('Данный автомобиль в это время уже находится в аренде');
+
+    if (values.driver_id) {
+        const driversInWork = await db.execQuery(`
+            SELECT id
+            FROM cars_reservations 
+            WHERE 
+                driver_id = ${values.driver_id} 
+                AND status NOT IN (3)
+                AND (
+                    ((rent_start BETWEEN '${values.rent_start}' AND '${values.rent_finished}') OR (rent_finished BETWEEN '${values.rent_start}' AND '${values.rent_finished}'))
+                    OR (('${values.rent_start}' BETWEEN rent_start AND rent_finished) AND ('${values.rent_finished}' BETWEEN rent_start AND rent_finished))
+                )
+        `);
+
+        if (driversInWork.length > 0)
+            throw new Error('Данный водитель в это время находится в работе');
+    }
 
     const id = await db.insertQuery(`INSERT INTO cars_reservations SET ?`, validValues);
 
