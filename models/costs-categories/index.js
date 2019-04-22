@@ -6,7 +6,7 @@ exports.add = async ({ title = '' }) => {
 
 exports.get = ({
     id = ''
-}) => {
+} = {}) => {
     return db.execQuery(`
         SELECT * 
         FROM costs_categories
