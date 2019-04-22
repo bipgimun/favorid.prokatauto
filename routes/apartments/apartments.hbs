@@ -29,6 +29,7 @@
                 style="width:100%; display: none">
                 <thead>
                     <tr>
+                        <th>Менеджер</th>
                         <th>Адрес</th>
                         <th>Комнаты</th>
                         <th>Цена</th>
@@ -39,6 +40,7 @@
                 <tbody>
                     {{#each apartments}}
                         <tr>
+                            <th></th>
                             <td>{{this.address}}</td>
                             <td>{{this.rooms}}</td>
                             <td>{{this.price_per_day}}</td>
@@ -51,6 +53,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>Менеджер</th>
                         <th>Адрес</th>
                         <th>Комнаты</th>
                         <th>Цена</th>
@@ -73,6 +76,15 @@
         <div class="panel-body">
             <form action="/api/apartments/add" id="js-apartments-add-form" class="form-horizontal mb-lg"
                 novalidate="novalidate">
+                <div class="form-group">
+                    <label class="col-sm-6" style="text-align: right;">Квартира принадлежит фирме</label>
+                    <div class="col-sm-6">
+                        <div class="checkbox-custom checkbox-primary col-sm-3">
+                            <input type="checkbox" name="apartment_owned" value="1" id="checkboxOwnedApartm">
+                            <label for="checkboxOwnedApartm">Принадлежит</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Адрес</label>
                     <div class="col-sm-7">

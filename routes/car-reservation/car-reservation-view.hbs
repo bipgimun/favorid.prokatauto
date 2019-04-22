@@ -298,6 +298,17 @@
                                     placeholder="Введите сумму" required>
                             </div>
                         </div>
+                        <div class="form-group group-drivers__hide-vis">
+                            <label class="col-sm-4 control-label">Зарплата водителя, руб.</label>
+                            <div class="non-editable-content" data-target="driver_reservation_salary">
+                                {{this.driver_reservation_salary}}
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input name="driver_reservation_salary" value="{{this.driver_reservation_salary}}" type="number" class="form-control" placeholder="Введите сумму" required>
+                            </div>
+                        </div>
+                        
+                        
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Статус</label>
                             <div class="col-sm-9">

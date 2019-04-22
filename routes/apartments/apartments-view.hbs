@@ -42,6 +42,21 @@
                         novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group">
+                            <label class="col-sm-3" style="text-align: right;">Квартира принадлежит фирме</label>
+                            <div class="col-sm-9">
+                                <div class="non-editable-content" data-target="apartment_owned">
+                                    {{this.apartment_owned}}
+                                </div>
+                                <div class="editable-content">
+                                    <div class="checkbox-custom checkbox-primary col-sm-3">
+                                        <input {{ifTrue apartment_owned  'checked' ''}} value="1" type="checkbox"
+                                            id="checkboxOwnedApartm" name="apartment_owned">
+                                        <label for="checkboxOwnedApartm">Принадлежит</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-5 control-label">Адрес</label>
                             <div class="non-editable-content" data-target="address">
                                 {{this.address }}

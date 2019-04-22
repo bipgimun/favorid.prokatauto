@@ -31,6 +31,7 @@
                 style="width:100%; display: none">
                 <thead>
                     <tr>
+                        <th>Менеджер</th>
                         <th>Номер</th>
                         <th>Дата заказа</th>
                         <th>Заказчик</th>
@@ -43,6 +44,7 @@
                 <tbody>
                     {{#each reservs}}
                         <tr>
+                            <th></th>
                             <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.customer_name}}</td>
@@ -57,6 +59,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>Менеджер</th>
                         <th>Номер</th>
                         <th>Дата заказа</th>
                         <th>Заказчик</th>
