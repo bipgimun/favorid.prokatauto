@@ -4,65 +4,65 @@ $(document).ready(() => {
         allowClear: true,
     });
 
-  const $apartmentReservations = $('#js-apartmentReservations-form');
+    const $apartmentReservations = $('#js-apartmentReservations-form');
 
     $apartmentReservations.on('submit', async function (e) {
-      e.preventDefault();
+        e.preventDefault();
 
-      const $form = $(this);
-      const url = $form.attr('action');
+        const $form = $(this);
+        const url = $form.attr('action');
 
-      const values = getFormValues($form);
+        const values = getFormValues($form);
 
-      const services = $('#js-select2-services-id').select2('data') || [];
+        const services = $('#js-select2-services-id').select2('data') || [];
 
-      const servicesIds = services
-          .map(item => item.id)
-          .join(',');
+        const servicesIds = services
+            .map(item => item.id)
+            .join(',');
 
-      values.services = servicesIds;
+        values.services = servicesIds;
 
-      const { data } = await request(url, { values }, { showNotify: true });
-      $apartmentReservations.find('.modal-dismiss').click();
+        const { data } = await request(url, { values }, { showNotify: true });
+        $apartmentReservations.find('.modal-dismiss').click();
 
-      if ($('#js-apartment-reservations-table').length) {
-          insertTable('apartment-reservations', data.id, [data.id, data.created_at, data.address, data.client_name, data.statusName]);
-      } else {
-          Object.keys(data).forEach(key => {
-              $form.find(`[data-target=${key}]`).text(data[key]);
-          })
-          $('.js-toggleEditable').click();
-      }
+        if ($('#js-apartment-reservations-table').length) {
+            insertTable('apartment-reservations', data.id, [data.id, data.created_at, data.address, data.client_name, data.statusName]);
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+            $('.js-toggleEditable').click();
+        }
 
-      return false;
+        return false;
     })
 
     $('#js-select2-clients-id').on('select2:select', function (e) {
-      const val = $(this).val();
+        const val = $(this).val();
 
-      request('/api/clients/getOne', { id: val })
-        .then(result => {
-            $apartmentReservations.find('[name=contact_number]').val(result.client.contact_number);
-            $('#js-carReservations-form').find('[name=contact_number]').val(result.client.contact_number);
-        })
+        request('/api/clients/getOne', { id: val })
+            .then(result => {
+                $apartmentReservations.find('[name=contact_number]').val(result.client.contact_number);
+                $('#js-carReservations-form').find('[name=contact_number]').val(result.client.contact_number);
+            })
     })
 
     $('#js-select2-clients-id').select2({
-      ajax: {
-        url: '/api/clients/get',
-        type: "POST",
-        dataType: 'json',
-        processResults: function (data) {
-          return {
-            results: $.map(data.clients, function (item) {
-              return {
-                text: item.name,
-                id: item.id
-              }
-            })
-          }
+        ajax: {
+            url: '/api/clients/get',
+            type: "POST",
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: $.map(data.clients, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id
+                        }
+                    })
+                }
+            }
         }
-      }
     });
 
     $('#js-pricesList-carNames-select').select2({
@@ -226,7 +226,7 @@ $(document).ready(() => {
             $item.val(defaultValue);
         }
     }
-})
+});
 
 /*    Form    */
 (function ($) {
