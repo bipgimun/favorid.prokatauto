@@ -100,7 +100,6 @@
                     this.st.focus = '#name';
                 }
 
-                
             }
         }
     });

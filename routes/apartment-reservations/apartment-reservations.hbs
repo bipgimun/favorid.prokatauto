@@ -31,6 +31,7 @@
                 style="width:100%; display: none">
                 <thead>
                     <tr>
+                        <th>Менеджер</th>
                         <th>Номер</th>
                         <th>Дата заказа</th>
                         <th>Адрес</th>
@@ -42,6 +43,7 @@
                 <tbody>
                     {{#each apartmentReservations}}
                         <tr>
+                            <td></td>
                             <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.address}}</td>
@@ -55,6 +57,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>Менеджер</th>
                         <th>Номер</th>
                         <th>Дата заказа</th>
                         <th>Адрес</th>
