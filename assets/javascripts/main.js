@@ -1,4 +1,3 @@
-
 $(document).ready(() => {
 
     $('table.display').DataTable({
@@ -822,12 +821,6 @@ $(document).ready(() => {
         return values;
     };
 
-    const insertTable = (name, id, values = []) => {
-        $('#js-' + name + '-table')
-            .dataTable()
-            .fnAddData([...values, `<a href="/${name}/${id}" target="_blank">Подробнее</a>`]);
-    }
-
     $('.js-toggleEditable').on('click', function (e) {
         e.preventDefault();
         $('.js-editable-body').toggleClass('editable-on');
@@ -836,55 +829,6 @@ $(document).ready(() => {
 
     const loadSalaryTable = (data) => {
         return request('/api/salaryStatement/getTable', data);
-    };
-
-    const request = (url, data, options = { showNotify: false }) => {
-        return new Promise((resolve, reject) => {
-            $.post(url, data).done(result => {
-                if (result.status !== 'ok') {
-
-                    console.error(result);
-
-                    var notice = new PNotify({
-                        title: 'Ошибка',
-                        text: result.message,
-                        icon: 'fa fa-user',
-                        shadow: true,
-                        delay: 1000,
-                        buttons: {
-                            closer: false,
-                            sticker: false
-                        }
-                    });
-
-                    notice.get().click(function () {
-                        notice.remove();
-                    });
-
-                    return reject(result);
-                }
-
-                if (options.showNotify === true) {
-                    var notice = new PNotify({
-                        title: 'Успешно',
-                        text: 'Успешно выполнено',
-                        type: 'success',
-                        shadow: true,
-                        delay: 1000,
-                        buttons: {
-                            closer: false,
-                            sticker: false
-                        }
-                    });
-
-                    notice.get().click(function () {
-                        notice.remove();
-                    });
-                }
-
-                resolve(result);
-            })
-        })
     };
 
     // Клиентская валидация на странице "Учет услуг" полей процент мастера и админа
@@ -932,3 +876,79 @@ $(document).ready(() => {
         }
     })
 });
+
+const request = (url, data, options = { showNotify: false }) => {
+    return new Promise((resolve, reject) => {
+        $.post(url, data).done(result => {
+            if (result.status !== 'ok') {
+
+                console.error(result);
+
+                var notice = new PNotify({
+                    title: 'Ошибка',
+                    text: result.message,
+                    icon: 'fa fa-user',
+                    shadow: true,
+                    delay: 1000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+
+                notice.get().click(function () {
+                    notice.remove();
+                });
+
+                return reject(result);
+            }
+
+            if (options.showNotify === true) {
+                var notice = new PNotify({
+                    title: 'Успешно',
+                    text: 'Успешно выполнено',
+                    type: 'success',
+                    shadow: true,
+                    delay: 1000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+
+                notice.get().click(function () {
+                    notice.remove();
+                });
+            }
+
+            resolve(result);
+        })
+    })
+};
+
+const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') => {
+
+    const arrayData = $(form).find(selectors).serializeArray();
+
+    const values = {};
+
+    arrayData.reduce((acc, item) => {
+
+        const { name, value } = item;
+
+        acc[name] = acc[name]
+            ? [...acc[name].split(','), value].join(',')
+            : value;
+
+        return acc;
+    }, values);
+
+    return values;
+};
+
+
+const insertTable = (name, id, values = []) => {
+    $('#js-' + name + '-table')
+        .dataTable()
+        .fnAddData([...values, `<a href="/${name}/${id}" target="_blank">Подробнее</a>`]);
+}

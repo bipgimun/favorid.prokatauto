@@ -9,28 +9,53 @@ const { wishList } = require('../../wish-list');
 const apartments_statuses = require('../../../config/apartment-statuses');
 const moment = require('moment');
 
+const Joi = require('joi');
+
+const addSchema = Joi.object({
+    manager_id: Joi.number().required(),
+    apartment_id: Joi.number().required(),
+    customer_id: Joi.number().required(),
+    passenger_id: Joi.number().required(),
+    number_of_clients: Joi.number().min(1).required(),
+    prepayment: Joi.number().required(),
+    services: Joi.string().empty([null, '']),
+    number_days: Joi.number().required(),
+    price_per_day: Joi.number().required(),
+    contact_number: Joi.string().required(),
+    discount: Joi.number().required(),
+    comment: Joi.string().empty([null, '']),
+    sum: Joi.number().required(),
+    entry: Joi.string().required(),
+    departure: Joi.string().required(),
+})
+
+const updateSchema = Joi.object({
+    apartment_id: Joi.number(),
+    customer_id: Joi.number(),
+    passenger_id: Joi.number(),
+    number_of_clients: Joi.number().min(1),
+    prepayment: Joi.number(),
+    services: Joi.string().allow(''),
+    number_days: Joi.number(),
+    price_per_day: Joi.number(),
+    contact_number: Joi.string(),
+    discount: Joi.number(),
+    comment: Joi.string().allow(''),
+    sum: Joi.number(),
+    entry: Joi.string(),
+    departure: Joi.string(),
+})
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const errors = [];
+    const { id: manager_id } = req.session.user;
 
-    if (typeof values.services !== 'undefined' && values.services === '')
-        delete values.services;
+    Object.assign(values, { manager_id });
 
-    if (typeof values.comment !== 'undefined' && values.comment === '')
-        delete values.comment;
+    const validValues = await addSchema.validate(values);
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
-
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
-
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
-
-    const { apartment_id: apId } = values;
+    const { apartment_id: apId } = validValues;
 
     const apInWorks = await db.execQuery(`
         SELECT id, entry, departure
@@ -39,17 +64,17 @@ app.post('/add', async (req, res, next) => {
             apartment_id = ${apId} 
             AND status NOT IN (0, 3)
             AND (
-                ((entry BETWEEN '${values.entry}' AND '${values.departure}') OR (departure BETWEEN '${values.entry}' AND '${values.departure}'))
-                OR (('${values.entry}' BETWEEN entry AND departure) AND ('${values.departure}' BETWEEN entry AND departure))
+                ((entry BETWEEN '${validValues.entry}' AND '${validValues.departure}') OR (departure BETWEEN '${validValues.entry}' AND '${validValues.departure}'))
+                OR (('${validValues.entry}' BETWEEN entry AND departure) AND ('${validValues.departure}' BETWEEN entry AND departure))
             )
     `);
 
     if (apInWorks.length > 0)
         throw new Error('Данная квартира уже находится в работе');
 
-    const id = await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, validValues);
 
-    const [ap = {}] = await db.execQuery(`
+    const [ar = {}] = await db.execQuery(`
         SELECT ar.*,
             a.address,
             p.name as client_name
@@ -59,19 +84,17 @@ app.post('/add', async (req, res, next) => {
         WHERE ar.id = ?`, [id]
     );
 
-    ap.statusName = apartments_statuses.get(1);
-    ap.created_at = moment(ap.created_at).format('DD.MM.YYYY');
+    ar.statusName = apartments_statuses.get(1);
+    ar.created_at = moment(ar.created_at).format('DD.MM.YYYY');
 
-    res.json({ status: 'ok', data: ap });
+    res.json({ status: 'ok', data: ar });
 })
 
 app.post('/update', async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;
 
-    const validValues = Object.keys(fields)
-        .filter(field => wishList.apartmentReservations.includes(field) && fields[field].trim())
-        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+    const validValues = await updateSchema.validate(fields);
 
     if (!id)
         throw new Error(messages.missingId);
@@ -79,11 +102,11 @@ app.post('/update', async (req, res, next) => {
     if (Object.keys(validValues).length < 1)
         throw new Error(messages.missingUpdateValues);
 
-    if(new Date(validValues.entry) >= new Date(validValues.departure))
+    if (new Date(validValues.entry) >= new Date(validValues.departure))
         throw new Error('Дата въезда не должна быть позднее даты выезда');
 
 
-    if(validValues.apartment_id) {
+    if (validValues.apartment_id) {
         const apInWorks = await db.execQuery(`
             SELECT id, entry, departure
             FROM apartment_reservations 
@@ -112,13 +135,11 @@ app.post('/update', async (req, res, next) => {
             a.address,
             p.name as client_name,
             c.name as customer_name,
-            p.contact_number as client_number,
-            cs.name as cash_storage
+            p.contact_number as client_number
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id
             LEFT JOIN customers c ON ar.customer_id = c.id
-            LEFT JOIN cash_storages cs ON ar.cash_storage_id = cs.id
         WHERE
             ar.id = ?
     `, [id])

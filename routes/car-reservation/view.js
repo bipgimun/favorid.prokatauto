@@ -19,8 +19,7 @@ module.exports = async (req, res, next) => {
             cu.discount as customer_discount,
             p.name as passenger_name,
             d.name as driver_name,
-            i.name as itinerarie_name,
-            cs.name as cash_storage_name
+            i.name as itinerarie_name
         FROM cars_reservations cr
             LEFT JOIN cars c ON c.id = cr.car_id
             LEFT JOIN customers cu ON cu.id = cr.customer_id
@@ -28,7 +27,6 @@ module.exports = async (req, res, next) => {
             LEFT JOIN drivers d ON d.id = cr.driver_id
             LEFT JOIN cars_price cp ON cp.id = cr.price_id
             LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
-            LEFT JOIN cash_storages cs ON cs.id = cr.cash_storage_id
         WHERE cr.id = ?`, [id]
     );
 
@@ -50,7 +48,6 @@ module.exports = async (req, res, next) => {
     const drivers = await db.execQuery('SELECT * FROM drivers');
     const cars = await db.execQuery('SELECT * FROM cars');
     const itineraries = await db.execQuery('SELECT * FROM itineraries');
-    const cashStorages = await db.execQuery('SELECT * FROM cash_storages');
 
     res.render(__dirname + '/car-reservation-view', {
         reservs,
@@ -59,7 +56,6 @@ module.exports = async (req, res, next) => {
         drivers,
         cars,
         itineraries,
-        cashStorages,
         id,
         item: reservs[0],
         additionalServices,

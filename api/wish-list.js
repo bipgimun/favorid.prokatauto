@@ -106,6 +106,7 @@ exports.wishList = {
         'address',
         'rooms',
         'price_per_day',
+        'apartment_owned',
         'utilities_per_month',
     ],
     apartmentReservations: [
@@ -113,6 +114,7 @@ exports.wishList = {
         'customer_id',
         'passenger_id',
         'prepayment',
+        'number_of_clients',
         'cash_storage_id',
         'services',
         'discount',

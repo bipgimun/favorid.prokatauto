@@ -16,13 +16,11 @@ module.exports = async (req, res, next) => {
             a.address,
             p.name as client_name,
             c.name as customer_name,
-            p.contact_number as client_number,
-            cs.name as cash_storage
+            p.contact_number as client_number
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id
             LEFT JOIN customers c ON ar.customer_id = c.id
-            LEFT JOIN cash_storages cs ON ar.cash_storage_id = cs.id
         WHERE
             ar.id = ?
     `, [id])
@@ -69,15 +67,6 @@ module.exports = async (req, res, next) => {
             return item;
         });
 
-    const cashStorages = (await db.execQuery(`SELECT * FROM cash_storages`))
-        .map(item => {
-            if (item.id == reservation.cash_storage_id) {
-                item.selected = true;
-            }
-
-            return item;
-        });
-
     const servicesIds = (reservation.services || '').split(',');
 
     const servicesWithSelected = additionalServices.map(item => {
@@ -94,7 +83,6 @@ module.exports = async (req, res, next) => {
         additionalServices: servicesWithSelected,
         apartmentReservations,
         apartments,
-        cashStorages,
         servicesList,
         id,
         reservation

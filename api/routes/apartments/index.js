@@ -8,6 +8,16 @@ const messages = require('../../messages');
 const { wishList } = require('../../wish-list');
 const apartments_statuses = require('../../../config/apartment-statuses');
 
+const Joi = require('joi');
+
+const addSchema = Joi.object({
+    address: Joi.strict().required(),
+    rooms: Joi.number().required(),
+    price_per_day: Joi.number().required(),
+    utilities_per_month: Joi.number().required(),
+    apartment_owned: Joi.number().valid([1, 0]).default(0),
+})
+
 app.post('/get', async (req, res, next) => {
 
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
@@ -31,19 +41,10 @@ app.post('/getOne', async (req, res, next) => {
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const errors = [];
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
+    const validValues = await addSchema.validate(values);
 
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
-
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
-
-    const id = await db.insertQuery(`INSERT INTO apartments SET ?`, values);
+    const id = await db.insertQuery(`INSERT INTO apartments SET ?`, validValues);
 
     const [apartment = {}] = await db.execQuery(`SELECT * FROM apartments WHERE id = ?`, [id]);
 
