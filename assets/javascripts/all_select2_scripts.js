@@ -47,7 +47,9 @@ $(document).ready(() => {
             })
     })
 
+
     $('#js-select2-clients-id').select2({
+        dropdownParent: $('#add-products').length ? $('#add-products') : null,
         ajax: {
             url: '/api/clients/get',
             type: "POST",
@@ -232,107 +234,107 @@ $(document).ready(() => {
 (function ($) {
     'use strict';
 
-    $('select.js-select2-init').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products')
-    });
+    $('.modal-with-form').magnificPopup({
+        type: 'inline',
+        preloader: false,
+        focus: '#name',
+        modal: true,
 
-    $('#js-select2-customer-id').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/customers/get',
-            dataType: 'json',
-            type: "POST",
-            quietMillis: 50,
-            processResults: function (data) {
-                return {
-                    results: $.map(data.customers, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
+        // When elemened is focused, some mobile browsers in some cases zoom in
+        // It looks not nice, so we disable it:
+        callbacks: {
+            beforeOpen: function () {
+                if ($(window).width() < 700) {
+                    this.st.focus = false;
+                } else {
+                    this.st.focus = '#name';
                 }
-            }
-        }
-    });
 
-    $('#js-select2-clients-id').select2({
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/clients/get',
-            type: "POST",
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: $.map(data.clients, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
-    });
+                $('select.js-select2-init').select2({
+                    allowClear: true,
+                    dropdownParent: $('#add-products')
+                });
 
-    $('#js-select2-apartments-id').select2({
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/apartments/get',
-            type: "POST",
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: $.map(data.data, function (item) {
-                        return {
-                            text: item.address,
-                            id: item.id
+                $('#js-select2-customer-id').select2({
+                    allowClear: true,
+                    dropdownParent: $('#add-products'),
+                    ajax: {
+                        url: '/api/customers/get',
+                        dataType: 'json',
+                        type: "POST",
+                        quietMillis: 50,
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.customers, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            }
                         }
-                    })
-                }
-            }
-        }
-    });
+                    }
+                });
 
-    $('#js-select2-cashStorages-id').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/cashStorages/get',
-            dataType: 'json',
-            type: "POST",
-            quietMillis: 50,
-            processResults: function (data) {
-                return {
-                    results: $.map(data.data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
+                $('#js-select2-apartments-id').select2({
+                    dropdownParent: $('#add-products'),
+                    ajax: {
+                        url: '/api/apartments/get',
+                        type: "POST",
+                        dataType: 'json',
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.data, function (item) {
+                                    return {
+                                        text: item.address,
+                                        id: item.id
+                                    }
+                                })
+                            }
                         }
-                    })
-                }
-            }
-        }
-    });
+                    }
+                });
 
-    $('#js-select2-services-id').select2({
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/additionalServices/get',
-            dataType: 'json',
-            type: "POST",
-            quietMillis: 50,
-            processResults: function (data) {
-                return {
-                    results: $.map(data.data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
+                $('#js-select2-cashStorages-id').select2({
+                    allowClear: true,
+                    dropdownParent: $('#add-products'),
+                    ajax: {
+                        url: '/api/cashStorages/get',
+                        dataType: 'json',
+                        type: "POST",
+                        quietMillis: 50,
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            }
                         }
-                    })
-                }
+                    }
+                });
+
+                $('#js-select2-services-id').select2({
+                    dropdownParent: $('#add-products'),
+                    ajax: {
+                        url: '/api/additionalServices/get',
+                        dataType: 'json',
+                        type: "POST",
+                        quietMillis: 50,
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data.data, function (item) {
+                                    return {
+                                        text: item.name,
+                                        id: item.id
+                                    }
+                                })
+                            }
+                        }
+                    }
+                });
             }
         }
     });
