@@ -94,11 +94,13 @@
         // It looks not nice, so we disable it:
         callbacks: {
             beforeOpen: function () {
-            if ($(window).width() < 700) {
-                this.st.focus = false;
-            } else {
-                this.st.focus = '#name';
-            }
+                if ($(window).width() < 700) {
+                    this.st.focus = false;
+                } else {
+                    this.st.focus = '#name';
+                }
+
+                
             }
         }
     });

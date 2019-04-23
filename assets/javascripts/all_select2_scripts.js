@@ -226,16 +226,14 @@ $(document).ready(() => {
             $item.val(defaultValue);
         }
     }
-})
+
 
 /*    Form    */
-(function ($) {
-    'use strict';
-
-    $('select.js-select2-init').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products')
-    });
+    
+$('select.js-select2-init').select2({
+    allowClear: true,
+    dropdownParent: $('#add-products')
+});
 
     $('#js-select2-customer-id').select2({
         allowClear: true,
@@ -336,4 +334,4 @@ $(document).ready(() => {
             }
         }
     });
-}).apply(this, [jQuery]);
+})
