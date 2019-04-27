@@ -13,14 +13,10 @@ module.exports = new class Db {
     async connect() {
 
         try {
-            this.connection = await mysql.createConnection(dbConfig);
+            this.connection = await mysql.createPool(dbConfig);
         } catch (error) {
             return await this.reconnect(error);
         }
-
-        this.connection.on('error', async error => {
-            await this.reconnect(error)
-        });
 
         console.log('Подключение к базе данных успешно');
     }

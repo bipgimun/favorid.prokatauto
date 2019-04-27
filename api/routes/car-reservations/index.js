@@ -28,14 +28,61 @@ const addScheme = Joi.object({
     price_id: Joi.number().required(),
     car_id: Joi.number().required(),
     class_name: Joi.string().required(),
-    rent_start: Joi.date().iso().required(),
-    rent_finished: Joi.date().iso().required(),
+    rent_start: Joi.string().required(),
+    rent_finished: Joi.string().required(),
     services: Joi.string(),
     prepayment: Joi.number().min(0).required(),
     sum: Joi.number().min(0).required(),
     comment: Joi.string().empty([null, '']),
-    has_driver: Joi.number()
-}).and('has_driver', 'driver_id', 'itinerarie_id');
+    has_driver: Joi.number().default(0).valid([0, 1]),
+    driver_salary: Joi.number().default(0),
+}).when(
+    Joi.object({
+        has_driver: Joi.number().valid(1).required()
+    }).unknown(), {
+        then: Joi.object({
+            driver_id: Joi.required(),
+            itinerarie_id: Joi.required(),
+        }),
+        otherwise: Joi.object({
+            driver_id: Joi.strip(),
+            itinerarie_id: Joi.strip(),
+        })
+    })
+
+const updateSchema = Joi.object({
+    manager_id: Joi.number(),
+    customer_id: Joi.number(),
+    discount: Joi.number().default(0).empty(''),
+    passenger_id: Joi.number(),
+    contact_number: Joi.string(),
+    driver_id: Joi.number().allow(''),
+    itinerarie_id: Joi.number().allow('').error(new Error('Выберите маршрут')),
+    price_id: Joi.number(),
+    car_id: Joi.number(),
+    class_name: Joi.string(),
+    rent_start: Joi.string(),
+    rent_finished: Joi.string(),
+    services: Joi.string(),
+    prepayment: Joi.number().min(0),
+    sum: Joi.number().min(0),
+    comment: Joi.string().allow(''),
+    has_driver: Joi.number().default(0).valid([0, 1]),
+    driver_salary: Joi.number().min(0).default(0).empty(''),
+    status: Joi.number(),
+}).when(
+    Joi.object({
+        has_driver: Joi.number().valid(1).required()
+    }).unknown(), {
+        then: Joi.object({
+            driver_id: Joi.required(),
+            itinerarie_id: Joi.required(),
+        }),
+        otherwise: Joi.object({
+            driver_id: Joi.strip(),
+            itinerarie_id: Joi.strip(),
+        })
+    })
 
 app.post('/add', async (req, res, next) => {
 
@@ -44,7 +91,7 @@ app.post('/add', async (req, res, next) => {
 
     Object.assign(values, { manager_id });
 
-    const { has_driver, ...validValues } = await Joi.validate(values, addScheme);
+    const validValues = await Joi.validate(values, addScheme);
 
     const carInWorks = await db.execQuery(`
         SELECT id
@@ -87,12 +134,9 @@ app.post('/add', async (req, res, next) => {
 })
 
 app.post('/update', async (req, res, next) => {
-
     const { id, ...fields } = req.body.values;
 
-    const validValues = Object.keys(fields)
-        .filter(field => wishList.carReservation.includes(field))
-        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+    const validValues = await updateSchema.validate(fields);
 
     if (!id)
         throw new Error(messages.missingId);
@@ -127,6 +171,7 @@ app.post('/update', async (req, res, next) => {
     const returnData = { ...validValues, ...item };
 
     res.json({ status: 'ok', data: returnData });
+
 });
 
 app.post('/delete', async (req, res, next) => {

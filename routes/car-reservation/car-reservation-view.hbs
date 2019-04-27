@@ -62,7 +62,7 @@
                             <div class="col-sm-8">
                                 <div class="checkbox-custom checkbox-primary">
                                     <input {{ifTrue this.driver_id 'checked' : ''}} class="group-drivers__checkbox"
-                                        type="checkbox" id="checkboxdriver">
+                                        type="checkbox" id="checkboxdriver" value="1" name="has_driver">
                                     <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                             <label class="col-sm-3 control-label">Заказчик</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <div class="non-editable-content" data-target="customer_id">
+                                    <div class="non-editable-content" data-target="customer_name">
                                         {{this.customer_name}}
                                     </div>
                                     <div class="editable-content">
@@ -95,7 +95,7 @@
                                 {{this.customer_discount}}
                             </div>
                             <div class="col-sm-6 editable-content">
-                                <input class="form-control" value="{{this.customer_discount}}">
+                                <input class="form-control" name="discount" value="{{this.customer_discount}}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -152,26 +152,6 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group mt-lg">
-                            <label class="col-sm-3 control-label">Марка автомобиля</label>
-                            <div class="non-editable-content" data-target="car_name">
-                                {{this.car_name}}
-                            </div>
-                            <div class="col-sm-9 editable-content">
-                                <input name="car_name" value="{{this.car_name}}" type="text" class="form-control"
-                                    placeholder="Введите марку" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Модель</label>
-                            <div class="non-editable-content" data-target="car_model">
-                                {{this.car_model}}
-                            </div>
-                            <div class="col-sm-9 editable-content">
-                                <input name="car_model" value="{{this.car_model}}" type="text" class="form-control"
-                                    placeholder="Введите модель" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -300,15 +280,16 @@
                         </div>
                         <div class="form-group group-drivers__hide-vis">
                             <label class="col-sm-4 control-label">Зарплата водителя, руб.</label>
-                            <div class="non-editable-content" data-target="driver_reservation_salary">
-                                {{this.driver_reservation_salary}}
+                            <div class="non-editable-content" data-target="driver_salary">
+                                {{this.driver_salary}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="driver_reservation_salary" value="{{this.driver_reservation_salary}}" type="number" class="form-control" placeholder="Введите сумму" required>
+                                <input name="driver_salary" value="{{this.driver_salary}}" type="number"
+                                    class="form-control" placeholder="Введите сумму" required>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Статус</label>
                             <div class="col-sm-9">

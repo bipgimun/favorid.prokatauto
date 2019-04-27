@@ -27,10 +27,11 @@
         </div>
         <div class="table-responsive">
             <table id="js-carReservations-table"
-                class="display table table-bordered table-striped table-condensed mb-none customize"
+                class="table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none">
                 <thead>
                     <tr>
+                        <th>С водителем/без</th>
                         <th>Менеджер</th>
                         <th>Номер</th>
                         <th>Дата заказа</th>
@@ -44,7 +45,8 @@
                 <tbody>
                     {{#each reservs}}
                         <tr>
-                            <th></th>
+                            <td>{{has_driver}}</td>
+                            <td>{{manager_id}}</td>
                             <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.customer_name}}</td>
@@ -59,6 +61,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>С водителем/без</th>
                         <th>Менеджер</th>
                         <th>Номер</th>
                         <th>Дата заказа</th>

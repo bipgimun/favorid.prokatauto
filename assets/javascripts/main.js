@@ -7,6 +7,19 @@ $(document).ready(() => {
         }
     });
 
+    $('#js-carReservations-table').DataTable({
+        initComplete(settings, json) {
+            $('.zag').remove();
+            $(this).show(300);
+        },
+        createdRow(row, data, dataIndex) {
+            console.log(data);
+            if (data['0'] === '1' && data[6] === '') {
+                $(row).css({ backgroundColor: 'orange' });
+            }
+        }
+    });
+
     $('select.js-select2-init').select2({
         allowClear: true,
     });
@@ -801,7 +814,7 @@ $(document).ready(() => {
         location.reload();
     })
 
-    const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') => {
+    const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver') => {
 
         const arrayData = $(form).find(selectors).serializeArray();
 
