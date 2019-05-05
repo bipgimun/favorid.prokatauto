@@ -3,7 +3,6 @@ const moment = require('moment');
 
 const app = express.Router();
 
-const checkAuth = require('../../../libs/middlewares/check-auth');
 const db = require('../../../libs/db');
 const safeStr = require('../../../libs/safe-string');
 const messages = require('../../messages');
@@ -28,6 +27,41 @@ const addSchema = Joi.object({
     in_leasing: Joi.number().default(0).valid([1, 0]),
     payment_amount: Joi.number().not(['']),
     payment_date: Joi.date().not(['']),
+    company_property: Joi.number().default(0).when('in_leasing', { is: Joi.valid(1).required(), then: Joi.required() }),
+    leasing_expiration_date: Joi.date(),
+}).when(
+    Joi.object({
+        in_leasing: Joi.number().valid(1).required()
+    }).unknown(), {
+        then: Joi.object().with('in_leasing', [
+            'payment_amount',
+            'payment_date',
+            'leasing_expiration_date'
+        ]),
+        otherwise: Joi.object({
+            payment_amount: Joi.strip(),
+            payment_date: Joi.strip(),
+            leasing_expiration_date: Joi.strip()
+        })
+    })
+const updateSchema = Joi.object({
+    name: Joi.string(),
+    model: Joi.string(),
+    class_name: Joi.string(),
+    number: Joi.string(),
+    mileage: Joi.number(),
+    carcass_condition: Joi.string(),
+    release_date: Joi.date(),
+    fuel_level: Joi.number(),
+    osago_number: Joi.string(),
+    osago_expiration_date: Joi.date(),
+    maintenance: Joi.number(),
+    market_price: Joi.number(),
+    purchase_price: Joi.number(),
+    in_leasing: Joi.number().default(0).valid([1, 0]),
+    payment_amount: Joi.number().not(['']),
+    payment_date: Joi.date().not(['']),
+    company_property: Joi.number().default(0).when('in_leasing', { is: Joi.valid(1).required(), then: Joi.required() }),
     leasing_expiration_date: Joi.date(),
 }).when(
     Joi.object({
@@ -112,15 +146,10 @@ app.post('/update', async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;
 
-    const validValues = Object.keys(fields)
-        .filter(field => wishList.cars.includes(field))
-        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
-
     if (!id)
         throw new Error(messages.missingId);
 
-    if (Object.keys(validValues).length < 1)
-        throw new Error(messages.missingUpdateValues);
+    const validValues = await updateSchema.validate(fields);
 
     await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [validValues, id]);
 
