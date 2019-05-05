@@ -22,6 +22,7 @@ router.get('/', async (req, res, next) => {
             car_id IN (${carsIds})
             AND rent_start >= '${moment(new Date(minRentStart)).format('YYYY-MM-DDTHH:mm')}'
             AND rent_finished <= '${moment(new Date(maxRentFinished)).format('YYYY-MM-DDTHH:mm')}'
+            AND status NOT IN (2)
     `);
 
     const usedCarsGroup = reservs.reduce((acc, item) => {
