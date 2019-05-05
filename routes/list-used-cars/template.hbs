@@ -1,0 +1,63 @@
+<style>
+    .container_for_table {
+        display: table-cell;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .main_container_table_resp {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+</style>
+<header class="page-header">
+    <h2>Занятые авто</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Занятые авто</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel">
+    <header class="panel-heading">
+        <div class="panel-actions">
+        </div>
+
+        <h2 class="panel-title">Список занятых авто</h2>
+    </header>
+    <div class="panel-body main_container_table_resp">
+        <div class="container_for_table">
+            <table class="table table-bordered table-striped table-condensed mb-none">
+                <thead>
+                    <tr>
+                        <th>ДАТЫ</th>
+                        <th colspan="8" style="text-align: center;">АВТОМОБИЛИ</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        {{#each cars}}
+                            <th class="text-right">{{name}} {{model}} {{number}}</th>
+                        {{/each}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each resArray}}
+                        <tr>
+                            <td>{{date}}</td>
+                            {{#each cars}}
+                                <td class="text-right" style="{{ifTrue isReserved 'background: red; color: black' ''}}">{{message}}</td>
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

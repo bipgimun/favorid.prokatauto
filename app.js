@@ -115,6 +115,7 @@ app.get(['/report', '/report.html'], report);
 app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
+// -------------------------------
 
 app.use('/cars', require('./routes/cars'));
 app.use('/customers', require('./routes/customers'));
@@ -130,6 +131,7 @@ app.use('/car-reservation', require('./routes/car-reservation'));
 app.use('/incomes', require('./routes/incomes'));
 app.use('/costs', require('./routes/costs'));
 app.use('/costs-categories', require('./routes/costs-categories'));
+app.use('/list-used-cars', require('./routes/list-used-cars'));
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
