@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
     const maxRentFinished = (await db.execQuery(`SELECT MAX(rent_finished) as date FROM cars_reservations LIMIT 1`))
         .map(item => item.date).join(',');
 
-    const reservs = await db.execQuery(`
+    const reservs = minRentStart && maxRentFinished ? (await db.execQuery(`
         SELECT * 
         FROM cars_reservations 
         WHERE 
@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
             AND rent_start >= '${moment(new Date(minRentStart)).format('YYYY-MM-DDTHH:mm')}'
             AND rent_finished <= '${moment(new Date(maxRentFinished)).format('YYYY-MM-DDTHH:mm')}'
             AND status NOT IN (2)
-    `);
+    `)) : [];
 
     const usedCarsGroup = reservs.reduce((acc, item) => {
         const { car_id, rent_start, rent_finished } = item;
