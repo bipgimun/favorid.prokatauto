@@ -1,0 +1,249 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Детализация по авто</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Детализация по авто</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Сохраненные документы детализаций по авто</h2>
+    </header>
+    <div class="panel-body">
+        <div class="zag">
+            <h1>заглушка</h1>
+        </div>
+        <div class="table-responsive">
+            <table class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none;">
+                <thead>
+                    <tr>
+                        <th>Дата формирования</th>
+                        <th>Номер</th>
+                        <th>Заказчик</th>
+                        <th>Клиент</th>
+                        <th>Сумма</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each detailing}}
+                        <tr>
+                            <td>{{toIsoString created 'DD.MM.YYYY'}}</td>
+                            <td>{{number}}</td>
+                            <td>{{customer_name}}</td>
+                            <td>{{client_name}}</td>
+                            <td>{{sum}}</td>
+                            <td></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Дата формирования</th>
+                        <th>Номер</th>
+                        <th>Заказчик</th>
+                        <th>Клиент</th>
+                        <th>Сумма</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Детализация по авто</h2>
+    </header>
+
+    <div class="panel-body">
+
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-6">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input id="js-detailing-car-from-period" type="date" class="form-control">
+                    <input id="js-detailing-car-end-period" type="date" class="form-control">
+                </div>
+            </div>
+
+            <div class="controls_details-child customer-control_details col-md-6">
+                <p class="header-details">Заказчик</p>
+                <div class="controls_details_date-range">
+                    <select id="js-select2-customer-id" class="js-detailing-cars-customer form-control">
+                        <option value="" disabled selected>Сортировка по заказчику</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls_details-child with-without-driver_details col-md-8">
+                <p class="header-details">Заявки с водителем или без <span class="header-details_span">(если не выбрано
+                        ничего - в выборку попадает всё)</span></p>
+                <div class="checkbox-custom checkbox-default col-md-4">
+                    <input class="js-detailing-cars-with-driver" value="1" type="checkbox" id="checkboxExample1">
+                    <label for="checkboxExample1">С водителем</label>
+                </div>
+                <div class="checkbox-custom checkbox-default col-md-4">
+                    <input class="js-detailing-cars-without-driver" value="1" type="checkbox" id="checkboxExample2">
+                    <label for="checkboxExample2">Без водителя</label>
+                </div>
+            </div>
+        </div>
+        <div class="create_button col-md-12">
+            <button class="btn btn-primary js-detailing-cars-accept">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button class="btn btn-success">Сохранить</button>
+                <button class="btn btn-info">Распечатать</button>
+                <button class="btn btn-default">Отмена</button>
+                <br>
+                <br>
+            </div>
+
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                    <tr>
+                        <th>Даты</th>
+                        <th>Заказчик</th>
+                        <th>Водитель</th>
+                        <th>Маршрут</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="gradeX">
+                        <td>Trident</td>
+                        <td>Internet
+                            Explorer 4.0</td>
+                        <td>Win 95+</td>
+                        <td class="center">4</td>
+                        <td class="center">X</td>
+                    </tr>
+                    <tr class="gradeC">
+                        <td>Trident</td>
+                        <td>Internet
+                            Explorer 5.0</td>
+                        <td>Win 95+</td>
+                        <td class="center">5</td>
+                        <td class="center">C</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Trident</td>
+                        <td>Internet
+                            Explorer 5.5</td>
+                        <td>Win 95+</td>
+                        <td class="center">5.5</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Trident</td>
+                        <td>Internet
+                            Explorer 6</td>
+                        <td>Win 98+</td>
+                        <td class="center">6</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Trident</td>
+                        <td>Internet Explorer 7</td>
+                        <td>Win XP SP2+</td>
+                        <td class="center">7</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Trident</td>
+                        <td>AOL browser (AOL desktop)</td>
+                        <td>Win XP</td>
+                        <td class="center">6</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Gecko</td>
+                        <td>Firefox 1.0</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td class="center">1.7</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Gecko</td>
+                        <td>Firefox 1.5</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td class="center">1.8</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Gecko</td>
+                        <td>Firefox 2.0</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td class="center">1.8</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Gecko</td>
+                        <td>Firefox 3.0</td>
+                        <td>Win 2k+ / OSX.3+</td>
+                        <td class="center">1.9</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Gecko</td>
+                        <td>Camino 1.0</td>
+                        <td>OSX.2+</td>
+                        <td class="center">1.8</td>
+                        <td class="center">A</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td>Gecko</td>
+                        <td>Camino 1.5</td>
+                        <td>OSX.3+</td>
+                        <td class="center">1.8</td>
+                        <td class="center">A</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="/assets/javascripts/detailing-cars.js" defer></script>

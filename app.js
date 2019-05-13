@@ -132,6 +132,7 @@ app.use('/incomes', require('./routes/incomes'));
 app.use('/costs', require('./routes/costs'));
 app.use('/costs-categories', require('./routes/costs-categories'));
 app.use('/list-used-cars', require('./routes/list-used-cars'));
+app.use('/detailing-cars', require('./routes/detailing-cars'));
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;

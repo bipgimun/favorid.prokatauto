@@ -11,6 +11,8 @@ const messages = require('../../messages');
 const { wishList } = require('../../wish-list');
 const Joi = require('joi');
 
+const { carsReservsModel } = require('../.././../models');
+
 const statues = {
     '0': 'Новая заявка',
     '1': 'В работе',
@@ -83,6 +85,29 @@ const updateSchema = Joi.object({
             itinerarie_id: Joi.strip(),
         })
     })
+
+app.post('/get', async (req, res, next) => {
+
+    const { fromPeriod, endPeriod, customer, withDriver, withoutDriver } = req.body;
+
+    let hasDriver = '';
+
+    if (withDriver == '1' && withoutDriver == '0')
+        hasDriver = '1';
+
+    if (withDriver == '0' && withoutDriver == '1')
+        hasDriver = '0';
+
+    const reservs = await carsReservsModel.get({ fromPeriod, endPeriod, customer, hasDriver });
+
+    console.log('fromPeriod, endPeriod, customer, hasDriver');
+    console.log(fromPeriod, endPeriod, customer, hasDriver);
+
+    console.log('reservs', reservs);
+    console.log('----------------------------------------');
+
+    return res.json({ status: 'ok', data: reservs });
+})
 
 app.post('/add', async (req, res, next) => {
 

@@ -227,7 +227,7 @@ $(document).ready(() => {
 
     $('#js-select2-customer-id').select2({
         allowClear: true,
-        dropdownParent: $('#add-products'),
+        dropdownParent: $('#add-products').length ? $('#add-products') : null,
         ajax: {
             url: '/api/customers/get',
             dataType: 'json',
@@ -249,27 +249,6 @@ $(document).ready(() => {
     $('select.js-select2-init').select2({
         allowClear: true,
         dropdownParent: $('#add-products')
-    });
-
-    $('#js-select2-customer-id').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/customers/get',
-            dataType: 'json',
-            type: "POST",
-            quietMillis: 50,
-            processResults: function (data) {
-                return {
-                    results: $.map(data.customers, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
     });
 
     $('#js-select2-apartments-id').select2({
