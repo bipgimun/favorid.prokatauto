@@ -15,6 +15,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "datatables": "^1.10.18",
     "ejs": "^2.6.1",
+    "excel4node": "^1.7.2",
     "express": "^5.0.0-alpha.7",
     "express-handlebars": "^3.0.0",
     "hbs": "^4.0.4",

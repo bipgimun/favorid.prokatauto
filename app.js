@@ -5,9 +5,6 @@ const express = require('express');
 const config = require('./config');
 
 const app = express();
-
-const db = require('./libs/db');
-
 const moment = require('moment');
 
 app.engine('hbs', hbs({
@@ -84,20 +81,6 @@ const cashBox = require('./routes/cashbox');
 const report = require('./routes/report');
 const salaryStatement = require('./routes/salary-statement');
 
-const checkParams = (paramName) => {
-    return (req, res, next) => {
-        const { [paramName]: param } = req.params;
-
-        if (!param)
-            throw new Error('Отсутствует id');
-
-        if (!Number(param))
-            throw new Error('Id type error');
-
-        next();
-    }
-}
-
 app.use((req, res, next) => {
     res.locals.reqUrl = req.url;
     next();
@@ -158,7 +141,7 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(config.web.PORT, () => {
-    console.log(`Приложение запущено на порту ${config.web.PORT}`);
+    console.log(`[${new Date().toLocaleString()}]: Приложение запущено на порту ${config.web.PORT}`);
 })
 
 module.exports = app;

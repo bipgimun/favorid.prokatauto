@@ -4,5 +4,6 @@ module.exports = {
     carsPrice: require('./price-list'),
     costsCategories: require('./costs-categories'),
     carsReservsModel: require('./cars-reservations'),
-    detailingCarsModel: require('./detailing-cars')
+    detailingCarsModel: require('./detailing-cars'),
+    customersModel: require('./customers')
 }

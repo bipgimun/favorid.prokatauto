@@ -100,11 +100,11 @@ app.post('/get', async (req, res, next) => {
 
     const reservs = await carsReservsModel.get({ fromPeriod, endPeriod, customer, hasDriver });
 
-    console.log('fromPeriod, endPeriod, customer, hasDriver');
-    console.log(fromPeriod, endPeriod, customer, hasDriver);
+    // console.log('fromPeriod, endPeriod, customer, hasDriver');
+    // console.log(fromPeriod, endPeriod, customer, hasDriver);
 
-    console.log('reservs', reservs);
-    console.log('----------------------------------------');
+    // console.log('reservs', reservs);
+    // console.log('----------------------------------------');
 
     return res.json({ status: 'ok', data: reservs });
 })

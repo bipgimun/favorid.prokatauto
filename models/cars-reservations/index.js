@@ -2,6 +2,7 @@ const db = require('../../libs/db');
 
 exports.get = ({
     id = '',
+    ids = '',
     fromPeriod = '',
     endPeriod = '',
     customer = '',
@@ -27,6 +28,7 @@ exports.get = ({
         WHERE
             cr.id > 0
             ${id ? `AND cr.id = ${id}` : ''}
+            ${ids ? `AND cr.id IN (${ids})` : ''}
             ${fromPeriod ? `AND DATE(cr.created_at) >= '${fromPeriod}'` : ''}
             ${endPeriod ? `AND DATE(cr.created_at) <= '${endPeriod}'` : ''}
             ${customer ? `AND cr.customer_id = ${customer}` : ''}
