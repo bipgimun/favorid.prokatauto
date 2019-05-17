@@ -75,7 +75,6 @@ const index = require('./routes/home');
 const sales = require('./routes/sales');
 const commodityNomenclature = require('./routes/commodity-nomenclature');
 const incomingGoods = require('./routes/incoming-goods');
-const costsIncome = require('./routes/costs-income');
 const remnantsOfGoods = require('./routes/remnants-of-goods');
 const cashBox = require('./routes/cashbox');
 const report = require('./routes/report');
@@ -100,22 +99,7 @@ app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 // -------------------------------
 
-app.use('/cars', require('./routes/cars'));
-app.use('/customers', require('./routes/customers'));
-app.use('/clients', require('./routes/clients'));
-app.use('/drivers', require('./routes/drivers'));
-app.use('/itineraries', require('./routes/itineraries'));
-app.use('/cash-storages', require('./routes/cash-storages'));
-app.use('/additional-services', require('./routes/additional-services'));
-app.use('/apartments', require('./routes/apartments'));
-app.use('/apartment-reservations', require('./routes/apartment-reservations'));
-app.use('/price-list', require('./routes/price-list'));
-app.use('/car-reservation', require('./routes/car-reservation'));
-app.use('/incomes', require('./routes/incomes'));
-app.use('/costs', require('./routes/costs'));
-app.use('/costs-categories', require('./routes/costs-categories'));
-app.use('/list-used-cars', require('./routes/list-used-cars'));
-app.use('/detailing-cars', require('./routes/detailing-cars'));
+app.use(require('./routes'));
 
 app.get('/new-page-:id', (req, res, next) => {
     const { id } = req.params;
