@@ -13,6 +13,23 @@ $(document).ready(() => {
 
     let reservsData = [];
 
+    $save.on('click', async function () {
+
+        const reservs = reservsData
+            .map(item => item.id)
+            .join(',');
+
+        const customer = $customer.val();
+
+        const period_from = $fromPeriod.val();
+        const period_end = $endPeriod.val();
+
+        const { body } = await request('/api/detailing-cars/save', { reservsIds: reservs, customer, period_from, period_end });
+
+        $('#js-detailing-cars-list').dataTable()
+            .fnAddData([body.created, body.id, body.customer_name, body.sum, `<a href="/detailing-cars/${body.idid}" target="_blank">Подробнее</a>`]);
+    })
+
     $cancel.on('click', function () {
         $table.DataTable().clear().draw();
         reservsData = [];
@@ -77,7 +94,7 @@ $(document).ready(() => {
         const withoutDriver = $withoutDriver.is(':checked') ? '1' : '0';
         const customer = $customer.val();
 
-        if (!fromPeriod && !endPeriod) {
+        if (!fromPeriod || !endPeriod) {
             return new PNotify({
                 title: 'Ошибка',
                 text: 'Не выбран период',

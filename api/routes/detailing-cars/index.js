@@ -7,7 +7,37 @@ const router = express.Router();
 
 const getCarDetailing = require('../../../libs/car-detailing');
 
-const { carsReservsModel, customersModel } = require('../../../models');
+const {
+    carsReservsModel,
+    customersModel,
+    detailingCarsModel,
+    detailingCarsDetailsModel,
+} = require('../../../models');
+
+router.post('/save', async (req, res, next) => {
+    const { reservsIds, customer, period_from, period_end } = req.body;
+
+    if (!reservsIds)
+        throw new Error('Отсутствуют заявки');
+
+    const reservs = await carsReservsModel.get({ ids: reservsIds });
+    const sum = reservs
+        .map(item => item.sum)
+        .reduce((acc, sum) => +acc + +sum, 0);
+
+    const id = await detailingCarsModel.add({ customer_id: customer, period_from, period_end, sum });
+
+
+    await Promise.all(
+        reservs.map(item => detailingCarsDetailsModel.add({ reserv_id: item.id, detailing_id: id }))
+    );
+
+    const [body = {}] = await detailingCarsModel.get({ id });
+
+    body.created = moment(body.created).format('DD.MM.YYYY');
+
+    return res.json({ status: 'ok', body });
+});
 
 router.get('/downloadDetail', async (req, res, next) => {
 

@@ -53,14 +53,13 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table class="display table table-bordered table-striped table-condensed mb-none customize"
+            <table id="js-detailing-cars-list" class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none;">
                 <thead>
                     <tr>
                         <th>Дата формирования</th>
                         <th>Номер</th>
                         <th>Заказчик</th>
-                        <th>Клиент</th>
                         <th>Сумма</th>
                         <th>Подробнее</th>
                     </tr>
@@ -69,11 +68,12 @@
                     {{#each detailing}}
                         <tr>
                             <td>{{toIsoString created 'DD.MM.YYYY'}}</td>
-                            <td>{{number}}</td>
+                            <td>{{id}}</td>
                             <td>{{customer_name}}</td>
-                            <td>{{client_name}}</td>
                             <td>{{sum}}</td>
-                            <td></td>
+                            <td>
+                                <a href="/detailing-cars/{{id}}" target="_blank">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -82,7 +82,6 @@
                         <th>Дата формирования</th>
                         <th>Номер</th>
                         <th>Заказчик</th>
-                        <th>Клиент</th>
                         <th>Сумма</th>
                         <th>Подробнее</th>
                     </tr>
