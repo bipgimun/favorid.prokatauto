@@ -17,5 +17,6 @@ router.use('/costs', require('./costs'));
 router.use('/costs-categories', require('./costs-categories'));
 router.use('/list-used-cars', require('./list-used-cars'));
 router.use('/detailing-cars', require('./detailing-cars'));
+router.use('/detailing-apartments', require('./detailing-apartments'));
 
 module.exports = router;

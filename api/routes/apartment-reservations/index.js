@@ -11,6 +11,8 @@ const moment = require('moment');
 
 const Joi = require('joi');
 
+const { apartmentsReservsModel } = require('../../../models');
+
 const addSchema = Joi.object({
     manager_id: Joi.number().required(),
     apartment_id: Joi.number().required(),
@@ -44,6 +46,20 @@ const updateSchema = Joi.object({
     sum: Joi.number(),
     entry: Joi.string(),
     departure: Joi.string(),
+})
+
+app.post('/get', async (req, res, next) => {
+    const { fromPeriod, endPeriod, customer } = req.body;
+
+    const reservs = await apartmentsReservsModel.get({ fromPeriod, endPeriod, customer });
+
+    // console.log('fromPeriod, endPeriod, customer');
+    // console.log(fromPeriod, endPeriod, customer);
+
+    // console.log('reservs', reservs);
+    // console.log('----------------------------------------');
+
+    return res.json({ status: 'ok', data: reservs });
 })
 
 app.post('/add', async (req, res, next) => {
