@@ -128,7 +128,7 @@ $(document).ready(() => {
     });
 
     $('#js-incomesForm-documents, #js-costsForm-documents').select2({
-        dropdownParent: $('#add-products'),
+        dropdownParent: $('#add-products').length ? $('#add-products') : null,
     });
 
     $('#js-incomesForm-documents-view, #js-costsForm-documents-view').select2({

@@ -9,5 +9,6 @@ module.exports = {
     detailingCarsDetailsModel: require('./detailing-cars-details'),
     detailingApartmentsModel: require('./detailing-apartments'),
     detailingApartmentsDetailsModel: require('./detailing-apartments-details'),
-    customersModel: require('./customers')
+    customersModel: require('./customers'),
+    invoicesModel: require('./invoices')
 }

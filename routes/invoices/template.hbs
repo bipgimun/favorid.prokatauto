@@ -39,11 +39,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each goods}}
+                    {{#each invoices}}
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a href="#">Подробнее</a>
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -74,10 +79,15 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Основание</label>
                     <div class="col-sm-9">
-                        <select name="master" class="form-control">
-                            <option value="0" selected disabled>Выберете основание</option>
-                            <option value="0">Заявки</option>
-                            <option value="0">Документы детализации</option>
+                        <select style="width: 100%" name="base_id" id="js-invoices-base-select">
+                            <option></option>
+                            {{#each groupDocuments}}
+                                <optgroup label="{{this.label}}">
+                                    {{#each documents}}
+                                        <option value="{{code}}">{{code}}</option>
+                                    {{/each}}
+                                </optgroup>
+                            {{/each}}
                         </select>
                     </div>
                 </div>
@@ -102,3 +112,4 @@
         </footer>
     </section>
 </div>
+<script src="/assets/javascripts/invoices.js" defer></script>
