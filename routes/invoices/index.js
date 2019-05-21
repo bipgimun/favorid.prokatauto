@@ -8,8 +8,6 @@ const {
 const db = require('../../libs/db');
 
 const detailingCarsRegexp = /^(DET-A)-(\d+)$/i;
-const detailingApartmentsRegexp = /^(DET-K)-(\d+)$/i;
-const apartmentsReservsRegexp = /^(APR)-(\d+)$/i;
 const carsReservsRegexp = /^(CRR)-(\d+)$/i;
 
 router.get('/', async (req, res, next) => {
