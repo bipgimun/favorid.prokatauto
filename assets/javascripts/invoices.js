@@ -8,6 +8,10 @@ $(document).ready(function () {
         allowClear: true
     });
 
+    $('#js-invoices-base-select').on('select2:select', function(e) {
+        console.log($(this).val());
+    })
+
     $form.on('submit', async function (e) {
         e.preventDefault();
 

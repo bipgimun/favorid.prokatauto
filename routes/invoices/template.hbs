@@ -41,10 +41,10 @@
                 <tbody>
                     {{#each invoices}}
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{toIsoString created 'DD.MM.YYYY'}}</td>
+                            <td>{{id}}</td>
+                            <td>{{customer_name}}</td>
+                            <td>{{desc}}</td>
                             <td></td>
                             <td>
                                 <a href="#">Подробнее</a>

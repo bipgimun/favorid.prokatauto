@@ -1,7 +1,12 @@
 const db = require('../../libs/db');
 
 exports.get = () => {
-    return db.execQuery(`SELECT * FROM invoices`);
+    return db.execQuery(`
+        SELECT i.*,
+            c.name as customer_name
+        FROM invoices i
+            LEFT JOIN customers c ON c.id = i.customer_id
+    `);
 };
 
 exports.add = ({
