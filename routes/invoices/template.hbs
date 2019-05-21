@@ -75,11 +75,12 @@
             <h2 class="panel-title">Выставить счет</h2>
         </header>
         <div class="panel-body">
-            <form id="js-nomenclature-products-form" class="form-horizontal mb-lg" novalidate="novalidate">
+            <form id="js-invoices-add-form" action="/api/invoices/add" class="form-horizontal mb-lg"
+                novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Основание</label>
                     <div class="col-sm-9">
-                        <select style="width: 100%" name="base_id" id="js-invoices-base-select">
+                        <select name="code" style="width: 100%" name="base_id" id="js-invoices-base-select">
                             <option></option>
                             {{#each groupDocuments}}
                                 <optgroup label="{{this.label}}">
@@ -95,21 +96,20 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Общая сумма</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" placeholder="Введите сумму" required>
+                        <input name="sum" type="text" class="form-control" placeholder="Введите сумму" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-11 text-right">
+                            <button class="btn btn-success">Выставить</button>
+                            <button class="btn btn-default modal-dismiss">Отмена</button>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
-        <footer class="panel-footer">
-            <div class="row">
-                <div class="row">
-                    <div class="col-md-11 text-right">
-                        <button class="btn btn-success">Выставить</button>
-                        <button class="btn btn-default modal-dismiss">Отмена</button>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </section>
 </div>
 <script src="/assets/javascripts/invoices.js" defer></script>
