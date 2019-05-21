@@ -5,6 +5,7 @@ const {
     detailingApartmentsModel,
     detailingCarsModel,
 } = require('../../models');
+
 const db = require('../../libs/db');
 
 const detailingCarsRegexp = /^(DET-A)-(\d+)$/i;
@@ -24,6 +25,22 @@ router.get('/', async (req, res, next) => {
 
             return item;
         });
+
+    for (const invoice of invoices) {
+        const invoiceIncomes = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', invoice.id]);
+
+        const invoicePaymentsSum = invoiceIncomes
+            .map(item => item.sum)
+            .reduce((acc, sum) => +acc + +sum, 0);
+
+        invoice.isClosed = +invoicePaymentsSum >= +invoice.sum;
+        invoice.status = invoice.isClosed
+            ? 'Оплачено'
+            : (+invoicePaymentsSum > 0
+                ? 'Оплачено частично'
+                : 'Не оплачено');
+
+    }
 
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);

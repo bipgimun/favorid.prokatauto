@@ -8,7 +8,7 @@ $(document).ready(function () {
         allowClear: true
     });
 
-    $('#js-invoices-base-select').on('select2:select', function(e) {
+    $('#js-invoices-base-select').on('select2:select', function (e) {
         console.log($(this).val());
     })
 
@@ -20,7 +20,7 @@ $(document).ready(function () {
         const values = getFormValues($form);
         const { data } = await request(url, values, { showNotify: true });
 
-        
+        window.open('/api/invoices/print-invoice?file=' + data.file);
 
         return false;
     })

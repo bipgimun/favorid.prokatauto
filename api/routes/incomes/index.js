@@ -2,10 +2,6 @@ const express = require('express');
 const app = express.Router();
 
 const db = require('../../../libs/db');
-const safeStr = require('../../../libs/safe-string');
-const messages = require('../../messages');
-
-const { wishList } = require('../../wish-list');
 
 const Joi = require('joi');
 const moment = require('moment');
@@ -27,19 +23,54 @@ const updateScheme = Joi.object({
     id: Joi.number().required()
 }).or('date', 'cash_storage_id', 'sum', 'comment');
 
+const {
+    invoicesModel,
+} = require('../../../models');
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
 
     const validValues = await Joi.validate(values, addScheme);
 
-    if (validValues.base_id) {
-        const [, code = ''] = /([\w]+)-[\d]+/.exec(validValues.base_id) || [];
+    const { base_id: baseId } = validValues;
 
-        validValues.code = code;
+    if (baseId) {
+        if (/([\w]+)-([\d]+)$/i.test(baseId)) {
+            const [, code = '', document_id = ''] = /([\w]+)-([\d]+)$/i.exec(validValues.base_id) || [];
+
+            validValues.code = code;
+            validValues.document_id = document_id;
+        } else if (/([\w]+-[\w]+)-([\d]+)$/i.test(baseId)) {
+            const [, code = '', document_id = ''] = /([\w]+-[\w]+)-([\d]+)$/i.exec(validValues.base_id) || [];
+
+            validValues.code = code;
+            validValues.document_id = document_id;
+        } else if (/(\w{1,2})-([\d]+)$/i.test(baseId)) {
+            const [, code = '', document_id = ''] = /(\w{1,2})-([\d]+)$/i.exec(validValues.base_id) || [];
+
+            validValues.code = code;
+            validValues.document_id = document_id;
+        } else {
+            throw new Error('Неверный код основания');
+        }
     }
 
-    const id = await db.insertQuery('INSERT INTO incomes SET ?', [validValues]);
+    const id = await db.insertQuery('INSERT INTO incomes SET ?', validValues);
+
+    const invoicePayments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', validValues.document_id]);
+
+    if (baseId && validValues.code === 'pd') {
+        const [invoice = {}] = await invoicesModel.get({ id: validValues.document_id });
+
+        const invoicePaymentsSum = invoicePayments
+            .map(item => item.sum)
+            .reduce((acc, sum) => +acc + +sum, 0);
+
+        if (invoicePaymentsSum >= +invoice.sum) {
+            await invoicesModel.update({ id: validValues.document_id, closed: new Date() });
+        }
+    }
 
     validValues.id = id;
     validValues.base = validValues.base_id || validValues.base_other;
@@ -81,6 +112,27 @@ app.post('/delete', async (req, res, next) => {
 
     if (!id)
         throw new Error('Отсутствует номер прихода');
+
+    const [removedIncome = {}] = await db.execQuery(`SELECT * FROM incomes WHERE id = ?`, [id]);
+
+    if (!removedIncome.id)
+        throw new Error('Запись не найдена');
+
+    const { code, document_id } = removedIncome;
+
+    if (code === 'pd') {
+
+        const invoicePayments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, [code, document_id]);
+        const invoicePaymentsSum = invoicePayments
+            .map(item => +item.sum)
+            .reduce((acc, sum) => +acc + +sum, 0);
+
+        const newPaymentSum = invoicePaymentsSum - removedIncome.sum;
+
+        if (newPaymentSum < removedIncome.sum) {
+            await invoicesModel.update({ id: document_id, closed: null });
+        }
+    }
 
     await db.execQuery('DELETE FROM incomes WHERE id = ?', [id]);
 

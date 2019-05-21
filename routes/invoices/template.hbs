@@ -40,12 +40,12 @@
                 </thead>
                 <tbody>
                     {{#each invoices}}
-                        <tr>
-                            <td>{{toIsoString created 'DD.MM.YYYY'}}</td>
+                        <tr style="{{ifTrue isClosed 'background-color: #92f392' ''}}">
+                            <td style="background-color: inherit">{{toIsoString created 'DD.MM.YYYY'}}</td>
                             <td>{{id}}</td>
                             <td>{{customer_name}}</td>
                             <td>{{desc}}</td>
-                            <td></td>
+                            <td>{{status}}</td>
                             <td>
                                 <a href="#">Подробнее</a>
                             </td>
@@ -96,7 +96,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Общая сумма</label>
                     <div class="col-sm-9">
-                        <input name="sum" type="text" class="form-control" placeholder="Введите сумму" required>
+                        <input name="sum" type="number" class="form-control" placeholder="Введите сумму" required>
                     </div>
                 </div>
 
