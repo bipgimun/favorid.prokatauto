@@ -40,8 +40,9 @@ module.exports = async (req, res, next) => {
 
     const servicesList = await db.execQuery(`SELECT * FROM additional_services`);
 
-    const additionalServices = servicesList
-        .filter(item => (reservation.services || '').split(',').includes(String(item.id)))
+    const additionalServices = (reservation.services || '')
+        .split(',')
+        .map(item => servicesList.find(service => service.id == item));
 
     const customers = await db.execQuery(`SELECT * FROM customers`);
 

@@ -14,14 +14,6 @@ $(document).ready(() => {
 
         const values = getFormValues($form);
 
-        const services = $('#js-select2-services-id').select2('data') || [];
-
-        const servicesIds = services
-            .map(item => item.id)
-            .join(',');
-
-        values.services = servicesIds;
-
         const { data } = await request(url, { values }, { showNotify: true });
         $apartmentReservations.find('.modal-dismiss').click();
 

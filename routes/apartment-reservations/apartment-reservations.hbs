@@ -184,18 +184,27 @@
                         <span>ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</span>
                     </div>
                     <div class="form-group col-sm-12 services-group__item">
-                        <label class="col-sm-3 control-label">Услуга</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-2 control-label">Услуга</label>
+                        <div class="col-sm-10">
                             <div class="input-group">
-                                <select id="js-select2-services-id" style="width: 100%"
-                                    class="js-apartmentReservations-services form-control" multiple="multiple"></select>
+                                <select class="form-control" name="services">
+                                    <option value="0" selected disabled>Выберете услугу</option>
+                                    {{#each additionalServices}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
                                 <span class="input-group-btn">
                                     <a class="btn btn-primary" type="button" href="/additional-services"
                                         target="_blank">Добавить</a>
                                 </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning adding-item" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger deliting-item" type="button">-</button>
+                                </span>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -225,3 +234,40 @@
     </section>
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script>
+    var btnAddProduct = document.querySelector('.adding-item');
+    var btnDeleteProduct = document.querySelector('.deliting-item');
+    var table = document.querySelector('.services-group');
+
+    function insRow() {
+        var target = event.target;
+        var grItem = table.querySelectorAll('.services-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item').addEventListener('click', insRow);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table.appendChild(new_row);
+    }
+
+    function delRow() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item');
+        if (!closeBtn) return;
+
+        var grItem = table.querySelectorAll('.services-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    }
+
+    btnAddProduct.addEventListener('click', insRow);
+
+    table.addEventListener('click', delRow);
+</script>
