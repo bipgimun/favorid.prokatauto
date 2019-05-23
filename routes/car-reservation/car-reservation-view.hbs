@@ -194,7 +194,7 @@
                                         {{this.itinerarie_name}}
                                     </div>
                                     <div class="editable-content">
-                                        <select name="itinerarie_id" class="form-control">
+                                        <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control">
                                             <option value="0" selected disabled>Выберете маршрут</option>
                                             {{#each ../itineraries}}
                                                 <option {{compare this.id ../itinerarie_id 'selected' ''}}
