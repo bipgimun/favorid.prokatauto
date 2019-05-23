@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
         SELECT a.*,
             ar.status 
         FROM apartments a
-            LEFT JOIN apartment_reservations ar ON ar.apartment_id = a.id
+            LEFT JOIN apartment_reservations ar ON ar.apartment_id = a.id AND NOW() BETWEEN ar.entry AND ar.departure
     `);
 
     apartments.forEach(a => {

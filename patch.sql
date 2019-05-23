@@ -49,3 +49,4 @@
 --   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 -- ALTER TABLE `apartments` ADD `apartment_owned` BOOLEAN NOT NULL AFTER `id`;
+-- ALTER TABLE `apartment_reservations` DROP `cash_storage_id`;

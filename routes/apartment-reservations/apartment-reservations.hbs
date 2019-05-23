@@ -43,7 +43,7 @@
                 <tbody>
                     {{#each apartmentReservations}}
                         <tr>
-                            <td></td>
+                            <td>{{manager_name}}</td>
                             <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.address}}</td>

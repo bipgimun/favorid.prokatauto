@@ -14,10 +14,12 @@ module.exports = async (req, res, next) => {
     const apartmentReservations = (await db.execQuery(`
         SELECT ar.*,
             a.address,
-            p.name as client_name
+            p.name as client_name,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name
         FROM apartment_reservations ar
             LEFT JOIN apartments a ON ar.apartment_id = a.id
             LEFT JOIN passengers p ON ar.passenger_id = p.id
+            LEFT JOIN employees e ON ar.manager_id = e.id
         WHERE 
             ar.id > 0
             AND ar.status IN (${isArchive ? '3' : '0,1,2'})
