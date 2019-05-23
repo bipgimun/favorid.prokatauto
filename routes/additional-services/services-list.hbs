@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Цена, руб.</label>
                     <div class="col-sm-8">
-                        <input name="price" type="number" class="form-control" placeholder="Введите данные" required>
+                        <input name="price" type="number" class="form-control prices-control-class" placeholder="Введите данные" required>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">
@@ -88,3 +88,10 @@
     </section>
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script>
+  'use strict';
+  const pricesControlClass = document.querySelector('.prices-control-class');
+  pricesControlClass.addEventListener('input', function() {
+    pricesControlClass.value < 0 ? pricesControlClass.value = 0 : pricesControlClass.value;
+  });
+</script>

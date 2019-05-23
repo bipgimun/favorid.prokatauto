@@ -98,14 +98,14 @@
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Цена за сутки, руб.</label>
                     <div class="col-sm-7">
-                        <input name="price_per_day" type="number" class="form-control" placeholder="Введите цену"
+                        <input name="price_per_day" type="number" class="form-control prices-control-class" placeholder="Введите цену"
                             required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Коммунальные услуги в месяц, руб.</label>
                     <div class="col-sm-7">
-                        <input name="utilities_per_month" type="number" class="form-control" placeholder="Введите сумму"
+                        <input name="utilities_per_month" type="number" class="form-control prices-control-class" placeholder="Введите сумму"
                             required>
                     </div>
                 </div>
@@ -117,3 +117,12 @@
         </div>
     </section>
 </div>
+<script>
+  'use strict';
+  const pricesControlClass = document.querySelectorAll('.prices-control-class');
+  pricesControlClass.forEach(function(item) {
+    item.addEventListener('input', function(evt) {
+        this.value < 0 ? this.value = 0 : this.value;
+    });
+  });
+</script> 

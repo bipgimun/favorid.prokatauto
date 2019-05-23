@@ -1,6 +1,9 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
+        padding-top: 7px;
+        font-weight: bold;
     }
 
     .js-editable-body .editable-content {
@@ -13,6 +16,19 @@
 
     .js-editable-body.editable-on .non-editable-content {
         display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
     }
 </style>
 
@@ -35,25 +51,25 @@
         {{#each apartments}}
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">Добавление новой квартиры</h2>
+                    <h2 class="panel-title">Подробнее о квартире</h2>
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/apartments/update" id="js-apartments-add-form" class="form-horizontal mb-lg"
                         novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group">
-                            <label class="col-sm-3" style="text-align: right;">Квартира принадлежит фирме</label>
-                            <div class="col-sm-9">
-                                <div class="non-editable-content" data-target="apartment_owned">
+                            <label class="col-sm-5 control-label" style="text-align: right;">Квартира принадлежит фирме</label>
+                            <div class="col-sm-7">
+                                <div class="style-non-editable" data-target="apartment_owned">
                                     {{this.apartment_owned}}
                                 </div>
-                                <div class="editable-content">
+                                <!--<div class="editable-content control-label">
                                     <div class="checkbox-custom checkbox-primary col-sm-3">
                                         <input {{ifTrue apartment_owned  'checked' ''}} value="1" type="checkbox"
                                             id="checkboxOwnedApartm" name="apartment_owned">
                                         <label for="checkboxOwnedApartm">Принадлежит</label>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                         <div class="form-group">
@@ -68,7 +84,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-5 control-label">Статус</label>
-                            <div data-target="status_name">
+                            <div data-target="status_name" class="style-non-editable">
                                 {{this.status_name }}
                             </div>
                         </div>
@@ -88,7 +104,7 @@
                                 {{this.price_per_day }}
                             </div>
                             <div class="col-sm-7 editable-content">
-                                <input name="price_per_day" type="number" class="form-control"
+                                <input name="price_per_day" type="number" class="form-control prices-control-class"
                                     placeholder="Введите цену" value="{{this.price_per_day }}" required>
                             </div>
                         </div>
@@ -98,7 +114,7 @@
                                 {{this.utilities_per_month }}
                             </div>
                             <div class="col-sm-7 editable-content">
-                                <input name="utilities_per_month" type="number" class="form-control"
+                                <input name="utilities_per_month" type="number" class="form-control prices-control-class"
                                     placeholder="Введите сумму" value="{{this.utilities_per_month }}" required>
                             </div>
                         </div>
@@ -116,3 +132,12 @@
         {{/each}}
     </div>
 </section>
+<script>
+  'use strict';
+  const pricesControlClass = document.querySelectorAll('.prices-control-class');
+  pricesControlClass.forEach(function(item) {
+    item.addEventListener('input', function(evt) {
+        this.value < 0 ? this.value = 0 : this.value;
+    });
+  });
+</script> 

@@ -1,6 +1,9 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
+        padding-top: 7px;
+        font-weight: bold;
     }
 
     .js-editable-body .editable-content {
@@ -13,6 +16,19 @@
 
     .js-editable-body.editable-on .non-editable-content {
         display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
     }
 </style>
 
@@ -34,7 +50,7 @@
     <div class="panel-body">
         <section class="panel">
             <header class="panel-heading">
-                <h2 class="panel-title">Добавление нового авто</h2>
+                <h2 class="panel-title">Подробнее о позиции</h2>
             </header>
             {{#each prices}}
                 <div class="panel-body js-editable-body">
@@ -78,7 +94,7 @@
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input value="{{this.price_per_day}}" name="price_per_day" type="number"
-                                    class="form-control" placeholder="Введите цену" required>
+                                    class="form-control prices-control-class" placeholder="Введите цену" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -87,7 +103,7 @@
                                 {{this.pledge}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input value="{{this.pledge}}" name="pledge" type="number" class="form-control"
+                                <input value="{{this.pledge}}" name="pledge" type="number" class="form-control prices-control-class"
                                     placeholder="Введите цену" required>
                             </div>
                         </div>
@@ -98,7 +114,7 @@
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input value="{{this.limit_per_day}}" name="limit_per_day" type="number"
-                                    class="form-control" placeholder="Введите расстояние" required>
+                                    class="form-control prices-control-class" placeholder="Введите расстояние" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -107,7 +123,7 @@
                                 {{this.surcharge}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input value="{{this.surcharge}}" name="surcharge" type="number" class="form-control"
+                                <input value="{{this.surcharge}}" name="surcharge" type="number" class="form-control prices-control-class"
                                     placeholder="Введите пробег" required>
                             </div>
                         </div>
@@ -118,7 +134,6 @@
                 </div>
                 <div>
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                    <button class="btn btn-danger">Завершить</button>
                     <button data-id="{{id}}" data-target="priceList"
                         class="btn btn-danger js-tableEssence-remove">Удалить</button>
                 </div>
@@ -126,3 +141,12 @@
         {{/each}}
     </div>
 </section>
+<script>
+  'use strict';
+  const pricesControlClass = document.querySelectorAll('.prices-control-class');
+  pricesControlClass.forEach(function(item) {
+    item.addEventListener('input', function(evt) {
+        this.value < 0 ? this.value = 0 : this.value;
+    });
+  });
+</script>
