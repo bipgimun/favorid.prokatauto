@@ -194,13 +194,13 @@ $(document).ready(() => {
         }
     });
 
-    $('#js-select2-apartments-id').on('select2:select', function (e) {
+    $('#js-select2-apartments-id').on('select2:select', async function (e) {
         const val = $(this).val();
 
-        request('/api/apartments/getOne', { id: val })
-            .then(result => {
-                $apartmentReservations.find('[name=price_per_day]').val(result.apartment.price_per_day);
-            })
+        const result = await request('/api/apartments/getOne', { id: val })
+
+        $apartmentReservations.find('[name=price_per_day]').val(result.apartment.price_per_day);
+
     })
 
     $('#js-select2-customer-id').on('select2:select', function (e) {
