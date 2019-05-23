@@ -228,8 +228,10 @@
                         <button class="btn btn-default modal-dismiss">Отмена</button>
                     </div>
                 </div>
-
             </form>
+            {{#each additionalServices}}
+                <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
+            {{/each}}
         </div>
     </section>
 </div>
