@@ -16,7 +16,10 @@ module.exports = async (req, res, next) => {
     apartments.forEach((a) => {
         a.status = a.status || 0;
         a.status_name = APARTMENT_STATUS.get(a.status);
+        a.owned_name = a.apartment_owned == '1' ? 'Принадлежит' : 'Не принадлежит';
     });
+
+    
 
     res.render(__dirname + '/apartments-view.hbs', { apartments });
 }

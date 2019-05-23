@@ -47,3 +47,5 @@
 
 -- ALTER TABLE `detailing_apartments_details`
 --   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- ALTER TABLE `apartments` ADD `apartment_owned` BOOLEAN NOT NULL AFTER `id`;
