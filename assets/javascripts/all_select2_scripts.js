@@ -165,6 +165,9 @@ $(document).ready(() => {
 
             carsState = cars;
 
+            $('#js-carsListModal-select option:not([value=0])').val(null).trigger('change');
+            $('#js-carsListModal-select option:not([value=0])').remove();
+
             cars.forEach((car) => {
                 const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
                 $('#js-carsListModal-select').append(option);
