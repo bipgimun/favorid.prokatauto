@@ -15,6 +15,21 @@ app.post('/get', async (req, res, next) => {
     return res.json({ status: 'ok', data: carsPrice });
 })
 
+app.post('/getOne', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    const [carsPrice = {}] = await carsPriceModel.get({ id });
+
+    if (!carsPrice.id)
+        throw new Error('Позиция не найдена');
+
+    return res.json({ status: 'ok', data: carsPrice });
+})
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;

@@ -154,16 +154,36 @@ $(document).ready(() => {
             const $option = $this.find(`option[value=${val}]`);
             const { model, name } = $option.data();
             const { data: cars } = await request('/api/cars/get', { model, name });
+            const { data: price } = await request('/api/priceList/getOne', { id: val });
 
             carsState = cars;
 
             $('#js-carsListModal-select option:not([value=0])').val(null).trigger('change');
             $('#js-carsListModal-select option:not([value=0])').remove();
 
+            const prepayment = $('#js-carReservations-form').find('[name=prepayment]');
+
+            prepayment.val(+prepayment.val() + +price.price_per_day);
+
             cars.forEach((car) => {
                 const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
                 $('#js-carsListModal-select').append(option);
             })
+        })
+
+    $('#js-car-reservation-itinerarie_id')
+        .select2({
+            dropdownParent: $('#add-products').length ? $('#add-products') : null,
+            placeholder: 'Выберите маршрут'
+        }).on('select2:select', async function (e) {
+            const $this = $(this);
+            const val = $this.val();
+
+            const { data: itinerarie } = await request('/api/itineraries/getOne', { id: val });
+
+            const prepayment = $('#js-carReservations-form').find('[name=prepayment]');
+
+            prepayment.val(+prepayment.val() + +itinerarie.price);
         })
 
     $('#js-carsListModal-select').select2({
