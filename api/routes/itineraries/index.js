@@ -11,7 +11,22 @@ const moment = require('moment');
 const { itineraries: itinerariesModel } = require('../../../models');
 
 app.post('/get', async (req, res, next) => {
-    const itineraries = itinerariesModel.get();
+    const itineraries = await itinerariesModel.get();
+
+    return res.json({ status: 'ok', data: itineraries });
+})
+
+app.post('/getOne', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    const [itineraries = {}] = await itinerariesModel.get({ id });
+
+    if (!itineraries.id)
+        throw new Error('Маршрут не найден');
 
     return res.json({ status: 'ok', data: itineraries });
 })
