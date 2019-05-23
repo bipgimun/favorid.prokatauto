@@ -1,7 +1,7 @@
 const db = require('../../libs/db');
 
 exports.add = async ({ title = '' }) => {
-    return db.insertQuery(`INESRT INTO costs_categories SET ?`, [{ title }]);
+    return db.insertQuery(`INSERT INTO costs_categories SET ?`, { title });
 }
 
 exports.get = ({

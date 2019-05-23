@@ -4,13 +4,20 @@ const router = express.Router();
 const { costsCategories: costsCategoriesModel } = require('../../../models');
 
 const Joi = require('joi');
+
 const updateSchema = Joi.object({
     id: Joi.number().required(),
     title: Joi.string().trim().required()
 })
 
+const addSchema = Joi.object({
+    title: Joi.string().required()
+})
+
 router.post('/add', async (req, res, next) => {
-    const id = await costsCategoriesModel.add(req.body.values);
+
+    const validValues = await addSchema.validate(req.body.values);
+    const id = await costsCategoriesModel.add(validValues);
     return res.json({ status: 'ok', data: id });
 });
 
