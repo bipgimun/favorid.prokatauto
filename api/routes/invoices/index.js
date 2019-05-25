@@ -15,6 +15,8 @@ const {
     invoicesModel,
     detailingApartmentsModel,
     detailingCarsModel,
+    detailingApartmentsDetailsModel,
+    detailingCarsDetailsModel,
     apartmentsReservsModel,
     carsReservsModel,
     customersModel,
@@ -53,7 +55,6 @@ router.post('/add', async (req, res, next) => {
         throw new Error('Неверный код основания');
     }
 
-
     const [result = {}] = await objectModel.get({ id: base_id });
 
     if (!result.id)
@@ -65,7 +66,59 @@ router.post('/add', async (req, res, next) => {
 
     const [customer = {}] = await customersModel.get({ id: customer_id });
 
-    const dataArray = [];
+    const results = [];
+    let resTitle = '';
+
+    if (detailCode === 'DET-A') {
+        const details = await detailingCarsDetailsModel.get({ detailing_id: base_id });
+
+        resTitle = 'Заявка на авто';
+
+        for (const detail of details) {
+            const [item = {}] = await carsReservsModel.get({ id: detail.reserv_id });
+
+            item.desc = `${resTitle} ${item.has_driver == '1' ? `с водителем` : `без водителя`} №${item.id} от ${moment(item.rent_start).format('DD.MM.YYYY')}`;
+
+            results.push(item);
+        }
+
+    } else if (detailCode === 'DET-K') {
+
+        const details = await detailingApartmentsDetailsModel.get({ detailing_id: base_id });
+
+        resTitle = 'Заявка на квартиру';
+
+        for (const detail of details) {
+            const [item = {}] = await apartmentsReservsModel.get({ id: detail.reserv_id });
+
+            item.desc = `${resTitle} №${item.id} от ${moment(item.entry).format('DD.MM.YYYY')}`;
+
+            results.push(item);
+        }
+    } else if (detailCode === 'CRR') {
+        const [item = {}] = await carsReservsModel.get({ id: base_id });
+
+        resTitle = 'Заявка на авто';
+        item.desc = `${resTitle} ${item.has_driver == '1' ? `с водителем` : `без водителя`} №${item.id} от ${moment(item.rent_start).format('DD.MM.YYYY')}`;
+
+        results.push(item);
+    } else if (detailCode === 'APR') {
+        const [item = {}] = await apartmentsReservsModel.get({ id: base_id });
+
+        resTitle = 'Заявка на квартиру';
+
+        item.desc = `${resTitle} №${item.id} от ${moment(item.entry).format('DD.MM.YYYY')}`;
+
+        results.push(item);
+    } else {
+        throw new Error('Неверный код основания');
+    }
+
+
+    const dataArray = results.map((item, index) => {
+        return [+index + 1, item.desc, 1, '', +item.sum];
+    });
+
 
     const file = await printDetail({ number: invoiceId, customer, dataArray, date: moment().locale('ru').format('DD MMM YYYY') });
 
