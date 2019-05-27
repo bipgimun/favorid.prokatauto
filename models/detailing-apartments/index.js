@@ -22,3 +22,11 @@ exports.add = ({
     return db.insertQuery(`
         INSERT INTO detailing_apartments SET ?`, { customer_id, period_end, period_from, sum });
 }
+
+exports.delete = ({id = ''} = {}) => {
+
+    if(!id)
+        throw new Error('Отсутствует id')
+
+    return db.insertQuery(`DELETE FROM detailing_apartments WHERE `, [id]);
+}

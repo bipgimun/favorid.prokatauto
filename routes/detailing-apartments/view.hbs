@@ -1,0 +1,95 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Документ № <span>Det-k-{{id}}</span></h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <span>Документ № <span>Det-k-{{id}}</span></span> <span class="separator"></span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Сохраненный документ детализации №<span> Det-k-{{id}}</span> за
+            <span>{{toIsoString det.period_from 'DD.MM.YYYY'}} -
+                {{toIsoString det.period_end 'DD.MM.YYYY'}}</span></h2>
+    </header>
+    <div class="panel-body">
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button data-id="{{id}}" class="js-detailing-apartments-view-print btn btn-default">Печать</button>
+                <br>
+                <br>
+            </div>
+
+            <table class="table table-bordered table-striped mb-none" id="js-detailing-apartments-view-table">
+                <thead>
+                    <tr>
+                        <th>Даты</th>
+                        <th>Заказчик</th>
+                        <th>Адрес</th>
+                        <th>Клиент</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each reservs}}
+                        <tr data-id="{{id}}">
+                            <td>{{toIsoString entry 'DD.MM.YYYY'}} - {{toIsoString departure 'DD.MM.YYYY'}}
+                            </td>
+                            <td>{{customer_name}}</td>
+                            <td>{{address}}</td>
+                            <td>{{client_name}}</td>
+                            <td>{{sum}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="delete-btn-wrapper">
+            <button class="btn btn-danger js-tableEssence-remove" data-id="{{id}}" data-target="detailing-apartments">Удалить детализацию</button>
+        </div>
+    </div>
+</section>
+<div style="display: none">
+    <p id="js-reservs-data">{{stringify reservs}}</p>
+</div>
+<script src="/assets/javascripts/detailing-apartments-view.js"></script>

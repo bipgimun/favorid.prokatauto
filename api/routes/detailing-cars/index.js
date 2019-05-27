@@ -41,11 +41,21 @@ router.post('/save', async (req, res, next) => {
 
 router.get('/downloadDetail', async (req, res, next) => {
 
-    const { fromPeriod, endPeriod, customer_id, ids } = req.query;
+    const { fromPeriod, endPeriod, customer_id, ids, id } = req.query;
 
-    const period = moment(fromPeriod).format('DD.MM.YYYY') + ' - ' + moment(endPeriod).format('DD.MM.YYYY');
+    const [detInfo = {}] = id
+        ? []
+        : (await detailingCarsModel.get({ id: id }));
 
-    const reservs = (await carsReservsModel.get({ ids }))
+    const period = detInfo.id
+        ? moment(detInfo.period_from).format('DD.MM.YYYY') + ' - ' + moment(detInfo.period_end).format('DD.MM.YYYY')
+        : moment(fromPeriod).format('DD.MM.YYYY') + ' - ' + moment(endPeriod).format('DD.MM.YYYY');
+
+    const savedIds = (await detailingCarsDetailsModel.get({ detailing_id: id }))
+        .map(item => item.reserv_id)
+        .join(',');
+
+    const reservs = (await carsReservsModel.get({ ids: savedIds || ids }))
         .map(item => {
             return [
                 moment(item.rent_start).format('DD.MM.YYYY'),
@@ -56,10 +66,11 @@ router.get('/downloadDetail', async (req, res, next) => {
                 item.sum,
             ];
         })
-    const [customer = {}] = await customersModel.get({ id: customer_id });
+
+    const [customer = {}] = await customersModel.get({ id: detInfo.customer_id || customer_id });
 
     try {
-        const file = await getCarDetailing({ period, customer, dataArray: reservs });
+        const file = await getCarDetailing({ period, customer, dataArray: reservs, number: id });
 
         res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
             fs.unlinkSync(path.join(process.cwd(), 'uploads', file));
@@ -69,5 +80,17 @@ router.get('/downloadDetail', async (req, res, next) => {
         throw new Error(error);
     }
 });
+
+router.post('/delete', async function (req, res, next) {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    await detailingCarsModel.delete({ id });
+
+    return res.json({ status: 'ok' });
+})
 
 module.exports = router;

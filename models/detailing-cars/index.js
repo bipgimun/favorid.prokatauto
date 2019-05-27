@@ -33,3 +33,11 @@ exports.get = ({ id = '' } = {}) => {
             ${id ? `AND dc.id = ${id}` : ''}
     `);
 };
+
+exports.delete = ({ id = '' }) => {
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    return db.execQuery(`DELETE FROM detailing_cars WHERE id = ?`, [id]);
+}

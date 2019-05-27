@@ -36,6 +36,9 @@ app.engine('hbs', hbs({
                 return '';
 
             return moment(date).format(format);
+        },
+        stringify(data) {
+            return JSON.stringify(data);
         }
     }
 }));

@@ -94,9 +94,6 @@ module.exports = ({
         let totalDays = 0;
 
         data.forEach(item => {
-            
-            console.log('item', item);
-
             ws.cell(currentRow, 1).string(String(item[0]));
             ws.cell(currentRow, 2).string(String(item[1]));
             ws.cell(currentRow, 3).string(String(item[2]));

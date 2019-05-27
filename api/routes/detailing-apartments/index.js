@@ -39,25 +39,35 @@ router.post('/save', async (req, res, next) => {
 });
 
 router.get('/downloadDetail', async (req, res, next) => {
-    const { fromPeriod, endPeriod, customer_id, ids } = req.query;
+    const { fromPeriod, endPeriod, customer_id, ids, id } = req.query;
 
-    const period = moment(fromPeriod).format('DD.MM.YYYY') + ' - ' + moment(endPeriod).format('DD.MM.YYYY');
+    const [detInfo = {}] = id
+        ? []
+        : (await detailingApartmentsModel.get({ id: id }));
 
-    const reservs = (await apartmentsReservsModel.get({ ids }))
+    const period = detInfo.id
+        ? moment(detInfo.period_from).format('DD.MM.YYYY') + ' - ' + moment(detInfo.period_end).format('DD.MM.YYYY')
+        : moment(fromPeriod).format('DD.MM.YYYY') + ' - ' + moment(endPeriod).format('DD.MM.YYYY');
+
+    const savedIds = (await detailingApartmentsDetailsModel.get({ detailing_id: id }))
+        .map(item => item.reserv_id)
+        .join(',');
+
+    const reservs = (await apartmentsReservsModel.get({ ids: savedIds || ids }))
         .map(item => {
             return [
                 moment(item.entry).format('DD.MM.YYYY'),
                 moment(item.departure).format('DD.MM.YYYY'),
                 item.address || '',
                 item.client_name,
-                item.number_of_days || 0,
+                item.number_days || 0,
                 item.sum,
             ];
         })
-    const [customer = {}] = await customersModel.get({ id: customer_id });
+    const [customer = {}] = await customersModel.get({ id: detInfo.customer_id || customer_id });
 
     try {
-        const file = await getApartmentDetailing({ period, customer, dataArray: reservs });
+        const file = await getApartmentDetailing({ period, customer, dataArray: reservs, number: id });
 
         res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
             fs.unlinkSync(path.join(process.cwd(), 'uploads', file));
@@ -66,6 +76,18 @@ router.get('/downloadDetail', async (req, res, next) => {
     } catch (error) {
         throw new Error(error);
     }
+})
+
+router.post('/delete', async function (req, res, next) {
+
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    await detailingApartmentsModel.delete({ id });
+
+    return res.json({ status: 'ok' });
 })
 
 
