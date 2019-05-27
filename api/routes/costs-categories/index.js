@@ -18,7 +18,7 @@ router.post('/add', async (req, res, next) => {
 
     const validValues = await addSchema.validate(req.body.values);
     const id = await costsCategoriesModel.add(validValues);
-    return res.json({ status: 'ok', data: id });
+    return res.json({ status: 'ok', data: { id, ...validValues } });
 });
 
 router.post('/get', async (req, res, next) => {

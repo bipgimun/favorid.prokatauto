@@ -613,12 +613,10 @@ $(document).ready(() => {
         const { data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
-        if ($('#js-itineraries-table').length) {
-            insertTable('itineraries', data.id, [data.name, data.price]);
+        if ($('#js-costs-categories-table').length) {
+            insertTable('costs-categories', data.id, [data.title]);
         } else {
-            Object.keys(data).forEach(key => {
-                $form.find(`[data-target=${key}]`).text(data[key]);
-            })
+            Object.keys(data).forEach(key => $form.find(`[data-target=${key}]`).text(data[key]));
             $('.js-toggleEditable').click();
         }
 
