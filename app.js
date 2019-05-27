@@ -31,6 +31,10 @@ app.engine('hbs', hbs({
         compare(condition1, condition2, valueTrue, valueFalse) {
             return condition1 == condition2 ? valueTrue : valueFalse;
         },
+        concat(...values) {
+            const strings = values.slice(0, -1);
+            return ''.concat(...strings);
+        },
         toIsoString(date, format = moment.HTML5_FMT.DATETIME_LOCAL) {
             if (!date)
                 return '';

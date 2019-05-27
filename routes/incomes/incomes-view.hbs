@@ -71,7 +71,7 @@
                             <div class="col-sm-8">
                                 {{#if document_id}}
                                     <a
-                                        href="/{{compare code 'CRR' 'car-reservation' 'apartment-reservations'}}/{{document_id}}">{{base}}</a>
+                                        href="{{ifTrue link (concat link '/' document_id) 'javascript:void()' }}">{{base}}</a>
                                 {{else}}
                                     <p>{{base}}</p>
                                 {{/if}}
@@ -89,7 +89,8 @@
                                             id="js-incomesForm-cashStorages-view">
                                             <option value="" selected disabled>Выберите кассу / счёт из списка</option>
                                             {{#each ../cashStorages}}
-                                                <option {{compare id ../cash_storage_id 'selected' ''}} value="{{this.id}}">{{this.name}}</option>
+                                                <option {{compare id ../cash_storage_id 'selected' ''}}
+                                                    value="{{this.id}}">{{this.name}}</option>
                                             {{/each}}
                                         </select>
                                         <span class="input-group-btn">
@@ -114,8 +115,8 @@
                                 {{comment}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <textarea value="{{comment}}" name="comment" cols="20" rows="4"
-                                    class="form-control" placeholder="Введите комментарий" required></textarea>
+                                <textarea value="{{comment}}" name="comment" cols="20" rows="4" class="form-control"
+                                    placeholder="Введите комментарий" required></textarea>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -130,7 +131,8 @@
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
-                    <button data-target="incomes" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить документ</button>
+                    <button data-target="incomes" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить
+                        документ</button>
                 {{/unless}}
             </div>
         </section>

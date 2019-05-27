@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
         WHERE i.id = ?
     `, [id]);
 
-    if(!incomes.length) {
+    if (!incomes.length) {
         throw new Error('Страница не найдена или была удалена')
     }
 
@@ -23,6 +23,11 @@ module.exports = async (req, res, next) => {
 
     incomes.forEach(item => {
         item.base = item.base_id || item.base_other;
+        item.link = item.code === 'CRR'
+            ? '/car-reservation' : (item.code === 'APR'
+                ? '/apartment-reservations' : (item.code === 'pd'
+                    ? '/invoices'
+                    : ''));
     })
 
     const groupDocuments = [

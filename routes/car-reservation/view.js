@@ -32,6 +32,9 @@ module.exports = async (req, res, next) => {
 
     const [reservation = {}] = reservs;
 
+    if(!reservation.id)
+        throw new Error('Страница не найдена');
+
     const servicesList = await db.execQuery(`SELECT * FROM additional_services`);
 
     const additionalServices = (reservation.services || '')
