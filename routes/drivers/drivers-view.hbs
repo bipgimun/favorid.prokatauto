@@ -182,20 +182,20 @@
                             <label class="col-sm-3 control-label"></label>
                             <div class="col-sm-3">
                                 <div class="radio-custom">
-                                    <input {{ifTrue this.is_individual 'checked' ''}} type="radio" id="js-drivers-autoless" value="" checked name="is_individual">
+                                    <input {{compare this.is_individual null 'checked' ''}} type="radio" id="js-drivers-autoless" value="" checked name="is_individual">
                                     <label for="js-drivers-autoless">Отсутствует</label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="radio-custom">
-                                    <input {{ifTrue this.is_individual 'checked' ''}} type="radio" id="radioExample1"
+                                    <input {{compare this.is_individual '1' 'checked' ''}} type="radio" id="radioExample1"
                                         value="1" name="is_individual">
                                     <label for="radioExample1">Личный</label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="radio-custom">
-                                    <input {{ifTrue this.is_individual '' 'checked'}} type="radio" id="radioExample2" value="0" name="is_individual">
+                                    <input {{compare this.is_individual '0' 'checked' ''}} type="radio" id="radioExample2" value="0" name="is_individual">
                                     <label for="radioExample2">Закрепленный</label>
                                 </div>
                             </div>

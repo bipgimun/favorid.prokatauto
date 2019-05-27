@@ -26,6 +26,32 @@ const addSchema = Joi.object({
     is_individual: Joi.number().empty(''),
 }).with('is_individual', 'car_id');
 
+const updateSchema = Joi.object({
+    name: Joi.string(),
+    birthday: Joi.date().iso(),
+    contact_number: Joi.string(),
+    driver_license: Joi.string(),
+    license_date_issue: Joi.string(),
+    license_date_expiration: Joi.string(),
+    passport: Joi.string(),
+    passport_date_issue: Joi.date().iso(),
+    passport_issued_by: Joi.string(),
+    passport_division_code: Joi.string(),
+    passport_location: Joi.string(),
+    car_id: Joi.number()
+        .empty('')
+        .when('is_individual', {
+            is: Joi.number().valid([1, 0]),
+            then: Joi.required(),
+            otherwise: Joi.any().default(null)
+        }),
+    is_individual: Joi.number()
+        .valid([1, 0])
+        .allow('')
+        .empty('')
+        .default(null),
+})
+
 const { drivers: driversModel } = require('../../../models');
 
 app.post('/get', async (req, res, next) => {
@@ -55,9 +81,7 @@ app.post('/update', async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;
 
-    const validValues = Object.keys(fields)
-        .filter(field => wishList.drivers.includes(field))
-        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+    const validValues = await updateSchema.validate(fields);
 
     if (!id)
         throw new Error(messages.missingId);
