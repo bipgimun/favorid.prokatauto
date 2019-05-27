@@ -50,3 +50,6 @@
 
 -- ALTER TABLE `apartments` ADD `apartment_owned` BOOLEAN NOT NULL AFTER `id`;
 -- ALTER TABLE `apartment_reservations` DROP `cash_storage_id`;
+
+-- изменить тип поля "номер" на строку для кассы/счета
+-- ALTER TABLE `cash_storages` CHANGE `number` `number` VARCHAR(255) NOT NULL;

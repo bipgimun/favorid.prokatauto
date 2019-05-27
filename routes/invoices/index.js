@@ -61,4 +61,8 @@ router.get('/', async (req, res, next) => {
     res.render(__dirname + '/template.hbs', { invoices, groupDocuments });
 });
 
+router.get('/:id', async (req, res, next) => {
+    res.render(__dirname + '/view.hbs', {});
+});
+
 module.exports = router;
