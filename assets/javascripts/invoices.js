@@ -6,11 +6,9 @@ $(document).ready(function () {
         dropdownParent: $('#create-paying-document').length ? $('#create-paying-document') : null,
         placeholder: "Выберите основание",
         allowClear: true
+    }).on('select2:select', function (e) {
+         
     });
-
-    $('#js-invoices-base-select').on('select2:select', function (e) {
-        console.log($(this).val());
-    })
 
     $form.on('submit', async function (e) {
         e.preventDefault();
