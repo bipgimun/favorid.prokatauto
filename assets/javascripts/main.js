@@ -833,7 +833,7 @@ $(document).ready(() => {
 
         const { data } = await request('/api/' + target + '/delete', { id });
 
-        location.reload();
+        window.close();
     })
 
     const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver') => {
