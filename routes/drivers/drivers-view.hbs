@@ -1,6 +1,9 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
+        padding-top: 7px;
+        font-weight: bold;
     }
 
     .js-editable-body .editable-content {
@@ -13,6 +16,19 @@
 
     .js-editable-body.editable-on .non-editable-content {
         display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
     }
 </style>
 
@@ -68,9 +84,7 @@
                                 {{this.contact_number }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" value="{{this.contact_number }}" id="phone"
-                                    data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
-                                    placeholder="+7 (123) 123-1234" class="form-control">
+                                <input name="contact_number" value="{{this.contact_number }}" id="phone" placeholder="+7 (123) 123-1234" class="form-control phone-input">
                             </div>
                         </div>
                         <div class="form-group">
@@ -165,15 +179,21 @@
                                 style="text-transform: uppercase; font-weight: bold; text-align: center;">Автомобиль</label>
                         </div>
                         <div class="form-group mt-lg drivers-auto editable-content">
-                            <label class="col-sm-4 control-label"></label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-3">
+                                <div class="radio-custom">
+                                    <input {{ifTrue this.is_individual 'checked' ''}} type="radio" id="js-drivers-autoless" value="" checked name="is_individual">
+                                    <label for="js-drivers-autoless">Отсутствует</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <div class="radio-custom">
                                     <input {{ifTrue this.is_individual 'checked' ''}} type="radio" id="radioExample1"
                                         value="1" name="is_individual">
                                     <label for="radioExample1">Личный</label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="radio-custom">
                                     <input {{ifTrue this.is_individual '' 'checked'}} type="radio" id="radioExample2" value="0" name="is_individual">
                                     <label for="radioExample2">Закрепленный</label>
@@ -214,10 +234,21 @@
         {{/each}}
     </div>
 </section>
-<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.dependencyLib.min.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.min.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.custom.js"></script>
 <script>
-    const driversAutoGroup = document.querySelector('.drivers-auto');
-    driversAutoGroup.addEventListener('change', function () {
-        document.querySelector('.drivers-auto__car').style.display = "block";
+    //---------------------------------------------
+    var driversAutoGroup = document.querySelector('.drivers-auto');
+    driversAutoGroup.addEventListener('change', function (e) {
+        var $wrapper = $(this);
+        var [{ value: is_individual }] = $wrapper.find('input').serializeArray();
+
+        if (is_individual !== '') {
+            $('.drivers-auto__car').show();
+        } else {
+            $('.drivers-auto__car').hide();
+        }
+
     })
 </script>

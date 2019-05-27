@@ -1,6 +1,9 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
+        padding-top: 7px;
+        font-weight: bold;
     }
 
     .js-editable-body .editable-content {
@@ -13,6 +16,19 @@
 
     .js-editable-body.editable-on .non-editable-content {
         display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
     }
 </style>
 
@@ -67,9 +83,7 @@
                                 {{this.contact_number }}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" id="phone" data-plugin-masked-input=""
-                                    data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
-                                    class="form-control" value="{{this.contact_number }}" required>
+                                <input name="contact_number" class="form-control phone-input" value="{{this.contact_number }}" required>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -86,5 +100,6 @@
         {{/each}}
     </div>
 </section>
-
-<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.dependencyLib.min.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.min.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.custom.js"></script>

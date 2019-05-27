@@ -1,6 +1,9 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
+        padding-top: 7px;
+        font-weight: bold;
     }
 
     .js-editable-body .editable-content {
@@ -13,6 +16,19 @@
 
     .js-editable-body.editable-on .non-editable-content {
         display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
     }
 </style>
 
@@ -163,15 +179,15 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Рыночная стоимость</label>
-                            <div class="non-editable-content" data-target="market_price">
+                            <div class="non-editable-content col-sm-3" data-target="market_price">
                                 {{this.market_price }}
                             </div>
-                            <div class="col-sm-3 editable-content">
+                            <div class="col-sm-2 editable-content">
                                 <input name="market_price" type="text" class="form-control" placeholder="Введите цену"
                                     value="{{this.market_price }}" required>
                             </div>
                             <label class="col-sm-3 control-label">Стоимость покупки</label>
-                            <div class="non-editable-content" data-target="purchase_price">
+                            <div class="non-editable-content col-sm-2" data-target="purchase_price">
                                 {{this.purchase_price }}
                             </div>
                             <div class="col-sm-3 editable-content">
@@ -180,7 +196,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <p class="col-sm-12">Автомобиль
+                            <p class="col-sm-10 style-non-editable">Автомобиль
                                 {{#if ../driver.is_individual}}
                                     <span class="car-own">принадлежит</span>
                                 {{else}}
@@ -251,7 +267,10 @@
         {{/each}}
     </div>
 </section>
-<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.dependencyLib.min.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.min.js"></script>
+<script src="/assets/vendor/inputmask/inputmask.custom.js"></script>
+
 <script>
     const checkLising = document.querySelector('.checkbox-lising');
     const checkLisingInfo = document.querySelector('.checkbox-lising-info');

@@ -1,35 +1,71 @@
-<style>
-    .js-editable-body .non-editable-content {
-        display: block;
-        padding-top: 7px;
-        font-weight: bold;
-    }
+<header class="page-header">
+    <h2>Счета</h2>
 
-    .js-editable-body .editable-content {
-        display: none;
-    }
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Счета</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Документы выставленных счетов</h2>
+    </header>
+    <div class="panel-body">
+        
+    </div>
+</section>
 
-    .js-editable-body.editable-on .editable-content {
-        display: block;
-    }
+<!-- Модалки-->
 
-    .js-editable-body.editable-on .non-editable-content {
-        display: none;
-    }
+<div id="create-paying-document" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Выставить счет</h2>
+        </header>
+        <div class="panel-body">
+            <form id="js-invoices-add-form" action="/api/invoices/add" class="form-horizontal mb-lg"
+                novalidate="novalidate">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Основание</label>
+                    <div class="col-sm-9">
+                        <select name="code" style="width: 100%" name="base_id" id="js-invoices-base-select">
+                            <option></option>
+                            {{#each groupDocuments}}
+                                <optgroup label="{{this.label}}">
+                                    {{#each documents}}
+                                        <option value="{{code}}">{{code}}</option>
+                                    {{/each}}
+                                </optgroup>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
 
-    .footer-btn-block-resrvation {
-        display: flex;
-    }
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Общая сумма</label>
+                    <div class="col-sm-9">
+                        <input name="sum" type="number" class="form-control" placeholder="Введите сумму" required>
+                    </div>
+                </div>
 
-    .footer-resrvation-save-btn {
-        margin-right: auto;
-    }
-
-    .footer-resrvation-end-btn {
-        margin-left: auto;
-        margin-right: 10px;
-    }
-</style>
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-11 text-right">
+                            <button class="btn btn-success">Выставить</button>
+                            <button class="btn btn-default modal-dismiss">Отмена</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
 
 <header class="page-header">
     <h2>Приход денежных средств</h2>
@@ -136,3 +172,4 @@
         </section>
     </div>
 </section>
+<script src="/assets/javascripts/invoices.js" defer></script>
