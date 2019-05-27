@@ -34,30 +34,36 @@
     </header>
     <div class="panel-body main_container_table_resp">
         <div class="container_for_table">
-            <table class="table table-bordered table-striped table-condensed mb-none">
-                <thead>
-                    <tr>
-                        <th>ДАТЫ</th>
-                        <th colspan="8" style="text-align: center;">АВТОМОБИЛИ</th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        {{#each cars}}
-                            <th class="text-right">{{name}} {{model}} {{number}}</th>
-                        {{/each}}
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each resArray}}
+            {{#if resArray}}
+                <table class="table table-bordered table-striped table-condensed mb-none">
+                    <thead>
                         <tr>
-                            <td>{{date}}</td>
+                            <th>ДАТЫ</th>
+                            <th colspan="8" style="text-align: center;">АВТОМОБИЛИ</th>
+                        </tr>
+                        <tr>
+                            <th></th>
                             {{#each cars}}
-                                <td class="text-right" style="{{ifTrue isReserved 'background: red; color: black' ''}}">{{message}}</td>
+                                <th class="text-right">{{name}} {{model}} {{number}}</th>
                             {{/each}}
                         </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {{#each resArray}}
+                            <tr>
+                                <td>{{date}}</td>
+                                {{#each cars}}
+                                    <td class="text-right"
+                                        style="{{ifTrue isReserved 'background: red; color: black' ''}}">{{message}}
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <p>Машин в аренде не обнаружено</p>
+            {{/if}}
         </div>
     </div>
 </section>
