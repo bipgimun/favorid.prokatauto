@@ -121,14 +121,32 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Дата начала аренды</label>
+                            <div class="non-editable-content" data-target="rent_start">
+                                {{this.rent_start}}
+                            </div>
+                            <div class="col-sm-9 editable-content">
+                                <div class="">
+                                    <input value="{{this.rent_start}}" class="form-control" type="datetime-local" name="rent_start">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Окончание аренды</label>
+                            <div class="non-editable-content" data-target="rent_finished">
+                                {{this.rent_finished}}
+                            </div>
+                            <div class="col-sm-9 editable-content">
+                                <input value="{{this.rent_finished}}"class="form-control" type="datetime-local" name="rent_finished">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">Контактный телефон</label>
                             <div class="non-editable-content" data-target="contact_number">
                                 {{this.contact_number}}
                             </div>
                             <div class="col-sm-9 editable-content">
-                                <input name="contact_number" value="{{this.contact_number}}"
-                                    data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
-                                    class="form-control" required>
+                                <input name="contact_number" value="{{this.contact_number}}" placeholder="+7 (123) 123-1234" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group group-drivers__hide-vis" style="display: none;">
