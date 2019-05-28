@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-sm-8">
                                 <div class="checkbox-custom checkbox-primary">
-                                    <input {{ifTrue this.driver_id 'checked' : ''}} class="group-drivers__checkbox"
+                                    <input {{ifTrue this.has_driver 'checked' : ''}} class="group-drivers__checkbox"
                                         type="checkbox" id="checkboxdriver" value="1" name="has_driver">
                                     <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
                                 </div>
@@ -140,7 +140,7 @@
                                     </div>
                                     <div class="editable-content">
                                         <select name="driver_id" class="form-control">
-                                            <option value="0" selected disabled>Выберете водителя</option>
+                                            <option value="" selected disabled>Выберете водителя</option>
                                             {{#each ../drivers}}
                                                 <option {{compare this.id ../driver_id 'selected' ''}}
                                                     value="{{this.id}}">

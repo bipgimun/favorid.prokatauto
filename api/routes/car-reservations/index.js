@@ -43,11 +43,10 @@ const addScheme = Joi.object({
         has_driver: Joi.number().valid(1).required()
     }).unknown(), {
         then: Joi.object({
-            driver_id: Joi.required(),
+            driver_id: Joi.any().default(null),
             itinerarie_id: Joi.required(),
         }),
         otherwise: Joi.object({
-            driver_id: Joi.strip(),
             itinerarie_id: Joi.strip(),
         })
     })
@@ -77,7 +76,7 @@ const updateSchema = Joi.object({
         has_driver: Joi.number().valid(1).required()
     }).unknown(), {
         then: Joi.object({
-            driver_id: Joi.required(),
+            driver_id: Joi.any().default(null),
             itinerarie_id: Joi.required(),
         }),
         otherwise: Joi.object({
