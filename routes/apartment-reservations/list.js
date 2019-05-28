@@ -1,6 +1,7 @@
 const db = require('../../libs/db');
 
 const APARTMENT_STATUS = require('../../config/apartment-statuses');
+const { apartmentsReservsModel } = require('../../models');
 
 module.exports = async (req, res, next) => {
 
@@ -11,20 +12,7 @@ module.exports = async (req, res, next) => {
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
     const additionalServices = await db.execQuery(`SELECT * FROM additional_services`);
 
-    const apartmentReservations = (await db.execQuery(`
-        SELECT ar.*,
-            a.address,
-            p.name as client_name,
-            CONCAT(e.last_name, ' ', e.first_name) as manager_name
-        FROM apartment_reservations ar
-            LEFT JOIN apartments a ON ar.apartment_id = a.id
-            LEFT JOIN passengers p ON ar.passenger_id = p.id
-            LEFT JOIN employees e ON ar.manager_id = e.id
-        WHERE 
-            ar.id > 0
-            AND ar.status IN (${isArchive ? '3' : '0,1,2'})
-    `));
-
+    const apartmentReservations = await apartmentsReservsModel.get({ isArchive });
     apartmentReservations.forEach(item => {
         item.statusName = APARTMENT_STATUS.get(item.status);
     });

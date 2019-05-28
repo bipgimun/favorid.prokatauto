@@ -46,7 +46,7 @@
                     {{#each reservs}}
                         <tr>
                             <td>{{has_driver}}</td>
-                            <td>{{manager_id}}</td>
+                            <td>{{manager_name}}</td>
                             <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.customer_name}}</td>
@@ -165,7 +165,7 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select name="driver_id" class="form-control">
-                                <option value="0" selected disabled>Выберете водителя</option>
+                                <option value="" selected disabled>Выберете водителя</option>
                                 {{#each drivers}}
                                     <option value="{{this.id}}">{{this.name}}</option>
                                 {{/each}}

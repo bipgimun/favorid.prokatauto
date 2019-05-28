@@ -72,13 +72,15 @@ module.exports = async (req, res, next) => {
 
     const servicesIds = (reservation.services || '').split(',');
 
-    const servicesWithSelected = additionalServices.map(item => {
-        if (servicesIds.includes(String(item.id))) {
-            item.selected = true;
-        }
+    const servicesWithSelected = additionalServices
+        .filter(item => item && item.id)
+        .map(item => {
+            if (servicesIds.includes(String(item.id))) {
+                item.selected = true;
+            }
 
-        return item;
-    });
+            return item;
+        });
 
     return res.render(__dirname + '/apartment-reservation-id', {
         customers,
