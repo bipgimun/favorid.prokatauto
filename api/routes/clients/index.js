@@ -6,6 +6,21 @@ const safeStr = require('../../../libs/safe-string');
 const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
+const { passengers } = require('../../wish-list').wishList;
+
+const Joi = require('joi');
+
+const addSchema = Joi.object({
+    name: passengers.name.required(),
+    contact_number: passengers.contactNumber.required(),
+    birthday: passengers.birthday
+});
+
+const updateSchema = Joi.object({
+    name: passengers.name,
+    contact_number: passengers.contactNumber,
+    birthday: passengers.birthday
+});
 
 app.post('/get', async (req, res, next) => {
 
@@ -29,23 +44,14 @@ app.post('/getOne', async (req, res, next) => {
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const errors = [];
 
-    Object.keys(values).forEach(key => {
-        const value = values[key];
+    const validValues = await addSchema.validate(values);
 
-        if (!value)
-            errors.push(`Missing "${key}" value`);
-    })
+    const id = await db.insertQuery(`INSERT INTO passengers SET ?`, validValues);
 
-    if (errors.length)
-        throw new Error('Заполнены не все поля');
+    validValues.id = id;
 
-    const id = await db.insertQuery(`INSERT INTO passengers SET ?`, values);
-
-    values.id = id;
-
-    res.json({ status: 'ok', data: values });
+    res.json({ status: 'ok', data: validValues });
 })
 
 
@@ -53,9 +59,7 @@ app.post('/update', async (req, res, next) => {
 
     const { id, ...fields } = req.body.values;
 
-    const validValues = Object.keys(fields)
-        .filter(field => wishList.passengers.includes(field))
-        .reduce((acc, item) => (acc[item] = fields[item], acc), {});
+    const validValues = await updateSchema.validate(fields);
 
     if (!id)
         throw new Error(messages.missingId);
