@@ -6,15 +6,21 @@
 </tr>
 <tr>
     <th>Дата</th>
-    <th>За что</th>
-    <th>Процент</th>
-    <th>Сумма в рублях</th>
+    <th>Причина</th>
+    <th>Сумма, руб.</th>
+    <th>Действие</th>
 </tr>
 {{#each details}}
     <tr>
         <td>{{date}}</td>
         <td>{{description}}</td>
-        <td>{{percent}}</td>
         <td>{{round sum}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>22.05.2019</td>
+        <td><a href="#">Заявка №234</a></td>
+        <td>20000 руб.</td>
+        <td><a href="#">Удалить</a></td>
     </tr>
 {{/each}}
