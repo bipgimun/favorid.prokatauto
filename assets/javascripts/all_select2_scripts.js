@@ -115,11 +115,6 @@ $(document).ready(() => {
         placeholder: 'Выберите модель автомобиля'
     });
 
-    $('#js-carsListModal-select').select2({
-        dropdownParent: $('#add-products'),
-        placeholder: 'Выберите модель автомобиля'
-    });
-
     $('#js-incomesForm-documents, #js-costsForm-documents').select2({
         dropdownParent: $('#add-products').length ? $('#add-products') : null,
     });
@@ -145,33 +140,6 @@ $(document).ready(() => {
 
     let carsState = [];
 
-    $('#js-carsPrice-id')
-        .select2({
-            dropdownParent: $('#add-products'),
-            placeholder: 'Выберите Позицию из прайса'
-        }).on('select2:select', async function (e) {
-            const $this = $(this);
-            const val = $this.val();
-            const $option = $this.find(`option[value=${val}]`);
-            const { model, name } = $option.data();
-            const { data: cars } = await request('/api/cars/get', { model, name });
-            const { data: price } = await request('/api/price-list/get/' + val);
-
-            carsState = cars;
-
-            $('#js-carsListModal-select option:not([value=0])').val(null).trigger('change');
-            $('#js-carsListModal-select option:not([value=0])').remove();
-
-            const prepayment = $carReservations.find('[name=prepayment]');
-
-            prepayment.val(+prepayment.val() + +price.price_per_day);
-
-            cars.forEach((car) => {
-                const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
-                $('#js-carsListModal-select').append(option);
-            })
-        })
-
     $('#js-car-reservation-itinerarie_id')
         .select2({
             dropdownParent: $('#add-products').length ? $('#add-products') : null,
@@ -189,7 +157,25 @@ $(document).ready(() => {
 
     $('#js-carsListModal-select').select2({
         dropdownParent: $('#add-products'),
-        placeholder: 'Выберите автомобиль'
+        placeholder: 'Выберите автомобиль',
+        ajax: {
+            url: '/api/cars/get',
+            type: "POST",
+            dataType: 'json',
+            processResults: function (data) {
+                
+                carsState = data.data;
+
+                return {
+                    results: $.map(data.data, function (car) {
+                        return {
+                            text: `${car.name} - ${car.model} - ${car.number}`,
+                            id: car.id
+                        }
+                    })
+                }
+            }
+        }
     }).on('select2:select', function (e) {
         var carId = $(this).val();
         var car = carsState.find(car => car.id == carId);
@@ -251,15 +237,15 @@ $(document).ready(() => {
                 const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
 
 
-                if(!$carReservations.find('[name=car_id]').find(`option[value=${car.id}]`).length) {
+                if (!$carReservations.find('[name=car_id]').find(`option[value=${car.id}]`).length) {
                     $carReservations.find('[name=car_id]')
                         .append(option);
                 }
 
                 $carReservations.find('[name=car_id]')
-                        .val(car.id)
-                        .trigger('change');
-                        
+                    .val(car.id)
+                    .trigger('change');
+
                 $carReservations.find('[name=class_name]').val(car.class_name);
             }
         })

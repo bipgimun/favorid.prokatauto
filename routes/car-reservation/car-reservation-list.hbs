@@ -157,7 +157,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Контактный телефон</label>
                     <div class="col-sm-9">
-                        <input name="contact_number" placeholder="+7(123) 123-12-34" class="form-control phone-input" required>
+                        <input name="contact_number" placeholder="+7(123) 123-12-34" class="form-control phone-input"
+                            required>
                     </div>
                 </div>
                 <div class="form-group group-drivers__hide-vis" style="display: none;">
@@ -174,18 +175,6 @@
                                 <button class="btn btn-primary" type="button">Добавить</button>
                             </span>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group mt-lg">
-                    <label class="col-sm-3 control-label">Позиция из прайса</label>
-                    <div class="col-sm-9">
-                        <select style="width: 100%" name="price_id" id="js-carsPrice-id">
-                            <option value="0" selected disabled>Выберите позицию</option>
-                            {{#each carPrices}}
-                                <option value="{{this.id}}" data-name="{{this.name}}" data-model="{{this.model}}">
-                                    {{this.name}} {{this.model}}</option>
-                            {{/each}}
-                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -212,7 +201,8 @@
                     <label class="col-sm-2 control-label">Маршрут</label>
                     <div class="col-sm-10">
                         <div class="input-group">
-                            <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control" style="width: 100%">
+                            <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control"
+                                style="width: 100%">
                                 <option value="0" selected disabled>Выберете маршрут</option>
                                 {{#each itineraries}}
                                     <option value="{{this.id}}">{{this.name}}</option>
@@ -228,8 +218,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Предварительная сумма</label>
                     <div class="col-sm-8">
-                        <input type="number" name="prepayment" class="form-control prices-control-class" placeholder="Введите сумму"
-                            required>
+                        <input type="number" name="prepayment" class="form-control prices-control-class"
+                            placeholder="Введите сумму" required>
                     </div>
                 </div>
 
@@ -273,7 +263,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Общая сумма</label>
                     <div class="col-sm-8">
-                        <input name="sum" type="number" class="form-control prices-control-class" placeholder="Введите сумму" required>
+                        <input name="sum" type="number" class="form-control prices-control-class"
+                            placeholder="Введите сумму" required>
                     </div>
                 </div>
 
@@ -284,7 +275,7 @@
                     </div>
                 </div>
             </form>
-             {{#each additionalServices}}
+            {{#each additionalServices}}
                 <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
             {{/each}}
         </div>
@@ -296,14 +287,14 @@
 <script src="/assets/vendor/inputmask/inputmask.custom.js"></script>
 
 <script>
-  'use strict';
-  const pricesControlClass = document.querySelectorAll('.prices-control-class');
-  pricesControlClass.forEach(function(item) {
-    item.addEventListener('input', function(evt) {
-        this.value < 0 ? this.value = 0 : this.value;
+    'use strict';
+    const pricesControlClass = document.querySelectorAll('.prices-control-class');
+    pricesControlClass.forEach(function (item) {
+        item.addEventListener('input', function (evt) {
+            this.value < 0 ? this.value = 0 : this.value;
+        });
     });
-  });
-</script> 
+</script>
 
 <script>
     var btnAddProduct = document.querySelector('.adding-item');

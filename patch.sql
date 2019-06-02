@@ -68,3 +68,9 @@
 --   ADD KEY `customer_id` (`customer_id`);
 -- ALTER TABLE `invoices`
 --   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- добавление полей из прайслиста в таблицу автомобилей
+-- ALTER TABLE `cars` ADD `price_per_day` DECIMAL(11,2) NOT NULL AFTER `class_name`, ADD `deposit` DECIMAL(11,2) NOT NULL AFTER `price_per_day`, ADD `limit_per_day` INT(11) NOT NULL AFTER `deposit`, ADD `surcharge` DECIMAL(11,2) NOT NULL AFTER `limit_per_day`;
+
+-- очистка полей по price_id
+-- ALTER TABLE `cars_reservations` DROP `price_id`;

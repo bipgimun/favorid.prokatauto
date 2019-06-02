@@ -25,7 +25,6 @@ exports.get = ({
             LEFT JOIN customers cu ON cu.id = cr.customer_id
             LEFT JOIN passengers p ON p.id = cr.passenger_id
             LEFT JOIN drivers d ON d.id = cr.driver_id
-            LEFT JOIN cars_price cp ON cp.id = cr.price_id
             LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
             LEFT JOIN employees e ON e.id = cr.manager_id
         WHERE

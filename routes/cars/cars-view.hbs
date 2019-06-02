@@ -51,7 +51,7 @@
         {{#each cars}}
             <section class="panel">
                 <header class="panel-heading">
-                    <h2 class="panel-title">Добавление нового автомобиля</h2>
+                    <h2 class="panel-title">Страница автомобиля</h2>
                 </header>
                 <div class="panel-body js-editable-body">
                     <form action="/api/cars/update" id="js-cars-add-form" class="form-horizontal mb-lg"
@@ -85,6 +85,52 @@
                             <div class="col-sm-4 editable-content">
                                 <input type="text" value="{{this.class_name}}" name="class_name" class="form-control"
                                     placeholder="Введите класс">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Цена в сутки, руб.</label>
+                            <div data-target="price_per_day" class="col-sm-4 non-editable-content">
+                                {{price_per_day}}
+                            </div>
+                            <div class="editable-content">
+                                <div class="col-sm-4">
+                                    <input value="{{price_per_day}}" type="number" name="price_per_day" class="form-control"
+                                        placeholder="Введите цену в сутки">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Залог, руб.</label>
+                            <div data-target="deposit" class="col-sm-4 non-editable-content">
+                                {{deposit}}
+                            </div>
+                            <div class="editable-content">
+                                <div class="col-sm-4">
+                                    <input value="{{deposit}}" type="number" name="deposit" class="form-control" placeholder="Введите залог">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Лимит км. в сутки</label>
+                            <div data-target="limit_per_day" class="col-sm-4 non-editable-content">
+                                {{limit_per_day}}
+                            </div>
+                            <div class="editable-content">
+                                <div class="col-sm-4">
+                                    <input value="{{limit_per_day}}" type="number" name="limit_per_day" class="form-control"
+                                        placeholder="Введите лимит км. в сутки">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Цена перепробега за км., руб.</label>
+                            <div data-target="surcharge" class="col-sm-4 non-editable-content">
+                                {{surcharge}}
+                            </div>
+                            <div class="editable-content">
+                                <div class="col-sm-4">
+                                    <input value="{{surcharge}}" type="number" name="surcharge" class="form-control" placeholder="">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -171,8 +217,8 @@
                             <label class="col-sm-3">Принадлежит фирме</label>
                             <div class="col-sm-9">
                                 <div class="checkbox-custom checkbox-primary col-sm-3">
-                                    <input {{ifTrue company_property 'checked' ''}} type="checkbox" name="company_property" value="1"
-                                        id="companyPropertyCheckbox">
+                                    <input {{ifTrue company_property 'checked' ''}} type="checkbox"
+                                        name="company_property" value="1" id="companyPropertyCheckbox">
                                     <label for="companyPropertyCheckbox">Да</label>
                                 </div>
                             </div>
@@ -196,17 +242,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <p class="col-sm-10 style-non-editable">Автомобиль
-                                {{#if ../driver.is_individual}}
-                                    <span class="car-own">принадлежит</span>
-                                {{else}}
-                                    <span class="car-assigned">зареплен за</span>
-                                {{/if}}
-                                <span class="car-driver-name">
-                                    <a href="/drivers/{{../driver.id}}">{{../driver.name}}</a>
-                                </span>, водительское удостоверение
-                                <span class="car-driver-license">№ {{../driver.driver_license}}</span>
-                            </p>
+                            {{#if ../driver.id}}
+                                <p class="col-sm-10 style-non-editable">Автомобиль
+                                    {{#if ../driver.is_individual}}
+                                        <span class="car-own">принадлежит</span>
+                                    {{else}}
+                                        <span class="car-assigned">закреплен за</span>
+                                    {{/if}}
+                                    <span class="car-driver-name">
+                                        <a href="/drivers/{{../driver.id}}">{{../driver.name}}</a>
+                                    </span>, водительское удостоверение
+                                    <span class="car-driver-license">№ {{../driver.driver_license}}</span>
+                                </p>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-12 control-label"
@@ -215,8 +263,8 @@
                         <div class="form-group">
                             <label class="col-sm-3" style="text-align: right;">Статус</label>
                             <div class="col-sm-9">
-                                <div class="non-editable-content" data-target="in_leasing">
-                                    {{ifTrue this.in_leasing 'Лизинг' 'Не лизинг'}}
+                                <div class="non-editable-content" data-target="in_leasing_name">
+                                    {{compare this.in_leasing '1' 'Лизинг' 'Не лизинг'}}
                                 </div>
                                 <div class="editable-content">
                                     <div class="checkbox-custom checkbox-primary col-sm-3">

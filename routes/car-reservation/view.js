@@ -6,33 +6,20 @@ const statues = {
     '2': 'Завершена'
 };
 
+const { carsReservsModel } = require('../../models');
+
 module.exports = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const reservs = await db.execQuery(`
-       SELECT cr.*,
-            c.name as car_name,
-            c.model as car_model,
-            c.number as car_number,
-            cu.name as customer_name,
-            cu.discount as customer_discount,
-            p.name as passenger_name,
-            d.name as driver_name,
-            i.name as itinerarie_name
-        FROM cars_reservations cr
-            LEFT JOIN cars c ON c.id = cr.car_id
-            LEFT JOIN customers cu ON cu.id = cr.customer_id
-            LEFT JOIN passengers p ON p.id = cr.passenger_id
-            LEFT JOIN drivers d ON d.id = cr.driver_id
-            LEFT JOIN cars_price cp ON cp.id = cr.price_id
-            LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
-        WHERE cr.id = ?`, [id]
-    );
+    if (!Number(id))
+        throw new Error('Неверный id');
+
+    const reservs = await carsReservsModel.get({ id })
 
     const [reservation = {}] = reservs;
 
-    if(!reservation.id)
+    if (!reservation.id)
         throw new Error('Страница не найдена');
 
     const servicesList = await db.execQuery(`SELECT * FROM additional_services`);

@@ -27,7 +27,6 @@ const addScheme = Joi.object({
     contact_number: Joi.string().required(),
     driver_id: Joi.number().empty([null, '']),
     itinerarie_id: Joi.number().empty([null, '']),
-    price_id: Joi.number().required(),
     car_id: Joi.number().required(),
     class_name: Joi.string().required(),
     rent_start: Joi.string().required(),
@@ -59,7 +58,6 @@ const updateSchema = Joi.object({
     contact_number: Joi.string(),
     driver_id: Joi.number().allow(''),
     itinerarie_id: Joi.number().allow('').error(new Error('Выберите маршрут')),
-    price_id: Joi.number(),
     car_id: Joi.number(),
     class_name: Joi.string(),
     rent_start: Joi.string(),
@@ -185,7 +183,6 @@ app.post('/update', async (req, res, next) => {
             LEFT JOIN customers cu ON cu.id = cr.customer_id
             LEFT JOIN passengers p ON p.id = cr.passenger_id
             LEFT JOIN drivers d ON d.id = cr.driver_id
-            LEFT JOIN cars_price cp ON cp.id = cr.price_id
             LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
         WHERE cr.id = ?`, [id]);
 

@@ -142,7 +142,6 @@ exports.wishList = {
         'passenger_id',
         'driver_id',
         'car_id',
-        'price_id',
         'class_name',
         'itinerarie_id',
         'cash_storage_id',

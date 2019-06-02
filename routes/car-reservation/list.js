@@ -24,7 +24,6 @@ module.exports = async (req, res, next) => {
     const customers = await db.execQuery(`SELECT * FROM customers`);
 
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
-    const carPrices = await db.execQuery('SELECT * FROM cars_price');
     const itineraries = await db.execQuery('SELECT * FROM itineraries');
     const drivers = await db.execQuery('SELECT * FROM drivers');
 
@@ -32,7 +31,6 @@ module.exports = async (req, res, next) => {
         reservs,
         customers,
         passengers,
-        carPrices,
         itineraries,
         drivers,
         isArchive,

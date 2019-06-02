@@ -14,6 +14,10 @@ const addSchema = Joi.object({
     name: Joi.string().required(),
     model: Joi.string().required(),
     class_name: Joi.string().required(),
+    price_per_day: Joi.number().required(),
+    deposit: Joi.number().required(),
+    limit_per_day: Joi.number().required(),
+    surcharge: Joi.number().required(),
     number: Joi.string().required(),
     mileage: Joi.number().required(),
     carcass_condition: Joi.string().required(),
@@ -44,10 +48,15 @@ const addSchema = Joi.object({
             leasing_expiration_date: Joi.strip()
         })
     })
+
 const updateSchema = Joi.object({
     name: Joi.string(),
     model: Joi.string(),
     class_name: Joi.string(),
+    price_per_day: Joi.number(),
+    deposit: Joi.number(),
+    limit_per_day: Joi.number(),
+    surcharge: Joi.number(),
     number: Joi.string(),
     mileage: Joi.number(),
     carcass_condition: Joi.string(),
@@ -73,9 +82,9 @@ const updateSchema = Joi.object({
             'leasing_expiration_date'
         ]),
         otherwise: Joi.object({
-            payment_amount: Joi.strip(),
-            payment_date: Joi.strip(),
-            leasing_expiration_date: Joi.strip()
+            payment_amount: Joi.any().default(null),
+            payment_date: Joi.any().default(null),
+            leasing_expiration_date: Joi.any().default(null)
         })
     }
 )
@@ -101,10 +110,8 @@ app.post('/get', async (req, res, next) => {
     } = req.body;
 
     const cars = await db.execQuery(`
-        SELECT c.*,
-            cp.class_name
+        SELECT c.*
         FROM cars c
-            LEFT JOIN cars_price cp ON cp.name = c.name AND cp.model = c.model
         WHERE c.id > 0
             ${safeStr(name) ? `AND c.name = '${name}'` : ''}
             ${safeStr(model) ? `AND c.model = '${model}'` : ''}
@@ -126,10 +133,8 @@ app.post('/get/:id', async (req, res, next) => {
     } = req.body;
 
     const [cars = {}] = await db.execQuery(`
-        SELECT c.*,
-            cp.class_name
+        SELECT c.*
         FROM cars c
-            LEFT JOIN cars_price cp ON cp.name = c.name AND cp.model = c.model
         WHERE c.id > 0
             ${safeStr(name) ? `AND c.name = '${name}'` : ''}
             ${safeStr(model) ? `AND c.model = '${model}'` : ''}
@@ -179,11 +184,11 @@ app.post('/update', async (req, res, next) => {
 
     await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [validValues, id]);
 
-    if (validValues.in_leasing) {
-        if (validValues.in_leasing === '1') {
-            validValues.in_leasing = 'Лизинг';
+    if (typeof validValues.in_leasing !== 'undefined') {
+        if (validValues.in_leasing == '1') {
+            validValues.in_leasing_name = 'Лизинг';
         } else {
-            validValues.in_leasing = 'Не лизинг';
+            validValues.in_leasing_name = 'Не лизинг';
         }
     }
 
