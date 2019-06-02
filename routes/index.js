@@ -20,6 +20,6 @@ router.use('/detailing-cars', require('./detailing-cars'));
 router.use('/detailing-apartments', require('./detailing-apartments'));
 router.use('/invoices', require('./invoices'));
 
-router.get('/salary-statement', require('./salary-statement'));
+router.use('/salary-statement', require('./salary-statement'));
 
 module.exports = router;

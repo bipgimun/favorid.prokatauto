@@ -14,7 +14,6 @@ app.post('/comingGoods/add', checkAuth, require('./routes/coming-goods/add'));
 app.post('/cashbox/loadData', checkAuth, require('./routes/cashbox/loadData'));
 app.post('/goods/getInfo', checkAuth, require('./routes/goods/getInfo'));
 app.post('/report/getTable', checkAuth, require('./routes/report/getTable'))
-app.post('/salaryStatement/getTable', checkAuth, require('./routes/salary-statement/getTable'));
 app.post('/analytics/loadCharts', checkAuth, require('./routes/analytics/loadCharts'));
 app.post('/salesReport/loadGoodsTable', checkAuth, require('./routes/sales-reports/load-goods-table'));
 app.post('/salesReport/loadServicesTable', checkAuth, require('./routes/sales-reports/load-services-table'));
@@ -40,8 +39,9 @@ app.use('/costs-categories', checkAuth, require('./routes/costs-categories'));
 
 app.use('/detailing-cars', checkAuth, require('./routes/detailing-cars'));
 app.use('/detailing-apartments', checkAuth, require('./routes/detailing-apartments'));
-
 app.use('/invoices', checkAuth, require('./routes/invoices'));
+app.post('/salaryStatement/getTable', checkAuth, require('./routes/salary-statement/getTable'));
+
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));
 
