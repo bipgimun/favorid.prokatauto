@@ -138,51 +138,6 @@ $(document).ready(() => {
         dropdownParent: null,
     });
 
-    let carsState = [];
-
-    $('#js-car-reservation-itinerarie_id')
-        .select2({
-            dropdownParent: $('#add-products').length ? $('#add-products') : null,
-            placeholder: 'Выберите маршрут'
-        }).on('select2:select', async function (e) {
-            const $this = $(this);
-            const val = $this.val();
-
-            const { data: itinerarie } = await request('/api/itineraries/getOne', { id: val });
-
-            const prepayment = $carReservations.find('[name=prepayment]');
-
-            prepayment.val(+prepayment.val() + +itinerarie.price);
-        })
-
-    $('#js-carsListModal-select').select2({
-        dropdownParent: $('#add-products'),
-        placeholder: 'Выберите автомобиль',
-        ajax: {
-            url: '/api/cars/get',
-            type: "POST",
-            dataType: 'json',
-            processResults: function (data) {
-                
-                carsState = data.data;
-
-                return {
-                    results: $.map(data.data, function (car) {
-                        return {
-                            text: `${car.name} - ${car.model} - ${car.number}`,
-                            id: car.id
-                        }
-                    })
-                }
-            }
-        }
-    }).on('select2:select', function (e) {
-        var carId = $(this).val();
-        var car = carsState.find(car => car.id == carId);
-
-        $('#js-carClassNameModal-input').val(car.class_name)
-    })
-
     $('#js-select2-apartments-id').select2({
         ajax: {
             url: '/api/apartments/get',
@@ -210,46 +165,6 @@ $(document).ready(() => {
 
     })
 
-    $('#js-select2-customer-id').on('select2:select', function (e) {
-        const val = $(this).val();
-
-        request('/api/customers/getOne', { id: val })
-            .then(result => {
-                $apartmentReservations.find('[name=discount]').val(result.data.discount);
-                $carReservations.find('[name=discount]').val(result.data.discount);
-            })
-    })
-
-    $carReservations.find('select[name=driver_id]')
-        .select2({
-            dropdownParent: $('#add-products').length ? $('#add-products') : null
-        })
-        .on('select2:select', async function (e) {
-            const id = $(e.target).val();
-            const { data: driver } = await request(`/api/drivers/get/${id}`);
-
-            $carReservations.find('[name=car_id]').val('').trigger('change');
-            $carReservations.find('[name=class_name]').val('');
-
-            if (driver.car_id) {
-                const { data: car } = await request('/api/cars/get/' + driver.car_id);
-
-                const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
-
-
-                if (!$carReservations.find('[name=car_id]').find(`option[value=${car.id}]`).length) {
-                    $carReservations.find('[name=car_id]')
-                        .append(option);
-                }
-
-                $carReservations.find('[name=car_id]')
-                    .val(car.id)
-                    .trigger('change');
-
-                $carReservations.find('[name=class_name]').val(car.class_name);
-            }
-        })
-
     /*    Form    */
 
     $('select.js-select2-init').select2({
@@ -276,6 +191,18 @@ $(document).ready(() => {
                 }
             }
         }
+    }).on('select2:select', async function (e) {
+        const val = $(this).val();
+
+        const { data } = await request('/api/customers/getOne', { id: val })
+
+        $apartmentReservations.find('[name=discount]')
+            .val(data.discount)
+            .trigger('input');
+
+        $carReservations.find('[name=discount]')
+            .val(data.discount)
+            .trigger('input');
     });
 
     $('select.js-select2-init').select2({
