@@ -43,7 +43,6 @@ app.use('/detailing-apartments', checkAuth, require('./routes/detailing-apartmen
 
 app.use('/invoices', checkAuth, require('./routes/invoices'));
 
-
 app.use((req, res, next) => next(new Error('Страница не найдена')));
 
 app.use((error, req, res, next) => {

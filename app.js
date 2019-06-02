@@ -101,7 +101,6 @@ app.get(['/incoming-goods', '/incoming-goods.html'], incomingGoods);
 app.get(['/remnants-of-goods', '/remnants-of-goods.html'], remnantsOfGoods);
 app.get(['/commodity-nomenclature', '/commodity-nomenclature.html'], commodityNomenclature);
 app.get(['/report', '/report.html'], report);
-app.get(['/salary-statement'], salaryStatement);
 app.get(['/analytics'], require('./routes/analytics'));
 app.get(['/sales-report'], require('./routes/sales-report'));
 // -------------------------------

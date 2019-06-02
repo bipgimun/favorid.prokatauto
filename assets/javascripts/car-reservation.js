@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     let currentCar = {};
     let currentItinerarie = {};
+    let currentCustomer = {};
 
     $carReservations.find('[name=car_id]').select2({
         dropdownParent: $('#add-products'),
@@ -78,6 +79,40 @@ $(document).ready(function () {
 
     $('[name=rent_start], [name=rent_finished], [name=discount]').on('input', function () {
         calcPrepaymentSum();
+    });
+
+    $carReservations.find('[name=customer_id]').select2({
+        allowClear: true,
+        dropdownParent: $('#add-products').length ? $('#add-products') : null,
+        ajax: {
+            url: '/api/customers/get',
+            dataType: 'json',
+            type: "POST",
+            processResults: function (data) {
+                return {
+                    results: $.map(data.customers, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id
+                        }
+                    })
+                }
+            }
+        }
+    }).on('select2:select', async function (e) {
+        const val = $(this).val();
+
+        const { data: customer } = await request('/api/customers/getOne', { id: val });
+
+        $carReservations.find('[name=contact_number]').val(customer.contact_number);
+
+        if(!$carReservations.find('#checkboxdriver').is(':checked')) {
+            $carReservations.find('[name=contact_number]').val(customer.contact_number);
+        }
+
+        $carReservations.find('[name=discount]')
+            .val(customer.discount)
+            .trigger('input');
     });
 
     function getRentDays() {

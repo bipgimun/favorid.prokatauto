@@ -168,26 +168,11 @@ app.post('/update', async (req, res, next) => {
 
     await db.execQuery(`UPDATE cars_reservations SET ? WHERE id = ?`, [validValues, id]);
 
-    const [item = {}] = await db.execQuery(`
-          SELECT cr.*,
-            c.name as car_name,
-            c.model as car_model,
-            c.number as car_number,
-            cu.name as customer_name,
-            cu.discount as customer_discount,
-            p.name as passenger_name,
-            d.name as driver_name,
-            i.name as itinerarie_name
-        FROM cars_reservations cr
-            LEFT JOIN cars c ON c.id = cr.car_id
-            LEFT JOIN customers cu ON cu.id = cr.customer_id
-            LEFT JOIN passengers p ON p.id = cr.passenger_id
-            LEFT JOIN drivers d ON d.id = cr.driver_id
-            LEFT JOIN itineraries i ON i.id = cr.itinerarie_id
-        WHERE cr.id = ?`, [id]);
-
+    const [item = {}] = await carsReservsModel.get({ id });
 
     validValues.status_name = statues[validValues.status];
+    item.rent_start = moment(item.rent_start).format('DD.MM.YYYY в HH:mm');
+    item.rent_finished = moment(item.rent_finished).format('DD.MM.YYYY в HH:mm');
 
     const returnData = { ...validValues, ...item };
 

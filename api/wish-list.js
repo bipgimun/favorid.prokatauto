@@ -69,11 +69,11 @@ exports.wishList = {
                 'location',
             ])
         }),
-    passengers: [
-        'name',
-        'birthday',
-        'contact_number'
-    ],
+    passengers: {
+        name: Joi.string(),
+        contactNumber: Joi.string(),
+        birthday: Joi.date().iso().empty('').default(null)
+    },
     drivers: [
         'name',
         'birthday',
