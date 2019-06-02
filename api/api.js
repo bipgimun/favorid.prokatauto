@@ -26,7 +26,7 @@ app.use('/apartmentReservations', checkAuth, require('./routes/apartment-reserva
 app.use('/carReservations', checkAuth, require('./routes/car-reservations'));
 
 app.use('/cars', checkAuth, require('./routes/cars'));
-app.use('/priceList', checkAuth, require('./routes/cars-price'));
+app.use('/price-list', checkAuth, require('./routes/cars-price'));
 app.use('/customers', checkAuth, require('./routes/customers'));
 app.use('/clients', checkAuth, require('./routes/clients'));
 app.use('/apartments', checkAuth, require('./routes/apartments'));

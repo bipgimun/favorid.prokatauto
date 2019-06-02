@@ -123,21 +123,21 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Дата начала аренды</label>
                             <div class="non-editable-content" data-target="rent_start">
-                                {{this.rent_start}}
+                                {{toIsoString rent_start 'DD.MM.YYYY в HH:mm'}}
                             </div>
                             <div class="col-sm-9 editable-content">
                                 <div class="">
-                                    <input value="{{this.rent_start}}" class="form-control" type="datetime-local" name="rent_start">
+                                    <input value="{{toIsoString rent_start 'YYYY-MM-DDTHH:mm'}}" class="form-control" type="datetime-local" name="rent_start">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Окончание аренды</label>
                             <div class="non-editable-content" data-target="rent_finished">
-                                {{this.rent_finished}}
+                                {{toIsoString rent_finished 'DD.MM.YYYY в HH:mm'}}
                             </div>
                             <div class="col-sm-9 editable-content">
-                                <input value="{{this.rent_finished}}"class="form-control" type="datetime-local" name="rent_finished">
+                                <input value="{{toIsoString rent_finished 'YYYY-MM-DDTHH:mm'}}"class="form-control" type="datetime-local" name="rent_finished">
                             </div>
                         </div>
                         <div class="form-group">
@@ -157,7 +157,7 @@
                                         {{this.driver_name}}
                                     </div>
                                     <div class="editable-content">
-                                        <select name="driver_id" class="form-control">
+                                        <select name="driver_id" class="form-control" style="width: 100%">
                                             <option value="" selected disabled>Выберете водителя</option>
                                             {{#each ../drivers}}
                                                 <option {{compare this.id ../driver_id 'selected' ''}}
@@ -181,7 +181,7 @@
                                     </div>
                                     <div class="editable-content">
                                         <select name="car_id" class="form-control">
-                                            <option value="0" selected disabled>Выберете автомобиль</option>
+                                            <option value="" selected disabled>Выберете автомобиль</option>
                                             {{#each ../cars}}
                                                 <option {{compare this.id ../car_id 'selected' ''}} value="{{this.id}}">
                                                     {{this.name}} {{this.model}} - {{this.number}}</option>

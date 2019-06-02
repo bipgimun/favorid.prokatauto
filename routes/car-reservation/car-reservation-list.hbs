@@ -44,8 +44,8 @@
                 </thead>
                 <tbody>
                     {{#each reservs}}
-                        <tr>
-                            <td>{{has_driver}}</td>
+                        <tr style="{{compare orange 1 'background-color: orange' ''}}">
+                            <td>{{compare has_driver '1' 'С водителем' 'Без водителя'}}</td>
                             <td>{{manager_name}}</td>
                             <td>{{this.id}}</td>
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
@@ -164,7 +164,7 @@
                     <label class="col-sm-3 control-label">Водитель</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="driver_id" class="form-control">
+                            <select name="driver_id" class="form-control" style="width: 100%">
                                 <option value="" selected disabled>Выберете водителя</option>
                                 {{#each drivers}}
                                     <option value="{{this.id}}">{{this.name}}</option>
@@ -193,7 +193,7 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select style="width: 100%" id="js-carsListModal-select" name="car_id" class="form-control">
-                                <option value="0" selected disabled>Выберете автомобиль</option>
+                                <option value="" selected disabled>Выберете автомобиль</option>
                             </select>
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button">Добавить</button>
@@ -212,7 +212,7 @@
                     <label class="col-sm-2 control-label">Маршрут</label>
                     <div class="col-sm-10">
                         <div class="input-group">
-                            <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control">
+                            <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control" style="width: 100%">
                                 <option value="0" selected disabled>Выберете маршрут</option>
                                 {{#each itineraries}}
                                     <option value="{{this.id}}">{{this.name}}</option>

@@ -113,6 +113,32 @@ app.post('/get', async (req, res, next) => {
     return res.json({ status: 'ok', data: cars });
 });
 
+app.post('/get/:id', async (req, res, next) => {
+
+    const { id } = req.params;
+
+    if (!Number(id))
+        throw new Error('Неверный id');
+
+    const {
+        name = '',
+        model = '',
+    } = req.body;
+
+    const [cars = {}] = await db.execQuery(`
+        SELECT c.*,
+            cp.class_name
+        FROM cars c
+            LEFT JOIN cars_price cp ON cp.name = c.name AND cp.model = c.model
+        WHERE c.id > 0
+            ${safeStr(name) ? `AND c.name = '${name}'` : ''}
+            ${safeStr(model) ? `AND c.model = '${model}'` : ''}
+            ${id ? `AND c.id = ${id}` : ``}
+    `);
+
+    return res.json({ status: 'ok', data: cars });
+});
+
 app.post('/getNames', async (req, res, next) => {
 
     const { search = '' } = req.body;

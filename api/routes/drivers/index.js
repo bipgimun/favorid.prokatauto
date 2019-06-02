@@ -55,9 +55,25 @@ const updateSchema = Joi.object({
 const { drivers: driversModel } = require('../../../models');
 
 app.post('/get', async (req, res, next) => {
+
     const drivers = await driversModel.get();
 
     return res.json({ status: 'ok', data: drivers })
+})
+
+app.post('/get/:id', async (req, res, next) => {
+
+    const { id } = req.params;
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    if (!Number(id))
+        throw new Error('Неверно указан id');
+
+    const [driver = {}] = await driversModel.get({ id });
+
+    return res.json({ status: 'ok', data: driver })
 })
 
 app.post('/add', async (req, res, next) => {

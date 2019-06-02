@@ -15,11 +15,11 @@ app.post('/get', async (req, res, next) => {
     return res.json({ status: 'ok', data: carsPrice });
 })
 
-app.post('/getOne', async (req, res, next) => {
+app.post('/get/:id', async (req, res, next) => {
 
-    const { id } = req.body;
+    const { id } = req.params;
 
-    if (!id)
+    if (!Number(id))
         throw new Error('Отсутствует id');
 
     const [carsPrice = {}] = await carsPriceModel.get({ id });

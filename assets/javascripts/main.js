@@ -13,8 +13,7 @@ $(document).ready(() => {
             $(this).show(300);
         },
         createdRow(row, data, dataIndex) {
-            console.log(data);
-            if (data['0'] === '1' && data[6] === '') {
+            if ((data['0'] === '1' || data['0'] === 'С водителем') && data[6] === '') {
                 $(row).css({ backgroundColor: 'orange' });
             }
         }

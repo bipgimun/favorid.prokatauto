@@ -18,6 +18,7 @@ module.exports = async (req, res, next) => {
 
     reservs.forEach(item => {
         item.status_name = statues[String(item.status)];
+        item.orange = item.has_driver == '1' && !item.driver_id;
     })
 
     const customers = await db.execQuery(`SELECT * FROM customers`);

@@ -5,6 +5,7 @@ $(document).ready(() => {
     });
 
     const $apartmentReservations = $('#js-apartmentReservations-form');
+    const $carReservations = $('#js-carReservations-form');
 
     $apartmentReservations.on('submit', async function (e) {
         e.preventDefault();
@@ -35,7 +36,7 @@ $(document).ready(() => {
         request('/api/clients/getOne', { id: val })
             .then(result => {
                 $apartmentReservations.find('[name=contact_number]').val(result.client.contact_number);
-                $('#js-carReservations-form').find('[name=contact_number]').val(result.client.contact_number);
+                $carReservations.find('[name=contact_number]').val(result.client.contact_number);
             })
     })
 
@@ -154,14 +155,14 @@ $(document).ready(() => {
             const $option = $this.find(`option[value=${val}]`);
             const { model, name } = $option.data();
             const { data: cars } = await request('/api/cars/get', { model, name });
-            const { data: price } = await request('/api/priceList/getOne', { id: val });
+            const { data: price } = await request('/api/price-list/get/' + val);
 
             carsState = cars;
 
             $('#js-carsListModal-select option:not([value=0])').val(null).trigger('change');
             $('#js-carsListModal-select option:not([value=0])').remove();
 
-            const prepayment = $('#js-carReservations-form').find('[name=prepayment]');
+            const prepayment = $carReservations.find('[name=prepayment]');
 
             prepayment.val(+prepayment.val() + +price.price_per_day);
 
@@ -181,7 +182,7 @@ $(document).ready(() => {
 
             const { data: itinerarie } = await request('/api/itineraries/getOne', { id: val });
 
-            const prepayment = $('#js-carReservations-form').find('[name=prepayment]');
+            const prepayment = $carReservations.find('[name=prepayment]');
 
             prepayment.val(+prepayment.val() + +itinerarie.price);
         })
@@ -229,9 +230,39 @@ $(document).ready(() => {
         request('/api/customers/getOne', { id: val })
             .then(result => {
                 $apartmentReservations.find('[name=discount]').val(result.data.discount);
-                $('#js-carReservations-form').find('[name=discount]').val(result.data.discount);
+                $carReservations.find('[name=discount]').val(result.data.discount);
             })
     })
+
+    $carReservations.find('select[name=driver_id]')
+        .select2({
+            dropdownParent: $('#add-products').length ? $('#add-products') : null
+        })
+        .on('select2:select', async function (e) {
+            const id = $(e.target).val();
+            const { data: driver } = await request(`/api/drivers/get/${id}`);
+
+            $carReservations.find('[name=car_id]').val('').trigger('change');
+            $carReservations.find('[name=class_name]').val('');
+
+            if (driver.car_id) {
+                const { data: car } = await request('/api/cars/get/' + driver.car_id);
+
+                const option = new Option(`${car.name} ${car.model} - ${car.number}`, car.id);
+
+
+                if(!$carReservations.find('[name=car_id]').find(`option[value=${car.id}]`).length) {
+                    $carReservations.find('[name=car_id]')
+                        .append(option);
+                }
+
+                $carReservations.find('[name=car_id]')
+                        .val(car.id)
+                        .trigger('change');
+                        
+                $carReservations.find('[name=class_name]').val(car.class_name);
+            }
+        })
 
     /*    Form    */
 

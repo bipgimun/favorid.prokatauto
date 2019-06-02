@@ -53,3 +53,18 @@
 
 -- изменить тип поля "номер" на строку для кассы/счета
 -- ALTER TABLE `cash_storages` CHANGE `number` `number` VARCHAR(255) NOT NULL;
+
+-- CREATE TABLE `invoices` (
+--   `id` int(11) NOT NULL,
+--   `customer_id` int(11) NOT NULL,
+--   `code` varchar(255) NOT NULL,
+--   `base_id` int(11) NOT NULL,
+--   `sum` decimal(11,2) NOT NULL,
+--   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `closed` timestamp NULL DEFAULT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ALTER TABLE `invoices`
+--   ADD PRIMARY KEY (`id`),
+--   ADD KEY `customer_id` (`customer_id`);
+-- ALTER TABLE `invoices`
+--   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
