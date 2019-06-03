@@ -81,12 +81,6 @@
                     </tr>
                     <tr>
                         <th colspan="4">
-                            <button class="btn btn-success">Сохранить</button>
-                            <button class="btn btn-info">Распечатать</button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th colspan="4">
                             <div class="date-header">
                                 <select id="js-salaryStatement-employee" name="master" class="form-control js-salaryStatement-loadTable">
                                     <option value="0" selected disabled>Водитель</option>
@@ -95,6 +89,18 @@
                                     {{/each}}
                                 </select>
                             </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            <button class="btn btn-primary js-detailing-cars-accept">Сформировать</button>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            <button class="btn btn-success">Сохранить</button>
+                            <button class="btn btn-info">Распечатать</button>
+                            <button class="js-detailing-cars-cancel btn btn-default">Отмена</button>
                         </th>
                     </tr>
                 </thead>
