@@ -64,20 +64,13 @@
                 <thead>
                    <tr>
                         <th colspan="4">
-                            <div class="date-header">
-                                <select class="form-control">
-                                    <option value="0" selected disabled>Водитель</option>
-                                    {{#each employees}}
-                                        <option value="{{id}}">{{last_name}} {{first_name}} {{middle_name}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
+                            <span>Водитель:</span><span> {{last_name}} {{first_name}} {{middle_name}}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <t colspan="4">
+                        <td colspan="4">
                             <span>Общая сумма:</span>
                             <span> руб.</span>
                         </td>
