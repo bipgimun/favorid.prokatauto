@@ -34,15 +34,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="#" target="_blank">Подробнее</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="#" target="_blank">Подробнее</a>
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -73,23 +73,26 @@
                         <th colspan="4">
                             <div class="date-header">
                                 <span>Отчет с</span>
-                                <input id="js-salaryStatement-leftDate" type="date" class="form-control date-from js-salaryStatement-loadTable">
+                                <input id="js-salaryStatement-leftDate" type="date"
+                                    class="form-control date-from js-salaryStatement-loadTable">
                                 <span>по </span>
-                                <input id="js-salaryStatement-rightDate" type="date" class="form-control date-to js-salaryStatement-loadTable">
+                                <input id="js-salaryStatement-rightDate" type="date"
+                                    class="form-control date-to js-salaryStatement-loadTable">
                             </div>
                         </th>
                     </tr>
                     <tr>
                         <th colspan="4">
-                            <button class="btn btn-success">Сохранить</button>
-                            <button class="btn btn-info">Распечатать</button>
+                            <button class="js-salaryStatement-save btn btn-success">Сохранить</button>
+                            <button class="js-salaryStatement-print btn btn-info">Распечатать</button>
                         </th>
                     </tr>
                     <tr>
                         <th colspan="4">
                             <div class="date-header">
-                                <select id="js-salaryStatement-employee" name="master" class="form-control js-salaryStatement-loadTable">
-                                    <option value="0" selected disabled>Водитель</option>
+                                <select id="js-salaryStatement-driver" name="master"
+                                    class="form-control js-salaryStatement-loadTable">
+                                    <option value="">По всем водителям</option>
                                     {{#each employees}}
                                         <option value="{{id}}">{{last_name}} {{first_name}} {{middle_name}}</option>
                                     {{/each}}
@@ -105,3 +108,4 @@
         </div>
     </div>
 </section>
+<script src="/assets/javascripts/salary-statement.js" defer></script>
