@@ -31,7 +31,7 @@
 </style>
 
 <header class="page-header">
-    <h2>Акты сверки</h2>
+    <h2>Документ № <span>ActS-{{id}}</span></h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -40,88 +40,22 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Акты сверки</span> <span class="separator"></span></li>
+            <li>
+                <span>Документ № <span>ActS-{{id}}</span></span> <span class="separator"></span>
+            </li>
         </ol>
     </div>
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-        <h2 class="panel-title">Сохраненные документы актов сверки</h2>
+        <h2 class="panel-title">Сохраненный документ сверки №<span> ActS-{{id}}</span> за
+            <span>{{toIsoString det.period_from 'DD.MM.YYYY'}} -
+                {{toIsoString det.period_end 'DD.MM.YYYY'}}</span> по контрагенту <span>ООО "ХУЙ В РОТ"</span></h2>
     </header>
     <div class="panel-body">
-        <div class="zag">
-            <h1>заглушка</h1>
-        </div>
-        <div class="table-responsive">
-            <table class="display table table-bordered table-striped table-condensed mb-none customize"
-                style="width:100%; display: none;">
-                <thead>
-                    <tr>
-                        <th>Дата формирования</th>
-                        <th>Номер</th>
-                        <th>Контрагент</th>
-                        <th>Подробнее</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each detailing}}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="#" target="_blank">Подробнее</a>
-                            </td>
-                        </tr>
-                    {{/each}}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Дата формирования</th>
-                        <th>Номер</th>
-                        <th>Контрагент</th>
-                        <th>Подробнее</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</section>
-
-<section class="panel">
-    <header class="panel-heading">
-        <h2 class="panel-title">Формирование акта</h2>
-    </header>
-
-    <div class="panel-body">
-
-        <div class="controls_details">
-            <div class="controls_details-child date-range_details col-md-6">
-                <p class="header-details">Временной период</p>
-                <div class="controls_details_date-range input-daterange input-group">
-                    <input type="date" class="form-control">
-                    <input type="date" class="form-control">
-                </div>
-            </div>
-
-            <div class="controls_details-child customer-control_details col-md-12">
-                <p class="header-details">Контрагент</p>
-                <div class="controls_details_date-range">
-                    <select  class="form-control">
-                        <option value="" disabled selected>Выберете контрагента</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="create_button col-md-12">
-            <button class="btn btn-primary">Сформировать</button>
-        </div>
         <div class="after_create-wrapper">
             <div class="save_and_print_buttons col-md-7">
-                <button class="btn btn-success">Сохранить</button>
-                <button class="btn btn-info">Распечатать</button>
-                <button class="btn btn-default">Отмена</button>
+                <button class="btn btn-default">Печать</button>
                 <br>
                 <br>
             </div>
@@ -202,6 +136,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="delete-btn-wrapper">
+            <button class="btn btn-danger js-tableEssence-remove">Удалить ведомость</button>
         </div>
     </div>
 </section>
