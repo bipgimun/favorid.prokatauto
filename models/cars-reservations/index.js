@@ -1,5 +1,30 @@
 const db = require('../../libs/db');
 
+class CarReservation {
+    id = '';
+    customer_id = '';
+    contact_number = '';
+    passenger_id = '';
+    rent_start = '';
+    rent_finished = '';
+    manager_id = '';
+    driver_id = '';
+    driver_name = '';
+    car_id = '';
+    class_name = '';
+    has_driver = '';
+    itinerarie_id = '';
+    driver_salary = '';
+    services = '';
+    prepayment = '';
+    discount = '';
+    comment = '';
+    sum = '';
+    status = '';
+    created_at = '';
+}
+
+/** @return {Promise<CarReservation[]>} asdasdasd */
 exports.get = ({
     id = '',
     ids = '',
@@ -7,6 +32,10 @@ exports.get = ({
     endPeriod = '',
     customer = '',
     hasDriver = '',
+    driver_id = '',
+    statuses = '',
+    closeLeft = '',
+    closeRight = '',
     isArchive = null
 } = {}) => {
     return db.execQuery(`
@@ -30,11 +59,27 @@ exports.get = ({
         WHERE
             cr.id > 0
             ${id ? `AND cr.id = ${id}` : ''}
+            ${driver_id ? `AND cr.driver_id = ${driver_id}` : ''}
             ${ids ? `AND cr.id IN (${ids})` : ''}
             ${fromPeriod ? `AND DATE(cr.created_at) >= '${fromPeriod}'` : ''}
             ${endPeriod ? `AND DATE(cr.created_at) <= '${endPeriod}'` : ''}
+            ${closeLeft ? `AND DATE(cr.close_at) >= DATE('${closeLeft}')` : ''}
+            ${closeRight ? `AND DATE(cr.close_at) <= DATE('${closeRight}')` : ''}
             ${customer ? `AND cr.customer_id = ${customer}` : ''}
             ${hasDriver ? `AND cr.has_driver = ${hasDriver}` : ''}
+            ${statuses ? `AND cr.status IN (${statuses})` : ''}
             ${isArchive === true ? `AND cr.status IN (2)` : ''}
     `);
 };
+
+exports.update = ({ id, values }) => {
+
+    if (!id)
+        throw new Error('missing id');
+
+    if (!Object.keys(values).length) {
+        throw new Error('Missing values');
+    }
+
+    return db.execQuery(`UPDATE cars_reservations SET ? WHERE id = ?`, [values, id]);
+}

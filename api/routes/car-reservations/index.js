@@ -53,7 +53,7 @@ const addScheme = Joi.object({
 const updateSchema = Joi.object({
     manager_id: Joi.number(),
     customer_id: Joi.number(),
-    discount: Joi.number().default(0).empty(''),
+    discount: Joi.number().empty(''),
     passenger_id: Joi.number(),
     contact_number: Joi.string(),
     driver_id: Joi.number().allow(''),
@@ -66,8 +66,8 @@ const updateSchema = Joi.object({
     prepayment: Joi.number().min(0),
     sum: Joi.number().min(0),
     comment: Joi.string().allow(''),
-    has_driver: Joi.number().default(0).valid([0, 1]),
-    driver_salary: Joi.number().min(0).default(0).empty(''),
+    has_driver: Joi.number().valid([0, 1]),
+    driver_salary: Joi.number().min(0).empty(''),
     status: Joi.number(),
 }).when(
     Joi.object({
@@ -166,9 +166,25 @@ app.post('/update', async (req, res, next) => {
     if (Object.keys(validValues).length < 1)
         throw new Error(messages.missingUpdateValues);
 
-    await db.execQuery(`UPDATE cars_reservations SET ? WHERE id = ?`, [validValues, id]);
+    if (validValues.status && validValues.status == 2) {
+        const [reserv] = await carsReservsModel.get({ id });
 
-    const [item = {}] = await carsReservsModel.get({ id });
+        if (!reserv)
+            throw new Error('Заявка не найдена');
+
+        if (reserv.has_driver == '1' && !reserv.driver_id) {
+            throw new Error('Нельзя завершить заявку с водителем без указания водителя');
+        }
+
+        validValues.close_at = new Date();
+    }
+
+    await carsReservsModel.update({ id, values: validValues });
+
+    const [item] = await carsReservsModel.get({ id });
+
+    if (!item)
+        throw new Error('Заявка не найдена');
 
     validValues.status_name = statues[validValues.status];
     item.rent_start = moment(item.rent_start).format('DD.MM.YYYY в HH:mm');

@@ -74,3 +74,6 @@
 
 -- очистка полей по price_id
 -- ALTER TABLE `cars_reservations` DROP `price_id`;
+
+-- добавление поля "дата завершения заявки";
+-- ALTER TABLE `cars_reservations` ADD `close_at` TIMESTAMP NULL DEFAULT NULL AFTER `created_at`;

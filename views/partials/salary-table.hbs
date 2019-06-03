@@ -11,16 +11,14 @@
     <th>Действие</th>
 </tr>
 {{#each details}}
-    <tr>
+    <tr class="js-tr">
         <td>{{date}}</td>
-        <td>{{description}}</td>
-        <td>{{round sum}}</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>22.05.2019</td>
-        <td><a href="#">Заявка №234</a></td>
-        <td>20000 руб.</td>
-        <td><a href="#">Удалить</a></td>
+        <td>
+            <a href="/car-reservation/{{id}}">{{description}}</a>
+        </td>
+        <td>{{round sum}} руб.</td>
+        <td>
+            <a href="javascript:void(0);">Удалить</a>
+        </td>
     </tr>
 {{/each}}

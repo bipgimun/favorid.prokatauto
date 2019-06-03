@@ -84,11 +84,11 @@
                     <tr>
                         <th colspan="4">
                             <div class="date-header">
-                                <select id="js-salaryStatement-driver" name="master"
+                                <select id="js-salaryStatement-driver" name="driver_id"
                                     class="form-control js-salaryStatement-loadTable">
                                     <option value="">По всем водителям</option>
-                                    {{#each employees}}
-                                        <option value="{{id}}">{{last_name}} {{first_name}} {{middle_name}}</option>
+                                    {{#each drivers}}
+                                        <option value="{{id}}">{{name}}</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -96,14 +96,14 @@
                     </tr>
                     <tr>
                         <th colspan="4">
-                            <button class="btn btn-primary js-detailing-cars-accept">Сформировать</button>
+                            <button class="btn btn-primary js-salaryStatement-accept">Сформировать</button>
                         </th>
                     </tr>
                     <tr>
                         <th colspan="4">
                             <button class="js-salaryStatement-save btn btn-success">Сохранить</button>
                             <button class="js-salaryStatement-print btn btn-info">Распечатать</button>
-                            <button class="js-detailing-cars-cancel btn btn-default">Отмена</button>
+                            <button class="js-salaryStatement-cancel btn btn-default">Отмена</button>
                         </th>
                     </tr>
                 </thead>

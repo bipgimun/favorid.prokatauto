@@ -40,7 +40,7 @@ app.use('/costs-categories', checkAuth, require('./routes/costs-categories'));
 app.use('/detailing-cars', checkAuth, require('./routes/detailing-cars'));
 app.use('/detailing-apartments', checkAuth, require('./routes/detailing-apartments'));
 app.use('/invoices', checkAuth, require('./routes/invoices'));
-app.post('/salaryStatement/getTable', checkAuth, require('./routes/salary-statement/getTable'));
+app.use('/salaryStatement', checkAuth, require('./routes/salary-statement'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));
