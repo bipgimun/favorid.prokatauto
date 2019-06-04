@@ -1,0 +1,112 @@
+<style>
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Выставленный счет</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Выставленный счет</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        {{#each invoices}}
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Подробнее о документе выставленного счета № {{id}}</h2>
+                </header>
+                <div class="panel-body js-editable-body">
+                    <form action="" class="form-horizontal mb-lg"
+                        novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Авто/квартиры</label>
+                            <div class="style-non-editable">
+                                {{this.desc}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Основание</label>
+                            <div class="non-editable-content">
+                                {{===== }}
+                            </div>
+                            <div class="editable-content">
+                                <select name="code" style="width: 100%" name="base_id" id="js-invoices-base-select">
+                                    <option></option>
+                                    {{#each groupDocuments}}
+                                        <optgroup label="{{this.label}}">
+                                            {{#each documents}}
+                                                <option value="{{code}}">{{code}}</option>
+                                            {{/each}}
+                                        </optgroup>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Общая сумма</label>
+                            <div class="style-non-editable">
+                                {{this.sum}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Остаток</label>
+                            <div class="style-non-editable">
+                                {{===== }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 text-right editable-content">
+                            <button class="btn btn-success">Сохранить</button>
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                        <button data-id="{{id}}" data-target="invoices"
+                            class="btn btn-danger js-tableEssence-remove">Удалить</button>
+                    </div>
+                </div>
+            </section>
+        {{/each}}
+    </div>
+</section>
