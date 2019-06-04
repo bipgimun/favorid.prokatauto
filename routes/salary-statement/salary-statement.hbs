@@ -22,7 +22,7 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table class="display table table-bordered table-striped table-condensed mb-none customize"
+            <table id="js-salaryStatement-listTable" class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none;">
                 <thead>
                     <tr>
@@ -34,15 +34,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="#" target="_blank">Подробнее</a>
-                        </td>
-                    </tr>
+                    {{#each reports}}
+                        <tr>
+                            <td>{{toIsoString created_at 'DD.MM.YYYY'}}</td>
+                            <td>{{id}}</td>
+                            <td>{{ifTrue driver_name driver_name 'По всем водителям'}}</td>
+                            <td>{{sum}}</td>
+                            <td>
+                                <a href="/salary-statement/{{id}}" target="_blank">Подробнее</a>
+                            </td>
+                        </tr>
+                    {{/each}}
                 </tbody>
                 <tfoot>
                     <tr>
