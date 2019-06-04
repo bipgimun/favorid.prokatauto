@@ -77,3 +77,30 @@
 
 -- добавление поля "дата завершения заявки";
 -- ALTER TABLE `cars_reservations` ADD `close_at` TIMESTAMP NULL DEFAULT NULL AFTER `created_at`;
+
+-- добавление таблицы зарплатных отчётов
+-- CREATE TABLE `salary_reports` (
+--   `id` int(11) NOT NULL,
+--   `period_left` date NOT NULL,
+--   `period_right` date NOT NULL,
+--   `driver_id` int(11) DEFAULT NULL,
+--   `sum` decimal(11,2) NOT NULL,
+--   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE `salary_reports` ADD PRIMARY KEY(`id`);
+-- ALTER TABLE `salary_reports` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+
+-- добавление таблицы детализации отчёта
+-- CREATE TABLE `salary_reports_details` (
+--   `id` int(11) NOT NULL,
+--   `report_id` int(11) NOT NULL,
+--   `reserv_id` int(11) NOT NULL,
+--   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE `salary_reports_details`
+--   ADD PRIMARY KEY (`id`);
+
+-- ALTER TABLE `salary_reports_details`
+--   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

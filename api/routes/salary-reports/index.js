@@ -14,10 +14,11 @@ const Joi = require('joi');
 const db = require('../../../libs/db');
 
 const printSchema = Joi.object({
-    leftDate: Joi.date().iso().required(),
-    rightDate: Joi.date().iso().required(),
+    leftDate: Joi.date().iso().default(null),
+    rightDate: Joi.date().iso().default(null),
     driver_id: Joi.string().allow('').default(null),
-    ids: Joi.string().required(),
+    report_id: Joi.number(),
+    ids: Joi.string(),
 });
 
 const saveReportSchema = Joi.object({
@@ -27,13 +28,37 @@ const saveReportSchema = Joi.object({
     ids: Joi.string().required(),
 })
 
-router.post('/getTable', require('./getTable'));
+router.post('/delete', async (req, res, next) => {
+    const { id } = req.body;
+
+    if (!id)
+        throw new Error('Отсутствует id');
+
+    await db.execQuery(`DELETE FROM salary_reports WHERE id = ?`, [id]);
+
+    return res.json({ status: 'ok' });
+})
 
 router.get('/print', async (req, res, next) => {
 
-    const safeValues = await printSchema.validate(req.query);
+    let safeValues = await printSchema.validate(req.query);
 
-    const { leftDate, rightDate, driver_id, ids } = safeValues;
+    if (safeValues.report_id) {
+        const [report] = await db.execQuery('SELECT * FROM salary_reports WHERE id = ?', [safeValues.report_id]);
+
+        if (!report)
+            throw new Error('Отчёт не найден');
+
+        const details = await db.execQuery(`SELECT * FROM salary_reports_details WHERE report_id = ?`, [report.id]);
+        const ids = details.map(detail => detail.reserv_id).join(',');
+
+        report.leftDate = report.period_left;
+        report.rightDate = report.period_right;
+
+        safeValues = { ...report, ids };
+    }
+
+    const { leftDate, rightDate, ids } = safeValues;
 
     const period = `${moment(leftDate).format(format)} - ${moment(rightDate).format(format)}`;
 
@@ -75,33 +100,5 @@ router.get('/print', async (req, res, next) => {
         fs.unlinkSync(path.join(process.cwd(), 'uploads', file));
     });
 });
-
-router.post('/saveReport', async (req, res, next) => {
-
-    const { ids, ...validValues } = await saveReportSchema.validate(req.body);
-
-    const reservs = await carsReservsModel.get({ ids });
-    const sum = reservs.map(reserv => +reserv.driver_salary)
-        .reduce((acc, value) => (acc + value), 0);
-
-    const id = await db.insertQuery(`INSERT INTO salary_reports SET ?`, [{ ...validValues, sum }]);
-
-    const [report = {}] = await db.execQuery(`
-        SELECT sr.*,
-            d.name as driver_name
-        FROM salary_reports sr
-            LEFT JOIN drivers d ON d.id = sr.driver_id
-        WHERE sr.id = ?`, [id]
-    );
-
-    for (const reserv_id of ids.split(',')) {
-        await db.insertQuery(`INSERT INTO salary_reports_details SET ?`, { report_id: id, reserv_id });
-    }
-
-    report.created_at = moment(report.created_at).format(format);
-    report.driver_name = report.driver_name ? report.driver_name : 'По всем водителям';
-
-    res.json({ status: 'ok', body: report });
-})
 
 module.exports = router;

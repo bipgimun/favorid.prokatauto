@@ -49,30 +49,29 @@
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
         <h2 class="panel-title">Сохраненный документ ведомости №<span> ZPV-{{id}}</span> за
-            <span>{{toIsoString det.period_from 'DD.MM.YYYY'}} -
-                {{toIsoString det.period_end 'DD.MM.YYYY'}}</span></h2>
+            <span>{{toIsoString det.period_left 'DD.MM.YYYY'}} -
+                {{toIsoString det.period_right 'DD.MM.YYYY'}}</span></h2>
     </header>
     <div class="panel-body">
         <div class="after_create-wrapper">
             <div class="save_and_print_buttons col-md-7">
-                <button data-id="{{id}}" class="js-detailing-cars-view-print btn btn-default">Печать</button>
+                <button data-id="{{id}}" class="btn btn-default" onclick="window.open('/api/salary-reports/print?report_id={{id}}')">Печать</button>
                 <br>
                 <br>
             </div>
 
             <table class="table table-bordered table-striped mb-none">
                 <thead>
-                   <tr>
+                    <tr>
                         <th colspan="4">
-                            <span>Водитель:</span><span> {{last_name}} {{first_name}} {{middle_name}}</span>
+                            <span>Водитель:</span><span> {{det.driver_name}}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td colspan="4">
-                            <span>Общая сумма:</span>
-                            <span> руб.</span>
+                            <span>Общая сумма: {{det.sum}}</span> <span> руб.</span>
                         </td>
                     </tr>
                     <tr>
@@ -81,23 +80,25 @@
                         <th>Сумма, руб.</th>
                         <th>Действие</th>
                     </tr>
-                    <tr data-id="{{id}}">
-                        <td>{{toIsoString rent_start 'DD.MM.YYYY'}} - {{toIsoString rent_finished 'DD.MM.YYYY'}}
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    {{#each details}}
+                        <tr data-id="{{id}}">
+                            <td>
+                                {{toIsoString created 'DD.MM.YYYY'}}
+                            </td>
+                            <td>Заявка №{{reserv_id}}</td>
+                            <td>{{driver_salary}}</td>
+                            <td>
+                                <a href="/car-reservation/{{reserv_id}}" target="_blank">Открыть</a>
+                            </td>
+                        </tr>
+                    {{/each}}
                 </tbody>
 
             </table>
         </div>
         <div class="delete-btn-wrapper">
-            <button class="btn btn-danger js-tableEssence-remove" data-id="{{id}}" data-target="detailing-cars">Удалить ведомость</button>
+            <button class="btn btn-danger js-tableEssence-remove" data-id="{{id}}" data-target="salary-reports">Удалить
+                ведомость</button>
         </div>
     </div>
 </section>
-<div style="display: none">
-    <p id="js-reservs-data">{{stringify reservs}}</p>
-</div>

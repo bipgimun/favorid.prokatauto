@@ -41,6 +41,7 @@ app.use('/detailing-cars', checkAuth, require('./routes/detailing-cars'));
 app.use('/detailing-apartments', checkAuth, require('./routes/detailing-apartments'));
 app.use('/invoices', checkAuth, require('./routes/invoices'));
 app.use('/salaryStatement', checkAuth, require('./routes/salary-statement'));
+app.use('/salary-reports', checkAuth, require('./routes/salary-reports'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));
