@@ -6,6 +6,17 @@ exports.get = ({
     fromPeriod = '',
     endPeriod = '',
     customer = '',
+    rentStart = '',
+    rentFinished = '',
+    
+    rentStartGt = '',
+    rentStartLt = '',
+
+    rentFinishedGt = '',
+    rentFinishedLt = '',
+
+
+    statuses = '',
     isArchive = null
 }) => {
     return db.execQuery(`
@@ -26,6 +37,18 @@ exports.get = ({
             ${ids ? `AND ar.id IN (${ids})` : ''}
             ${fromPeriod ? `AND DATE(ar.created_at) >= '${fromPeriod}'` : ''}
             ${endPeriod ? `AND DATE(ar.created_at) <= '${endPeriod}'` : ''}
+
+            ${statuses ? `AND ar.status IN (${statuses})` : ''}
+            
+            ${rentStart ? `AND ar.entry >= '${rentStart}'` : ''}
+            ${rentFinished ? `AND ar.departure <= '${rentFinished}'` : ''}
+            
+            ${rentStartGt ? `AND ar.entry >= '${rentStartGt}'` : ''}
+            ${rentStartLt ? `AND ar.entry <= '${rentStartLt}'` : ''}
+            
+            ${rentFinishedGt ? `AND ar.departure >= '${rentFinishedGt}'` : ''}
+            ${rentFinishedLt ? `AND ar.departure <= '${rentFinishedLt}'` : ''}
+
             ${customer ? `AND ar.customer_id = ${customer}` : ''}
             ${isArchive === true ? `AND ar.status IN (3)` : ''}
     `);

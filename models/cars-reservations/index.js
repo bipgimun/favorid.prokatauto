@@ -36,8 +36,15 @@ exports.get = ({
     statuses = '',
     closeLeft = '',
     closeRight = '',
+    rentStart = '',
+    rentFinished = '',
+    rentStartGt = '',
+    rentStartLt = '',
+    rentFinishedGt = '',
+    rentFinishedLt = '',
     isArchive = null
 } = {}) => {
+
     return db.execQuery(`
          SELECT cr.*,
             c.name as car_name,
@@ -63,6 +70,16 @@ exports.get = ({
             ${ids ? `AND cr.id IN (${ids})` : ''}
             ${fromPeriod ? `AND DATE(cr.created_at) >= '${fromPeriod}'` : ''}
             ${endPeriod ? `AND DATE(cr.created_at) <= '${endPeriod}'` : ''}
+            
+            ${rentStart ? `AND cr.rent_start >= '${rentStart}'` : ''}
+            ${rentFinished ? `AND cr.rent_finished <= '${rentFinished}'` : ''}
+            
+            ${rentStartGt ? `AND cr.rent_start >= '${rentStartGt}'` : ''}
+            ${rentStartLt ? `AND cr.rent_start <= '${rentStartLt}'` : ''}
+            
+            ${rentFinishedGt ? `AND cr.rent_finished >= '${rentFinishedGt}'` : ''}
+            ${rentFinishedLt ? `AND cr.rent_finished <= '${rentFinishedLt}'` : ''}
+            
             ${closeLeft ? `AND DATE(cr.close_at) >= DATE('${closeLeft}')` : ''}
             ${closeRight ? `AND DATE(cr.close_at) <= DATE('${closeRight}')` : ''}
             ${customer ? `AND cr.customer_id = ${customer}` : ''}

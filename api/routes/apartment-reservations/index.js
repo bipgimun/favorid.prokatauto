@@ -44,6 +44,7 @@ const updateSchema = Joi.object({
     discount: Joi.number(),
     comment: Joi.string().allow(''),
     sum: Joi.number(),
+    status: Joi.number(),
     entry: Joi.string(),
     departure: Joi.string(),
 })

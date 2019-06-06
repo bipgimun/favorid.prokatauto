@@ -1,0 +1,137 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Акты сверки</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Акты сверки</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Сохраненные документы актов сверки</h2>
+    </header>
+    <div class="panel-body">
+        <div class="zag">
+            <h1>заглушка</h1>
+        </div>
+        <div class="table-responsive">
+            <table class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none;">
+                <thead>
+                    <tr>
+                        <th>Дата формирования</th>
+                        <th>Номер</th>
+                        <th>Контрагент</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each documents}}
+                        <tr>
+                            <td>{{toIsoString created_at 'DD.MM.YYYY'}}</td>
+                            <td>{{id}}</td>
+                            <td>{{customer_name}}</td>
+                            <td>
+                                <a href="#" target="_blank">Подробнее</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Дата формирования</th>
+                        <th>Номер</th>
+                        <th>Контрагент</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Формирование акта</h2>
+    </header>
+
+    <div class="panel-body">
+
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-6">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input type="date" class="js-actSverki-periodLeft form-control">
+                    <input type="date" class="js-actSverki-periodRight form-control">
+                </div>
+            </div>
+
+            <div class="controls_details-child customer-control_details col-md-12">
+                <p class="header-details">Контрагент</p>
+                <div class="controls_details_date-range">
+                    <select class="form-control js-actSverki-customer">
+                        <option value="" disabled selected>Выберете контрагента</option>
+                        {{#each customers}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="create_button col-md-12">
+            <button class="js-actSverki-accept btn btn-primary">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button class="js-actSverki-save btn btn-success">Сохранить</button>
+                <button class="js-actSverki-print btn btn-info">Распечатать</button>
+                <button class="js-actSverki-cancel btn btn-default">Отмена</button>
+                <br>
+                <br>
+            </div>
+
+            <table class="js-actSverki-table table table-bordered table-striped mb-none">
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="/assets/javascripts/act-sverki.js"></script>

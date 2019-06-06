@@ -104,3 +104,19 @@
 
 -- ALTER TABLE `salary_reports_details`
 --   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- таблица актов сверки
+-- CREATE TABLE `act_sverki_documents` (
+--   `id` int(11) NOT NULL,
+--   `customer_id` int(11) NOT NULL,
+--   `period_left` date NOT NULL,
+--   `period_right` date NOT NULL,
+--   `sum` decimal(11,2) NOT NULL,
+--   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE `act_sverki_documents`
+--   ADD PRIMARY KEY (`id`);
+
+-- ALTER TABLE `act_sverki_documents`
+--   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

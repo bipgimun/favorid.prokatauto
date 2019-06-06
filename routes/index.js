@@ -21,5 +21,6 @@ router.use('/detailing-apartments', require('./detailing-apartments'));
 router.use('/invoices', require('./invoices'));
 
 router.use('/salary-statement', require('./salary-statement'));
+router.use('/act-sverki', require('./act-sverki'));
 
 module.exports = router;
