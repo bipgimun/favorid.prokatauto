@@ -3,8 +3,13 @@ var excel = require('excel4node');
 const path = require('path');
 
 module.exports = ({
-    saldoSum = 57149.83,
+    saldoSum = 0,
     dataArray = [],
+    period_left = '',
+    period_right = '',
+    customer = {},
+    currentDate = '',
+    saldoDate = ''
 } = {}) => {
 
     return new Promise((resolve, reject) => {
@@ -20,7 +25,7 @@ module.exports = ({
         });
 
         // Add Worksheets to the workbook
-        var ws = wb.addWorksheet('Sheet 1');
+        var ws = wb.addWorksheet('Лист 1');
 
         const titleStyle = {
             font: {
@@ -142,13 +147,12 @@ module.exports = ({
         ws.row(5).setHeight(38);
 
         ws.cell(1, 1, 1, 8, true).string(`Акт сверки`).style({ ...titleStyle })
-        ws.cell(2, 1, 2, 8, true).string(`Взаимных рассчётов по состоянию на`).style({ ...font12, ...hCenter });
-        ws.cell(3, 1, 3, 8, true).string(`между ИП Орехова Мария Юрьевна и`).style({ ...font12, ...hCenter });
-        ws.cell(3, 1, 3, 8, true).string(`между ИП Орехова Мария Юрьевна и`).style({ ...font12, ...hCenter });
-        ws.cell(4, 1, 4, 8, true).string(`3 декабря 2018`).style({ font: { size: 10, bold: true } });
-        ws.cell(5, 1, 5, 8, true).string(`Мы, нижеподписавшиеся, ИП Орехова Мария Юрьевна с одной стороны и ООО "РОКЕТ ПИЦЦА УРАЛ" с другой стороны составили настоящий акт сверки в том, что состояние взаимных расчетов по данным учета следующее: между ИП Орехова Мария Юрьевна и ООО "РОКЕТ ПИЦЦА УРАЛ"`).style({ alignment: { wrapText: true, vertical: 'center' } });
+        ws.cell(2, 1, 2, 8, true).string(`Взаимных рассчётов по состоянию на ${period_right}`).style({ ...font12, ...hCenter });
+        ws.cell(3, 1, 3, 8, true).string(`между ИП Орехова Мария Юрьевна и ${customer.name}`).style({ ...font12, ...hCenter });
+        ws.cell(4, 1, 4, 8, true).string(`${currentDate}`).style({ font: { size: 10, bold: true } });
+        ws.cell(5, 1, 5, 8, true).string(`Мы, нижеподписавшиеся, ИП Орехова Мария Юрьевна с одной стороны и ${customer.name} с другой стороны составили настоящий акт сверки в том, что состояние взаимных расчетов по данным учета следующее: между ИП Орехова Мария Юрьевна и ${customer.name}`).style({ alignment: { wrapText: true, vertical: 'center' } });
         ws.cell(6, 1, 6, 4, true).string('По данным ИП Орехова Мария Юрьевна, руб.').style({ ...aroundBorder });
-        ws.cell(6, 5, 6, 8, true).string('По данным ООО "РОКЕТ ПИЦЦА УРАЛ", руб.').style({ ...aroundBorder });
+        ws.cell(6, 5, 6, 8, true).string(`По данным ${customer.name}, руб.`).style({ ...aroundBorder });
 
         ws.cell(7, 1).string(`№ п/п`).style({ ...thStyle, ...aroundBorder, alignment: { ...wrapTrue, ...alignCenter } });
         ws.cell(7, 2).string(`Наименование операции, документы`).style({ ...thStyle, ...aroundBorder, alignment: { ...wrapTrue, ...alignCenter } });
@@ -165,25 +169,19 @@ module.exports = ({
         let totalDebet = 0;
         let totalCredit = 0;
 
+        ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
+
+        ws.cell(row, 2).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText });
+        ws.cell(row, 3).string(`${saldoSum}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
+
+        ws.cell(row, 6).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText, });
+        ws.cell(row, 8).string(`${saldoSum}`).style({ ...smallText, ...hRight });
+
+        row++;
+
         dataArray.forEach((data, index) => {
 
             ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
-
-            if (index === 0) {
-                ws.cell(row, 1).string('').style({ ...smallText })
-                ws.cell(row, 2).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText });
-                ws.cell(row, 3).string(`${saldoSum}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
-                ws.cell(row, 3).string('').style({ ...smallText, ...hRight });
-                ws.cell(row, 4).string('').style({ ...smallText, ...hRight });
-                ws.cell(row, 5).string('').style({ ...smallText, ...hRight });
-                ws.cell(row, 6).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText, });
-                ws.cell(row, 7).string('').style({ ...smallText, ...hRight });
-                ws.cell(row, 8).string(`${saldoSum}`).style({ ...smallText, ...hRight });
-
-
-                row++;
-                return;
-            }
 
             ws.cell(row, 1).string(`${index + 1}`).style({ ...smallText });
             ws.cell(row, 2).string(`${data[0]}`).style({ ...smallText });
@@ -213,10 +211,10 @@ module.exports = ({
 
         row++;
 
-        ws.cell(row, 2).string(`Остаток (Сальдо) на 30.11.2018`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 2).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
         ws.cell(row, 3).string(`${saldoSum - (totalDebet - totalCredit)}`).style({ font: { size: 10, bold: true } });
 
-        ws.cell(row, 6).string(`Остаток (Сальдо) на 30.11.2018`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 6).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
         ws.cell(row, 8).string(`${saldoSum - (totalDebet - totalCredit)}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
@@ -224,7 +222,7 @@ module.exports = ({
         row++;
 
         ws.cell(row, 1, row, 2, true).string('По данным ИП Орехова Мария Юрьевна').style({ ...smallText });
-        ws.cell(row, 5, row, 6, true).string('По данным ООО "РОКЕТ ПИЦЦА УРАЛ"').style({ ...smallText });
+        ws.cell(row, 5, row, 6, true).string(`По данным ${customer.name}`).style({ ...smallText });
 
         row++;
 
@@ -232,24 +230,24 @@ module.exports = ({
 
         row++;
 
-        ws.cell(row, 1, row, 4, true).string(`на 30.11.2018 задолженность в пользу ИП Орехова Мария Юрьевна 54 248,77 руб.`)
+        ws.cell(row, 1, row, 4, true).string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
-        ws.cell(row, 5, row, 8, true).string(`на 30.11.2018 задолженность в пользу ИП Орехова Мария Юрьевна 54 248,77 руб.`)
+        ws.cell(row, 5, row, 8, true).string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         row++;
 
         ws.row(row).setHeight(40);
 
-        ws.cell(row, 1, row, 8, true).string(`Просим подписать акт не позднее 30 календарных дней с даты составления и отправить его ИП Орехова Мария Юрьевна. Задолженность по акту, не подписанному в течение этого времени, считается подтвержденной со стороны ООО "РОКЕТ ПИЦЦА УРАЛ".`)
+        ws.cell(row, 1, row, 8, true).string(`Просим подписать акт не позднее 30 календарных дней с даты составления и отправить его ИП Орехова Мария Юрьевна. Задолженность по акту, не подписанному в течение этого времени, считается подтвержденной со стороны ${customer.name}.`)
             .style({ font: { size: 10 }, alignment: { ...wrapTrue, vertical: 'top' } });
 
         row++;
 
         ws.cell(row, 1, row, 2, true).string('От ИП Орехова Мария Юрьевна')
             .style({ font: { size: 10 } });
-        ws.cell(row, 5, row, 6, true).string('От ООО "РОКЕТ ПИЦЦА УРАЛ"')
+        ws.cell(row, 5, row, 6, true).string(`От ${customer.name}`)
             .style({ font: { size: 10 } });
 
         row++;

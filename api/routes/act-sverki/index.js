@@ -14,6 +14,7 @@ const moment = require('moment');
 const {
     carsReservsModel,
     apartmentsReservsModel,
+    customersModel,
 } = require('../../../models')
 
 const printSchema = Joi.object({
@@ -75,9 +76,45 @@ router.post('/getTable', async (req, res, next) => {
 });
 
 router.get('/print', async function (req, res, next) {
-    const data = await printSchema.validate(req.query);
 
-    const file = await printAct();
+    const { period_left, period_right, customer_id } = await printSchema.validate(req.query);
+
+    const [customer] = await customersModel.get({ id: customer_id });
+
+    if (!customer)
+        throw new Error('Заказчик отсутствует');
+
+    moment.locale('ru');
+
+    const {
+        money,
+        positions,
+        moneyIncome,
+        positionsGone,
+        positionsIncome,
+        totalSum,
+        moneyGone } = await calcTable({ period_left, period_right, customer_id });
+
+    const {
+        totalSum: saldoSum } = await calcTable({
+            period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'),
+            customer_id
+        });
+
+    const totalIncome = +moneyIncome + +positionsIncome;
+    const totalGone = +moneyGone + +positionsGone;
+
+    const total = saldoSum + totalIncome - totalGone;
+    const saldoDate = moment(period_left).subtract(1, 'day').format('DD.MM.YYYY');
+
+    const currentDate = moment(new Date()).format('DD MMMM YYYY');
+
+    const dataArray = [...money, ...positions].map((item) => {
+        const { title, income, gone } = item;
+        return [title, income !== '--' ? income : '', gone !== '--' ? gone : ''];
+    });
+
+    const file = await printAct({ customer, currentDate, saldoSum, dataArray, saldoDate, period_left: moment(period_left).format('DD.MM.YYYY'), period_right: moment(period_right).format('DD.MM.YYYY') });
 
     res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
         fs.unlinkSync(path.join(process.cwd(), 'uploads', file));

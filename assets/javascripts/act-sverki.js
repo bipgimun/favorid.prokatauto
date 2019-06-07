@@ -32,6 +32,10 @@ $(document).ready(function () {
         const period_right = $periodRight.val();
         const customer_id = $customer.val();
 
+        if (!period_left || !period_right || !customer_id) {
+            return alert('Выбраны не все поля');
+        }
+
         const query = $.param({
             period_left,
             period_right,
