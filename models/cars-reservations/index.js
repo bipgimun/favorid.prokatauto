@@ -1,27 +1,30 @@
 const db = require('../../libs/db');
 
 class CarReservation {
-    id = '';
-    customer_id = '';
-    contact_number = '';
-    passenger_id = '';
-    rent_start = '';
-    rent_finished = '';
-    manager_id = '';
-    driver_id = '';
-    driver_name = '';
-    car_id = '';
-    class_name = '';
-    has_driver = '';
-    itinerarie_id = '';
-    driver_salary = '';
-    services = '';
-    prepayment = '';
-    discount = '';
-    comment = '';
-    sum = '';
-    status = '';
-    created_at = '';
+    constructor() {
+        this.id = '';
+        this.customer_id = '';
+        this.contact_number = '';
+        this.passenger_id = '';
+        this.rent_start = '';
+        this.rent_finished = '';
+        this.manager_id = '';
+        this.driver_id = '';
+        this.driver_name = '';
+        this.car_id = '';
+        this.class_name = '';
+        this.has_driver = '';
+        this.itinerarie_id = '';
+        this.driver_salary = '';
+        this.services = '';
+        this.prepayment = '';
+        this.discount = '';
+        this.comment = '';
+        this.sum = '';
+        this.status = '';
+        this.created_at = '';
+    }
+
 }
 
 /** @return {Promise<CarReservation[]>} asdasdasd */
