@@ -12,6 +12,13 @@ $(document).ready(function () {
     $cancel.on('click', onCancel);
     $print.on('click', onPrint);
 
+
+    $save.on('click', onSave);
+
+    function onSave() {
+        
+    }
+
     async function onAccept() {
 
         const period_left = $periodLeft.val();

@@ -88,23 +88,14 @@ router.get('/print', async function (req, res, next) {
 
     const {
         money,
-        positions,
-        moneyIncome,
-        positionsGone,
-        positionsIncome,
-        totalSum,
-        moneyGone } = await calcTable({ period_left, period_right, customer_id });
+        positions } = await calcTable({ period_left, period_right, customer_id });
 
     const {
         totalSum: saldoSum } = await calcTable({
+            customer_id,
             period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'),
-            customer_id
         });
 
-    const totalIncome = +moneyIncome + +positionsIncome;
-    const totalGone = +moneyGone + +positionsGone;
-
-    const total = saldoSum + totalIncome - totalGone;
     const saldoDate = moment(period_left).subtract(1, 'day').format('DD.MM.YYYY');
 
     const currentDate = moment(new Date()).format('DD MMMM YYYY');
@@ -146,7 +137,7 @@ async function calcTable({ period_left = '', period_right, customer_id }) {
         ? `date BETWEEN '${dateGt}' AND '${dateLt}'`
         : `date <= '${dateLt}'`;
 
-    const incomes = await db.execQuery(`SELECT * FROM incomes WHERE ${date}`);
+    const incomes = await db.execQuery(`SELECT * FROM incomes WHERE ${date} AND customer_id = ${customer_id}`);
 
     const positions = [];
     const money = [];

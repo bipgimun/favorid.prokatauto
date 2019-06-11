@@ -12,6 +12,7 @@ const addScheme = Joi.object({
     base_other: Joi.string(),
     sum: Joi.number().required(),
     cash_storage_id: Joi.number().integer().required(),
+    customer_id: Joi.number(),
     comment: Joi.string().allow('')
 }).xor('base_id', 'base_other');
 
@@ -20,6 +21,7 @@ const updateScheme = Joi.object({
     cash_storage_id: Joi.number().integer().empty([null, '']),
     sum: Joi.number().empty([null, '']),
     comment: Joi.string().allow(''),
+    customer_id: Joi.number(),
     id: Joi.number().required()
 }).or('date', 'cash_storage_id', 'sum', 'comment');
 

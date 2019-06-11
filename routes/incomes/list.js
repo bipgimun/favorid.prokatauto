@@ -1,6 +1,6 @@
 const db = require('../../libs/db');
 
-const { invoicesModel } = require('../../models');
+const { invoicesModel, customersModel } = require('../../models');
 
 module.exports = async (req, res, next) => {
 
@@ -24,9 +24,12 @@ module.exports = async (req, res, next) => {
         { label: 'Счета для оплаты', documents: invoices, },
     ];
 
+    const customers = await customersModel.get();
+
     res.render(__dirname + '/incomes-list', {
         incomes,
         groupDocuments,
-        cashStorages
+        cashStorages,
+        customers
     });
 }

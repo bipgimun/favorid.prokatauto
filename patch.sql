@@ -120,3 +120,6 @@
 
 -- ALTER TABLE `act_sverki_documents`
 --   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- добавление заказчика в приходах
+-- ALTER TABLE `incomes` ADD `customer_id` INT NULL DEFAULT NULL AFTER `cash_storage_id`;
