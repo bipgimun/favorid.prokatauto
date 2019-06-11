@@ -123,3 +123,28 @@
 
 -- добавление заказчика в приходах
 -- ALTER TABLE `incomes` ADD `customer_id` INT NULL DEFAULT NULL AFTER `cash_storage_id`;
+
+-- добавление saldo в документы актов
+-- ALTER TABLE `act_sverki_documents` ADD `saldo` DECIMAL(11,2) NOT NULL DEFAULT '0' AFTER `period_right`;
+
+-- создание таблицы для детализации документа акта
+-- CREATE TABLE `act_sverki_documents_details` (
+--   `id` int(11) NOT NULL,
+--   `title` varchar(255) NOT NULL,
+--   `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+--   `income` decimal(11,2) DEFAULT NULL,
+--   `gone` decimal(11,2) DEFAULT NULL,
+--   `document_id` int(11) NOT NULL,
+--   `base_id` int(11) NOT NULL,
+--   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE `act_sverki_documents_details`
+--   ADD PRIMARY KEY (`id`),
+--   ADD KEY `document_id` (`document_id`);
+
+-- ALTER TABLE `act_sverki_documents_details`
+--   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- ALTER TABLE `act_sverki_documents_details`
+--   ADD CONSTRAINT `act_sverki_documents_details_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `act_sverki_documents` (`id`) ON DELETE CASCADE;
