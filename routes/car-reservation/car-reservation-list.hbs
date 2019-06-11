@@ -31,13 +31,14 @@
                 style="width:100%; display: none">
                 <thead>
                     <tr>
-                        <th>С водителем/без</th>
-                        <th>Менеджер</th>
-                        <th>Номер</th>
-                        <th>Дата заказа</th>
-                        <th>Заказчик</th>
-                        <th>Пассажир</th>
                         <th>Водитель</th>
+                        <th>Начало аренды</th>
+                        <!--<th>Номер</th>-->
+                        <th>Маршрут</th>
+                        <!--<th>Дата заказа</th>-->
+                        <!--<th>Заказчик</th> -->
+                        <th>Пассажир</th>
+                        <!--<th>Водитель</th>-->
                         <th>Статус</th>
                         <th>Подробнее</th>
                     </tr>
@@ -46,12 +47,13 @@
                     {{#each reservs}}
                         <tr style="{{compare orange 1 'background-color: orange' ''}}">
                             <td>{{compare has_driver '1' 'С водителем' 'Без водителя'}}</td>
-                            <td>{{manager_name}}</td>
-                            <td>{{this.id}}</td>
-                            <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
-                            <td>{{this.customer_name}}</td>
+                            <td>{{toIsoString this.rent_start 'DD.MM.YYYY HH:mm'}}</td>
+                            <!--<td>{{this.id}}</td>-->
+                            <td>{{this.itinerarie_name}}</td>
+                            <!--<td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td> -->
+                            <!--<td>{{this.customer_name}}</td>-->
                             <td>{{this.passenger_name}}</td>
-                            <td>{{this.driver_name}}</td>
+                            <!--<td>{{this.driver_name}}</td>-->
                             <td>{{this.status_name}}</td>
                             <td>
                                 <a href="/car-reservation/{{this.id}}" target="_blank">Подробнее</a>
@@ -61,13 +63,14 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>С водителем/без</th>
-                        <th>Менеджер</th>
-                        <th>Номер</th>
-                        <th>Дата заказа</th>
-                        <th>Заказчик</th>
-                        <th>Пассажир</th>
                         <th>Водитель</th>
+                        <th>Начало аренды</th>
+                        <!--<th>Номер</th>-->
+                        <th>Маршрут</th>
+                        <!--<th>Дата заказа</th>-->
+                        <!--<th>Заказчик</th>-->
+                        <th>Пассажир</th>
+                        <!--<th>Водитель</th>-->
                         <th>Статус</th>
                         <th>Подробнее</th>
                     </tr>
