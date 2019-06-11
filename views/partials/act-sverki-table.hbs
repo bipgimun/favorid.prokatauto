@@ -7,7 +7,7 @@
     <th>Списано, р</th>
 </tr>
 {{#each positions}}
-    <tr>
+    <tr class="js-act-data-row" data-gone="{{gone}}">
         <td>{{title}}</td>
         <td>{{income}}</td>
         <td>{{gone}}</td>
@@ -27,7 +27,7 @@
     <th colspan="3">ДЕНЬГИ</th>
 </tr>
 {{#each money}}
-    <tr>
+    <tr class="js-act-data-row" data-gone="{{income}}">
         <td>{{title}}</td>
         <td>{{income}}</td>
         <td>{{gone}}</td>

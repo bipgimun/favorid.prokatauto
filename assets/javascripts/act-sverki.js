@@ -7,16 +7,55 @@ $(document).ready(function () {
     const $print = $('.js-actSverki-print');
     const $cancel = $('.js-actSverki-cancel');
     const $table = $('.js-actSverki-table');
+    const $documents = $('#js-act-sverki-documents-table');
 
     $accept.on('click', onAccept);
     $cancel.on('click', onCancel);
     $print.on('click', onPrint);
 
+    let state = {
+        money: [],
+        positions: [],
+        saldo: '',
+        totalSum: ''
+    };
 
     $save.on('click', onSave);
 
-    function onSave() {
-        
+    $documents.dataTable({
+        initComplete(settings, json) {
+            $('.zag').remove();
+            $(this).show(300);
+        }
+    });
+
+    async function onSave() {
+        const { money, positions, saldo, totalSum } = state;
+        const period_left = $periodLeft.val();
+        const period_right = $periodRight.val();
+        const customer_id = $customer.val();
+
+        if (!money.length || !money.length)
+            return false;
+
+        const { data: body } = await request('/api/act-sverki/document/save', {
+            money,
+            positions,
+            period_left,
+            period_right,
+            customer_id,
+            saldo,
+            sum: totalSum,
+        });
+
+        var t = $documents.DataTable();
+
+        t.row.add([
+            body.created,
+            body.id,
+            body.customer_name,
+            `<a href="/act-sverki/${body.id}" target="_blank">Подробнее</a>`
+        ]).draw(false);
     }
 
     async function onAccept() {
@@ -29,9 +68,11 @@ $(document).ready(function () {
             return alert('Выбраны не все поля');
         }
 
-        const { body: html } = await request('/api/act-sverki/getTable', { period_left, period_right, customer_id });
+        const { body: html, data } = await request('/api/act-sverki/getTable', { period_left, period_right, customer_id });
         $table.find('tbody tr').remove();
         $table.find('tbody').html(html);
+
+        state = data;
     }
 
     function onPrint() {

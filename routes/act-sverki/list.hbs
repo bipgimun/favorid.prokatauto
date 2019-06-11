@@ -53,7 +53,7 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table class="display table table-bordered table-striped table-condensed mb-none customize"
+            <table id="js-act-sverki-documents-table" class="table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none;">
                 <thead>
                     <tr>
@@ -70,7 +70,7 @@
                             <td>{{id}}</td>
                             <td>{{customer_name}}</td>
                             <td>
-                                <a href="#" target="_blank">Подробнее</a>
+                                <a href="/act-sverki/{{id}}" target="_blank">Подробнее</a>
                             </td>
                         </tr>
                     {{/each}}
