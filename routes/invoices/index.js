@@ -62,7 +62,46 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-    res.render(__dirname + '/view.hbs', {});
+
+    const { id } = req.params;
+
+    if (!id || !Number(id))
+        throw new Error('Неверный id');
+
+    const invoices = await db.execQuery(`SELECT * FROM invoices WHERE id = ?`, [id]);
+
+    if (!invoices.length)
+        throw new Error('Страница не найдена');
+
+    for (const invoice of invoices) {
+        const invoiceIncomes = await db.execQuery(`
+            SELECT * 
+            FROM incomes 
+            WHERE code = ? AND document_id = ?`,
+            ['pd', invoice.id]
+        );
+
+        const invoicePaymentsSum = invoiceIncomes
+            .map(item => item.sum)
+            .reduce((acc, sum) => +acc + +sum, 0);
+
+        invoice.isClosed = +invoicePaymentsSum >= +invoice.sum;
+        invoice.status = invoice.isClosed
+            ? 'Оплачено'
+            : (+invoicePaymentsSum > 0
+                ? 'Оплачено частично'
+                : 'Не оплачено');
+
+        invoice.saldo = (invoice.sum - invoicePaymentsSum).toFixed(2);
+        invoice.saldo = +invoice.saldo > 0 ? invoice.saldo : 0;
+
+        invoice.isAPR = invoice.code == 'APR';
+        invoice.isCRR = invoice.code == 'CRR';
+        invoice.isDETK = invoice.code == 'DET-K';
+        invoice.isDETA = invoice.code == 'DET-A';
+    }
+
+    res.render(__dirname + '/view.hbs', { id, invoices });
 });
 
 module.exports = router;

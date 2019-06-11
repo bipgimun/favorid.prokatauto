@@ -148,3 +148,6 @@
 
 -- ALTER TABLE `act_sverki_documents_details`
 --   ADD CONSTRAINT `act_sverki_documents_details_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `act_sverki_documents` (`id`) ON DELETE CASCADE;
+
+-- добавление связей
+-- ALTER TABLE `detailing_apartments_details` ADD FOREIGN KEY (`detailing_id`) REFERENCES `detailing_apartments`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;

@@ -10,6 +10,7 @@ const apartmentsReservsRegexp = /^(APR)-(\d+)$/i;
 const carsReservsRegexp = /^(CRR)-(\d+)$/i;
 
 const printDetail = require('../../../libs/invoice-print');
+const db = require('../../../libs/db')
 
 const {
     invoicesModel,
@@ -137,6 +138,23 @@ router.get('/print-invoice', async (req, res, next) => {
     res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
         fs.unlinkSync(path.join(process.cwd(), 'uploads', file));
     });
+})
+
+router.post('/delete', async (req, res, next) => {
+    const { id } = req.body;
+
+    if (!id || !Number(id)) {
+        throw new Error('Неверный id');
+    }
+
+    const payments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', id]);
+
+    if (payments.length) {
+        throw new Error('Невозможно удалить счёт, так как по нему имеются приходы');
+    }
+
+    await db.execQuery(`DELETE FROM invoices WHERE id = ?`, [id]);
+    return res.json({ status: 'ok' });
 })
 
 module.exports = router;

@@ -7,7 +7,7 @@ $(document).ready(function () {
         placeholder: "Выберите основание",
         allowClear: true
     }).on('select2:select', function (e) {
-         
+
     });
 
     $form.on('submit', async function (e) {
@@ -19,6 +19,8 @@ $(document).ready(function () {
         const { data } = await request(url, values, { showNotify: true });
 
         window.open('/api/invoices/print-invoice?file=' + data.file);
+
+        location.reload();
 
         return false;
     })

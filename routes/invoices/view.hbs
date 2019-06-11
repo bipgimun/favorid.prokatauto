@@ -54,54 +54,50 @@
                     <h2 class="panel-title">Подробнее о документе выставленного счета № {{id}}</h2>
                 </header>
                 <div class="panel-body js-editable-body">
-                    <form action="" class="form-horizontal mb-lg"
-                        novalidate="novalidate">
-                        <input type="hidden" name="id" value="{{this.id}}">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Авто/квартиры</label>
-                            <div class="style-non-editable">
-                                {{this.desc}}
-                            </div>
-                        </div>
+                    <form action="" class="form-horizontal mb-lg" novalidate="novalidate">
+                        <input type="hidden" name="id" value="{{id}}">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Основание</label>
                             <div class="non-editable-content">
-                                <a href="#" target="_blank">{{===== }}</a>
-                            </div>
-                            <div class="editable-content">
-                                <select name="code" style="width: 100%" name="base_id" id="js-invoices-base-select">
-                                    <option></option>
-                                    {{#each groupDocuments}}
-                                        <optgroup label="{{this.label}}">
-                                            {{#each documents}}
-                                                <option value="{{code}}">{{code}}</option>
-                                            {{/each}}
-                                        </optgroup>
-                                    {{/each}}
-                                </select>
+                                {{#if isAPR}}
+                                    <a href="/apartment-reservations/{{base_id}}" target="_blank">Аренда квартиры</a>
+                                {{else if isCRR}}
+                                    <a href="/car-reservation/{{base_id}}" target="_blank">Аренда авто</a>
+                                {{else if isDETK}}
+                                    <a href="/detailing-apartments/{{base_id}}" target="_blank">Детализация квартир</a>
+                                {{else if isDETA}}
+                                    <a href="/detailing-cars/{{base_id}}" target="_blank">Детализация авто</a>
+                                {{/if}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Общая сумма</label>
                             <div class="style-non-editable">
-                                {{this.sum}}
+                                {{sum}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Остаток</label>
                             <div class="style-non-editable">
-                                {{===== }}
+                                {{saldo}}
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Статус</label>
+                            <div class="style-non-editable">
+                                {{status}}
+                            </div>
+                        </div>
+
 
                         <div class="col-md-12 text-right editable-content">
                             <button class="btn btn-success">Сохранить</button>
                         </div>
                     </form>
                     <div class="col-md-12">
-                        <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                         <button data-id="{{id}}" data-target="invoices"
                             class="btn btn-danger js-tableEssence-remove">Удалить</button>
                     </div>
