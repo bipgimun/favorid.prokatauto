@@ -28,6 +28,44 @@ const addSchema = Joi.object({
     sum: Joi.number().min(0).required()
 });
 
+router.post('/get', async (req, res, next) => {
+    res.json({ status: 'ok', body: [] });
+});
+
+router.post('/get/code/:code', async (req, res, next) => {
+
+
+    const { code } = req.params;
+
+    let base_id = null;
+    let objectModel = null;
+    let detailCode;
+
+    if (detailingApartmentsRegexp.test(code)) {
+        [, detailCode, base_id] = detailingApartmentsRegexp.exec(code);
+        objectModel = detailingApartmentsModel;
+    }
+    else if (detailingCarsRegexp.test(code)) {
+        [, detailCode, base_id] = detailingCarsRegexp.exec(code);
+        objectModel = detailingCarsModel;
+    }
+    else if (apartmentsReservsRegexp.test(code)) {
+        [, detailCode, base_id] = apartmentsReservsRegexp.exec(code);
+        objectModel = apartmentsReservsModel;
+    }
+    else if (carsReservsRegexp.test(code)) {
+        [, detailCode, base_id] = carsReservsRegexp.exec(code);
+        objectModel = carsReservsModel;
+    }
+    else {
+        throw new Error('Неверный код основания');
+    }
+
+    const [result = {}] = await objectModel.get({ id: base_id });
+
+    res.json({ status: 'ok', body: result });
+})
+
 router.post('/add', async (req, res, next) => {
 
     const { code, sum } = await addSchema.validate(req.body);
