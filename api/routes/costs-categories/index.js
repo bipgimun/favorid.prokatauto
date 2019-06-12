@@ -29,7 +29,7 @@ router.post('/get', async (req, res, next) => {
 router.post('/update', async (req, res, next) => {
     const { id, ...values } = await updateSchema.validate(req.body.values);
     await costsCategoriesModel.update({ id, ...values });
-    return res.json({ status: 'ok' });
+    return res.json({ status: 'ok', values });
 });
 
 router.post('/delete', async (req, res, next) => {

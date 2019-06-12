@@ -24,7 +24,7 @@ exports.update = ({ id, ...values }) => {
     if (!Object.keys(values))
         throw new Error('Отсутствуют данные для обновления');
 
-    return db.execQuery(`UPDATE costs_categories SET ? WHERE id = ?`, [id, values]);
+    return db.execQuery(`UPDATE costs_categories SET ? WHERE id = ?`, [values, id]);
 }
 
 exports.delete = ({ id }) => {

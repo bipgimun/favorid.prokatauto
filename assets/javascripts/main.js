@@ -601,7 +601,7 @@ $(document).ready(() => {
 
         return false;
     })
-    
+
     $('#js-costs-categories-add-form').on('submit', async function (e) {
         e.preventDefault();
 
@@ -609,7 +609,7 @@ $(document).ready(() => {
         const url = $form.attr('action');
 
         const values = getFormValues($form);
-        const { data } = await request(url, { values }, { showNotify: true });
+        const { values: data } = await request(url, { values }, { showNotify: true });
         $(e.target).find('.modal-dismiss').click();
 
         if ($('#js-costs-categories-table').length) {

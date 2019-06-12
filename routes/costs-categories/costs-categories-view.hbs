@@ -37,15 +37,15 @@
                 <h2 class="panel-title">Статья расходов</h2>
             </header>
             <div class="panel-body js-editable-body">
-                <form class="form-horizontal mb-lg" novalidate="novalidate">
-                    <input type="hidden" name="id" value="{{this.id}}">
+                <form action="/api/costs-categories/update" id="js-costs-categories-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+                    <input type="hidden" name="id" value="{{id}}">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Название</label>
-                        <div class="non-editable-content">
-                            
+                        <div class="non-editable-content" data-target="title">
+                            {{cat.title}}
                         </div>
                         <div class="col-sm-8 editable-content">
-                            <input type="text" class="form-control" placeholder="Введите данные" required>
+                            <input type="text" name="title" value="{{cat.title}}" class="form-control" placeholder="Введите данные" required>
                         </div>
                     </div>
                     <div class="col-md-12 text-right editable-content">
