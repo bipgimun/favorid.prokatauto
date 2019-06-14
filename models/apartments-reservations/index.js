@@ -50,6 +50,12 @@ exports.get = ({
             ${rentFinishedLt ? `AND ar.departure <= '${rentFinishedLt}'` : ''}
 
             ${customer ? `AND ar.customer_id = ${customer}` : ''}
-            ${isArchive === true ? `AND ar.status IN (3)` : ''}
+            ${
+                isArchive === true 
+                    ? `AND ar.status IN (3)` 
+                    : isArchive === false 
+                        ?  `AND ar.status NOT IN (3)` 
+                        : ''
+            }
     `);
 }
