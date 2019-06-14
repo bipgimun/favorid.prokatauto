@@ -121,8 +121,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Контактный телефон</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-5 control-label">Контактный телефон клиента</label>
+                            <div class="col-sm-7">
                                 <div class="input-group">
                                     <div class="non-editable-content" data-target="client_number">
                                         {{this.client_number}}
@@ -223,52 +223,30 @@
                                 <div class="form-group col-sm-12 services-group__item">
                                     <label class="col-sm-3 control-label">Услуга</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <div class="non-editable-content" data-target="name">
-                                                {{this.name}}
-                                            </div>
-                                            <div class="editable-content">
-                                                <select name="services" class="js-apartmentReservations-services form-control">
-                                                    <option value="0" selected disabled>Выберете услугу</option>
-                                                    {{#each ../../servicesList}}
-                                                        <option {{ifTrue ../selected 'selected' ''}} value="{{../id}}">
-                                                            {{../name}}</option>
-                                                    {{/each}}
-                                                </select>
-                                                <span class="input-group-btn">
-                                                    <button class="btn btn-danger deliting-item"
-                                                        type="button">-</button>
-                                                </span>
+                                        <div class="non-editable-content" data-target="name">
+                                            {{this.name}}
+                                        </div>
+                                        <div class="editable-content">
+                                            <div class="input-group">
+                                                    <select name="services" class="js-apartmentReservations-services form-control">
+                                                        <option value="0" selected disabled>Выберете услугу</option>
+                                                        {{#each ../../servicesList}}
+                                                            <option {{ifTrue ../selected 'selected' ''}} value="{{../id}}">
+                                                                {{../name}}</option>
+                                                        {{/each}}
+                                                    </select>                                                
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default adding-item" type="button">+</button>
+                                                    </span>
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default deliting-item"
+                                                            type="button">-</button>
+                                                    </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             {{/each}}
-                            <div class="editable-content">
-                                <div class="form-group col-sm-12 services-group__item">
-                                    <label class="col-sm-2 control-label">Услуга</label>
-                                    <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <select class="form-control" name="services">
-                                                <option value="0" selected disabled>Выберете услугу</option>
-                                                {{#each ../servicesList}}
-                                                    <option value="{{id}}">{{name}}</option>
-                                                {{/each}}
-                                            </select>
-                                            <span class="input-group-btn">
-                                                <a class="btn btn-primary" type="button" href="/additional-services"
-                                                    target="_blank">Добавить</a>
-                                            </span>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-warning adding-item" type="button">+</button>
-                                            </span>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-danger deliting-item" type="button">-</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group">
@@ -362,7 +340,7 @@
         if (actualTbody == 1) {
             return;
         } else {
-            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
         }
     }
 

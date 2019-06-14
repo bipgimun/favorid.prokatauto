@@ -151,3 +151,5 @@
 
 -- добавление связей
 -- ALTER TABLE `detailing_apartments_details` ADD FOREIGN KEY (`detailing_id`) REFERENCES `detailing_apartments`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+-- ДОБАВЛЕНО В БД 12.06.19 КРУЦЕНКО
