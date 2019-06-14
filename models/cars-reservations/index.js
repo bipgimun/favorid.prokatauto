@@ -27,7 +27,7 @@ class CarReservation {
 
 }
 
-/** @return {Promise<CarReservation[]>} asdasdasd */
+/** @return {Promise<CarReservation[]>} возвращает массив аренды авто */
 exports.get = ({
     id = '',
     ids = '',
@@ -88,7 +88,12 @@ exports.get = ({
             ${customer ? `AND cr.customer_id = ${customer}` : ''}
             ${hasDriver ? `AND cr.has_driver = ${hasDriver}` : ''}
             ${statuses ? `AND cr.status IN (${statuses})` : ''}
-            ${isArchive === true ? `AND cr.status IN (2)` : ''}
+            ${isArchive === true
+                ? `AND cr.status IN (2)`
+                : isArchive === false
+                    ? `AND cr.status NOT IN (2)`
+                    : ''
+            }
     `);
 };
 
