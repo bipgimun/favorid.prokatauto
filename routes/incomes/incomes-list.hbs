@@ -82,6 +82,22 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-4 control-label">Заказчик</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <select style="width: 100%" name="customer_id">
+                                <option value="" selected disabled>Выберите заказчика из списка</option>
+                                {{#each customers}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Добавить</button>
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-4 control-label">Основание</label>
                     <div class="col-sm-8">
                         <div class="panel-group" id="accordion">
@@ -135,22 +151,6 @@
                             <select style="width: 100%" name="cash_storage_id" id="js-incomesForm-cashStorages">
                                 <option value="" selected disabled>Выберите кассу / счёт из списка</option>
                                 {{#each cashStorages}}
-                                    <option value="{{id}}">{{name}}</option>
-                                {{/each}}
-                            </select>
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Добавить</button>
-                            </span> 
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">Заказчик</label>
-                    <div class="col-sm-8">
-                        <div class="input-group">
-                            <select style="width: 100%" name="customer_id">
-                                <option value="" selected disabled>Выберите заказчика из списка</option>
-                                {{#each customers}}
                                     <option value="{{id}}">{{name}}</option>
                                 {{/each}}
                             </select>
