@@ -9,21 +9,27 @@ router.get('/', async (req, res, next) => {
     const cars = await db.execQuery(`SELECT * FROM cars WHERE company_property = 1`);
     const carsIds = cars.map(car => car.id).join(',');
 
-    const minRentStart = (await db.execQuery(`SELECT MIN(rent_start) as date FROM cars_reservations LIMIT 1`))
-        .map(item => item.date).join(',');
-
-    const maxRentFinished = (await db.execQuery(`SELECT MAX(rent_finished) as date FROM cars_reservations LIMIT 1`))
-        .map(item => item.date).join(',');
-
-    const reservs = minRentStart && maxRentFinished ? (await db.execQuery(`
-        SELECT * 
+    const minRentStart = (await db.execQuery(`
+        SELECT MIN(rent_start) as date 
         FROM cars_reservations 
-        WHERE 
-            car_id IN (${carsIds})
-            AND rent_start >= '${moment(new Date(minRentStart)).format('YYYY-MM-DDTHH:mm')}'
-            AND rent_finished <= '${moment(new Date(maxRentFinished)).format('YYYY-MM-DDTHH:mm')}'
-            AND status NOT IN (2)
-    `)) : [];
+        WHERE status NOT IN (2)
+        LIMIT 1`
+    )).map(item => item.date).join(',');
+
+    const maxRentFinished = (await db.execQuery(`SELECT MAX(rent_finished) as date FROM cars_reservations WHERE status NOT IN (2) LIMIT 1`))
+        .map(item => item.date).join(',');
+
+    const reservs = minRentStart && maxRentFinished
+        ? (await db.execQuery(`
+            SELECT * 
+            FROM cars_reservations 
+            WHERE 
+                car_id IN (${carsIds})
+                AND rent_start >= '${moment(new Date(minRentStart)).format('YYYY-MM-DDTHH:mm')}'
+                AND rent_finished <= '${moment(new Date(maxRentFinished)).format('YYYY-MM-DDTHH:mm')}'
+                AND status NOT IN (2)
+        `))
+        : [];
 
     const usedCarsGroup = reservs.reduce((acc, item) => {
         const { car_id, rent_start, rent_finished } = item;
@@ -91,7 +97,7 @@ router.get('/', async (req, res, next) => {
 var enumerateDaysBetweenDates = function (startDate, endDate) {
     var now = startDate.clone(), dates = [];
 
-    while (now.isSameOrBefore(endDate)) {
+    while (now.isSameOrBefore(endDate, 'days')) {
         dates.push(now.format('YYYY-MM-DD'));
         now.add(1, 'days');
     }
