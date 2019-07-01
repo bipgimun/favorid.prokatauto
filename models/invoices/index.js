@@ -4,6 +4,7 @@ exports.get = ({
     id = '',
     code = '',
     documentId = '',
+    customerId = '',
     isPaid = null,
 } = {}) => {
 
@@ -16,6 +17,7 @@ exports.get = ({
             ${id ? `AND i.id = ${id}` : ''}
             ${documentId ? `AND i.document_id = ${documentId}` : ''}
             ${code ? `AND i.code = ${code}` : ''}
+            ${customerId ? `AND i.customer_id = ${customerId}` : ''}
             ${isPaid === true ? `AND i.closed IS NOT NULL` : ''}
             ${isPaid === false ? `AND i.closed IS NULL` : ''}
     `);

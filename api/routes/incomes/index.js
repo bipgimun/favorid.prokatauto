@@ -83,6 +83,34 @@ app.post('/add', async (req, res, next) => {
     });
 })
 
+app.post('/getDocuments', async (req, res, next) => {
+
+    const { customerId } = req.body;
+
+    if (!customerId)
+        throw new Error('Отсутствует заказчик');
+
+    const carReservations = (await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations WHERE customer_id = ?`, [customerId]))
+        .map(value => ({ id: value.code, text: value.code }));
+
+    const apartmentReservations = (await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations WHERE customer_id = ?`, [customerId]))
+        .map(value => ({ id: value.code, text: value.code }));
+
+    const invoices = (await invoicesModel.get({ isPaid: false, customerId }))
+        .map(item => ({ id: 'pd-' + item.id, text: 'pd-' + item.id }));
+
+    const groupDocuments = [
+        { text: 'Аренда автомобилей', children: carReservations, },
+        { text: 'Аренда квартир', children: apartmentReservations, },
+        { text: 'Счета для оплаты', children: invoices, },
+    ];
+
+    res.json({
+        status: 'ok',
+        body: groupDocuments
+    });
+})
+
 app.post('/update', async (req, res, next) => {
 
     const { values } = req.body;

@@ -85,7 +85,7 @@
                     <label class="col-sm-4 control-label">Заказчик</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select style="width: 100%" name="customer_id">
+                            <select id="js-incomes-customer-id" style="width: 100%" name="customer_id">
                                 <option value="" selected disabled>Выберите заказчика из списка</option>
                                 {{#each customers}}
                                     <option value="{{id}}">{{name}}</option>
@@ -113,14 +113,7 @@
                                 <div id="collapse1One" class="accordion-body collapse">
                                     <div class="panel-body">
                                         <select style="width: 100%" name="base_id" id="js-incomesForm-documents">
-                                            <option value="" selected disabled>Выберите документ из списка</option>
-                                            {{#each groupDocuments}}
-                                                <optgroup label="{{this.label}}">
-                                                    {{#each documents}}
-                                                        <option value="{{code}}">{{code}}</option>
-                                                    {{/each}}
-                                                </optgroup>
-                                            {{/each}}
+                                            <option value="0" selected disabled>Выберите документ из списка</option>
                                         </select>
                                     </div>
                                 </div>
@@ -182,3 +175,4 @@
     </section>
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+<script src="/assets/javascripts/incomes.js" defer></script>
