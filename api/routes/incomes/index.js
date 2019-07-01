@@ -121,9 +121,11 @@ app.post('/update', async (req, res, next) => {
 
     const [income = {}] = await db.execQuery(`
        SELECT i.*,
-            cs.name as cashbox_name
+            cs.name as cashbox_name,
+            cust.name as customer_name
         FROM incomes i
             LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id 
+            LEFT JOIN customers cust ON cust.id = i.customer_id
         WHERE i.id = ?
     `, [id]);
 

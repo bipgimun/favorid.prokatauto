@@ -69,14 +69,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Заказчик</label>
                             <div class="col-sm-8">
-                                <div class="non-editable-content" data-target="customer_id">
-                                    {{this.name}}
+                                <div class="non-editable-content" data-target="customer_name">
+                                    {{customer_name}}
                                 </div>
                                 <div class="editable-content">
                                     <select style="width: 100%" name="customer_id">
                                         <option value="" selected disabled>Выберите заказчика из списка</option>
-                                        {{#each customers}}
-                                            <option {{compare id customers 'selected' ''}} value="{{this.id}}">{{this.name}}</option>
+                                        {{#each ../customers}}
+                                            <option {{compare id ../customer_id 'selected' ''}} value="{{id}}">{{name}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
