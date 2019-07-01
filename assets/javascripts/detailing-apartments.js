@@ -126,7 +126,12 @@ $(document).ready(() => {
             .clear()
             .draw();
 
+        let sum = 0;
+
         data.forEach((item) => {
+
+            sum += +item.sum;
+
             $table.DataTable().row.add([
                 `<td class="text-center">
                     <i data-id="${item.id}" data-toggle class="fa fa-plus-square-o text-primary h5 m-none" style="cursor: pointer;"></i>
@@ -137,8 +142,9 @@ $(document).ready(() => {
                 item.client_name,
                 item.sum
             ]).draw();
-        })
+        });
 
+        $('#js-detailing-apartments-total-sum').text(sum);
     })
 
     datatableInit();
@@ -225,7 +231,15 @@ $(document).ready(() => {
             $table.DataTable().row(tr).remove().draw();
 
             openedRows.delete(+id);
-            reservsData = reservsData.filter(item => item.id != id);
+
+            const findedData = reservsData.find(item => item.id == id);
+
+            const $totalSum = $('#js-detailing-apartments-total-sum');
+            const totalSum = $totalSum.text();
+
+            $totalSum.text(+totalSum - +findedData.sum);
+
+            reservsData = reservsData.filter(item => findedData !== item);
         });
 
         // add a listener

@@ -130,7 +130,12 @@ $(document).ready(() => {
             .clear()
             .draw();
 
+        let totalSum = 0;
+
         data.forEach((item) => {
+
+            totalSum += +item.sum;
+
             $table.DataTable().row.add([
                 `<td class="text-center">
                     <i data-id="${item.id}" data-toggle class="fa fa-plus-square-o text-primary h5 m-none" style="cursor: pointer;"></i>
@@ -143,6 +148,7 @@ $(document).ready(() => {
             ]).draw();
         })
 
+        $('#js-detailing-cars-total-sum').text(totalSum);
     })
 
     datatableInit();
@@ -217,9 +223,15 @@ $(document).ready(() => {
 
             datatable.fnClose(tr);
             $table.DataTable().row(tr).remove().draw();
+            
+            const $totalSum =  $('#js-detailing-cars-total-sum');
+            const totalSum =  $totalSum.text();
+            const findedData = reservsData.find(item => item.id == id);
+
+            $totalSum.text(+totalSum - +findedData.sum);
 
             openedRows.delete(+id);
-            reservsData = reservsData.filter(item => item.id != id);
+            reservsData = reservsData.filter(item => item !== findedData);
         });
 
         // add a listener
