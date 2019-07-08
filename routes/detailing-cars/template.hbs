@@ -31,7 +31,7 @@
 </style>
 
 <header class="page-header">
-    <h2>Детализация по авто</h2>
+    <h2>Детализация транспортных услуг</h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -40,13 +40,13 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Детализация по авто</span> <span class="separator"></span></li>
+            <li><span>Детализация транспортных услуг</span> <span class="separator"></span></li>
         </ol>
     </div>
 </header>
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
-        <h2 class="panel-title">Сохраненные документы детализаций по авто</h2>
+        <h2 class="panel-title">Сохраненные документы детализаций транс-ых услуг</h2>
     </header>
     <div class="panel-body">
         <div class="zag">
@@ -93,13 +93,13 @@
 
 <section class="panel">
     <header class="panel-heading">
-        <h2 class="panel-title">Детализация по авто</h2>
+        <h2 class="panel-title">Детализация</h2>
     </header>
 
     <div class="panel-body">
 
         <div class="controls_details">
-            <div class="controls_details-child date-range_details col-md-6">
+            <div class="controls_details-child date-range_details col-md-12">
                 <p class="header-details">Временной период</p>
                 <div class="controls_details_date-range input-daterange input-group">
                     <input id="js-detailing-car-from-period" type="date" class="form-control">
@@ -112,6 +112,42 @@
                 <div class="controls_details_date-range">
                     <select id="js-select2-customer-id" class="js-detailing-cars-customer form-control">
                         <option value="" disabled selected>Сортировка по заказчику</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls_details-child driver-control_details col-md-6">
+                <p class="header-details">Водитель</p>
+                <div class="controls_details_date-range">
+                    <select class="form-control">
+                        <option value="" disabled selected>Сортировка по водителю</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls_details-child passenger-control_details col-md-6">
+                <p class="header-details">Пассажир</p>
+                <div class="controls_details_date-range">
+                    <select class="form-control">
+                        <option value="" disabled selected>Сортировка по пассажиру</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls_details-child car-control_details col-md-6">
+                <p class="header-details">Автомобиль</p>
+                <div class="controls_details_date-range">
+                    <select class="form-control">
+                        <option value="" disabled selected>Сортировка по автомобилю</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls_details-child manager-control_details col-md-6">
+                <p class="header-details">Менеджер</p>
+                <div class="controls_details_date-range">
+                    <select class="form-control">
+                        <option value="" disabled selected>Сортировка по менеджеру</option>
                     </select>
                 </div>
             </div>
@@ -145,7 +181,7 @@
                 <thead>
                 		<tr>
                 			<th colspan="5" style="text-align: right;">Общая сумма:</th>
-                			<th><span id="js-detailing-cars-total-sum">25000</span> руб.</th>
+                			<th><span id="js-detailing-cars-total-sum">0</span> руб.</th>
                 		</tr>
                     <tr>
                         <th>Даты</th>

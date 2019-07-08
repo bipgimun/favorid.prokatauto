@@ -1,5 +1,6 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
         padding-top: 7px;
         font-weight: bold;
@@ -29,6 +30,22 @@
         margin-left: auto;
         margin-right: 10px;
     }
+
+    .reservation-send-block {
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+    }
+    
+    .reservation-send-block--child {
+        margin: auto 10px auto 10px;
+    }
+
+
+    .reservation-send-btn {
+        margin-left: 20px;
+    }
+
 </style>
 
 <header class="page-header">
@@ -212,6 +229,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group group-drivers__hide-vis" style="display: none;">
+                            <div class="col-sm-12">
+                                <label class="col-sm-4 control-label">Адрес пункта А в маршруте</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="non-editable-content" data-target="itinerarie_point_a">
+                                            {{this.itinerarie_point_a}}
+                                        </div>
+                                        <div class="editable-content">
+                                            <input value="{{this.itinerarie_point_a}}" type="text" name="itinerarie_point_a" class="form-control" placeholder="Введите пункт" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-4 control-label">Адрес пункта Б в маршруте</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="non-editable-content" data-target="itinerarie_point_b">
+                                            {{this.itinerarie_point_b}}
+                                        </div>
+                                        <div class="editable-content">
+                                            <input value="{{this.itinerarie_point_b}}" type="text" name="itinerarie_point_a" class="form-control" placeholder="Введите пункт" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group services-group">
                             <div class="form-group">
                                 <label class="col-sm-12 control-label"
@@ -307,6 +352,22 @@
                                             {{/unless}}
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group non-editable-content">
+                            <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
+                            <div class="col-sm-8 reservation-send-block">
+                                <div class="checkbox-custom chekbox-primary reservation-send-block--child">
+                                    <input class="send-customer__checkbox" type="checkbox" checked name="send_customer_mail" value="1" id="send_customer_email">
+                                    <label class="send-customer__label" for="send_customer_email">EMAIL</label>
+                                </div>
+                                <div class="checkbox-custom chekbox-primary reservation-send-block--child">
+                                    <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms" value="2" id="send_customer_sms">
+                                    <label class="send-customer____label" for="send_customer_sms">SMS</label>
+                                </div>
+                                <div class="reservation-send-btn">
+                                    <button class="btn btn-warning">Отправить</button>
                                 </div>
                             </div>
                         </div>
