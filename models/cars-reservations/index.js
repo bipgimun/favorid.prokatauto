@@ -12,6 +12,7 @@ class CarReservation {
         this.driver_id = '';
         this.driver_name = '';
         this.car_id = '';
+        this.status_name = '';
         this.class_name = '';
         this.has_driver = '';
         this.itinerarie_id = '';
