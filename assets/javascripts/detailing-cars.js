@@ -94,6 +94,11 @@ $(document).ready(() => {
         const withoutDriver = $withoutDriver.is(':checked') ? '1' : '0';
         const customer = $customer.val();
 
+        const driver = $('#js-detailing-cars-driver').val();
+        const passenger = $('#js-detailing-cars-passenger').val();
+        const car = $('#js-detailing-cars-car').val();
+        const manager = $('#js-detailing-cars-manager').val();
+
         if (!fromPeriod || !endPeriod) {
             return new PNotify({
                 title: 'Ошибка',
@@ -122,7 +127,17 @@ $(document).ready(() => {
             });
         }
 
-        const { data } = await request('/api/carReservations/get', { fromPeriod, endPeriod, customer, withDriver, withoutDriver });
+        const { data } = await request('/api/carReservations/get', {
+            fromPeriod,
+            endPeriod,
+            customer,
+            withDriver,
+            withoutDriver,
+            driver,
+            passenger,
+            car,
+            manager,
+        });
 
         reservsData = data;
 
@@ -223,9 +238,9 @@ $(document).ready(() => {
 
             datatable.fnClose(tr);
             $table.DataTable().row(tr).remove().draw();
-            
-            const $totalSum =  $('#js-detailing-cars-total-sum');
-            const totalSum =  $totalSum.text();
+
+            const $totalSum = $('#js-detailing-cars-total-sum');
+            const totalSum = $totalSum.text();
             const findedData = reservsData.find(item => item.id == id);
 
             $totalSum.text(+totalSum - +findedData.sum);

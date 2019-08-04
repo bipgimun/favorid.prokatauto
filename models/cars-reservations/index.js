@@ -24,6 +24,10 @@ class CarReservation {
         this.sum = '';
         this.status = '';
         this.created_at = '';
+        this.itinerarie_point_a = '';
+        this.itinerarie_point_b = '';
+        this.passenger_name = '';
+        this.itinerarie_name = undefined;
     }
 
 }
@@ -37,6 +41,9 @@ exports.get = ({
     customer = '',
     hasDriver = '',
     driver_id = '',
+    passenger_id = '',
+    car_id = '',
+    manager_id = '',
     statuses = '',
     closeLeft = '',
     closeRight = '',
@@ -71,6 +78,9 @@ exports.get = ({
             cr.id > 0
             ${id ? `AND cr.id = ${id}` : ''}
             ${driver_id ? `AND cr.driver_id = ${driver_id}` : ''}
+            ${passenger_id ? `AND cr.passenger_id = ${passenger_id}` : ''}
+            ${car_id ? `AND cr.car_id = ${car_id}` : ''}
+            ${manager_id ? `AND cr.manager_id = ${manager_id}` : ''}
             ${ids ? `AND cr.id IN (${ids})` : ''}
             ${fromPeriod ? `AND DATE(cr.created_at) >= '${fromPeriod}'` : ''}
             ${endPeriod ? `AND DATE(cr.created_at) <= '${endPeriod}'` : ''}

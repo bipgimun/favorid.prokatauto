@@ -57,10 +57,19 @@ router.get('/downloadDetail', async (req, res, next) => {
 
     const reservs = (await carsReservsModel.get({ ids: savedIds || ids }))
         .map(item => {
+            
+            let adress = ''; 
+
+            if(item.itinerarie_point_a && item.itinerarie_point_b) {
+                adress = `${item.itinerarie_point_a} - ${item.itinerarie_point_b}`;
+            } else if(item.itinerarie_name) {
+                adress = item.itinerarie_name;
+            }
+            
             return [
                 moment(item.rent_start).format('DD.MM.YYYY'),
                 moment(item.rent_start).format('HH:mm'),
-                item.itinerarie_name || '',
+                adress,
                 item.passenger_name,
                 item.comment || '',
                 item.sum,

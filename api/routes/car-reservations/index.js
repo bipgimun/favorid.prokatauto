@@ -89,7 +89,16 @@ const updateSchema = Joi.object({
 
 app.post('/get', async (req, res, next) => {
 
-    const { fromPeriod, endPeriod, customer, withDriver, withoutDriver } = req.body;
+    const {
+        fromPeriod,
+        endPeriod,
+        customer,
+        withDriver,
+        driver,
+        passenger,
+        car,
+        manager,
+        withoutDriver } = req.body;
 
     let hasDriver = '';
 
@@ -99,13 +108,10 @@ app.post('/get', async (req, res, next) => {
     if (withDriver == '0' && withoutDriver == '1')
         hasDriver = '0';
 
-    const reservs = await carsReservsModel.get({ fromPeriod, endPeriod, customer, hasDriver });
-
-    // console.log('fromPeriod, endPeriod, customer, hasDriver');
-    // console.log(fromPeriod, endPeriod, customer, hasDriver);
-
-    // console.log('reservs', reservs);
-    // console.log('----------------------------------------');
+    const reservs = await carsReservsModel.get({
+        fromPeriod, endPeriod, customer, hasDriver,
+        driver_id: driver, passenger_id: passenger, car_id: car, manager_id: manager
+    });
 
     return res.json({ status: 'ok', data: reservs });
 })
