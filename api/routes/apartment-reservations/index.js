@@ -63,8 +63,8 @@ app.post('/get', async (req, res, next) => {
         fromPeriod,
         endPeriod,
         customer,
-        apartment_id,
         passenger_id,
+        apartment_id,
         manager_id
     });
 
