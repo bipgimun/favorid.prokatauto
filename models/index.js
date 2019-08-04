@@ -13,5 +13,6 @@ module.exports = {
     invoicesModel: require('./invoices'),
     passengersModel: require('./passengers'),
     carsModel: require('./cars'),
-    managersModel: require('./managers')
+    managersModel: require('./managers'),
+    apartmentsModel: require('./apartments')
 }

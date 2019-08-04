@@ -50,15 +50,23 @@ const updateSchema = Joi.object({
 })
 
 app.post('/get', async (req, res, next) => {
-    const { fromPeriod, endPeriod, customer } = req.body;
 
-    const reservs = await apartmentsReservsModel.get({ fromPeriod, endPeriod, customer });
+    const {
+        fromPeriod,
+        endPeriod,
+        apartment_id,
+        passenger_id,
+        manager_id,
+        customer } = req.body;
 
-    // console.log('fromPeriod, endPeriod, customer');
-    // console.log(fromPeriod, endPeriod, customer);
-
-    // console.log('reservs', reservs);
-    // console.log('----------------------------------------');
+    const reservs = await apartmentsReservsModel.get({
+        fromPeriod,
+        endPeriod,
+        customer,
+        apartment_id,
+        passenger_id,
+        manager_id
+    });
 
     return res.json({ status: 'ok', data: reservs });
 })

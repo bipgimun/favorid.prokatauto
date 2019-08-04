@@ -90,6 +90,10 @@ $(document).ready(() => {
         const endPeriod = $endPeriod.val();
         const customer = $customer.val();
 
+        const passenger_id = $('#js-detailing-apartments-passenger').val();
+        const apartment_id = $('#js-detailing-apartments-apartment').val();
+        const manager_id = $('#js-detailing-apartments-manager').val();
+
         if (!fromPeriod || !endPeriod) {
             return new PNotify({
                 title: 'Ошибка',
@@ -118,7 +122,14 @@ $(document).ready(() => {
             });
         }
 
-        const { data } = await request('/api/apartmentReservations/get', { fromPeriod, endPeriod, customer });
+        const { data } = await request('/api/apartmentReservations/get', {
+            fromPeriod,
+            endPeriod,
+            customer,
+            passenger_id,
+            apartment_id,
+            manager_id,
+        });
 
         reservsData = data;
 
