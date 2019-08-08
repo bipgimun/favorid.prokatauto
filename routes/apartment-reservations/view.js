@@ -31,6 +31,13 @@ module.exports = async (req, res, next) => {
         item.status_name = APARTMENT_STATUSES.get(item.status);
         item.nonEditable = [APARTMENT_STATUSES.get('AT_RECEPTION'), APARTMENT_STATUSES.get('COMPLETED')].includes(+item.status);
         item.completed = item.status == APARTMENT_STATUSES.get('COMPLETED');
+        item.can_edit = false;
+
+        if (req.sesion.user.is_director == '1') {
+            item.can_edit = true;
+        } else if (!item.completed && req.sesion.user.is_senior_manager == '1') {
+            item.can_edit = true;
+        }
     });
 
     const [reservation = {}] = apartmentReservations;

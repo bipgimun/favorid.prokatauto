@@ -66,16 +66,18 @@
                                     <div class="non-editable-content" data-target="customer_name">
                                         {{this.customer_name}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select style="width: 100%" name="customer_id" value="{{this.customer_id}}"
-                                            class="form-control js-select2-init">
-                                            <option value="0" selected disabled>Выберете заказчика</option>
-                                            {{#each ../customers}}
-                                                <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
-                                                    {{this.name}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select style="width: 100%" name="customer_id" value="{{this.customer_id}}"
+                                                class="form-control js-select2-init">
+                                                <option value="0" selected disabled>Выберете заказчика</option>
+                                                {{#each ../customers}}
+                                                    <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
+                                                        {{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -84,9 +86,11 @@
                             <div class="non-editable-content" data-target="discount">
                                 {{this.discount}}
                             </div>
-                            <div class="col-sm-6 editable-content">
-                                <input class="form-control" value="{{this.discount}}">
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-6 editable-content">
+                                    <input class="form-control" value="{{this.discount}}">
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Клиент</label>
@@ -95,16 +99,18 @@
                                     <div class="non-editable-content" data-target="client_name">
                                         {{this.client_name}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select style="width: 100%" name="passenger_id" class="form-control"
-                                            id="js-select2-clients-id">
-                                            <option value="0" selected disabled>Выберете пассажира</option>
-                                            {{#each ../passengers}}
-                                                <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
-                                                    {{this.name}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select style="width: 100%" name="passenger_id" class="form-control"
+                                                id="js-select2-clients-id">
+                                                <option value="0" selected disabled>Выберете пассажира</option>
+                                                {{#each ../passengers}}
+                                                    <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">
+                                                        {{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -114,10 +120,12 @@
                                 <div class="non-editable-content" data-target="number_of_clients">
                                     {{this.number_of_clients}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{this.number_of_clients}}" type="number" name="number_of_clients"
-                                        class="form-control" placeholder="Введите количество гостей" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{this.number_of_clients}}" type="number" name="number_of_clients"
+                                            class="form-control" placeholder="Введите количество гостей" required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -127,11 +135,13 @@
                                     <div class="non-editable-content" data-target="client_number">
                                         {{this.client_number}}
                                     </div>
-                                    <div class="editable-content">
-                                        <input value="{{this.client_number}}" name="contact_number"
-                                            data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
-                                            class="form-control" required>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <input value="{{this.client_number}}" name="contact_number"
+                                                data-input-mask="+7 (999) 999-9999" placeholder="+7 (123) 123-1234"
+                                                class="form-control" required>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -142,16 +152,19 @@
                                     <div class="non-editable-content" data-target="address">
                                         {{this.address}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select style="width: 100%" name="apartment_id" class="form-control"
-                                            id="js-select2-apartments-id">
-                                            <option value="0" selected disabled>Выберете Адрес</option>
-                                            {{#each ../apartments}}
-                                                <option {{ifTrue this.selected 'selected' : ''}} value="{{this.id}}">
-                                                    {{this.address}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select style="width: 100%" name="apartment_id" class="form-control"
+                                                id="js-select2-apartments-id">
+                                                <option value="0" selected disabled>Выберете Адрес</option>
+                                                {{#each ../apartments}}
+                                                    <option {{ifTrue this.selected 'selected' : ''}}
+                                                        value="{{this.id}}">
+                                                        {{this.address}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -161,10 +174,12 @@
                                 <div class="non-editable-content" data-target="price_per_day">
                                     {{this.price_per_day}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{this.price_per_day}}" name="price_per_day" type="number"
-                                        class="form-control" placeholder="Введите сумму" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{this.price_per_day}}" name="price_per_day" type="number"
+                                            class="form-control" placeholder="Введите сумму" required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -173,10 +188,12 @@
                                 <div class="non-editable-content" data-target="number_days">
                                     {{this.number_days}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{this.number_days}}" name="number_days" type="number"
-                                        class="form-control" placeholder="Введите количество" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{this.number_days}}" name="number_days" type="number"
+                                            class="form-control" placeholder="Введите количество" required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -185,10 +202,13 @@
                                 <div class="non-editable-content" data-target="entry">
                                     {{toIsoString this.entry 'DD.MM.YYYY в HH:mm'}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{toIsoString this.entry 'YYYY-MM-DDTHH:mm'}}" name="entry"
-                                        type="datetime-local" class="form-control" placeholder="Введите время" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{toIsoString this.entry 'YYYY-MM-DDTHH:mm'}}" name="entry"
+                                            type="datetime-local" class="form-control" placeholder="Введите время"
+                                            required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -197,10 +217,13 @@
                                 <div class="non-editable-content" data-target="departure">
                                     {{toIsoString this.departure 'DD.MM.YYYY в HH:mm'}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{toIsoString this.departure 'YYYY-MM-DDTHH:mm'}}" name="departure"
-                                        type="datetime-local" class="form-control" placeholder="Введите время" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{toIsoString this.departure 'YYYY-MM-DDTHH:mm'}}"
+                                            name="departure" type="datetime-local" class="form-control"
+                                            placeholder="Введите время" required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -209,10 +232,12 @@
                                 <div class="non-editable-content" data-target="prepayment">
                                     {{this.prepayment}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{this.prepayment}}" name="prepayment" type="text"
-                                        class="form-control" placeholder="Введите сумму" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{this.prepayment}}" name="prepayment" type="text"
+                                            class="form-control" placeholder="Введите сумму" required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group services-group">
@@ -226,24 +251,29 @@
                                         <div class="non-editable-content" data-target="name">
                                             {{this.name}}
                                         </div>
-                                        <div class="editable-content">
-                                            <div class="input-group">
-                                                    <select name="services" class="js-apartmentReservations-services form-control">
+                                        {{#if can_edit}}
+                                            <div class="editable-content">
+                                                <div class="input-group">
+                                                    <select name="services"
+                                                        class="js-apartmentReservations-services form-control">
                                                         <option value="0" selected disabled>Выберете услугу</option>
                                                         {{#each ../../servicesList}}
-                                                            <option {{ifTrue ../selected 'selected' ''}} value="{{../id}}">
+                                                            <option {{ifTrue ../selected 'selected' ''}}
+                                                                value="{{../id}}">
                                                                 {{../name}}</option>
                                                         {{/each}}
-                                                    </select>                                                
+                                                    </select>
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-default adding-item" type="button">+</button>
+                                                        <button class="btn btn-default adding-item"
+                                                            type="button">+</button>
                                                     </span>
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default deliting-item"
                                                             type="button">-</button>
                                                     </span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {{/if}}
                                     </div>
                                 </div>
                             {{/each}}
@@ -255,10 +285,12 @@
                                 <div class="non-editable-content" data-target="comment">
                                     {{this.comment}}
                                 </div>
-                                <div class="editable-content">
-                                    <textarea name="comment" class="form-control" id="" cols="30" rows="5"
-                                        placeholder="Введите комментарий">{{this.comment}}</textarea>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <textarea name="comment" class="form-control" id="" cols="30" rows="5"
+                                            placeholder="Введите комментарий">{{this.comment}}</textarea>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -267,10 +299,12 @@
                                 <div class="non-editable-content" data-target="sum">
                                     {{this.sum}}
                                 </div>
-                                <div class="editable-content">
-                                    <input value="{{this.sum}}" name="sum" type="number" class="form-control"
-                                        placeholder="Введите сумму" required>
-                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{this.sum}}" name="sum" type="number" class="form-control"
+                                            placeholder="Введите сумму" required>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -279,24 +313,28 @@
                                 <div class="non-editable-content" data-target="status_name">
                                     {{this.status_name}}
                                 </div>
-                                <div class="editable-content">
-                                    <div class="checkbox-custom checkbox-warning col-sm-3">
-                                        <input {{ifTrue this.nonEditable 'checked disabled' ''}} value="2"
-                                            type="checkbox" name="status" id="checkboxExample4">
-                                        <label for="checkboxExample4">На приеме</label>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <div class="checkbox-custom checkbox-warning col-sm-3">
+                                            <input {{ifTrue this.nonEditable 'checked disabled' ''}} value="2"
+                                                type="checkbox" name="status" id="checkboxExample4">
+                                            <label for="checkboxExample4">На приеме</label>
+                                        </div>
                                     </div>
-                                </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group non-editable-content">
                             <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
                             <div class="col-sm-8 reservation-send-block">
                                 <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                    <input class="send-customer__checkbox" type="checkbox" checked name="send_customer_mail" value="1" id="send_customer_email">
+                                    <input class="send-customer__checkbox" type="checkbox" checked
+                                        name="send_customer_mail" value="1" id="send_customer_email">
                                     <label class="send-customer__label" for="send_customer_email">EMAIL</label>
                                 </div>
                                 <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                    <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms" value="2" id="send_customer_sms">
+                                    <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms"
+                                        value="2" id="send_customer_sms">
                                     <label class="send-customer____label" for="send_customer_sms">SMS</label>
                                 </div>
                                 <div class="reservation-send-btn">
@@ -304,16 +342,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 text-right editable-content">
-                            <div class="footer-btn-block-resrvation">
-                                <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                        {{#if can_edit}}
+                            <div class="col-md-12 text-right editable-content">
+                                <div class="footer-btn-block-resrvation">
+                                    <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                                </div>
                             </div>
-                        </div>
+                        {{/if}}
                     </form>
                 </div>
                 <div class="footer-btn-block-resrvation">
-                    {{#unless this.completed}}
+                    {{#if can_edit}}
                         <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    {{/if}}
+                    {{#unless this.completed}}
                         <button data-id="{{id}}" id="js-apartmentReserv-view-complete"
                             class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
                     {{/unless}}
