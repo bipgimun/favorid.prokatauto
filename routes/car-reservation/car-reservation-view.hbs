@@ -36,7 +36,7 @@
         justify-content: flex-start;
         align-items: baseline;
     }
-    
+
     .reservation-send-block--child {
         margin: auto 10px auto 10px;
     }
@@ -45,7 +45,6 @@
     .reservation-send-btn {
         margin-left: 20px;
     }
-
 </style>
 
 <header class="page-header">
@@ -73,17 +72,19 @@
                     <form id="js-carReservations-form" action="/api/carReservations/update"
                         class="form-horizontal mb-lg" novalidate="novalidate">
                         <input type="hidden" name="id" value="{{this.id}}">
-                        <div class="form-group mt-lg group-drivers editable-content">
-                            <div class="col-sm-4">
-                            </div>
-                            <div class="col-sm-8">
-                                <div class="checkbox-custom checkbox-primary">
-                                    <input {{ifTrue this.has_driver 'checked' : ''}} class="group-drivers__checkbox"
-                                        type="checkbox" id="checkboxdriver" value="1" name="has_driver">
-                                    <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
+                        {{#if can_edit}}
+                            <div class="form-group mt-lg group-drivers editable-content">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="checkbox-custom checkbox-primary">
+                                        <input {{ifTrue this.has_driver 'checked' : ''}} class="group-drivers__checkbox"
+                                            type="checkbox" id="checkboxdriver" value="1" name="has_driver">
+                                        <label class="group-drivers__label" for="checkboxdriver">БЕЗ ВОДИТЕЛЯ</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {{/if}}
                         <div class="form-group mt-lg">
                             <label class="col-sm-3 control-label">Заказчик</label>
                             <div class="col-sm-9">
@@ -91,15 +92,17 @@
                                     <div class="non-editable-content" data-target="customer_name">
                                         {{this.customer_name}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select name="customer_id" class="form-control">
-                                            <option value="0" selected disabled>Выберете заказчика</option>
-                                            {{#each ../customers}}
-                                                <option {{compare this.id ../customer_id 'selected' ''}}
-                                                    value="{{this.id}}">{{this.name}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select name="customer_id" class="form-control">
+                                                <option value="0" selected disabled>Выберете заказчика</option>
+                                                {{#each ../customers}}
+                                                    <option {{compare this.id ../customer_id 'selected' ''}}
+                                                        value="{{this.id}}">{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -108,9 +111,11 @@
                             <div class="non-editable-content" data-target="discount">
                                 {{this.customer_discount}}
                             </div>
-                            <div class="col-sm-6 editable-content">
-                                <input class="form-control" name="discount" value="{{this.customer_discount}}">
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-6 editable-content">
+                                    <input class="form-control" name="discount" value="{{this.customer_discount}}">
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Пассажир</label>
@@ -119,15 +124,17 @@
                                     <div class="non-editable-content" data-target="passenger_name">
                                         {{this.passenger_name}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select name="passenger_id" class="form-control">
-                                            <option value="0" selected disabled>Выберете пассажира</option>
-                                            {{#each ../passengers}}
-                                                <option {{compare this.id ../passenger_id 'selected' ''}}
-                                                    value="{{this.id}}">{{this.name}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select name="passenger_id" class="form-control">
+                                                <option value="0" selected disabled>Выберете пассажира</option>
+                                                {{#each ../passengers}}
+                                                    <option {{compare this.id ../passenger_id 'selected' ''}}
+                                                        value="{{this.id}}">{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -136,29 +143,38 @@
                             <div class="non-editable-content" data-target="rent_start">
                                 {{toIsoString rent_start 'DD.MM.YYYY в HH:mm'}}
                             </div>
-                            <div class="col-sm-9 editable-content">
-                                <div class="">
-                                    <input value="{{toIsoString rent_start 'YYYY-MM-DDTHH:mm'}}" class="form-control" type="datetime-local" name="rent_start">
+                            {{#if can_edit}}
+                                <div class="col-sm-9 editable-content">
+                                    <div class="">
+                                        <input value="{{toIsoString rent_start 'YYYY-MM-DDTHH:mm'}}"
+                                            class="form-control" type="datetime-local" name="rent_start">
+                                    </div>
                                 </div>
-                            </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Окончание аренды</label>
                             <div class="non-editable-content" data-target="rent_finished">
                                 {{toIsoString rent_finished 'DD.MM.YYYY в HH:mm'}}
                             </div>
-                            <div class="col-sm-9 editable-content">
-                                <input value="{{toIsoString rent_finished 'YYYY-MM-DDTHH:mm'}}"class="form-control" type="datetime-local" name="rent_finished">
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-9 editable-content">
+                                    <input value="{{toIsoString rent_finished 'YYYY-MM-DDTHH:mm'}}" class="form-control"
+                                        type="datetime-local" name="rent_finished">
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Контактный телефон</label>
                             <div class="non-editable-content" data-target="contact_number">
                                 {{this.contact_number}}
                             </div>
-                            <div class="col-sm-9 editable-content">
-                                <input name="contact_number" value="{{this.contact_number}}" placeholder="+7 (123) 123-1234" class="form-control" required>
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-9 editable-content">
+                                    <input name="contact_number" value="{{this.contact_number}}"
+                                        placeholder="+7 (123) 123-1234" class="form-control" required>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group group-drivers__hide-vis" style="display: none;">
                             <label class="col-sm-3 control-label">Водитель</label>
@@ -167,16 +183,18 @@
                                     <div class="non-editable-content" data-target="driver_name">
                                         {{this.driver_name}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select name="driver_id" class="form-control" style="width: 100%">
-                                            <option value="" selected disabled>Выберете водителя</option>
-                                            {{#each ../drivers}}
-                                                <option {{compare this.id ../driver_id 'selected' ''}}
-                                                    value="{{this.id}}">
-                                                    {{this.name}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select name="driver_id" class="form-control" style="width: 100%">
+                                                <option value="" selected disabled>Выберете водителя</option>
+                                                {{#each ../drivers}}
+                                                    <option {{compare this.id ../driver_id 'selected' ''}}
+                                                        value="{{this.id}}">
+                                                        {{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -187,15 +205,18 @@
                                     <div class="non-editable-content">
                                         {{this.car_name}} {{this.car_model}} - {{this.car_number}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select name="car_id" class="form-control">
-                                            <option value="" selected disabled>Выберете автомобиль</option>
-                                            {{#each ../cars}}
-                                                <option {{compare this.id ../car_id 'selected' ''}} value="{{this.id}}">
-                                                    {{this.name}} {{this.model}} - {{this.number}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select name="car_id" class="form-control">
+                                                <option value="" selected disabled>Выберете автомобиль</option>
+                                                {{#each ../cars}}
+                                                    <option {{compare this.id ../car_id 'selected' ''}}
+                                                        value="{{this.id}}">
+                                                        {{this.name}} {{this.model}} - {{this.number}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -204,10 +225,12 @@
                             <div class="non-editable-content" data-target="class_name">
                                 {{this.class_name}}
                             </div>
-                            <div class="col-sm-3 editable-content">
-                                <input name="class_name" value="{{this.class_name}}" type="text" class="form-control"
-                                    placeholder="Введите класс" required>
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-3 editable-content">
+                                    <input name="class_name" value="{{this.class_name}}" type="text"
+                                        class="form-control" placeholder="Введите класс" required>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group group-drivers__hide-vis" style="display: none;">
                             <label class="col-sm-2 control-label">Маршрут</label>
@@ -216,16 +239,19 @@
                                     <div class="non-editable-content" data-target="itinerarie_name">
                                         {{this.itinerarie_name}}
                                     </div>
-                                    <div class="editable-content">
-                                        <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control">
-                                            <option value="0" selected disabled>Выберете маршрут</option>
-                                            {{#each ../itineraries}}
-                                                <option {{compare this.id ../itinerarie_id 'selected' ''}}
-                                                    value="{{this.id}}">
-                                                    {{this.name}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    {{#if can_edit}}
+                                        <div class="editable-content">
+                                            <select id="js-car-reservation-itinerarie_id" name="itinerarie_id"
+                                                class="form-control">
+                                                <option value="0" selected disabled>Выберете маршрут</option>
+                                                {{#each ../itineraries}}
+                                                    <option {{compare this.id ../itinerarie_id 'selected' ''}}
+                                                        value="{{this.id}}">
+                                                        {{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -237,9 +263,13 @@
                                         <div class="non-editable-content" data-target="itinerarie_point_a">
                                             {{this.itinerarie_point_a}}
                                         </div>
-                                        <div class="editable-content">
-                                            <input value="{{this.itinerarie_point_a}}" type="text" name="itinerarie_point_a" class="form-control" placeholder="Введите пункт" required>
-                                        </div>
+                                        {{#if can_edit}}
+                                            <div class="editable-content">
+                                                <input value="{{this.itinerarie_point_a}}" type="text"
+                                                    name="itinerarie_point_a" class="form-control"
+                                                    placeholder="Введите пункт" required>
+                                            </div>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -250,9 +280,13 @@
                                         <div class="non-editable-content" data-target="itinerarie_point_b">
                                             {{this.itinerarie_point_b}}
                                         </div>
-                                        <div class="editable-content">
-                                            <input value="{{this.itinerarie_point_b}}" type="text" name="itinerarie_point_a" class="form-control" placeholder="Введите пункт" required>
-                                        </div>
+                                        {{#if can_edit}}
+                                            <div class="editable-content">
+                                                <input value="{{this.itinerarie_point_b}}" type="text"
+                                                    name="itinerarie_point_a" class="form-control"
+                                                    placeholder="Введите пункт" required>
+                                            </div>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -270,8 +304,9 @@
                                         <a href="/additional-services/{{id}}">{{name}}</a>
                                     </div>
                                     <div class="col-sm-10">
-                                        <div class="editable-content">
-                                            <div class="input-group">
+                                        {{#if can_edit}}
+                                            <div class="editable-content">
+                                                <div class="input-group">
                                                     <select name="services" class="form-control">
                                                         <option value="0" selected disabled>Выберете услугу</option>
                                                         {{#each ../../servicesList as | service |}}
@@ -280,14 +315,16 @@
                                                         {{/each}}
                                                     </select>
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-default adding-item" type="button">+</button>
+                                                        <button class="btn btn-default adding-item"
+                                                            type="button">+</button>
                                                     </span>
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default deliting-item"
                                                             type="button">-</button>
                                                     </span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {{/if}}
                                     </div>
                                 </div>
                             {{/each}}
@@ -297,40 +334,48 @@
                             <div class="non-editable-content" data-target="prepayment">
                                 {{this.prepayment}}
                             </div>
-                            <div class="col-sm-8 editable-content">
-                                <input name="prepayment" value="{{this.prepayment}}" type="text" class="form-control"
-                                    placeholder="Введите сумму" required>
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-8 editable-content">
+                                    <input name="prepayment" value="{{this.prepayment}}" type="text"
+                                        class="form-control" placeholder="Введите сумму" required>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Комментарий</label>
                             <div class="non-editable-content" data-target="comment">
                                 {{this.comment}}
                             </div>
-                            <div class="col-sm-9 editable-content">
-                                <textarea name="comment" class="form-control" cols="30" rows="5"
-                                    placeholder="Введите комментарий">{{this.comment}}</textarea>
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-9 editable-content">
+                                    <textarea name="comment" class="form-control" cols="30" rows="5"
+                                        placeholder="Введите комментарий">{{this.comment}}</textarea>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Общая сумма</label>
                             <div class="non-editable-content" data-target="sum">
                                 {{this.sum}}
                             </div>
-                            <div class="col-sm-8 editable-content">
-                                <input name="sum" value="{{this.sum}}" type="text" class="form-control"
-                                    placeholder="Введите сумму" required>
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-8 editable-content">
+                                    <input name="sum" value="{{this.sum}}" type="text" class="form-control"
+                                        placeholder="Введите сумму" required>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group group-drivers__hide-vis">
                             <label class="col-sm-4 control-label">Зарплата водителя, руб.</label>
                             <div class="non-editable-content" data-target="driver_salary">
                                 {{this.driver_salary}}
                             </div>
-                            <div class="col-sm-8 editable-content">
-                                <input name="driver_salary" value="{{this.driver_salary}}" type="number"
-                                    class="form-control" placeholder="Введите сумму" required>
-                            </div>
+                            {{#if can_edit}}
+                                <div class="col-sm-8 editable-content">
+                                    <input name="driver_salary" value="{{this.driver_salary}}" type="number"
+                                        class="form-control" placeholder="Введите сумму" required>
+                                </div>
+                            {{/if}}
                         </div>
 
 
@@ -340,30 +385,34 @@
                                 <div class="non-editable-content" data-target="status_name">
                                     {{this.status_name}}
                                 </div>
-                                <div class="editable-content">
-                                    <div class="checkbox-custom checkbox-warning col-sm-3">
-                                        <input {{compare this.status '0' '' 'checked disabled'}} name="status" value="1"
-                                            type="checkbox" id="checkboxExample4">
-                                        <label for="checkboxExample4">
-                                            {{#unless this.status}}
-                                                На приеме
-                                            {{else}}
-                                                {{this.status_name}}
-                                            {{/unless}}
-                                        </label>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <div class="checkbox-custom checkbox-warning col-sm-3">
+                                            <input {{compare this.status '0' '' 'checked disabled'}} name="status"
+                                                value="1" type="checkbox" id="checkboxExample4">
+                                            <label for="checkboxExample4">
+                                                {{#unless this.status}}
+                                                    На приеме
+                                                {{else}}
+                                                    {{this.status_name}}
+                                                {{/unless}}
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="form-group non-editable-content">
                             <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
                             <div class="col-sm-8 reservation-send-block">
                                 <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                    <input class="send-customer__checkbox" type="checkbox" checked name="send_customer_mail" value="1" id="send_customer_email">
+                                    <input class="send-customer__checkbox" type="checkbox" checked
+                                        name="send_customer_mail" value="1" id="send_customer_email">
                                     <label class="send-customer__label" for="send_customer_email">EMAIL</label>
                                 </div>
                                 <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                    <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms" value="2" id="send_customer_sms">
+                                    <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms"
+                                        value="2" id="send_customer_sms">
                                     <label class="send-customer____label" for="send_customer_sms">SMS</label>
                                 </div>
                                 <div class="reservation-send-btn">
@@ -371,17 +420,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 text-right editable-content">
-                            <div class="footer-btn-block-resrvation">
-                                <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                        {{#if can_edit}}
+                            <div class="col-md-12 text-right editable-content">
+                                <div class="footer-btn-block-resrvation">
+                                    <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                                </div>
                             </div>
-                        </div>
+                        {{/if}}
                     </form>
                 </div>
             {{/each}}
             <div class="footer-btn-block-resrvation">
-                {{#unless item.completed}}
+                {{#if item.can_edit}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                {{/if}}
+                {{#unless item.completed}}
                     <button id="js-carReserv-complete" data-id="{{id}}"
                         class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
                     <button data-id="{{id}}" data-target="carReservations"
@@ -426,45 +479,49 @@
         }
     }
 
-    btnAddProduct.addEventListener('click', insRow);
+    $(btnAddProduct).on('click', insRow);
 
     table.addEventListener('click', delRow);
 </script>
 <script>
     const driversGroup = document.querySelector('.group-drivers');
-    const driversGroupCheckbox = driversGroup.querySelector('.group-drivers__checkbox');
-    const driversGroupLabel = driversGroup.querySelector('.group-drivers__label');
-    const driversGroupHV = document.querySelectorAll('.group-drivers__hide-vis');
-    const $galka = $('#checkboxdriver');
 
-    if ($galka.is(':checked')) {
-        driversGroupLabel.innerHTML = 'С ВОДИТЕЛЕМ';
+    if (driversGroup) {
+        const driversGroupCheckbox = driversGroup.querySelector('.group-drivers__checkbox');
+        const driversGroupLabel = driversGroup.querySelector('.group-drivers__label');
+        const driversGroupHV = document.querySelectorAll('.group-drivers__hide-vis');
+        const $galka = $('#checkboxdriver');
 
-        for (let i = 0; i < driversGroupHV.length; i++) {
-            driversGroupHV[i].style.display = 'block';
-        }
-
-    } else {
-
-        driversGroupLabel.innerHTML = 'БЕЗ ВОДИТЕЛЯ';
-
-        for (let i = 0; i < driversGroupHV.length; i++) {
-            driversGroupHV[i].style.display = 'none';
-        }
-    }
-
-    driversGroupCheckbox.addEventListener('click', () => {
-        if (driversGroupCheckbox.checked) {
+        if ($galka.is(':checked')) {
             driversGroupLabel.innerHTML = 'С ВОДИТЕЛЕМ';
+
             for (let i = 0; i < driversGroupHV.length; i++) {
                 driversGroupHV[i].style.display = 'block';
             }
+
         } else {
+
             driversGroupLabel.innerHTML = 'БЕЗ ВОДИТЕЛЯ';
+
             for (let i = 0; i < driversGroupHV.length; i++) {
                 driversGroupHV[i].style.display = 'none';
             }
         }
-    });
+
+        driversGroupCheckbox.addEventListener('click', () => {
+            if (driversGroupCheckbox.checked) {
+                driversGroupLabel.innerHTML = 'С ВОДИТЕЛЕМ';
+                for (let i = 0; i < driversGroupHV.length; i++) {
+                    driversGroupHV[i].style.display = 'block';
+                }
+            } else {
+                driversGroupLabel.innerHTML = 'БЕЗ ВОДИТЕЛЯ';
+                for (let i = 0; i < driversGroupHV.length; i++) {
+                    driversGroupHV[i].style.display = 'none';
+                }
+            }
+        });
+    }
+
 
 </script>

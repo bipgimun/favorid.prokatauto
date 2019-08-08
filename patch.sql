@@ -153,3 +153,9 @@
 -- ALTER TABLE `detailing_apartments_details` ADD FOREIGN KEY (`detailing_id`) REFERENCES `detailing_apartments`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 -- ДОБАВЛЕНО В БД 12.06.19 КРУЦЕНКО
+
+-- 6.08.19
+-- пометка аккаунта директора
+ALTER TABLE `managers` ADD `is_director` BOOLEAN NOT NULL DEFAULT FALSE AFTER `employee_id`;
+-- добавление разделения прав
+ALTER TABLE `managers` ADD `is_senior_manager` BOOLEAN NOT NULL DEFAULT FALSE AFTER `is_director`, ADD `is_manager` BOOLEAN NOT NULL DEFAULT TRUE AFTER `is_senior_manager`;

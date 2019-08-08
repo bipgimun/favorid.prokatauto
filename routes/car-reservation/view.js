@@ -31,6 +31,14 @@ module.exports = async (req, res, next) => {
     reservs.forEach(item => {
         item.status_name = statues[String(item.status)];
         item.completed = item.status == '2';
+
+        item.can_edit = false;
+
+        if (req.session.user.is_director == '1') {
+            item.can_edit = true;
+        } else if (!item.completed && req.session.user.is_senior_manager == '1') {
+            item.can_edit = true;
+        }
     })
 
     const customers = await db.execQuery(`SELECT * FROM customers`);
