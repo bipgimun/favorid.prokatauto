@@ -23,4 +23,6 @@ router.use('/invoices', require('./invoices'));
 router.use('/salary-statement', require('./salary-statement'));
 router.use('/act-sverki', require('./act-sverki'));
 
+router.use('/cabinet', require('./cabinet'));
+
 module.exports = router;

@@ -16,7 +16,12 @@ module.exports = async (req, res, next) => {
             SELECT m.*,
                 e.first_name,
                 e.last_name,
-                e.middle_name
+                e.middle_name,
+                e.is_director,
+                e.is_senior_manager,
+                e.is_manager,
+                e.birthday,
+                e.phone
             FROM managers m
                 LEFT JOIN employees e ON m.employee_id = e.id
             WHERE login = ? 

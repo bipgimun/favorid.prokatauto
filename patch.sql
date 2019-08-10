@@ -156,6 +156,15 @@
 
 -- 6.08.19
 -- пометка аккаунта директора
-ALTER TABLE `managers` ADD `is_director` BOOLEAN NOT NULL DEFAULT FALSE AFTER `employee_id`;
+ALTER TABLE `employees` ADD `is_director` BOOLEAN NOT NULL DEFAULT FALSE AFTER `middle_name`;
 -- добавление разделения прав
-ALTER TABLE `managers` ADD `is_senior_manager` BOOLEAN NOT NULL DEFAULT FALSE AFTER `is_director`, ADD `is_manager` BOOLEAN NOT NULL DEFAULT TRUE AFTER `is_senior_manager`;
+ALTER TABLE `employees` ADD `is_senior_manager` BOOLEAN NOT NULL DEFAULT FALSE AFTER `is_director`, ADD `is_manager` BOOLEAN NOT NULL DEFAULT TRUE AFTER `is_senior_manager`;
+
+-- добавить номер телефона сотруднику
+ALTER TABLE `employees` ADD `phone` VARCHAR(255) NULL DEFAULT NULL AFTER `middle_name`;
+
+-- добавление флага уволен ли сотрудник
+ALTER TABLE `employees` ADD `is_fired` BOOLEAN NOT NULL DEFAULT FALSE AFTER `phone`;
+
+-- пережиток прошлого
+ALTER TABLE `employees` CHANGE `access_id` `access_id` INT(11) NULL DEFAULT NULL;

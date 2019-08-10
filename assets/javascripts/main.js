@@ -958,7 +958,7 @@ const request = (url, data, options = { showNotify: false }) => {
     })
 };
 
-const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') => {
+function getFormValues(form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') {
 
     const arrayData = $(form).find(selectors).serializeArray();
 
@@ -984,3 +984,52 @@ const insertTable = (name, id, values = []) => {
         .dataTable()
         .fnAddData([...values, `<a href="/${name}/${id}" target="_blank">Подробнее</a>`]);
 }
+
+const Employee = {
+    submit_form: async (form) => {
+        const values = getFormValues(form);
+
+        const data = await request('/api/employees/add', values);
+
+        if (data.status == 'ok') {
+            location.reload();
+        }
+
+        return false;
+    },
+
+    update_form: async (form) => {
+
+        const values = getFormValues(form);
+
+        const data = await request('/api/employees/update', values);
+
+        console.log(data);
+
+        if (data.status == 'ok') {
+            location.reload();
+        }
+
+        return false;
+    },
+
+    fired: async (employee_id) => {
+        if (!confirm('Уволить сотрудника?')) {
+            return false;
+        }
+
+        await request('/api/employees/updateTarget', { is_fired: 1, id: employee_id });
+
+        location.reload();
+    },
+
+    come: async (employee_id) => {
+        if (!confirm('Вернуть сотрудника?')) {
+            return false;
+        }
+
+        await request('/api/employees/updateTarget', { is_fired: 0, id: employee_id });
+
+        location.reload();
+    }
+};

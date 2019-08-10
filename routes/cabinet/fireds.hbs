@@ -1,0 +1,92 @@
+<style>
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Личный кабинет</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Личный кабинет</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Список уволенных работников</h2>
+    </header>
+    <div class="panel-body">
+        <div class="zag">
+            <h1>заглушка</h1>
+        </div>
+        <div class="table-responsive">
+            <table id="js-nomenclature-products-table"
+                class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Должность</th>
+                        <th>Телефон</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each employees}}
+                        <tr>
+                            <td>{{last_name}} {{first_name}} {{middle_name}}</td>
+                            <td>{{post}}</td>
+                            <td>{{phone}}</td>
+                            <td>
+                                <a href="/cabinet/{{id}}" target="_blank">Подробнее</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Должность</th>
+                        <th>Телефон</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
