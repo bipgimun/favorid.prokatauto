@@ -247,3 +247,5 @@ ALTER TABLE `act_sverki_documents` ADD `manager_id` INT NOT NULL AFTER `id`, ADD
 ALTER TABLE `detailing_apartments` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
 ALTER TABLE `detailing_cars` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
 ALTER TABLE `invoices` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `invoices` ADD `file` VARCHAR(255) NULL DEFAULT NULL AFTER `id`;
+
