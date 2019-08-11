@@ -195,3 +195,11 @@ CREATE TABLE `sms_notifications` (
     PRIMARY KEY (`id`), INDEX (`customer_id`)
 ) ENGINE = InnoDB;
 
+CREATE TABLE `balance` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `driver_id` INT NOT NULL , 
+    `income` DECIMAL(11,2) NOT NULL , 
+    `cost` DECIMAL(11,2) NOT NULL , 
+    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    PRIMARY KEY (`id`), INDEX (`driver_id`)
+) ENGINE = InnoDB;
