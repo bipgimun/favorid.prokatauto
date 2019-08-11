@@ -168,3 +168,30 @@ ALTER TABLE `employees` ADD `is_fired` BOOLEAN NOT NULL DEFAULT FALSE AFTER `pho
 
 -- access_id - старое поле, которое использовалось для тату. сейчас не используется. по умолчанию всегда нулл
 ALTER TABLE `employees` CHANGE `access_id` `access_id` INT(11) NULL DEFAULT NULL;
+
+-- способ получения уведомлений для заказчика
+ALTER TABLE `cars_reservations` 
+    ADD `notify_sms` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id`, 
+    ADD `notify_email` BOOLEAN NOT NULL DEFAULT FALSE AFTER `notify_sms`;
+
+ALTER TABLE `apartment_reservations` 
+    ADD `notify_sms` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id`, 
+    ADD `notify_email` BOOLEAN NOT NULL DEFAULT FALSE AFTER `notify_sms`;
+
+ALTER TABLE `customers` 
+    ADD `notify_sms` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id`, 
+    ADD `notify_email` BOOLEAN NOT NULL DEFAULT FALSE AFTER `notify_sms`;
+
+CREATE TABLE `sms_notifications` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `phone` VARCHAR(255) NOT NULL , 
+    `message` TEXT NULL DEFAULT NULL,
+    `customer_id` INT NOT NULL , 
+    `sms_id` VARCHAR(255) NULL , 
+    `status` VARCHAR(255) NOT NULL ,
+    `error` TEXT NULL DEFAULT NULL;
+    `cost` DECIMAL(11,2) NOT NULL ,
+    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    PRIMARY KEY (`id`), INDEX (`customer_id`)
+) ENGINE = InnoDB;
+
