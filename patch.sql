@@ -189,9 +189,9 @@ CREATE TABLE `sms_notifications` (
     `customer_id` INT NOT NULL , 
     `sms_id` VARCHAR(255) NULL , 
     `status` VARCHAR(255) NOT NULL ,
-    `error` TEXT NULL DEFAULT NULL;
+    `error` TEXT NULL DEFAULT NULL,
     `cost` DECIMAL(11,2) NOT NULL ,
-    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`), INDEX (`customer_id`)
 ) ENGINE = InnoDB;
 

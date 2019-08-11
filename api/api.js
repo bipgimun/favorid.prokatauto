@@ -46,6 +46,8 @@ function checkPrivileges(req, res, next) {
             throw new Error('Недостаточно прав для удаления');
         }
     }
+
+    next();
 }
 
 app.use('/apartmentReservations', checkAuth, checkPrivileges, require('./routes/apartment-reservations'));

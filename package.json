@@ -25,6 +25,8 @@
     "md5": "^2.2.1",
     "moment": "^2.22.2",
     "mysql2": "^1.6.4",
+    "nodemailer": "^6.3.0",
+    "request": "^2.88.0",
     "select2": "^4.0.6-rc.1"
   },
   "devDependencies": {

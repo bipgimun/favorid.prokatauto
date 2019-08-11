@@ -1,3 +1,6 @@
+const smsSend = require('../../../libs/smsSend');
+const nodemailer = require('nodemailer');
+
 const express = require('express');
 const app = express.Router();
 
@@ -11,7 +14,11 @@ const moment = require('moment');
 
 const Joi = require('joi');
 
-const { apartmentsReservsModel } = require('../../../models');
+const {
+    apartmentsReservsModel,
+    customersModel,
+    apartmentsModel,
+} = require('../../../models');
 
 const addSchema = Joi.object({
     manager_id: Joi.number().required(),
@@ -193,5 +200,104 @@ app.post('/delete', async (req, res, next) => {
 
     res.json({ status: 'ok' });
 })
+
+
+app.post('/sendNotify', async (req, res, next) => {
+    const { id, sms, email } = req.body;
+
+    if (!id) {
+        throw new Error('Ошибка входных данных: отсутствует id');
+    }
+
+    const [reserv = {}] = await apartmentsReservsModel.get({ id });
+
+    if (!reserv.id) {
+        throw new Error('Заявка не найдена');
+    }
+
+    const [customer = {}] = await customersModel.get({ id: reserv.customer_id });
+
+    if (!customer.id) {
+        throw new Error('Заказчик не найден');
+    }
+
+    const [apartment = {}] = await apartmentsModel.get({ id: reserv.apartment_id });
+
+    if (!apartment.id) {
+        throw new Error('Квартира не найдена');
+    }
+
+    const e = moment(reserv.entry);
+    const d = moment(reserv.departure);
+
+    const errors = [];
+    const message = 'Для вашей заявки № ' + id + ' назначены апартаменты - ' + apartment.address + '. '
+        + 'Заезд ' + e.format('DD.MM.YYYY') + ' в ' + e.format('hh:mm')
+        + '. Выезд ' + d.format('DD.MM.YYYY') + ' в ' + e.format('hh:mm') + '. Телефон для связи +7-919-301-50-59, Сергей Викторович';
+
+    if (sms == '1') {
+
+        if (!reserv.contact_number) {
+            errors.push(new Error('У заказчика не установлен номер телефона'));
+        } else {
+            const phone = reserv.contact_number.replace(/\D/g, '');
+
+            const smsData = await smsSend.send(phone, message, { from: 'ABV Hotel' });
+
+            if (smsData.status == 'OK') {
+                for (const phone of Object.keys(smsData.sms)) {
+                    const d = smsData.sms[phone];
+
+                    await db.insertQuery(`INSERT INTO sms_notifications SET ?`, {
+                        phone,
+                        message: message,
+                        customer_id: reserv.customer_id,
+                        sms_id: d.status === 'OK' ? d.sms_id : null,
+                        status: d.status,
+                        error: d.status !== 'OK' ? d.status_text : null,
+                        cost: d.cost || 0
+                    });
+
+                    if (d.status !== 'OK') {
+                        errors.push(new Error(`Не удалось отправить сообщение на номер ${phone}: ${d.status_text}`));
+                    }
+                }
+            } else {
+                errors.push(new Error('Не удалось отправить SMS сообщение: не удалось установить связь с сервером'));
+            }
+        }
+    }
+
+
+    if (email == '1') {
+
+        if (!customer.email) {
+            errors.push(new Error('У заказчика отсутствует email'));
+        } else {
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.mail.ru',
+                port: 465,
+                from: 'hotel-mgn@mail.ru',
+                auth: {
+                    user: 'hotel-mgn@mail.ru',
+                    pass: '174174mgn'
+                }
+            });
+
+            await transporter.sendMail({
+                from: '"ABV Hotel" <hotel-mgn@mail.ru>', // sender address
+                to: customer.email, // list of receivers
+                subject: "Заявка №" + id, // Subject line
+                text: message, // plain text body
+            });
+        }
+
+    }
+
+    res.json({
+        status: 'ok',
+        errors: errors.join('\n')
+    });
+});
 
 module.exports = app;
