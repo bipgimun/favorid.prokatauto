@@ -203,3 +203,5 @@ CREATE TABLE `balance` (
     `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
     PRIMARY KEY (`id`), INDEX (`driver_id`)
 ) ENGINE = InnoDB;
+
+ALTER TABLE `employees` ADD `birthday` DATE NULL DEFAULT NULL;
