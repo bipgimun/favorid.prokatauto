@@ -58,7 +58,7 @@
                 <div class="panel-body js-editable-body">
                     <form action="/api/apartmentReservations/update" id="js-apartmentReservations-form"
                         class="form-horizontal mb-lg" novalidate="novalidate">
-                        <input type="hidden" name="id" value="{{this.id}}">
+                        <input type="hidden" name="id" class="hidden-id-apartment" value="{{this.id}}">
                         <div class="form-group mt-lg">
                             <label class="col-sm-3 control-label">Заказчик</label>
                             <div class="col-sm-9">
@@ -251,7 +251,7 @@
                                         <div class="non-editable-content" data-target="name">
                                             {{this.name}}
                                         </div>
-                                        {{#if can_edit}}
+                                        {{#if ../can_edit}}
                                             <div class="editable-content">
                                                 <div class="input-group">
                                                     <select name="services"
@@ -324,24 +324,6 @@
                                 {{/if}}
                             </div>
                         </div>
-                        <div class="form-group non-editable-content">
-                            <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
-                            <div class="col-sm-8 reservation-send-block">
-                                <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                    <input class="send-customer__checkbox" type="checkbox" checked
-                                        name="send_customer_mail" value="1" id="send_customer_email">
-                                    <label class="send-customer__label" for="send_customer_email">EMAIL</label>
-                                </div>
-                                <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                    <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms"
-                                        value="2" id="send_customer_sms">
-                                    <label class="send-customer____label" for="send_customer_sms">SMS</label>
-                                </div>
-                                <div class="reservation-send-btn">
-                                    <button class="btn btn-warning">Отправить</button>
-                                </div>
-                            </div>
-                        </div>
                         {{#if can_edit}}
                             <div class="col-md-12 text-right editable-content">
                                 <div class="footer-btn-block-resrvation">
@@ -350,6 +332,24 @@
                             </div>
                         {{/if}}
                     </form>
+                    <div class="form-group non-editable-content">
+                        <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
+                        <div class="col-sm-8 reservation-send-block">
+                            <div class="checkbox-custom chekbox-primary reservation-send-block--child">
+                                <input class="send-customer__checkbox" type="checkbox" checked
+                                    name="send_customer_mail" value="1" id="send_customer_email">
+                                <label class="send-customer__label" for="send_customer_email">EMAIL</label>
+                            </div>
+                            <div class="checkbox-custom chekbox-primary reservation-send-block--child">
+                                <input class="send-customer____checkbox" type="checkbox" name="send_customer_sms"
+                                    value="2" id="send_customer_sms">
+                                <label class="send-customer____label" for="send_customer_sms">SMS</label>
+                            </div>
+                            <div class="reservation-send-btn">
+                                <button class="btn btn-warning btn--send-message">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="footer-btn-block-resrvation">
                     {{#if can_edit}}
@@ -368,6 +368,58 @@
 
     </div>
 </section>
+
+<script>
+    $(document).ready(() => {
+        $('.btn--send-message').click(async ()=> {
+            let ID = $('.hidden-id-apartment').val();
+            const data = {
+                id: ID
+            };
+
+            if ($('#send_customer_email').is(':checked')) {
+                data.email = 1;
+            }
+
+            if ($('#send_customer_sms').is(':checked')) {
+                data.sms = 1;
+            }
+
+           if ($('#send_customer_email').is(':checked') === false && $('#send_customer_sms').is(':checked') === false) {
+                alert('Не выбрано ни одного поля (sms или email)');
+                return;
+            }
+            
+            const {errors} = await request('/api/apartmentReservations/sendNotify ', data);
+
+            if(errors) {
+                new PNotify({
+                    title: 'Ошибка',
+                    text: errors,
+                    icon: 'fa fa-user',
+                    shadow: true,
+                    delay: 1000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+            } else {
+                new PNotify({
+                    title: 'Успешно',
+                    text: 'Отправлено',
+                    type: 'success',
+                    shadow: true,
+                    delay: 1000,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+            }
+        });
+    });
+</script>
 
 <script>
     var btnAddProduct = document.querySelector('.adding-item');
@@ -406,4 +458,5 @@
 
     table.addEventListener('click', delRow);
 </script>
+
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
