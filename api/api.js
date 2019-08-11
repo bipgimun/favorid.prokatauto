@@ -31,9 +31,6 @@ function checkPrivileges(req, res, next) {
         can_remove: req.session.user.is_director == '1'
     };
 
-    console.log(url);
-    console.log('url.search(/\/update/)', url.search(/\/update/));
-
     if (url.search(/\/update/) > -1) {
         if (privileges.can_edit) {
             return next();
