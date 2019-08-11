@@ -1,0 +1,115 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Баланс</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Баланс</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Формирование баланса</h2>
+    </header>
+
+    <div class="panel-body">
+
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-6">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input type="date" class="js-balance-periodLeft form-control">
+                    <input type="date" class="js-balance-periodRight form-control">
+                </div>
+            </div>
+
+            <div class="controls_details-child customer-control_details col-md-12">
+                <p class="header-details">Водитель</p>
+                <div class="controls_details_date-range">
+                    <select class="form-control js-balance-driver">
+                        <option value="" disabled selected>Выберете водителя</option>
+                        {{#each drivers}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="create_button col-md-12">
+            <button class="js-balance-accept btn btn-primary">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <table class="js-balance-table table table-bordered table-striped mb-none">
+                
+            </table>
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        const $accept = $('.js-balance-accept');
+
+
+        const $periodLeft = $('.js-balance-periodLeft');
+        const $periodRight = $('.js-balance-periodRight');
+        const $driver = $('.js-balance-driver');
+        const $table = $('.js-balance-table');
+
+        $accept.on('click', async () => {
+            const periodLeft = $periodLeft.val();
+            const periodRight = $periodRight.val();
+            const driver = $driver.val();
+
+            if (!periodLeft || !periodRight) {
+                alert('Не выбран период');
+                return false;
+            }
+
+            if (!driver) {
+                alert('Не выбран водитель');
+                return false;
+            }
+
+            const { html } = await request('/api/balance/getTable', { driver, periodLeft, periodRight });
+            $table.find('tbody').html(html);
+        })
+    })
+</script>

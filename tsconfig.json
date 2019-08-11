@@ -1,11 +1,15 @@
 {
     "compilerOptions": {
-        "target": "esnext",
-        "module": "commonjs"
+        "target": "es6",
+        "module": "commonjs",
+        "allowSyntheticDefaultImports": true,
+        "checkJs": true
     },
-    "include": [
-        "assets/javascripts/main.js",
-        "assets/**/main.js",
-        "assets/**/*.js",
+    "exclude": [
+        "node_modules",
+        "bower_components",
+        "jspm_packages",
+        "tmp",
+        "temp"
     ]
 }

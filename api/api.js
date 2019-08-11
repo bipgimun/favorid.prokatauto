@@ -57,6 +57,7 @@ app.use('/salary-reports', checkAuth, checkPrivileges, require('./routes/salary-
 app.use('/act-sverki', checkAuth, checkPrivileges, require('./routes/act-sverki'));
 
 app.use('/employees', checkAuth, checkPrivileges, require('./routes/employees'));
+app.use('/balance', checkAuth, checkPrivileges, require('./routes/balance'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));

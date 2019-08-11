@@ -902,7 +902,7 @@ $(document).ready(() => {
     $count.on('input', function () {
         var value = $count.val()
         if (Number.isInteger(value)) {
-            return
+            return;
         } else {
             $count.val(Math.round($count.val()));
         }
