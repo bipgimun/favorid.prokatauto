@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+    },
+    "include": [
+        "assets/javascripts/main.js",
+        "assets/**/main.js",
+        "assets/**/*.js",
+    ]
+}
