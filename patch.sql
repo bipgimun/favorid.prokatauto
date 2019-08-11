@@ -194,4 +194,4 @@ CREATE TABLE `sms_notifications` (
     `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`), INDEX (`customer_id`)
 ) ENGINE = InnoDB;
-
+-- ДОБАВЛЕНО В БД 11.08.19 КРУЦЕНКО

@@ -402,7 +402,15 @@
                                 {{/if}}
                             </div>
                         </div>
-                        <div class="form-group non-editable-content">
+                        {{#if can_edit}}
+                            <div class="col-md-12 text-right editable-content">
+                                <div class="footer-btn-block-resrvation">
+                                    <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </form>
+                    <div class="form-group non-editable-content">
                             <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
                             <div class="col-sm-8 reservation-send-block">
                                 <div class="checkbox-custom chekbox-primary reservation-send-block--child">
@@ -416,18 +424,10 @@
                                     <label class="send-customer____label" for="send_customer_sms">SMS</label>
                                 </div>
                                 <div class="reservation-send-btn">
-                                    <button class="btn btn-warning">Отправить</button>
+                                    <button class="btn btn-warning btn--send-message">Отправить</button>
                                 </div>
                             </div>
                         </div>
-                        {{#if can_edit}}
-                            <div class="col-md-12 text-right editable-content">
-                                <div class="footer-btn-block-resrvation">
-                                    <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
-                                </div>
-                            </div>
-                        {{/if}}
-                    </form>
                 </div>
             {{/each}}
             <div class="footer-btn-block-resrvation">
@@ -524,4 +524,28 @@
     }
 
 
+</script>
+<script>
+    $(document).ready(() => {
+        $('.btn--send-message').click(async ()=> {
+
+            const data = {
+                id: 1
+            };
+
+            if ($('#send_customer_email').is(':checked')){
+                data.email = 1;
+            }
+
+            if ($('#send_customer_sms').is(':checked')) {
+                data.sms = 1;
+            }
+
+            ($('#send_customer_email').is(':checked') === false && $('#send_customer_sms').is(':checked') === false) ?
+            alert('Не выбрано ни одного поля (sms или email)'):
+            await request('/api/carReservations/sendNotify ', data, { showNotify: true });
+        });
+    });
+
+    //await request('/api/apartmentReservations/sendNotify', { datas }, { showNotify: true });
 </script>

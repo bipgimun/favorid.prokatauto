@@ -83,7 +83,7 @@ module.exports = ({
         ws.cell(3, 1).string('Дата');
         ws.cell(3, 2).string('Время');
         ws.cell(3, 3).string('Маршрут');
-        ws.cell(3, 4).string('Клиент');
+        ws.cell(3, 4).string('Пассажир');
         ws.cell(3, 5).string('Комментарий');
         ws.cell(3, 6).string('Сумма');
 
