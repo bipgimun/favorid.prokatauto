@@ -25,7 +25,7 @@ $(document).ready(() => {
         const { body } = await request('/api/detailing-apartments/save', { reservsIds: reservs, customer, period_from, period_end });
 
         $('#js-detailing-apartments-list').dataTable()
-            .fnAddData([body.created, body.id, body.customer_name, body.sum, `<a href="/detailing-apartments/${body.idid}" target="_blank">Подробнее</a>`]);
+            .fnAddData([body.created_at, body.id, body.customer_name, body.sum, `<a href="/detailing-apartments/${body.id}" target="_blank">Подробнее</a>`]);
     })
 
     $cancel.on('click', function () {

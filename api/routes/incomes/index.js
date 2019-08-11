@@ -58,6 +58,8 @@ app.post('/add', async (req, res, next) => {
         }
     }
 
+    validValues.manager_id = req.session.user.employee_id;
+
     const id = await db.insertQuery('INSERT INTO incomes SET ?', validValues);
 
     const invoicePayments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', validValues.document_id]);

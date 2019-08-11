@@ -78,7 +78,7 @@
         </div>
         <div class="after_create-wrapper">
             <table class="js-balance-table table table-bordered table-striped mb-none">
-                
+                <tbody></tbody>
             </table>
         </div>
     </div>
@@ -94,21 +94,21 @@
         const $table = $('.js-balance-table');
 
         $accept.on('click', async () => {
-            const periodLeft = $periodLeft.val();
-            const periodRight = $periodRight.val();
-            const driver = $driver.val();
+            const period_left = $periodLeft.val();
+            const period_right = $periodRight.val();
+            const driver_id = $driver.val();
 
-            if (!periodLeft || !periodRight) {
+            if (!period_left || !period_right) {
                 alert('Не выбран период');
                 return false;
             }
 
-            if (!driver) {
+            if (!driver_id) {
                 alert('Не выбран водитель');
                 return false;
             }
 
-            const { html } = await request('/api/balance/getTable', { driver, periodLeft, periodRight });
+            const { html } = await request('/api/balance/getTable', { period_left, period_right, driver_id });
             $table.find('tbody').html(html);
         })
     })

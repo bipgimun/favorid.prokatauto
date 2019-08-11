@@ -9,10 +9,12 @@ module.exports = async (req, res, next) => {
     const incomes = await db.execQuery(`
         SELECT i.*,
             cs.name as cashbox_name,
-            cust.name as customer_name
+            cust.name as customer_name,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name
         FROM incomes i
             LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id
             LEFT JOIN customers cust ON cust.id = i.customer_id
+            LEFT JOIN employees e ON e.id = i.manager_id
         WHERE i.id = ?
     `, [id]);
 
@@ -47,7 +49,6 @@ module.exports = async (req, res, next) => {
 
     const customers = await customersModel.get();
 
-    console.log("TCL: customers", customers)
     res.render(__dirname + '/incomes-view', {
         incomes,
         groupDocuments,

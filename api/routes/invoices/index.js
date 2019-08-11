@@ -101,7 +101,13 @@ router.post('/add', async (req, res, next) => {
 
     const { customer_id, sum: detailSum } = result;
 
-    const invoiceId = await invoicesModel.add({ base_id, code: detailCode, customer_id, sum: detailSum });
+    const invoiceId = await invoicesModel.add({
+        base_id,
+        code: detailCode,
+        customer_id,
+        sum: detailSum,
+        manager_id: req.session.user.employee_id,
+    });
 
     const [customer = {}] = await customersModel.get({ id: customer_id });
 
@@ -153,25 +159,31 @@ router.post('/add', async (req, res, next) => {
         throw new Error('Неверный код основания');
     }
 
-
     const dataArray = results.map((item, index) => {
         return [+index + 1, item.desc, 1, '', +item.sum];
     });
 
+    const file = await printDetail({
+        number: invoiceId,
+        customer,
+        dataArray,
+        date: moment().locale('ru').format('DD MMM YYYY')
+    });
 
-    const file = await printDetail({ number: invoiceId, customer, dataArray, date: moment().locale('ru').format('DD MMM YYYY') });
+    await db.execQuery(`UPDATE invoices SET ? WHERE id = ?`, [{ file }, invoiceId]);
 
     res.json({
-        status: 'ok', data: {
+        status: 'ok',
+        data: {
             file
         }
     });
 
 })
 
-router.get('/print-invoice', async (req, res, next) => {
+router.get('/print-invoice/:file', async (req, res, next) => {
 
-    const { file } = req.query;
+    const { file } = req.params;
 
     res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
         fs.unlinkSync(path.join(process.cwd(), 'uploads', file));

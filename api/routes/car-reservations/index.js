@@ -127,7 +127,7 @@ router.post('/get', async (req, res, next) => {
 router.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const { id: manager_id } = req.session.user;
+    const { employee_id: manager_id } = req.session.user;
 
     Object.assign(values, { manager_id });
 

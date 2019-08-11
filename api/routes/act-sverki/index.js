@@ -145,7 +145,14 @@ router.post('/document/save', async (req, res, next) => {
         throw new Error('Ошибка входных переменных');
     }
 
-    const document_id = await db.insertQuery(`INSERT INTO act_sverki_documents SET ?`, { customer_id, period_left, period_right, sum, saldo });
+    const document_id = await db.insertQuery(`INSERT INTO act_sverki_documents SET ?`, {
+        customer_id,
+        period_left,
+        period_right,
+        sum,
+        saldo,
+        manager_id: req.session.user.employee_id,
+    });
 
     try {
         for (const income of incomes) {

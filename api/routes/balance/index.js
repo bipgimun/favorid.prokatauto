@@ -1,6 +1,6 @@
 const {
     carsReservsModel,
-    
+    apartmentsReservsModel
 } = require('../../../models');
 
 const router = require('express').Router();
@@ -10,37 +10,55 @@ const moment = require('moment');
 
 router.post('/getTable', async (req, res, next) => {
 
-    const { driver, periodLeft, periodRight } = req.body;
+    const { period_left, period_right, driver_id } = req.body;
 
-    if (!driver || !periodLeft || !periodRight) {
-        throw new Error('Ошибка входных данных: отсутствуют обязательные параметры');
-    }
+    const {
+        money,
+        positions,
+        positionsCosts,
+        positionsIncome,
+        moneyCosts,
+        moneyIncome,
+        totalSum
+    } = await calcTable({ period_left, period_right, driver_id });
 
-    await db.execQuery(`
-        SELECT * 
-        FROM balance 
-        WHERE id = ?
-    `, [driver]);
+    const {
+        totalSum: saldoSum
+    } = await calcTable({
+        period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'),
+        driver_id
+    });
 
-    res.render('partials/balance-table.hbs', {
+    const totalIncome = +moneyIncome + +positionsIncome;
+    const totalCosts = +moneyCosts + +positionsCosts;
+
+    const total = saldoSum + totalIncome - totalCosts;
+    const saldoDate = moment(period_left).subtract(1, 'day').format('DD.MM.YYYY');
+
+    res.render('partials/driver-balance.hbs', {
         layout: false,
+        totalSum,
+        saldoDate,
+        total,
+        positions,
+        money,
+        positionsCosts,
+        positionsIncome,
+        moneyIncome,
+        moneyCosts,
+        totalIncome,
+        totalCosts,
+        saldoSum
     }, (error, html) => {
         if (error) return res.json({ status: 'bad', body: error.message });
 
-        res.json({
-            status: 'ok', html, data: {
-                driver_name,
-                costs,
-                income,
-                total_sum,
-            }
-        });
+        res.json({ status: 'ok', html, data: { positions, money, saldo: saldoSum, totalSum: total } });
     });
 })
 
 
-async function calcTable({ period_left = '', period_right = '', customer_id = '', document = {} }) {
-
+async function calcTable({ period_left = '', period_right = '', driver_id = '' }) {
+    
     const sqlFormat = 'YYYY-MM-DD HH:mm';
 
     const dateLt = moment(period_right).set({ hours: 23, minutes: 59 }).format(sqlFormat);
@@ -48,14 +66,7 @@ async function calcTable({ period_left = '', period_right = '', customer_id = ''
 
     let carOptions = {
         statuses: '2',
-        customer: customer_id,
-        rentStartLt: dateLt,
-        rentStartGt: dateGt,
-    };
-
-    let apartmentOptions = {
-        statuses: '3',
-        customer: customer_id,
+        driver_id: driver_id,
         rentStartLt: dateLt,
         rentStartGt: dateGt,
     };
@@ -64,53 +75,20 @@ async function calcTable({ period_left = '', period_right = '', customer_id = ''
         ? `date BETWEEN '${dateGt}' AND '${dateLt}'`
         : `date <= '${dateLt}'`;
 
-    let incomesQuery = `SELECT * FROM incomes WHERE ${date} AND customer_id = ${customer_id}`;
+    // let incomesQuery = `SELECT * FROM incomes WHERE ${date} AND driver_id = ${customer_id}`;
+    // const incomes = await db.execQuery(incomesQuery);
 
-    if (Object.keys(document).length > 0) {
-
-        const details = await db.execQuery(`
-            SELECT * 
-            FROM act_sverki_documents_details 
-            WHERE document_id = ?`, [document.id]
-        );
-
-        const cars = details.filter(item => item.code === 'CRR')
-            .map(item => item.base_id)
-            .join(',');
-
-        const apartments = details.filter(item => item.code === 'APR')
-            .map(item => item.base_id)
-            .join(',');
-
-        const incomes = details.filter(item => item.income)
-            .map(item => item.base_id)
-            .join(',');
-
-        // @ts-ignore
-        carOptions = {
-            ids: cars
-        };
-
-        // @ts-ignore
-        apartmentOptions = {
-            ids: apartments
-        };
-
-        incomesQuery = `SELECT * FROM incomes WHERE id IN (${incomes})`;
-    }
+    const costs = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND driver_id = ${driver_id}`);
 
     const carReservs = await carsReservsModel.get(carOptions);
-    const apartmentReservs = await apartmentsReservsModel.get(apartmentOptions);
-
-    const incomes = await db.execQuery(incomesQuery);
 
     const positions = [];
     const money = [];
 
-    let positionsGone = 0;
+    let positionsCosts = 0;
     let positionsIncome = 0;
 
-    let moneyGone = 0;
+    let moneyCosts = 0;
     let moneyIncome = 0;
 
     carReservs.forEach(reserv => {
@@ -120,52 +98,44 @@ async function calcTable({ period_left = '', period_right = '', customer_id = ''
 
         const title = `Заявка на аренду авто ${has_driver == '1' ? 'с водителем' : ''} №${id} от ${date}`;
 
-        positionsGone += +sum;
+        positionsIncome += +sum;
 
         positions.push({
             id,
             code: 'CRR',
             title,
-            income: '--',
-            gone: sum,
+            income: sum,
+            gone: '--',
         });
     })
 
-    apartmentReservs.forEach(reserv => {
-
-        const { entry, sum, id } = reserv;
-        const date = moment(entry).format('DD.MM.YYYY');
-
-        const title = `Заявка на аренду квартиры №${id} от ${date}`;
-
-        positionsGone += +sum;
-
-        positions.push({
-            id,
-            code: 'APR',
-            title,
-            income: '--',
-            gone: sum,
-        });
-    })
-
-    incomes.forEach(income => {
+    costs.forEach(income => {
 
         const { id, date, sum } = income;
 
-        moneyIncome += +sum;
+        moneyCosts += +sum;
 
         money.push({
             id,
-            title: `Документ прихода №${id} от ${moment(date).format('DD.MM.YYYY')}`,
-            income: sum,
-            gone: '--'
+            title: `Документ расхода №${id} от ${moment(date).format('DD.MM.YYYY')}`,
+            income: '--',
+            gone: sum
         })
     })
 
-    const totalSum = (+positionsIncome + +moneyIncome) - (+positionsGone + +moneyGone);
+    const totalSum = (+positionsIncome + +moneyIncome) - (+positionsCosts + +moneyCosts);
 
-    return { money, positions, positionsGone, positionsIncome, period_left, period_right, moneyGone, moneyIncome, totalSum };
+    return {
+        money,
+        positions,
+        positionsCosts,
+        positionsIncome,
+        period_left,
+        period_right,
+        moneyCosts,
+        moneyIncome,
+        totalSum,
+    };
 }
 
 module.exports = router;
