@@ -166,5 +166,5 @@ ALTER TABLE `employees` ADD `phone` VARCHAR(255) NULL DEFAULT NULL AFTER `middle
 -- добавление флага уволен ли сотрудник
 ALTER TABLE `employees` ADD `is_fired` BOOLEAN NOT NULL DEFAULT FALSE AFTER `phone`;
 
--- пережиток прошлого
+-- access_id - старое поле, которое использовалось для тату. сейчас не используется. по умолчанию всегда нулл
 ALTER TABLE `employees` CHANGE `access_id` `access_id` INT(11) NULL DEFAULT NULL;
