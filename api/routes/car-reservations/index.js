@@ -245,7 +245,7 @@ router.post('/sendNotify', async (req, res, next) => {
         throw new Error('Заказчик не найден');
     }
 
-    if (!reserv.has_driver) {
+    if (reserv.has_driver != '1') {
         throw new Error('Уведомления доступны для заявок с водителем');
     }
 
