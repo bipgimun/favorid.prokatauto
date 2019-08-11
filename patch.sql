@@ -208,3 +208,6 @@ CREATE TABLE `balance` (
 
 ALTER TABLE `employees` ADD `birthday` DATE NULL DEFAULT NULL;
 -- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
+
+ALTER TABLE `costs` ADD `driver_id` INT NULL DEFAULT NULL AFTER `base_id`;
+-- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
