@@ -10,10 +10,12 @@ module.exports = async (req, res, next) => {
     const costs = await db.execQuery(`
         SELECT c.*,
             cc.title as category,
-            cs.name as cashbox_name
+            cs.name as cashbox_name,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name
         FROM costs c
             LEFT JOIN costs_categories cc ON cc.id = c.category_id
-            JOIN cash_storages cs ON cs.id = c.cash_storage_id
+            LEFT JOIN cash_storages cs ON cs.id = c.cash_storage_id
+            LEFT JOIN employees e ON e.id = c.manager_id
         WHERE c.id = ?
     `, [id]);
 

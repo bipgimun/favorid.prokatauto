@@ -24,8 +24,13 @@ router.post('/save', async (req, res, next) => {
         .map(item => item.sum)
         .reduce((acc, sum) => +acc + +sum, 0);
 
-    const id = await detailingApartmentsModel.add({ customer_id: customer, period_from, period_end, sum });
-
+    const id = await detailingApartmentsModel.add({
+        customer_id: customer,
+        period_from,
+        period_end,
+        sum,
+        manager_id: req.session.user.employee_id
+    });
 
     await Promise.all(
         reservs.map(item => detailingApartmentsDetailsModel.add({ reserv_id: item.id, detailing_id: id }))

@@ -68,7 +68,13 @@ router.get('/:id', async (req, res, next) => {
     if (!id || !Number(id))
         throw new Error('Неверный id');
 
-    const invoices = await db.execQuery(`SELECT * FROM invoices WHERE id = ?`, [id]);
+    const invoices = await db.execQuery(`
+        SELECT i.*,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name 
+        FROM invoices i
+            LEFT JOIN employees e ON e.id = i.manager_id 
+        WHERE i.id = ?
+    `, [id]);
 
     if (!invoices.length)
         throw new Error('Страница не найдена');

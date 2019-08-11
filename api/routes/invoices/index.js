@@ -101,7 +101,13 @@ router.post('/add', async (req, res, next) => {
 
     const { customer_id, sum: detailSum } = result;
 
-    const invoiceId = await invoicesModel.add({ base_id, code: detailCode, customer_id, sum: detailSum });
+    const invoiceId = await invoicesModel.add({
+        base_id,
+        code: detailCode,
+        customer_id,
+        sum: detailSum,
+        manager_id: req.session.user.employee_id,
+    });
 
     const [customer = {}] = await customersModel.get({ id: customer_id });
 

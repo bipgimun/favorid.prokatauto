@@ -29,9 +29,11 @@ router.get('/:id', async (req, res, next) => {
 
     const [document] = await db.execQuery(`
         SELECT asd.*,
-            c.name as customer_name
+            c.name as customer_name,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name
         FROM act_sverki_documents asd
-            LEFT JOIN customers c ON asd.customer_id = c.id\
+            LEFT JOIN customers c ON asd.customer_id = c.id
+            LEFT JOIN employees e ON e.id = asd.manager_id
         WHERE asd.id = ?
     `, [id]);
 

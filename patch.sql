@@ -239,3 +239,11 @@ CREATE TABLE `suppliers` (
   `discount` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `incomes` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `costs` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `salary_reports` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `act_sverki_documents` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `detailing_apartments` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `detailing_cars` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `invoices` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);

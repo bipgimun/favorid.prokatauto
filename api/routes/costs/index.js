@@ -45,6 +45,8 @@ app.post('/add', async (req, res, next) => {
         validValues.document_id = document_id;
     }
 
+    validValues.manager_id = req.session.user.employee_id;
+
     const id = await db.insertQuery('INSERT INTO costs SET ?', [validValues]);
 
     validValues.id = id;
