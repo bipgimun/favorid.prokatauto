@@ -1,14 +1,15 @@
 <!-- start: sidebar -->
 <aside id="sidebar-left" class="sidebar-left">
 
-  <div class="sidebar-header">
-    <div class="sidebar-title">
-      Навигация
+    <div class="sidebar-header">
+        <div class="sidebar-title">
+            Навигация
+        </div>
+        <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+            data-fire-event="sidebar-left-toggle">
+            <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
     </div>
-    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
-      <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-    </div>
-  </div>
 
   <div class="nano">
     <div class="nano-content">
@@ -89,164 +90,173 @@
               <span>---- РАЗДЕЛИТЕЛЬ ----</span>
             </a>
           </li>-->
-          <li class="{{setActive reqUrl '/car-reservation'}}">
-            <a href="/car-reservation">
-              <i class="fa fa-cab" aria-hidden="true"></i>
-              <span>Аренда автомобилей</span>
-            </a>
-          </li>
-          <li class="{{setActive reqUrl '/apartment-reservations'}}">
-            <a href="/apartment-reservations">
-              <i class="fa fa-key" aria-hidden="true"></i>
-              <span>Аренда квартир</span>
-            </a>
-          </li>
-          <li class="{{setActive reqUrl '/list-used-cars'}}">
-            <a href="/list-used-cars">
-              <i class="fa fa-cab" aria-hidden="true"></i>
-              <span>Занятые авто</span>
-            </a>
-          </li>
-          <li class="nav-parent {{setOpen reqUrl '/incomes'}}">
-            <a>
-              <i class="fa fa-money" aria-hidden="true"></i>
-              <span>Деньги</span>
-            </a>
-            <ul class="nav nav-children">
-              <li class="{{setActive reqUrl '/incomes' '/costs'}}">
-                <a href="/incomes">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Приходы</span>
-                </a>
-              </li>
-              <li class="">
-                <a href="/costs">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Расходы</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="{{setActive reqUrl '/salary-statement'}}">
-            <a href="/salary-statement">
-              <i class="fa fa-file-text-o" aria-hidden="true"></i>
-              <span>Зарплатная ведомость</span>
-            </a>
-          </li>
-          <li class="{{setActive reqUrl '/act-sverki'}}">
-            <a href="/act-sverki">
-              <i class="fa fa-key" aria-hidden="true"></i>
-              <span>Акты сверки</span>
-            </a>
-          </li>
-          <li class="nav-parent {{setOpen reqUrl '/detailing-cars' '/detailing-apartments' '/invoices'}}">
-            <a>
-              <i class="fa fa-copy" aria-hidden="true"></i>
-              <span>Счета и детализации</span>
-            </a>
-            <ul class="nav nav-children">
-              <li class="{{setActive reqUrl '/detailing-cars'}}">
-                <a href="/detailing-cars">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Транспортных услуг</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/detailing-apartments'}}">
-                <a href="/detailing-apartments">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Жилищных услуг</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/invoices'}}">
-                <a href="/invoices">
-                  <i class="fa fa-exchange" aria-hidden="true"></i>
-                  <span>Счета</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-parent {{setOpen reqUrl '/cars' '/customers' '/clients' '/drivers' '/itineraries' '/price-list' '/cash-storages' '/additional-services'}}">
-            <a>
-              <i class="fa fa-file-text-o" aria-hidden="true"></i>
-              <span>Справочники</span>
-            </a>
-            <ul class="nav nav-children">
-              <li class="{{setActive reqUrl '/cars'}}">
-                <a href="/cars">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Автомобили</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/customers'}}">
-                <a href="/customers">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Заказчики</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/clients'}}">
-                <a href="/clients">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Клиенты</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/new-page-23'}}">
-                <a href="/new-page-23">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Поставщики</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/drivers'}}">
-                <a href="/drivers">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Водители</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/itineraries'}}">
-                <a href="/itineraries">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Маршруты</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/price-list'}}">
-                <a href="/price-list">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Прайс</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/cash-storages'}}">
-                <a href="/cash-storages">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Кассы, счета</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/additional-services'}}">
-                <a href="/additional-services">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Дополнительные услуги</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/apartments'}}">
-                <a href="/apartments">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Квартиры</span>
-                </a>
-              </li>
-              <li class="{{setActive reqUrl '/costs-categories'}}">
-                <a href="/costs-categories">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  <span>Статьи расходов</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <hr class="separator">
-            <hr class="separator">
-            <hr class="separator">
-          </li>
-        </ul>
-      </nav>
+
+
+                    <li class="{{setActive reqUrl '/car-reservation'}}">
+                        <a href="/car-reservation">
+                            <i class="fa fa-cab" aria-hidden="true"></i>
+                            <span>Аренда автомобилей</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/apartment-reservations'}}">
+                        <a href="/apartment-reservations">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            <span>Аренда квартир</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/list-used-cars'}}">
+                        <a href="/list-used-cars">
+                            <i class="fa fa-cab" aria-hidden="true"></i>
+                            <span>Занятые авто</span>
+                        </a>
+                    </li>
+                    <li class="nav-parent {{setOpen reqUrl '/incomes'}}">
+                        <a>
+                            <i class="fa fa-money" aria-hidden="true"></i>
+                            <span>Деньги</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{setActive reqUrl '/incomes' '/costs'}}">
+                                <a href="/incomes">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Приходы</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/costs">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Расходы</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/balance">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Баланс</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="{{setActive reqUrl '/salary-statement'}}">
+                        <a href="/salary-statement">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span>Зарплатная ведомость</span>
+                        </a>
+                    </li>
+                    <li class="{{setActive reqUrl '/act-sverki'}}">
+                        <a href="/act-sverki">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            <span>Акты сверки</span>
+                        </a>
+                    </li>
+                    <li class="nav-parent {{setOpen reqUrl '/detailing-cars' '/detailing-apartments' '/invoices'}}">
+                        <a>
+                            <i class="fa fa-copy" aria-hidden="true"></i>
+                            <span>Счета и детализации</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{setActive reqUrl '/detailing-cars'}}">
+                                <a href="/detailing-cars">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Транспортных услуг</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/detailing-apartments'}}">
+                                <a href="/detailing-apartments">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Жилищных услуг</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/invoices'}}">
+                                <a href="/invoices">
+                                    <i class="fa fa-exchange" aria-hidden="true"></i>
+                                    <span>Счета</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li
+                        class="nav-parent {{setOpen reqUrl '/cars' '/customers' '/clients' '/drivers' '/itineraries' '/price-list' '/cash-storages' '/additional-services'}}">
+                        <a>
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span>Справочники</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{setActive reqUrl '/cars'}}">
+                                <a href="/cars">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Автомобили</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/customers'}}">
+                                <a href="/customers">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Заказчики</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/clients'}}">
+                                <a href="/clients">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Клиенты</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/drivers'}}">
+                                <a href="/drivers">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Водители</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/new-page-23'}}">
+                              <a href="/new-page-23">
+                                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                <span>Поставщики</span>
+                              </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/itineraries'}}">
+                                <a href="/itineraries">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Маршруты</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/price-list'}}">
+                                <a href="/price-list">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Прайс</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/cash-storages'}}">
+                                <a href="/cash-storages">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Кассы, счета</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/additional-services'}}">
+                                <a href="/additional-services">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Дополнительные услуги</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/apartments'}}">
+                                <a href="/apartments">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Квартиры</span>
+                                </a>
+                            </li>
+                            <li class="{{setActive reqUrl '/costs-categories'}}">
+                                <a href="/costs-categories">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <span>Статьи расходов</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <hr class="separator">
+                        <hr class="separator">
+                        <hr class="separator">
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-  </div>
 </aside>
 <!-- end: sidebar -->

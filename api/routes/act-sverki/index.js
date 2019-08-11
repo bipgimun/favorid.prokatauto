@@ -200,7 +200,7 @@ async function calcTable({ period_left = '', period_right = '', customer_id = ''
 
     let incomesQuery = `SELECT * FROM incomes WHERE ${date} AND customer_id = ${customer_id}`;
 
-    if (document) {
+    if (Object.keys(document).length > 0) {
 
         const details = await db.execQuery(`
             SELECT * 

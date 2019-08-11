@@ -194,4 +194,17 @@ CREATE TABLE `sms_notifications` (
     `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`), INDEX (`customer_id`)
 ) ENGINE = InnoDB;
+
 -- ДОБАВЛЕНО В БД 11.08.19 КРУЦЕНКО
+
+CREATE TABLE `balance` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `driver_id` INT NOT NULL , 
+    `income` DECIMAL(11,2) NOT NULL , 
+    `cost` DECIMAL(11,2) NOT NULL , 
+    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    PRIMARY KEY (`id`), INDEX (`driver_id`)
+) ENGINE = InnoDB;
+
+ALTER TABLE `employees` ADD `birthday` DATE NULL DEFAULT NULL;
+-- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
