@@ -72,6 +72,8 @@
                                 {{#if document_id}}
                                     <a
                                         href="/{{compare code 'CRR' 'car-reservation' 'apartment-reservations'}}/{{document_id}}">{{base}}</a>
+                                {{else if driver_id}}
+                                    <a href="/drivers/{{../driver.id}}" target="__blank">{{../driver.name}}</a>
                                 {{else}}
                                     <p>{{base}}</p>
                                 {{/if}}
@@ -138,8 +140,8 @@
                                 {{comment}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <textarea value="{{comment}}" name="comment" cols="20" rows="4"
-                                    class="form-control" placeholder="Введите комментарий" required>{{comment}}</textarea>
+                                <textarea value="{{comment}}" name="comment" cols="20" rows="4" class="form-control"
+                                    placeholder="Введите комментарий" required>{{comment}}</textarea>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">

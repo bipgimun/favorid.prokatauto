@@ -115,6 +115,10 @@ $(document).ready(() => {
         placeholder: 'Выберите модель автомобиля'
     });
 
+    $('.js-select2-select').select2({
+        dropdownParent: $('#add-products').length ? $('#add-products') : null,
+    });
+
     $('#js-incomesForm-documents, #js-costsForm-documents').select2({
         dropdownParent: $('#add-products').length ? $('#add-products') : null,
     });

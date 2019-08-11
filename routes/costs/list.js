@@ -1,5 +1,8 @@
 const db = require('../../libs/db');
-const { costsCategories: costsCategoriesModel } = require('../../models');
+const {
+    costsCategories: costsCategoriesModel,
+    drivers: driversModel
+} = require('../../models');
 
 module.exports = async (req, res, next) => {
 
@@ -16,6 +19,8 @@ module.exports = async (req, res, next) => {
 
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
     const costsCategories = await costsCategoriesModel.get();
+
+    const drivers = await driversModel.get();
 
     costs.forEach(item => {
         item.base = item.base_id || item.base_other;
@@ -35,6 +40,7 @@ module.exports = async (req, res, next) => {
         costs,
         groupDocuments,
         cashStorages,
-        costsCategories
+        costsCategories,
+        drivers,
     });
 }

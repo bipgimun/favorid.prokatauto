@@ -12,13 +12,14 @@ const moment = require('moment');
 
 const addScheme = Joi.object({
     base_id: Joi.string().empty(''),
+    driver_id: Joi.string().empty(''),
     base_other: Joi.string().empty(''),
     sum: Joi.number().required(),
     cash_storage_id: Joi.number().integer().required(),
     category_id: Joi.number().integer().required(),
     comment: Joi.string().empty(''),
     date: Joi.date().iso().required(),
-}).xor('base_id', 'base_other');
+}).xor('base_id', 'base_other', 'driver_id');
 
 const updateScheme = Joi.object({
     date: Joi.date().iso().empty([null, '']),
