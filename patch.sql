@@ -205,3 +205,4 @@ CREATE TABLE `balance` (
 ) ENGINE = InnoDB;
 
 ALTER TABLE `employees` ADD `birthday` DATE NULL DEFAULT NULL;
+ALTER TABLE `costs` ADD `driver_id` INT NULL DEFAULT NULL AFTER `base_id`;
