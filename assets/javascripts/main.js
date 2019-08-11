@@ -1033,3 +1033,37 @@ const Employee = {
         location.reload();
     }
 };
+
+const Suppliers = {
+
+    addUrl: '/api/suppliers/add',
+    updateUrl: '/api/suppliers/update',
+
+    async add_form_submit(form) {
+
+        const values = getFormValues(form);
+
+        const { data } = await request(this.addUrl, values, { showNotify: true });
+
+        $('#js-suppliers-table')
+            .dataTable()
+            .fnAddData([data.is_legal_entity, data.name, `<a href="/suppliers/${data.id}" target="_blank">Подробнее</a>`]);
+
+        return false;
+    },
+
+    async update_form_submit(form) {
+        const values = getFormValues(form);
+
+        const { data } = await request(this.updateUrl, values, { showNotify: true });
+
+        Object.keys(data).forEach(key => {
+            $(form).find(`[data-target=${key}]`).text(data[key]);
+        });
+
+        $('.js-toggleEditable').click();
+
+        return false;
+    }
+
+};

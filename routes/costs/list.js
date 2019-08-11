@@ -17,6 +17,8 @@ module.exports = async (req, res, next) => {
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);
     const cars = await db.execQuery(`SELECT *, CONCAT('CAR-', id) as code FROM cars WHERE company_property = 1`);
 
+    const suppliers = await db.execQuery(`SELECT * FROM suppliers`);
+
     const cashStorages = await db.execQuery(`SELECT * FROM cash_storages`);
     const costsCategories = await costsCategoriesModel.get();
 
@@ -42,5 +44,6 @@ module.exports = async (req, res, next) => {
         cashStorages,
         costsCategories,
         drivers,
+        suppliers,
     });
 }

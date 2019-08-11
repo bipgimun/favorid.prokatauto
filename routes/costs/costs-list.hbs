@@ -125,6 +125,26 @@
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                            href="#collapse4">
+                                            Поставщики
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse4" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <select style="width: 100%" name="supplier_id" class="js-select2-select">
+                                            <option value="" selected disabled>Выберите лицо из списка</option>
+                                            {{#each suppliers}}
+                                                <option value="{{id}}">{{name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                             href="#collapse1Three">
                                             Лица
                                         </a>

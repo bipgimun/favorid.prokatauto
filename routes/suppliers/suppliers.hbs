@@ -24,7 +24,7 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-customers-table"
+            <table id="js-suppliers-table"
                 class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none">
                 <thead>
@@ -35,12 +35,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each customers}}
+                    {{#each suppliers}}
                         <tr>
-                            <td>{{this.is_legal_entity}}</td>
+                            <td>{{compare this.is_legal_entity '1' 'Юридическое лицо' 'Физическое лицо'}}</td>
                             <td>{{this.name}}</td>
                             <td>
-                                <a href="/customers/{{this.id}}" target="_blank">Подробнее</a>
+                                <a href="/suppliers/{{this.id}}" target="_blank">Подробнее</a>
                             </td>
                         </tr>
                     {{/each}}
@@ -62,29 +62,29 @@
 <div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
     <section class="panel">
         <header class="panel-heading">
-            <h2 class="panel-title">Добавление нового заказчика</h2>
+            <h2 class="panel-title">Добавление нового поставщика</h2>
         </header>
         <div class="panel-body">
-            <form action="/api/customers/add" id="js-customers-add-form" class="form-horizontal mb-lg"
-                novalidate="novalidate">
+            <form action="/api/suppliers/add" onsubmit="Suppliers.add_form_submit(this); return false;"
+                class="form-horizontal mb-lg" novalidate="novalidate">
                 <div class="form-group mt-lg">
                     <label class="col-sm-4 control-label"></label>
                     <div class="col-sm-4">
                         <div class="radio-custom">
                             <input type="radio" id="radioExample1" value="1" name="is_legal_entity"
-                                class="customer__company-radio" checked>
+                                class="suppliers__company-radio" checked>
                             <label for="radioExample1">Юридическое лицо</label>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="radio-custom">
                             <input type="radio" id="radioExample2" value="0" name="is_legal_entity"
-                                class="customer__person-radio">
+                                class="suppliers__person-radio">
                             <label for="radioExample2">Физ. лицо</label>
                         </div>
                     </div>
                 </div>
-                <div class="customer__company" style="margin-bottom: 15px;">
+                <div class="suppliers__company" style="margin-bottom: 15px;">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Наименование</label>
                         <div class="col-sm-8">
@@ -157,7 +157,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="customer__person" style="display: none; margin-bottom: 15px;">
+                <div class="suppliers__person" style="display: none; margin-bottom: 15px;">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">ФИО</label>
                         <div class="col-sm-8">
@@ -267,18 +267,18 @@
 </script>
 
 <script>
-    const cusRadioPer = document.querySelector('.customer__person-radio');
-    const cusRadioCom = document.querySelector('.customer__company-radio');
+    const cusRadioPer = document.querySelector('.suppliers__person-radio');
+    const cusRadioCom = document.querySelector('.suppliers__company-radio');
     cusRadioPer.addEventListener('change', function () {
         if (this.checked) {
-            document.querySelector('.customer__person').style.display = "block";
-            document.querySelector('.customer__company').style.display = "none";
+            document.querySelector('.suppliers__person').style.display = "block";
+            document.querySelector('.suppliers__company').style.display = "none";
         }
     });
     cusRadioCom.addEventListener('change', function () {
         if (this.checked) {
-            document.querySelector('.customer__company').style.display = "block";
-            document.querySelector('.customer__person').style.display = "none";
+            document.querySelector('.suppliers__company').style.display = "block";
+            document.querySelector('.suppliers__person').style.display = "none";
         }
     })
 </script>

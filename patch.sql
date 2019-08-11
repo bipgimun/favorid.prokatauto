@@ -248,4 +248,5 @@ ALTER TABLE `detailing_apartments` ADD `manager_id` INT NOT NULL AFTER `id`, ADD
 ALTER TABLE `detailing_cars` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
 ALTER TABLE `invoices` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
 ALTER TABLE `invoices` ADD `file` VARCHAR(255) NULL DEFAULT NULL AFTER `id`;
+ALTER TABLE `costs` ADD `supplier_id` INT NULL DEFAULT NULL AFTER `driver_id`, ADD INDEX (`supplier_id`);
 
