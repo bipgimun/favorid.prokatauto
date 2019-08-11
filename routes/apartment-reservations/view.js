@@ -33,9 +33,10 @@ module.exports = async (req, res, next) => {
         item.completed = item.status == APARTMENT_STATUSES.get('COMPLETED');
         item.can_edit = false;
 
-        if (req.sesion.user.is_director == '1') {
+
+        if (req.session.user.is_director == '1') {
             item.can_edit = true;
-        } else if (!item.completed && req.sesion.user.is_senior_manager == '1') {
+        } else if (!item.completed && req.session.user.is_senior_manager == '1') {
             item.can_edit = true;
         }
     });
