@@ -211,3 +211,31 @@ ALTER TABLE `employees` ADD `birthday` DATE NULL DEFAULT NULL;
 
 ALTER TABLE `costs` ADD `driver_id` INT NULL DEFAULT NULL AFTER `base_id`;
 -- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
+
+
+CREATE TABLE `suppliers` (
+  `id` int(11) NOT NULL,
+  `birthday` date DEFAULT NULL,
+  `driver_license_issue_date` date DEFAULT NULL,
+  `driver_license_expiration_date` date DEFAULT NULL,
+  `passport_issue_date` date DEFAULT NULL,
+  `passport_issued_by` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `passport_division_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `is_legal_entity` tinyint(1) NOT NULL COMMENT 'Юридическое лицо?',
+  `legal_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `actual_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ogrn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `inn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bank_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `r_account` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `k_account` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bik` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `passport` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `driver_license` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `contact_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `discount` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

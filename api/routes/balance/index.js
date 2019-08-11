@@ -58,9 +58,7 @@ router.post('/getTable', async (req, res, next) => {
 
 
 async function calcTable({ period_left = '', period_right = '', driver_id = '' }) {
-
-    console.log('driver_id', driver_id);
-
+    
     const sqlFormat = 'YYYY-MM-DD HH:mm';
 
     const dateLt = moment(period_right).set({ hours: 23, minutes: 59 }).format(sqlFormat);

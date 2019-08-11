@@ -46,8 +46,7 @@ module.exports = async (req, res, next) => {
     ];
 
     const customers = await customersModel.get();
-
-    console.log("TCL: customers", customers)
+    
     res.render(__dirname + '/incomes-view', {
         incomes,
         groupDocuments,
