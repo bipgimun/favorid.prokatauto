@@ -26,6 +26,7 @@ module.exports = async (req, res, next) => {
 
     const additionalServices = (reservation.services || '')
         .split(',')
+        .filter(item => !!item)
         .map(item => servicesList.find(service => service.id == item));
 
     reservs.forEach(item => {

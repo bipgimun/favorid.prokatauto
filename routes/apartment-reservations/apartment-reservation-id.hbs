@@ -257,32 +257,45 @@
                                         <div class="non-editable-content" data-target="name">
                                             {{this.name}}
                                         </div>
-                                        {{#if ../can_edit}}
-                                            <div class="editable-content">
-                                                <div class="input-group">
-                                                    <select name="services"
-                                                        class="js-apartmentReservations-services form-control">
-                                                        <option value="0" selected disabled>Выберете услугу</option>
-                                                        {{#each ../../servicesList}}
-                                                            <option {{ifTrue ../selected 'selected' ''}}
-                                                                value="{{../id}}">
-                                                                {{../name}}</option>
-                                                        {{/each}}
-                                                    </select>
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default adding-item"
-                                                            type="button">+</button>
-                                                    </span>
-                                                    <span class="input-group-btn">
-                                                        <button class="btn btn-default deliting-item"
-                                                            type="button">-</button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        {{/if}}
                                     </div>
                                 </div>
                             {{/each}}
+                            {{#if can_edit}}
+                                <div class="editable-content">
+                                    {{#each ../additionalServices as |selectedService|}}
+                                        <div class="input-group">
+                                            <select name="services"
+                                                class="js-apartmentReservations-services form-control">
+                                                <option value="" disabled selected>Выберите услугу</option>
+                                                {{#each ../../servicesList}}
+                                                    <option {{compare selectedService.id id 'selected' ''}}
+                                                        value="{{id}}">{{name}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default adding-item" type="button">+</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default deliting-item" type="button">-</button>
+                                            </span>
+                                        </div>
+                                    {{/each}}
+                                    <div class="input-group">
+                                        <select name="services" class="js-apartmentReservations-services form-control">
+                                            <option value="" disabled selected>Выберите услугу</option>
+                                            {{#each ../servicesList}}
+                                                <option value="{{id}}">{{name}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default adding-item" type="button">+</button>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default deliting-item" type="button">-</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            {{/if}}
                         </div>
 
                         <div class="form-group">
@@ -342,8 +355,8 @@
                         <label class="col-sm-4 control-label">Отправить сообщение заказчику через:</label>
                         <div class="col-sm-8 reservation-send-block">
                             <div class="checkbox-custom chekbox-primary reservation-send-block--child">
-                                <input class="send-customer__checkbox" type="checkbox" checked
-                                    name="send_customer_mail" value="1" id="send_customer_email">
+                                <input class="send-customer__checkbox" type="checkbox" checked name="send_customer_mail"
+                                    value="1" id="send_customer_email">
                                 <label class="send-customer__label" for="send_customer_email">EMAIL</label>
                             </div>
                             <div class="checkbox-custom chekbox-primary reservation-send-block--child">
@@ -377,7 +390,7 @@
 
 <script>
     $(document).ready(() => {
-        $('.btn--send-message').click(async ()=> {
+        $('.btn--send-message').click(async () => {
             let ID = $('.hidden-id-apartment').val();
             const data = {
                 id: ID
@@ -391,14 +404,14 @@
                 data.sms = 1;
             }
 
-           if ($('#send_customer_email').is(':checked') === false && $('#send_customer_sms').is(':checked') === false) {
+            if ($('#send_customer_email').is(':checked') === false && $('#send_customer_sms').is(':checked') === false) {
                 alert('Не выбрано ни одного поля (sms или email)');
                 return;
             }
-            
-            const {errors} = await request('/api/apartmentReservations/sendNotify ', data);
 
-            if(errors) {
+            const { errors } = await request('/api/apartmentReservations/sendNotify ', data);
+
+            if (errors) {
                 new PNotify({
                     title: 'Ошибка',
                     text: errors,
