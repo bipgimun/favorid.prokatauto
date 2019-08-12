@@ -27,7 +27,8 @@
     "mysql2": "^1.6.4",
     "nodemailer": "^6.3.0",
     "request": "^2.88.0",
-    "select2": "^4.0.6-rc.1"
+    "select2": "^4.0.6-rc.1",
+    "xlsx-populate": "^1.20.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.11"
