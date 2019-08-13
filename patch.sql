@@ -250,3 +250,8 @@ ALTER TABLE `invoices` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`man
 ALTER TABLE `invoices` ADD `file` VARCHAR(255) NULL DEFAULT NULL AFTER `id`;
 ALTER TABLE `costs` ADD `supplier_id` INT NULL DEFAULT NULL AFTER `driver_id`, ADD INDEX (`supplier_id`);
 -- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
+
+CREATE TABLE `act_works` ( `id` INT NOT NULL AUTO_INCREMENT , `code` VARCHAR(255) NOT NULL , `document_id` INT NOT NULL , `file` VARCHAR(512) NOT NULL , `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `act_works` CHANGE `file` `file` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `act_works` ADD `invoice_id` INT NOT NULL AFTER `id`;
+

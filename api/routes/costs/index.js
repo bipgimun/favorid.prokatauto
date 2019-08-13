@@ -10,6 +10,8 @@ const { wishList } = require('../../wish-list');
 const Joi = require('joi');
 const moment = require('moment');
 
+const costsPrint = require('../../../libs/cost-print');
+
 const addScheme = Joi.object({
     base_id: Joi.string().empty(''),
     driver_id: Joi.string().empty(''),
@@ -100,6 +102,41 @@ app.post('/delete', async (req, res, next) => {
     res.json({
         status: 'ok',
     });
+})
+
+app.get('/downloadPrint/:costsId', async (req, res, next) => {
+
+    const [costs = {}] = await db.execQuery('SELECT * FROM costs WHERE id = ?', [req.params.costsId]);
+
+    if (!costs.id) {
+        throw new Error('Расходник не найден')
+    }
+
+    let base;
+
+    if (costs.driver_id) {
+        const [o] = await db.execQuery(`SELECT * FROM drivers WHERE id = ?`, [costs.driver_id]);
+        base = o.name;
+    } else if (costs.supplier_id) {
+        const [o] = await db.execQuery(`SELECT * FROM suppliers WHERE id = ?`, [costs.supplier_id]);
+        base = o.name;
+    } else if (costs.base_other) {
+        base = costs.base_other;
+    } else if (costs.code == 'APR') {
+        const [o] = await db.execQuery(`SELECT * FROM apartment_reservations WHERE id = ?`, [costs.base_id]);
+        base = `Аренда квартиры № ${o.id} от ${moment(o.entyu).format('DD.MM.YYYY')}`;
+    } else if (costs.code == 'CRR') {
+        const [o] = await db.execQuery(`SELECT * FROM cars_reservations WHERE id = ?`, [costs.base_id]);
+        base = `Аренда автомобиля № ${o.id} от ${moment(o.rent_start).format('DD.MM.YYYY')}`;
+    } else if (costs.code == 'CAR') {
+        const [o] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [costs.base_id]);
+        base = `${o.name} ${o.model} ${o.number}`;
+    } else {
+        throw new Error('Неизвестный код основания');
+    }
+
+    const file = await costsPrint({ id: costs.id, sum: +costs.sum, created: costs.date, base });
+    res.download(file);
 })
 
 module.exports = app;

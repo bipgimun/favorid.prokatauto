@@ -12,6 +12,8 @@ const carsReservsRegexp = /^(CRR)-(\d+)$/i;
 const printDetail = require('../../../libs/invoice-print');
 const db = require('../../../libs/db')
 
+const actWorksPrint = require('../../../libs/act-works');
+
 const {
     invoicesModel,
     detailingApartmentsModel,
@@ -205,6 +207,41 @@ router.post('/delete', async (req, res, next) => {
 
     await db.execQuery(`DELETE FROM invoices WHERE id = ?`, [id]);
     return res.json({ status: 'ok' });
+})
+
+router.get('/act-works-print/:invoiceId', async (req, res, next) => {
+    const [invoice = {}] = await db.execQuery(`SELECT * FROM invoices WHERE id = ?`, [req.params.invoiceId]);
+
+    if (!invoice.id) {
+        throw new Error('Счёт не найден');
+    }
+
+    if (!invoice.customer_id) {
+        throw new Error('Отсутствует заказчик');
+    }
+
+    const [customer = {}] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [invoice.customer_id]);
+
+    if (!customer.id) {
+        throw new Error('Заказчик не найден');
+    }
+
+    const title = `Акт № ${invoice.id} от ${moment(invoice.created).format('DD.MM.YYYY')}`;
+    const based = `По счёту № ${invoice.id} от ${moment(invoice.created).format('DD.MM.YYYY')}`;
+
+    let productName;
+
+    if (['APR', 'DET-K'].includes(invoice.code)) {
+        productName = 'Жилищные услуги';
+    } else if (['CRR', 'DET-A'].includes(invoice.code)) {
+        productName = 'Транспортные услуги';
+    } else {
+        throw new Error('Неверный код счёта')
+    }
+
+    const file = await actWorksPrint({ customer, title, based, productName, productSum: +invoice.sum });
+
+    res.download(file);
 })
 
 module.exports = router;

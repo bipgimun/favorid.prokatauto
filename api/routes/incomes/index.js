@@ -6,6 +6,8 @@ const db = require('../../../libs/db');
 const Joi = require('joi');
 const moment = require('moment');
 
+const incomePrint = require('../../../libs/income-print');
+
 const addScheme = Joi.object({
     date: Joi.date().iso().required(),
     base_id: Joi.string(),
@@ -173,6 +175,50 @@ app.post('/delete', async (req, res, next) => {
     res.json({
         status: 'ok',
     });
+})
+
+app.get('/print/:incomeId', async (req, res, next) => {
+
+    const [income = {}] = await db.execQuery(`SELECT * FROM incomes WHERE id = ?`, [req.params.incomeId]);
+
+    if (!income.id) {
+        throw new Error('Приход не найден');
+    }
+
+    if (!income.customer_id) {
+        throw new Error('Отсутствует заказчик');
+    }
+
+    const [customer = {}] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [income.customer_id]);
+
+    if (!customer.id) {
+        throw new Error('Заказчик не найден');
+    }
+
+    let base;
+
+    if (income.code == 'pd') {
+        const [o] = await db.execQuery('SELECT * FROM invoices WHERE id = ?', [income.document_id]);
+        base = `Счёт для оплаты № ${o.id} от ${moment(o.created).format('DD.MM.YYYY')}`;
+    } else if (income.code == 'CRR') {
+        const [o] = await db.execQuery('SELECT * FROM cars_reservations WHERE id = ?', [income.document_id]);
+        base = `Заявка на аренду авто № ${o.id} от ${moment(o.rent_start).format('DD.MM.YYYY')}`;
+    } else if (income.code == 'APR') {
+        const [o] = await db.execQuery('SELECT * FROM apartment_reservations WHERE id = ?', [income.document_id]);
+        base = `Заявка на аренду квартиры № ${o.id} от ${moment(o.entry).format('DD.MM.YYYY')}`;
+    } else {
+        throw new Error('Неверное основание');
+    }
+
+    const file = await incomePrint({
+        base,
+        customer,
+        id: income.id,
+        created: income.created,
+        sum: income.sum,
+    });
+
+    res.download(file);
 })
 
 module.exports = app;

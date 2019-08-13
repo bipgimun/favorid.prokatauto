@@ -9,7 +9,7 @@ function print({
     productName = '',
     productSum = 0,
     customer = {}
-}) {
+} = {}) {
 
     return new Promise((resolve, reject) => {
 
@@ -191,7 +191,7 @@ function print({
             .style({ font: { size: 10 }, alignment: { wrapText: true, vertical: 'top' } })
 
         ws.cell(18, 10, 19, 15, true)
-            .string('Адрес: ' + customer.address)
+            .string('Адрес: ' + customer.legal_address || '')
             .style({ font: { size: 10 }, alignment: { wrapText: true, vertical: 'top' } })
 
         ws.cell(20, 2, 20, 9, true)
@@ -199,7 +199,7 @@ function print({
             .style({ font: { size: 10 }, })
 
         ws.cell(20, 10, 20, 15, true)
-            .string('ИНН: ' + customer.inn)
+            .string('ИНН: ' + customer.inn || '')
             .style({ font: { size: 10 }, })
 
         ws.cell(21, 2, 21, 9, true)
@@ -207,7 +207,7 @@ function print({
             .style({ font: { size: 10 }, })
 
         ws.cell(21, 10, 21, 15, true)
-            .string('Расчетный счет: ' + customer.r_account)
+            .string('Расчетный счет: ' + customer.r_account || '')
             .style({ font: { size: 10 }, })
 
         ws.cell(22, 2, 22, 9, true)
@@ -215,7 +215,7 @@ function print({
             .style({ font: { size: 10 }, })
 
         ws.cell(22, 10, 22, 15, true)
-            .string('Кор.счет: ' + customer.k_account)
+            .string('Кор.счет: ' + customer.k_account || '')
             .style({ font: { size: 10 }, })
 
         ws.cell(23, 2, 23, 9, true)
@@ -223,7 +223,7 @@ function print({
             .style({ font: { size: 10 }, alignment: { wrapText: true } })
 
         ws.cell(23, 10, 23, 15, true)
-            .string('Банк: ' + customer.bank_name)
+            .string('Банк: ' + customer.bank_name || '')
             .style({ font: { size: 10 }, alignment: { wrapText: true } })
 
         ws.cell(24, 2, 25, 9, true)
@@ -231,7 +231,7 @@ function print({
             .style({ font: { size: 9 }, alignment: { vertical: 'top' } })
 
         ws.cell(24, 10, 25, 15, true)
-            .string('Бик: ' + customer.bik)
+            .string('Бик: ' + customer.bik || '')
             .style({ font: { size: 9 }, alignment: { vertical: 'top' } })
 
         ws.cell(26, 2)
@@ -242,7 +242,7 @@ function print({
             .string('')
             .style({ font: { size: 10 }, border: { bottom: { style: THIN, color: 'black' } } })
 
-        ws.cell(26, 10, 27, 11, true)
+        ws.cell(26, 10, 26, 11, true)
             .string('Принял')
             .style({ font: { size: 10 }, })
 
@@ -260,10 +260,9 @@ function print({
                 }
             });
 
+        const fileName = path.join(process.cwd(), 'uploads', `act-works.${new Date().getTime()}.xlsx`);
 
-        const fileName = `act-works.${new Date().getTime()}.xlsx`;
-
-        wb.write(path.join(__dirname, '..', 'uploads', fileName), (error, stats) => {
+        wb.write(fileName, (error, stats) => {
             if (error) {
                 console.error(error);
                 reject(error);
@@ -273,7 +272,5 @@ function print({
         });
     })
 }
-
-print();
 
 module.exports = print;

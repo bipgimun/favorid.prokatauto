@@ -2,7 +2,7 @@
 var excel = require('excel4node');
 const path = require('path');
 
-module.exports = ({
+function main({
     saldoSum = 0,
     dataArray = [],
     period_left = '',
@@ -10,8 +10,7 @@ module.exports = ({
     customer = {},
     currentDate = '',
     saldoDate = ''
-} = {}) => {
-
+} = {}) {
     return new Promise((resolve, reject) => {
         // if (!period)
         //     throw new Error('Отсутствует период для детализации');
@@ -221,8 +220,10 @@ module.exports = ({
 
         row++;
 
-        ws.cell(row, 1, row, 2, true).string('По данным ИП Орехова Мария Юрьевна').style({ ...smallText });
-        ws.cell(row, 5, row, 6, true).string(`По данным ${customer.name}`).style({ ...smallText });
+        ws.cell(row, 1, row, 2, true)
+            .string('По данным ИП Орехова Мария Юрьевна').style({ ...smallText });
+        ws.cell(row, 5, row, 6, true)
+            .string(`По данным ${customer.name}`).style({ ...smallText });
 
         row++;
 
@@ -230,17 +231,20 @@ module.exports = ({
 
         row++;
 
-        ws.cell(row, 1, row, 4, true).string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
+        ws.cell(row, 1, row, 4, true)
+            .string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
-        ws.cell(row, 5, row, 8, true).string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
+        ws.cell(row, 5, row, 8, true)
+            .string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         row++;
 
         ws.row(row).setHeight(40);
 
-        ws.cell(row, 1, row, 8, true).string(`Просим подписать акт не позднее 30 календарных дней с даты составления и отправить его ИП Орехова Мария Юрьевна. Задолженность по акту, не подписанному в течение этого времени, считается подтвержденной со стороны ${customer.name}.`)
+        ws.cell(row, 1, row, 8, true)
+            .string(`Просим подписать акт не позднее 30 календарных дней с даты составления и отправить его ИП Орехова Мария Юрьевна. Задолженность по акту, не подписанному в течение этого времени, считается подтвержденной со стороны ${customer.name}.`)
             .style({ font: { size: 10 }, alignment: { ...wrapTrue, vertical: 'top' } });
 
         row++;
@@ -278,4 +282,6 @@ module.exports = ({
             resolve(fileName);
         });
     })
-};
+}
+
+module.exports = main;
