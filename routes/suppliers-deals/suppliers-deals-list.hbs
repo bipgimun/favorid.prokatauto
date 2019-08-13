@@ -1,0 +1,132 @@
+<header class="page-header">
+    <h2>Сделки с поставщиками</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <span>Сделки с поставщиками</span>
+                <span class="separator"></span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Список сделок с поставщиками</h2>
+    </header>
+    <div class="panel-body">
+        <button href="#add-suppliers-deals" type="button"
+            class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+            <i class="fa fa-plus"></i> Добавить сделку
+        </button>
+        <div class="zag">
+            <h1>Загрузка</h1>
+        </div>
+        <div class="table-responsive">
+            <table id="js-suppliers-deals-table"
+                class="table display table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>Дата сделки</th>
+                        <th>Поставщик</th>
+                        <th>Позиция сделки</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each deals}}
+                        <tr>
+                            <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
+                            <td>{{supplier_name}}</td>
+                            <td>{{position_name}}</td>
+                            <td>{{sum}}</td>
+                            <td>
+                                <a href="/suppliers-deals/{{id}}" target="_blank">Подробнее</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Дата сделки</th>
+                        <th>Поставщик</th>
+                        <th>Позиция сделки</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Модалки-->
+
+<div id="add-suppliers-deals" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Сделка с поставщиком</h2>
+        </header>
+        <div class="panel-body">
+            <form onsubmit="SuppliersDeals.add_form_submit(this); return false;" action="/api/suppliers-deals/add"
+                method="POST" class="form-horizontal mb-lg" novalidate="novalidate">
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Поставщик</label>
+                    <div class="col-sm-9">
+                        <select name="supplier_id" class="form-control js-select2-init"
+                            data-modal="#add-suppliers-deals" data-ajax="/api/suppliers/getSelect2" style="width: 100%">
+                            <option value="" selected disabled>Выберете поставщика</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Услуга/товар</label>
+                    <div class="col-sm-9">
+                        <select name="position_id" class="form-control js-select2-init"
+                            data-modal="#add-suppliers-deals" data-ajax="/api/suppliers-positions/getSelect2"
+                            style="width: 100%">
+                            <option value="" selected disabled>Выберите предмет сделки</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Дата сделки</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" name="date">
+                    </div>
+                </div>
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Сумма</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" name="sum">
+                    </div>
+                </div>
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Комментарий</label>
+                    <div class="col-sm-9">
+                        <textarea name="comment" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-success">Принять</button>
+                        <button class="btn btn-default modal-dismiss">Отмена</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

@@ -56,4 +56,10 @@ router.post('/delete', async (req, res, next) => {
 
     res.json({ status: 'ok' });
 })
+
+router.get('/getSelect2', async (req, res, next) => {
+    const suppliers = await db.execQuery(`SELECT * FROM suppliers`);
+    res.json({ items: suppliers });
+})
+
 module.exports = router;

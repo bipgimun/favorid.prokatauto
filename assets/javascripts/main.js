@@ -1067,3 +1067,44 @@ const Suppliers = {
     }
 
 };
+const SuppliersPositions = {
+
+    async add_form_submit(form) {
+
+        const $form = $(form);
+        const values = getFormValues(form);
+
+        const { data } = await request($form.attr('action'), values, { showNotify: true });
+
+        $('#js-suppliers-positions-table')
+            .dataTable()
+            .fnAddData([data.name, data.cost]);
+
+        return false;
+    },
+};
+
+const SuppliersDeals = {
+
+    async add_form_submit(form) {
+
+        const $form = $(form);
+        const $table = $('#js-suppliers-deals-table');
+        const values = getFormValues(form);
+
+        const { data } = await request($form.attr('action'), values, { showNotify: true });
+
+        $table.dataTable()
+            .fnAddData([
+                data.date,
+                data.supplier_name,
+                data.position_name,
+                data.sum,
+                `<a href="/suppliers/${data.id}" target="_blank">Подробнее</a>`
+            ]);
+
+        $form.find('[name]').val("").trigger('change');
+
+        return false;
+    },
+};

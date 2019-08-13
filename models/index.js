@@ -15,5 +15,7 @@ module.exports = {
     carsModel: require('./cars'),
     managersModel: require('./managers'),
     apartmentsModel: require('./apartments'),
-    employeesModel: require('./employees')
+    employeesModel: require('./employees'),
+    suppliersDealsModel: require('./suppliers-deals'),
+    suppliersPositionsModel: require('./suppliers-positions'),
 }

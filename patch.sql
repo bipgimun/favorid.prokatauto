@@ -260,9 +260,13 @@ ALTER TABLE `act_works` ADD `invoice_id` INT NOT NULL AFTER `id`;
 CREATE TABLE `suppliers_deals` ( 
     `id` INT NOT NULL AUTO_INCREMENT , 
     `supplier_id` INT NOT NULL , 
+    `position_id` DECIMAL(11,2) NOT NULL COMMENT 'Объект сделки',
     `sum` DECIMAL(11,2) NOT NULL COMMENT 'Сумма сделки', 
     `manager_id` INT NOT NULL , 
-    `date` DATETIME NOT NULL COMMENT 'дата сделки' , 
+    `date` DATE NOT NULL COMMENT 'дата сделки' ,
+    `comment` TEXT NULL DEFAULT NULL, 
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
-    PRIMARY KEY (`id`), INDEX (`supplier_id`)
+    PRIMARY KEY (`id`), INDEX (`supplier_id`), INDEX (`position_id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE `suppliers_positions` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `cost` DECIMAL(11,2) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

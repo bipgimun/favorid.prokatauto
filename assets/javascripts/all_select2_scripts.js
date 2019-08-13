@@ -1,8 +1,36 @@
-$(document).ready(() => {
+$(function () {
 
-    $('select.js-select2-init').select2({
-        allowClear: true,
-    });
+    $('select.js-select2-init').each(function (index, element) {
+
+        const data = {};
+        const $element = $(element);
+        const modal = $element.data('modal');
+        const ajaxUrl = $element.data('ajax');
+
+        if (modal) {
+            data.dropdownParent = $(modal);
+        }
+
+        if (ajaxUrl) {
+            data.ajax = {
+                url: ajaxUrl,
+                type: "GET",
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data.items, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    }
+                }
+            };
+        }
+
+        $element.select2(data);
+    })
 
     const $apartmentReservations = $('#js-apartmentReservations-form');
     const $carReservations = $('#js-carReservations-form');
@@ -169,13 +197,6 @@ $(document).ready(() => {
 
     })
 
-    /*    Form    */
-
-    $('select.js-select2-init').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products')
-    });
-
     $('#js-select2-customer-id').select2({
         allowClear: true,
         dropdownParent: $('#add-products').length ? $('#add-products') : null,
@@ -207,11 +228,6 @@ $(document).ready(() => {
         $carReservations.find('[name=discount]')
             .val(data.discount)
             .trigger('input');
-    });
-
-    $('select.js-select2-init').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products')
     });
 
     $('#js-select2-apartments-id').select2({

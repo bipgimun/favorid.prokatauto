@@ -26,5 +26,7 @@ router.use('/act-sverki', require('./act-sverki'));
 router.use('/cabinet', require('./cabinet'));
 router.use('/balance', require('./balance'));
 router.use('/suppliers', require('./suppliers'));
+router.use('/suppliers-deals', require('./suppliers-deals'));
+router.use('/suppliers-positions', require('./suppliers-positions'));
 
 module.exports = router;

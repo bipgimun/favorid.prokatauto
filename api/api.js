@@ -59,6 +59,8 @@ app.use('/act-sverki', checkAuth, checkPrivileges, require('./routes/act-sverki'
 app.use('/employees', checkAuth, checkPrivileges, require('./routes/employees'));
 app.use('/balance', checkAuth, checkPrivileges, require('./routes/balance'));
 app.use('/suppliers', checkAuth, checkPrivileges, require('./routes/suppliers'));
+app.use('/suppliers-deals', checkAuth, checkPrivileges, require('./routes/suppliers-deals'));
+app.use('/suppliers-positions', checkAuth, checkPrivileges, require('./routes/suppliers-positions'));
 
 
 app.use((req, res, next) => next(new Error('Страница не найдена')));
