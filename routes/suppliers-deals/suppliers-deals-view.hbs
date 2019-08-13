@@ -1,0 +1,181 @@
+<style>
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+
+    .reservation-send-block {
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+    }
+
+    .reservation-send-block--child {
+        margin: auto 10px auto 10px;
+    }
+
+
+    .reservation-send-btn {
+        margin-left: 20px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Сделки с поставщиками</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <span>Сделки с поставщиками</span>
+                <span class="separator"></span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Сделка № {{document.id}}</h2>
+            </header>
+            <div class="panel-body js-editable-body">
+                <form onsubmit="return false;" action="/api/suppliers-deals/update" class="form-horizontal mb-lg"
+                    novalidate="novalidate">
+
+                    <input type="hidden" name="id" value="{{this.id}}">
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Поставщик</label>
+                        <div class="col-sm-9">
+                            <div>
+                                <div class="non-editable-content" data-target="supplier_name">
+                                    {{document.supplier_name}}
+                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <select name="supplier_id" data-ajax="/api/suppliers/getSelect2"
+                                            data-selected="{{document.supplier_id}}"
+                                            class="form-control js-select2-init" style="width: 100%">
+                                            <option value="0" selected disabled>Выберете заказчика</option>
+                                        </select>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Позиция</label>
+                        <div class="col-sm-9">
+                            <div>
+                                <div class="non-editable-content" data-target="position_name">
+                                    {{document.position_name}}
+                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <select name="position_id" data-ajax="/api/suppliers-positions/getSelect2"
+                                            data-selected="{{document.position_id}}"
+                                            class="form-control js-select2-init" style="width: 100%">
+                                            <option value="0" selected disabled>Выберете позицию</option>
+                                        </select>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Сумма сделки</label>
+                        <div class="col-sm-9">
+                            <div>
+                                <div class="non-editable-content" data-target="sum">
+                                    {{document.sum}}
+                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input value="{{document.sum}}" type="number" class="form-control" name="sum">
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Остаток от суммы</label>
+                        <div class="col-sm-9">
+                            <div>
+                                {{reminder}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Дата сделки</label>
+                        <div class="col-sm-9">
+                            <div>
+                                <div class="non-editable-content" data-target="date">
+                                    {{toIsoString document.date 'DD.MM.YYYY'}}
+                                </div>
+                                {{#if can_edit}}
+                                    <div class="editable-content">
+                                        <input type="date" class="form-control" name="date"
+                                            value="{{toIsoString document.date 'YYYY-MM-DD'}}">
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Менеджер</label>
+                        <div class="col-sm-9">
+                            <div> {{document.manager_name}}</div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="footer-btn-block-resrvation">
+                {{#if can_edit}}
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                {{/if}}
+                {{#unless document.paid}}
+                    <button data-id="{{id}}" data-target="carReservations"
+                        class="btn btn-danger js-tableEssence-remove footer-resrvation-end-btn">Удалить заявку</button>
+                {{/unless}}
+            </div>
+        </section>
+    </div>
+</section>

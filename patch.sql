@@ -269,4 +269,7 @@ CREATE TABLE `suppliers_deals` (
     PRIMARY KEY (`id`), INDEX (`supplier_id`), INDEX (`position_id`)
 ) ENGINE = InnoDB;
 
+ALTER TABLE `suppliers_deals` ADD `is_paid` BOOLEAN NOT NULL DEFAULT FALSE AFTER `date`, ADD `paid_at` DATETIME NULL DEFAULT NULL AFTER `is_paid`;
+
+
 CREATE TABLE `suppliers_positions` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `cost` DECIMAL(11,2) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

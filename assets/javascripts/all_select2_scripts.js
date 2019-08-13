@@ -6,6 +6,7 @@ $(function () {
         const $element = $(element);
         const modal = $element.data('modal');
         const ajaxUrl = $element.data('ajax');
+        const selected = $element.data('selected');
 
         if (modal) {
             data.dropdownParent = $(modal);
@@ -21,7 +22,10 @@ $(function () {
                         results: $.map(data.items, function (item) {
                             return {
                                 text: item.name,
-                                id: item.id
+                                id: item.id,
+                                selected: selected
+                                    ? selected == item.id
+                                    : false
                             }
                         })
                     }

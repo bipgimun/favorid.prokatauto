@@ -1,7 +1,8 @@
 const db = require('../../libs/db');
 const {
     costsCategories: costsCategoriesModel,
-    drivers: driversModel
+    drivers: driversModel,
+    suppliersDealsModel,
 } = require('../../models');
 
 module.exports = async (req, res, next) => {
@@ -23,6 +24,7 @@ module.exports = async (req, res, next) => {
     const costsCategories = await costsCategoriesModel.get();
 
     const drivers = await driversModel.get();
+    const deals = await suppliersDealsModel.get({ paid: false });
 
     costs.forEach(item => {
         item.base = item.base_id || item.base_other;
@@ -36,6 +38,7 @@ module.exports = async (req, res, next) => {
         { label: 'Аренда автомобилей', documents: carReservations, },
         { label: 'Аренда квартир', documents: apartmentReservations, },
         { label: 'Автомобили', documents: cars, },
+        { label: 'Сделки с поставщиками', documents: deals, },
     ];
 
     res.render(__dirname + '/costs-list', {

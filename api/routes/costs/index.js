@@ -33,7 +33,10 @@ const updateScheme = Joi.object({
     id: Joi.number().required()
 }).or('date', 'cash_storage_id', 'sum', 'comment');
 
-const { costsCategories: costsCategoriesModel } = require('../../../models');
+const {
+    costsCategories: costsCategoriesModel,
+    suppliersDealsModel,
+} = require('../../../models');
 
 app.post('/add', async (req, res, next) => {
 
@@ -55,8 +58,21 @@ app.post('/add', async (req, res, next) => {
     validValues.id = id;
     validValues.base = validValues.base_id || validValues.base_other;
     validValues.date = moment(validValues.date).format('DD.MM.YYYY');
+
     validValues.category = (await costsCategoriesModel.get({ id: validValues.category_id }))
         .reduce((acc, item) => item.title, '');
+
+    /** если расход по сделке, и сумма расходов превышаем сумму сделки, то обновить сделку */
+    if (validValues.code == 'SD') {
+
+        const [deal] = await suppliersDealsModel.get({ id: validValues.document_id });
+
+        const remainder = (deal.sum - deal.paid_sum);
+
+        if (remainder <= 0) {
+            await suppliersDealsModel.update({ id: validValues.document_id, values: { is_paid: true, paid_at: new Date() } });
+        }
+    }
 
     res.json({
         status: 'ok', data: validValues
@@ -123,14 +139,17 @@ app.get('/downloadPrint/:costsId', async (req, res, next) => {
     } else if (costs.base_other) {
         base = costs.base_other;
     } else if (costs.code == 'APR') {
-        const [o] = await db.execQuery(`SELECT * FROM apartment_reservations WHERE id = ?`, [costs.base_id]);
+        const [o] = await db.execQuery(`SELECT * FROM apartment_reservations WHERE id = ?`, [costs.document_id]);
         base = `Аренда квартиры № ${o.id} от ${moment(o.entyu).format('DD.MM.YYYY')}`;
     } else if (costs.code == 'CRR') {
-        const [o] = await db.execQuery(`SELECT * FROM cars_reservations WHERE id = ?`, [costs.base_id]);
+        const [o] = await db.execQuery(`SELECT * FROM cars_reservations WHERE id = ?`, [costs.document_id]);
         base = `Аренда автомобиля № ${o.id} от ${moment(o.rent_start).format('DD.MM.YYYY')}`;
     } else if (costs.code == 'CAR') {
-        const [o] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [costs.base_id]);
+        const [o] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [costs.document_id]);
         base = `${o.name} ${o.model} ${o.number}`;
+    } else if (costs.code == 'SD') {
+        const [o] = await suppliersDealsModel.get({ id: costs.document_id });
+        base = `Сделка с поставщиком ${o.supplier_name} от ${moment(o.created_at).format('DD.MM.YYYY')}`;
     } else {
         throw new Error('Неизвестный код основания');
     }

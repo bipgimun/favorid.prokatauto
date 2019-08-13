@@ -64,6 +64,11 @@
                 </tfoot>
             </table>
         </div>
+        {{#if paid}}
+            <a class="btn btn-primary" href="/suppliers-deals">Вернуться ко всем сделкам</a>
+        {{else}}
+            <a class="btn btn-primary" href="/suppliers-deals/paid">Показать оплаченные сделки</a>
+        {{/if}}
     </div>
 </section>
 
