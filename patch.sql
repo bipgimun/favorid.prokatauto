@@ -255,3 +255,14 @@ CREATE TABLE `act_works` ( `id` INT NOT NULL AUTO_INCREMENT , `code` VARCHAR(255
 ALTER TABLE `act_works` CHANGE `file` `file` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 ALTER TABLE `act_works` ADD `invoice_id` INT NOT NULL AFTER `id`;
 
+
+
+CREATE TABLE `suppliers_deals` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `supplier_id` INT NOT NULL , 
+    `sum` DECIMAL(11,2) NOT NULL COMMENT 'Сумма сделки', 
+    `manager_id` INT NOT NULL , 
+    `date` DATETIME NOT NULL COMMENT 'дата сделки' , 
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    PRIMARY KEY (`id`), INDEX (`supplier_id`)
+) ENGINE = InnoDB;
