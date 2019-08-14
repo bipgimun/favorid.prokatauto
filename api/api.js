@@ -55,6 +55,7 @@ app.use('/invoices', checkAuth, checkPrivileges, require('./routes/invoices'));
 app.use('/salaryStatement', checkAuth, checkPrivileges, require('./routes/salary-statement'));
 app.use('/salary-reports', checkAuth, checkPrivileges, require('./routes/salary-reports'));
 app.use('/act-sverki', checkAuth, checkPrivileges, require('./routes/act-sverki'));
+app.use('/act-sverki-suppliers', checkAuth, checkPrivileges, require('./routes/act-sverki-suppliers'));
 
 app.use('/employees', checkAuth, checkPrivileges, require('./routes/employees'));
 app.use('/balance', checkAuth, checkPrivileges, require('./routes/balance'));

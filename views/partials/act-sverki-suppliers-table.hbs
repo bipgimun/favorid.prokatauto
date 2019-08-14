@@ -1,0 +1,58 @@
+<tr>
+    <th colspan="3">ТОВАРЫ И УСЛУГИ</th>
+</tr>
+<tr>
+    <th></th>
+    <th>Поступило, р</th>
+    <th>Списано, р</th>
+</tr>
+{{#each periodDealsDetails.deals}}
+    <tr class="js-act-data-row" data-gone="{{sum}}">
+        <td>{{title}}</td>
+        <td>{{sum}}</td>
+        <td>--</td>
+    </tr>
+{{/each}}
+<tr>
+    <th>Всего списано</th>
+    <th></th>
+    <th>0</th>
+</tr>
+<tr>
+    <th>Всего поступило</th>
+    <th>{{periodDealsDetails.sum}}</th>
+    <th></th>
+</tr>
+<tr>
+    <th colspan="3">ДЕНЬГИ</th>
+</tr>
+{{#each periodCostsDetails.costs}}
+    <tr class="js-act-data-row" data-gone="{{sum}}">
+        <td>{{title}}</td>
+        <td>--</td>
+        <td>{{sum}}</td>
+    </tr>
+{{/each}}
+<tr>
+    <th>Мы оплатили</th>
+    <th></th>
+    <th>{{periodCostsDetails.sum}}</th>
+</tr>
+<tr>
+    <th>Мы получили</th>
+    <th>0</th>
+    <th></th>
+</tr>
+<tr>
+    <th>Итого за период</th>
+    <th>{{periodDealsDetails.sum}}</th>
+    <th>{{periodCostsDetails.sum}}</th>
+</tr>
+<tr>
+    <th>Сальдо на {{saldoDate}}</th>
+    <th colspan="2">{{saldoSum}} руб.</th>
+</tr>
+<tr>
+    <th>Итоговый рассчет:</th>
+    <th colspan="2">{{saldoSum}} + {{periodDealsDetails.sum}} - {{periodCostsDetails.sum}} = {{totalSum}} р.</th>
+</tr>
