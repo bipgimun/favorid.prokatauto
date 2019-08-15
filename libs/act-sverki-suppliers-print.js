@@ -171,10 +171,10 @@ function main({
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
         ws.cell(row, 2).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText });
-        ws.cell(row, 3).string(`${saldoSum}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
+        ws.cell(row, 3).string(`${saldoSum + totalCredit - totalDebet}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
 
         ws.cell(row, 6).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText, });
-        ws.cell(row, 8).string(`${saldoSum}`).style({ ...smallText, ...hRight });
+        ws.cell(row, 8).string(`${saldoSum + totalCredit - totalDebet}`).style({ ...smallText, ...hRight });
 
         row++;
 
@@ -211,10 +211,10 @@ function main({
         row++;
 
         ws.cell(row, 2).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 3).string(`${saldoSum - (totalDebet - totalCredit)}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 3).string(`${saldoSum}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 6).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 8).string(`${saldoSum - (totalDebet - totalCredit)}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 8).string(`${saldoSum}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
