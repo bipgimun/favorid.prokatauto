@@ -28,19 +28,19 @@ router.post('/getTable', async (req, res, next) => {
         supplier_id
     } = req.body;
 
+    const periodData = await calcTable({ period_left, period_right, supplier_id });
+
     const {
         costsDetails: periodCostsDetails,
         dealsDetails: periodDealsDetails,
         totalSum: periodTotalSum
-    } = await calcTable({ period_left, period_right, supplier_id });
+    } = periodData;
 
     const saldoT = await calcTable({ period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'), supplier_id });
 
     const { totalSum: saldoSum } = saldoT;
 
-    console.log('saldoT', saldoT);
-
-    const totalSumWithSaldo = saldoSum + periodTotalSum;
+    const totalSumWithSaldo = +saldoSum + +periodTotalSum;
 
     res.render('partials/act-sverki-suppliers-table.hbs', {
         layout: false,
@@ -67,7 +67,7 @@ router.post('/getTable', async (req, res, next) => {
 
 router.get('/print', async function (req, res, next) {
 
-    const { period_left, period_right, supplier_id, id } = await printSchema.validate(req.query);
+    const { period_left, period_right, supplier_id } = await printSchema.validate(req.query);
 
     const [supplier] = await db.execQuery(`
         SELECT * 
@@ -79,60 +79,39 @@ router.get('/print', async function (req, res, next) {
     if (!supplier)
         throw new Error('Заказчик отсутствует');
 
-    let positions;
-    let money;
-    let saldoSum;
-    let saldoDate;
-
-    moment.locale('ru');
-
-    const [document = {}] = id
-        ? (await db.execQuery(`SELECT * FROM act_sverki_suppliers_documents WHERE id = ?`, [id]))
-        : [];
-
-    if (document.id) {
-        const details = await db.execQuery(`
-            SELECT * 
-            FROM act_sverki_suppliers_documents_details 
-            WHERE document_id = ?`, [document.id]
-        );
-
-        positions = details.filter(item => item.code === 'SD');
-        money = details.filter(item => item.gone);
-
-        saldoSum = document.saldo;
-        saldoDate = moment(document.period_left).subtract(1, 'day').format('DD.MM.YYYY');
-    } else {
-
-        const {
-            costsDetails,
-            dealsDetails
-        } = await calcTable({
-            period_left,
-            period_right,
-            supplier_id
-        });
-
-        money = costsDetails.costs;
-        positions = dealsDetails.deals;;
-
-        const saldoResult = await calcTable({
-            supplier_id,
-            period_right: moment(period_left)
-                .subtract(1, 'day')
-                .format('YYYY-MM-DD'),
-        });
-
-        saldoSum = saldoResult.totalSum;
-
-        saldoDate = moment(period_left).subtract(1, 'day').format('DD.MM.YYYY');
-    }
-
     const currentDate = moment(new Date()).format('DD MMMM YYYY');
+    const periodData = await calcTable({ period_left, period_right, supplier_id });
 
-    const dataArray = [...money, ...positions].map((item) => {
-        const { title, income, gone } = item;
-        return [title, income ? income : '', gone ? gone : ''];
+    const {
+        costsDetails,
+        dealsDetails,
+        totalSum: periodSum
+    } = periodData;
+
+    const { sum: costsSum, costs } = costsDetails;
+    const { sum: incomeSum, deals } = dealsDetails;
+
+    const saldoDateNotFormat = moment(period_left).subtract(1, 'day');
+
+    const saldoResult = await calcTable({
+        supplier_id,
+        period_right: saldoDateNotFormat.format('YYYY-MM-DD'),
+    });
+
+    const { totalSum: saldoSum } = saldoResult;
+    const saldoDate = saldoDateNotFormat.format('DD.MM.YYYY');
+
+    const dataArray = [...costs, ...deals].map((item) => {
+        const { title, sum, code } = item;
+
+        const data = code
+            ? [sum, '']
+            : ['', sum];
+
+        return [
+            title,
+            ...data
+        ];
     });
 
     const file = await printAct({
@@ -141,6 +120,7 @@ router.get('/print', async function (req, res, next) {
         saldoSum,
         dataArray,
         saldoDate,
+        sumOnPeriodEnd: saldoSum + incomeSum - costsSum,
         period_left: moment(period_left).format('DD.MM.YYYY'),
         period_right: moment(period_right).format('DD.MM.YYYY')
     });

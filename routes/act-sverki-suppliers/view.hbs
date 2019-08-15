@@ -56,7 +56,8 @@
     <div class="panel-body">
         <div class="after_create-wrapper">
             <div class="save_and_print_buttons col-md-7">
-                <a href="/api/act-sverki-suppliers/print?id={{id}}" class="btn btn-default">Печать</a>
+                <a href="/api/act-sverki-suppliers/print?id={{id}}&supplier_id={{document.supplier_id}}&period_left={{toIsoString document.period_left 'YYYY-MM-DD'}}&period_right={{toIsoString document.period_right 'YYYY-MM-DD'}}"
+                    class="btn btn-default">Печать</a>
                 <br>
                 <br>
             </div>

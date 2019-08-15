@@ -67,7 +67,10 @@ app.post('/add', async (req, res, next) => {
 
         const [deal] = await suppliersDealsModel.get({ id: validValues.document_id });
 
-        const remainder = (deal.sum - deal.paid_sum);
+        const costsByDeal = await db.execQuery(`SELECT sum FROM costs WHERE code = ? AND document_id = ?`, ['SD', deal.id]);
+        const costsSum = costsByDeal.reduce((acc, value) => +acc + +value.sum, 0);
+
+        const remainder = (deal.sum - costsSum);
 
         if (remainder <= 0) {
             await suppliersDealsModel.update({ id: validValues.document_id, values: { is_paid: true, paid_at: new Date() } });

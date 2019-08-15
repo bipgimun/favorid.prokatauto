@@ -8,6 +8,7 @@ function main({
     period_left = '',
     period_right = '',
     supplier = {},
+    sumOnPeriodEnd = null,
     currentDate = '',
     saldoDate = ''
 } = {}) {
@@ -170,11 +171,11 @@ function main({
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
-        ws.cell(row, 2).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText });
-        ws.cell(row, 3).string(`${saldoSum + totalCredit - totalDebet}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
+        ws.cell(row, 2).string(`Остаток (сальдо) на ${period_right}`).style({ ...smallText });
+        ws.cell(row, 3).number(sumOnPeriodEnd).style({ ...smallText, border: { ...allBorder }, ...hRight });
 
-        ws.cell(row, 6).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText, });
-        ws.cell(row, 8).string(`${saldoSum + totalCredit - totalDebet}`).style({ ...smallText, ...hRight });
+        ws.cell(row, 6).string(`Остаток (сальдо) на ${period_right}`).style({ ...smallText, });
+        ws.cell(row, 8).number(sumOnPeriodEnd).style({ ...smallText, ...hRight });
 
         row++;
 
@@ -232,11 +233,11 @@ function main({
         row++;
 
         ws.cell(row, 1, row, 4, true)
-            .string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
+            .string(`на ${period_right} задолженность в пользу ИП Орехова Мария Юрьевна ${sumOnPeriodEnd} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         ws.cell(row, 5, row, 8, true)
-            .string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
+            .string(`на ${period_right} задолженность в пользу ИП Орехова Мария Юрьевна ${sumOnPeriodEnd} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         row++;

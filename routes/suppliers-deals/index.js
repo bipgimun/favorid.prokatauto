@@ -33,7 +33,10 @@ router.get('/:id', async (req, res, next) => {
         throw new Error('Сделка не найдена');
 
 
-    const remainderCalc = document.sum - document.paid_sum;
+    const costsByDeal = await db.execQuery(`SELECT sum FROM costs WHERE code = ? AND document_id = ?`, ['SD', document.id]);
+    const costsSum = costsByDeal.reduce((acc, value) => +acc + +value.sum, 0);
+
+    const remainderCalc = (document.sum - costsSum);
     const reminder = remainderCalc >= 0
         ? remainderCalc
         : 0;
