@@ -78,19 +78,19 @@ $(document).ready(function () {
     function onPrint() {
         const period_left = $periodLeft.val();
         const period_right = $periodRight.val();
-        const customer_id = $customer.val();
+        const supplier_id = $customer.val();
 
-        if (!period_left || !period_right || !customer_id) {
+        if (!period_left || !period_right || !supplier_id) {
             return alert('Выбраны не все поля');
         }
 
         const query = $.param({
             period_left,
             period_right,
-            customer_id
+            supplier_id
         })
 
-        window.open('/api/act-sverki/print?' + query);
+        window.open('/api/act-sverki-suppliers/print?' + query);
     }
 
     async function onCancel() {
