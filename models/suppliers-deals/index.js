@@ -37,7 +37,6 @@ exports.get = ({
             LEFT JOIN suppliers s ON s.id = sd.supplier_id
             LEFT JOIN suppliers_positions sp ON sp.id = sd.position_id
             LEFT JOIN employees e ON e.id = sd.manager_id
-            LEFT JOIN costs c ON c.code = 'SD' AND c.document_id = sd.id
         WHERE sd.id > 0
             ${id ? `AND sd.id = ${id}` : ``}
             ${ids ? `AND sd.id IN (${ids})` : ``}
