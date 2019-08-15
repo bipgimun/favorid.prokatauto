@@ -8,7 +8,7 @@ const {
 
 router.get('/', async (req, res, next) => {
 
-    const deals = await suppliersDealsModel.get();
+    const deals = await suppliersDealsModel.get({ paid: false });
 
     return res.render(__dirname + '/suppliers-deals-list', {
         deals
