@@ -34,9 +34,11 @@ router.post('/getTable', async (req, res, next) => {
         totalSum: periodTotalSum
     } = await calcTable({ period_left, period_right, supplier_id });
 
-    const {
-        totalSum: saldoSum
-    } = await calcTable({ period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'), supplier_id });
+    const saldoT = await calcTable({ period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'), supplier_id });
+
+    const { totalSum: saldoSum } = saldoT;
+
+    console.log('saldoT', saldoT);
 
     const totalSumWithSaldo = saldoSum + periodTotalSum;
 
@@ -238,12 +240,12 @@ async function calcTable({ period_left = '', period_right = '', supplier_id = ''
         SELECT * 
         FROM costs 
         WHERE code = 'SD'
-            AND document_id IN (
+            AND (document_id IN (
                 SELECT suppliers_deals.id
                 FROM suppliers_deals
                 WHERE suppliers_deals.supplier_id = ${supplier_id}
             )
-            OR supplier_id = ${supplier_id}
+            OR supplier_id = ${supplier_id})
             AND date <= '${dateLt.format(sqlFormat)}'
             ${queryGt}
     `);
