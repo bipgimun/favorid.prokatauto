@@ -32,8 +32,7 @@ exports.get = ({
             s.name as supplier_name,
             sp.name as position_name,
             CONCAT(e.last_name, ' ', e.first_name) as manager_name,
-            CONCAT('SD-', sd.id) as code,
-            SUM(c.sum) as paid_sum
+            CONCAT('SD-', sd.id) as code
         FROM suppliers_deals sd
             LEFT JOIN suppliers s ON s.id = sd.supplier_id
             LEFT JOIN suppliers_positions sp ON sp.id = sd.position_id
