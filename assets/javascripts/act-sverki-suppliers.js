@@ -30,22 +30,22 @@ $(document).ready(function () {
     });
 
     async function onSave() {
-        const { money, positions, saldo, totalSum } = state;
+        const { money, deals, saldo, totalSumWithSaldo: totalSum } = state;
         const period_left = $periodLeft.val();
         const period_right = $periodRight.val();
-        const customer_id = $customer.val();
+        const supplier_id = $customer.val();
 
         if (!money.length || !money.length)
             return false;
 
-        const { data: body } = await request('/api/act-sverki/document/save', {
+        const { data: body } = await request('/api/act-sverki-suppliers/document/save', {
             money,
-            positions,
+            deals,
+            saldo,
+            totalSum,
             period_left,
             period_right,
-            customer_id,
-            saldo,
-            sum: totalSum,
+            supplier_id,
         });
 
         var t = $documents.DataTable();
@@ -54,7 +54,7 @@ $(document).ready(function () {
             body.created,
             body.id,
             body.customer_name,
-            `<a href="/act-sverki/${body.id}" target="_blank">Подробнее</a>`
+            `<a href="/act-sverki-suppliers/${body.id}" target="_blank">Подробнее</a>`
         ]).draw(false);
     }
 

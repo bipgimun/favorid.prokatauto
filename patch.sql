@@ -273,3 +273,60 @@ ALTER TABLE `suppliers_deals` ADD `is_paid` BOOLEAN NOT NULL DEFAULT FALSE AFTER
 
 
 CREATE TABLE `suppliers_positions` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `cost` DECIMAL(11,2) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `act_sverki_suppliers_documents` (
+  `id` int(11) NOT NULL,
+  `manager_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `period_left` date NOT NULL,
+  `period_right` date NOT NULL,
+  `saldo` decimal(11,2) NOT NULL DEFAULT '0.00',
+  `sum` decimal(11,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `act_sverki_suppliers_documents_details` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `income` decimal(11,2) DEFAULT NULL,
+  `gone` decimal(11,2) DEFAULT NULL,
+  `document_id` int(11) NOT NULL,
+  `base_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `act_sverki_suppliers_documents`
+--
+ALTER TABLE `act_sverki_suppliers_documents`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `manager_id` (`manager_id`);
+
+--
+-- Индексы таблицы `act_sverki_suppliers_documents_details`
+--
+ALTER TABLE `act_sverki_suppliers_documents_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `document_id` (`document_id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `act_sverki_suppliers_documents`
+--
+ALTER TABLE `act_sverki_suppliers_documents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `act_sverki_suppliers_documents_details`
+--
+ALTER TABLE `act_sverki_suppliers_documents_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
