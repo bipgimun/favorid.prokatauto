@@ -67,6 +67,8 @@ router.post('/getTable', async (req, res, next) => {
 
 router.get('/print', async function (req, res, next) {
 
+    moment.locale('ru');
+
     const { period_left, period_right, supplier_id } = await printSchema.validate(req.query);
 
     const [supplier] = await db.execQuery(`

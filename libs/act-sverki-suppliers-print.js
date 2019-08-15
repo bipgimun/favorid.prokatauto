@@ -171,11 +171,11 @@ function main({
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
-        ws.cell(row, 2).string(`Остаток (сальдо) на ${period_right}`).style({ ...smallText });
-        ws.cell(row, 3).number(sumOnPeriodEnd).style({ ...smallText, border: { ...allBorder }, ...hRight });
+        ws.cell(row, 2).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText });
+        ws.cell(row, 3).number(saldoSum).style({ ...smallText, border: { ...allBorder }, ...hRight });
 
-        ws.cell(row, 6).string(`Остаток (сальдо) на ${period_right}`).style({ ...smallText, });
-        ws.cell(row, 8).number(sumOnPeriodEnd).style({ ...smallText, ...hRight });
+        ws.cell(row, 6).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText, });
+        ws.cell(row, 8).number(saldoSum).style({ ...smallText, ...hRight });
 
         row++;
 
@@ -211,11 +211,11 @@ function main({
 
         row++;
 
-        ws.cell(row, 2).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 3).string(`${saldoSum}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 2).string(`Остаток (Сальдо) на ${period_right}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 3).string(`${sumOnPeriodEnd}`).style({ font: { size: 10, bold: true } });
 
-        ws.cell(row, 6).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 8).string(`${saldoSum}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 6).string(`Остаток (Сальдо) на ${period_right}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 8).string(`${sumOnPeriodEnd}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
