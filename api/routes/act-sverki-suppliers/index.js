@@ -82,20 +82,18 @@ async function calcTable({ period_left = '', period_right = '', supplier_id = ''
             ${queryDealsGt}
     `);
 
-    const dealsIds = deals
-        .map(deal => deal.id)
-        .join(',');
-
-    const costs = dealsIds
-        ? await db.execQuery(`
-            SELECT * 
-            FROM costs 
-            WHERE code = ? 
-                AND document_id IN (${dealsIds})
-                ${queryGt}
-                AND date <= '${dateLt.format(sqlFormat)}'
-        `, ['SD'])
-        : [];
+    const costs = await db.execQuery(`
+        SELECT * 
+        FROM costs 
+        WHERE code = 'SD'
+            AND document_id IN (
+                SELECT suppliers_deals.id
+                FROM suppliers_deals
+                WHERE suppliers_deals.supplier_id = ${supplier_id}
+            )
+            AND date <= '${dateLt.format(sqlFormat)}'
+            ${queryGt}
+    `);
 
     const dealsDetails = {
         sum: 0,

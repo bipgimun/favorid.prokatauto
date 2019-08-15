@@ -107,11 +107,8 @@
             <div class="controls_details-child customer-control_details col-md-12">
                 <p class="header-details">Поставщик</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control js-actSverki-customer">
+                    <select class="form-control js-actSverki-customer js-select2-init" data-ajax="/api/suppliers/getSelect2">
                         <option value="" disabled selected>Выберете контрагента</option>
-                        {{#each suppliers}}
-                            <option value="{{id}}">{{name}}</option>
-                        {{/each}}
                     </select>
                 </div>
             </div>
