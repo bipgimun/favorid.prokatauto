@@ -185,10 +185,21 @@ router.post('/document/save', async (req, res, next) => {
         throw new Error(error);
     }
 
-    return res.json({ status: 'ok', data: {} });
+
+    const [a] = await db.execQuery(`
+         SELECT d.*,
+            s.name as supplier_name
+        FROM act_sverki_suppliers_documents d
+            LEFT JOIN suppliers s ON s.id = d.supplier_id
+        WHERE id = ${document_id}
+    `);
+
+    a.created_at = moment(a.created_at).format('DD.MM.YYYY');
+
+    return res.json({ status: 'ok', data: a });
 })
 
-async function calcTable({ period_left = '', period_right = '', supplier_id = '', document = {} }) {
+async function calcTable({ period_left = '', period_right = '', supplier_id = '' }) {
     if (!supplier_id) {
         throw new Error('Не выбран заказчик');
     }

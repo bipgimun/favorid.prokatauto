@@ -51,9 +51,9 @@ $(document).ready(function () {
         var t = $documents.DataTable();
 
         t.row.add([
-            body.created,
+            body.created_at,
             body.id,
-            body.customer_name,
+            body.supplier_name,
             `<a href="/act-sverki-suppliers/${body.id}" target="_blank">Подробнее</a>`
         ]).draw(false);
     }
