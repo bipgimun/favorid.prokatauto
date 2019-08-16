@@ -330,3 +330,5 @@ ALTER TABLE `act_sverki_suppliers_documents`
 --
 ALTER TABLE `act_sverki_suppliers_documents_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- Добавлено в бд 15.08.19. КРУЦЕНКО
