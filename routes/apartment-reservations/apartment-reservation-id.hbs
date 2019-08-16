@@ -1,5 +1,6 @@
 <style>
-    .js-editable-body .non-editable-content {
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
         display: block;
         padding-top: 7px;
         font-weight: bold;
@@ -28,6 +29,21 @@
     .footer-resrvation-end-btn {
         margin-left: auto;
         margin-right: 10px;
+    }
+
+    .reservation-send-block {
+        display: flex;
+        justify-content: flex-start;
+        align-items: baseline;
+    }
+
+    .reservation-send-block--child {
+        margin: auto 10px auto 10px;
+    }
+
+
+    .reservation-send-btn {
+        margin-left: 20px;
     }
 </style>
 
@@ -242,7 +258,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Менеджер</label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-9 style-non-editable">
                                 <div>{{manager_name}}</div>
                             </div>
                         </div>
