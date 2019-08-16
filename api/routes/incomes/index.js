@@ -29,6 +29,7 @@ const updateScheme = Joi.object({
 
 const {
     invoicesModel,
+    customersModel,
 } = require('../../../models');
 
 app.post('/add', async (req, res, next) => {
@@ -189,7 +190,7 @@ app.get('/print/:incomeId', async (req, res, next) => {
         throw new Error('Отсутствует заказчик');
     }
 
-    const [customer = {}] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [income.customer_id]);
+    const [customer = {}] = await customersModel.get({ id: income.customer_id });
 
     if (!customer.id) {
         throw new Error('Заказчик не найден');

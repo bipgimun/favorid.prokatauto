@@ -833,7 +833,10 @@ $(document).ready(() => {
         window.close();
     })
 
-    const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver') => {
+    const getFormValues = (
+        form,
+        selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver'
+    ) => {
 
         const arrayData = $(form).find(selectors).serializeArray();
 
@@ -842,6 +845,10 @@ $(document).ready(() => {
         arrayData.reduce((acc, item) => {
 
             const { name, value } = item;
+
+            if((name == 'email' || name == 'contact_number') && !value) {
+                return acc;
+            }
 
             acc[name] = acc[name]
                 ? [...acc[name].split(','), value].join(',')

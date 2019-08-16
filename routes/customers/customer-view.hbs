@@ -100,23 +100,43 @@
                                         {{this.email}}
                                     </div>
                                     <div class="col-sm-8 editable-content">
-                                        <input name="email" value="{{this.email}}" type="email" class="form-control email-input" placeholder="Введите email">
+                                        <input name="email" value="{{this.email}}" type="email"
+                                            class="form-control email-input" placeholder="Введите email">
                                     </div>
                                 </div>
                                 <div class="form-group customer-email-group">
                                     <div class="customer-email-group__item">
                                         <label class="col-sm-4 control-label">Доп.имейл</label>
-                                        <div class="non-editable-content" data-target="other-email">
-                                            {{this.other-email}}
+                                        <div class="non-editable-content">
+                                            {{#each otherEmails as |otherEmail|}}
+                                                {{otherEmail}}
+                                            {{/each}}
                                         </div>
                                         <div class="col-sm-8 editable-content">
+                                            {{#each otherEmails as |otherEmail|}}
+                                                <div class="input-group">
+                                                    <input type="email" value="{{otherEmail}}" name="email"
+                                                        class="form-control email-input" placeholder="Введите email">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default adding-item-email"
+                                                            type="button">+</button>
+                                                    </span>
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default deliting-item-email"
+                                                            type="button">-</button>
+                                                    </span>
+                                                </div>
+                                            {{/each}}
                                             <div class="input-group">
-                                                <input type="email" value="{{this.other-email}}" name="other-email" class="form-control email-input" placeholder="Введите email">
+                                                <input type="email" name="email" class="form-control email-input"
+                                                    placeholder="Введите email">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default adding-item-email" type="button">+</button>
+                                                    <button class="btn btn-default adding-item-email"
+                                                        type="button">+</button>
                                                 </span>
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default deliting-item-email" type="button">-</button>
+                                                    <button class="btn btn-default deliting-item-email"
+                                                        type="button">-</button>
                                                 </span>
                                             </div>
                                         </div>
@@ -231,8 +251,8 @@
                                     </div>
                                     <div class="col-sm-3 editable-content">
                                         <input name="driver_license_expiration_date"
-                                            value="{{toIsoString this.driver_license_expiration_date 'YYYY-MM-DD'}}" type="date"
-                                            placeholder="Введите дату" class="form-control" required>
+                                            value="{{toIsoString this.driver_license_expiration_date 'YYYY-MM-DD'}}"
+                                            type="date" placeholder="Введите дату" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -256,8 +276,9 @@
                                         {{toIsoString this.passport_issue_date 'DD.MM.YYYY'}}
                                     </div>
                                     <div class="col-sm-8 editable-content">
-                                        <input name="passport_issue_date" value="{{toIsoString passport_issue_date 'YYYY-MM-DD'}}"
-                                            type="date" placeholder="Введите дату" class="form-control" required>
+                                        <input name="passport_issue_date"
+                                            value="{{toIsoString passport_issue_date 'YYYY-MM-DD'}}" type="date"
+                                            placeholder="Введите дату" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -286,8 +307,8 @@
                                         {{this.location}}
                                     </div>
                                     <div class="col-sm-8 editable-content">
-                                        <textarea name="location" cols="20" rows="4"
-                                            class="form-control" placeholder="Введите данные" required>{{this.location}}</textarea>
+                                        <textarea name="location" cols="20" rows="4" class="form-control"
+                                            placeholder="Введите данные" required>{{this.location}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -298,18 +319,35 @@
                                 {{this.contact_number}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" value="{{this.contact_number}}" id="phone" placeholder="+7(123) 123-12-34" class="form-control phone-input" required>
+                                <input name="contact_number" value="{{this.contact_number}}" id="phone"
+                                    placeholder="+7(123) 123-12-34" class="form-control phone-input" required>
                             </div>
                         </div>
-                         <div class="form-group customer-tel-group">
+                        <div class="form-group customer-tel-group">
                             <div class="customer-tel-group__item">
                                 <label class="col-sm-4 control-label">Доп.телефон</label>
-                                <div class="non-editable-content" data-target="other-сontact_number">
-                                    {{this.other-сontact_number}}
+                                <div class="non-editable-content">
+                                    {{#each otherPhones as |otherPhone|}}
+                                        {{otherPhone}}
+                                    {{/each}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
+                                    {{#each otherPhones as |otherPhone|}}
+                                        <div class="input-group">
+                                            <input name="contact_number" value="{{otherPhone}}"
+                                                placeholder="+7(123) 123-12-34" class="form-control phone-input">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default adding-item-tel" type="button">+</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default deliting-item-tel"
+                                                    type="button">-</button>
+                                            </span>
+                                        </div>
+                                    {{/each}}
                                     <div class="input-group">
-                                        <input name="other-сontact_number" value="{{this.other-сontact_number}}" placeholder="+7(123) 123-12-34" class="form-control phone-input">
+                                        <input name="contact_number" placeholder="+7(123) 123-12-34"
+                                            class="form-control phone-input">
                                         <span class="input-group-btn">
                                             <button class="btn btn-default adding-item-tel" type="button">+</button>
                                         </span>
@@ -327,7 +365,8 @@
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="discount" value="{{this.discount}}" type="number"
-                                    placeholder="Введите размер скидки" max="100" min="0" class="form-control prices-control-class">
+                                    placeholder="Введите размер скидки" max="100" min="0"
+                                    class="form-control prices-control-class">
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -364,13 +403,13 @@
     })
 </script>
 <script>
-  'use strict';
-  const pricesControlClass = document.querySelectorAll('.prices-control-class');
-  pricesControlClass.forEach(function(item) {
-    item.addEventListener('input', function(evt) {
-        this.value < 0 ? this.value = 0 : this.value;
+    'use strict';
+    const pricesControlClass = document.querySelectorAll('.prices-control-class');
+    pricesControlClass.forEach(function (item) {
+        item.addEventListener('input', function (evt) {
+            this.value < 0 ? this.value = 0 : this.value;
+        });
     });
-  });
 </script>
 <script>
     var btnAddProduct1 = document.querySelector('.adding-item-email');
