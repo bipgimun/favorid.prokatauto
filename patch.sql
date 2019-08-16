@@ -332,3 +332,6 @@ ALTER TABLE `act_sverki_suppliers_documents_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 -- Добавлено в бд 15.08.19. КРУЦЕНКО
+
+
+ALTER TABLE `customers` CHANGE `email` `email` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL, CHANGE `contact_number` `contact_number` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
