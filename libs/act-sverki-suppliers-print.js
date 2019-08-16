@@ -166,20 +166,25 @@ function main({
 
         let row = 8;
 
-        let totalDebet = 0;
         let totalCredit = 0;
+        let totalDebet = 0;
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
+        const isDebet = +saldoSum < 0;
+
+        const debetCell = 3;
+        const creditCell = 4;
+
         ws.cell(row, 2).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText });
-        ws.cell(row, 3).number(saldoSum).style({ ...smallText, border: { ...allBorder }, ...hRight });
+        ws.cell(row, isDebet ? debetCell : creditCell).number(Math.abs(saldoSum)).style({ ...smallText, border: { ...allBorder }, ...hRight });
 
         ws.cell(row, 6).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText, });
-        ws.cell(row, 8).number(saldoSum).style({ ...smallText, ...hRight });
+        ws.cell(row, isDebet ? 8 : 7).number(Math.abs(saldoSum)).style({ ...smallText, ...hRight });
 
         row++;
-
         dataArray.forEach((data, index) => {
+
 
             ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
@@ -193,29 +198,29 @@ function main({
             ws.cell(row, 7).string(`${data[1]}`).style({ ...smallText });
             ws.cell(row, 8).string(`${data[2]}`).style({ ...smallText });
 
-            totalDebet += +data[1];
-            totalCredit += +data[2];
+            totalDebet += +data[2];
+            totalCredit += +data[1];
 
             row++;
         });
 
         ws.cell(row, 2).string(`Обороты за период`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 3).string(`${totalCredit}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 4).string(`${totalDebet}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 3).string(`${totalDebet + (isDebet ? saldoSum : 0)}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 4).string(`${totalCredit + (isDebet ? 0 : saldoSum)}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 6).string(`Обороты за период`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 7).string(`${totalDebet}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 8).string(`${totalCredit}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 7).string(`${totalCredit + (isDebet ? 0 : saldoSum)}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 8).string(`${totalDebet + (isDebet ? saldoSum : 0)}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
         row++;
 
         ws.cell(row, 2).string(`Остаток (Сальдо) на ${period_right}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 3).string(`${sumOnPeriodEnd}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, sumOnPeriodEnd < 0 ? debetCell : creditCell).string(`${Math.abs(sumOnPeriodEnd)}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 6).string(`Остаток (Сальдо) на ${period_right}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 8).string(`${sumOnPeriodEnd}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, sumOnPeriodEnd < 0 ? 8 : 7).string(`${Math.abs(sumOnPeriodEnd)}`).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
@@ -232,12 +237,17 @@ function main({
 
         row++;
 
+        const ipName = 'ИП Орехова Мария Юрьевна';
+        const polzaName = sumOnPeriodEnd < 0
+            ? ipName
+            : supplier.name;
+
         ws.cell(row, 1, row, 4, true)
-            .string(`на ${period_right} задолженность в пользу ИП Орехова Мария Юрьевна ${sumOnPeriodEnd} руб.`)
+            .string(`на ${period_right} задолженность в пользу ${polzaName} ${Math.abs(sumOnPeriodEnd)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         ws.cell(row, 5, row, 8, true)
-            .string(`на ${period_right} задолженность в пользу ИП Орехова Мария Юрьевна ${sumOnPeriodEnd} руб.`)
+            .string(`на ${period_right} задолженность в пользу ${polzaName} ${Math.abs(sumOnPeriodEnd)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         row++;
@@ -259,7 +269,7 @@ function main({
 
         ws.cell(row, 1, row, 2, true).string('ИП Орехова Мария Юрьевна')
             .style({ font: { size: 10 } });
-        
+
         ws.cell(row, 5, row, 6, true).string('*ВСТАВИТЬ ДОЛЖНОСТЬ И ФИО*')
             .style({ font: { size: 10 } });
 
