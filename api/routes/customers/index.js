@@ -35,8 +35,6 @@ app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
 
-    console.log(req.body);
-    return res.send(req.body);
     const validValues = await wishList.customers.validate(values);
 
 
