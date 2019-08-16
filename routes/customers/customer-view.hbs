@@ -100,8 +100,26 @@
                                         {{this.email}}
                                     </div>
                                     <div class="col-sm-8 editable-content">
-                                        <input name="email" value="{{this.email}}" type="email" class="form-control"
-                                            placeholder="Введите email">
+                                        <input name="email" value="{{this.email}}" type="email" class="form-control email-input" placeholder="Введите email">
+                                    </div>
+                                </div>
+                                <div class="form-group customer-email-group">
+                                    <div class="customer-email-group__item">
+                                        <label class="col-sm-4 control-label">Доп.имейл</label>
+                                        <div class="non-editable-content" data-target="other-email">
+                                            {{this.other-email}}
+                                        </div>
+                                        <div class="col-sm-8 editable-content">
+                                            <div class="input-group">
+                                                <input type="email" value="{{this.other-email}}" name="other-email" class="form-control email-input" placeholder="Введите email">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default adding-item-email" type="button">+</button>
+                                                </span>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default deliting-item-email" type="button">-</button>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -280,9 +298,26 @@
                                 {{this.contact_number}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <input name="contact_number" value="{{this.contact_number}}" id="phone"
-                                    data-plugin-masked-input="" data-input-mask="+7 (999) 999-9999"
-                                    placeholder="+7 (123) 123-1234" class="form-control" required>
+                                <input name="contact_number" value="{{this.contact_number}}" id="phone" placeholder="+7(123) 123-12-34" class="form-control phone-input" required>
+                            </div>
+                        </div>
+                         <div class="form-group customer-tel-group">
+                            <div class="customer-tel-group__item">
+                                <label class="col-sm-4 control-label">Доп.телефон</label>
+                                <div class="non-editable-content" data-target="other-сontact_number">
+                                    {{this.other-сontact_number}}
+                                </div>
+                                <div class="col-sm-8 editable-content">
+                                    <div class="input-group">
+                                        <input name="other-сontact_number" value="{{this.other-сontact_number}}" placeholder="+7(123) 123-12-34" class="form-control phone-input">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default adding-item-tel" type="button">+</button>
+                                        </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default deliting-item-tel" type="button">-</button>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -336,4 +371,78 @@
         this.value < 0 ? this.value = 0 : this.value;
     });
   });
+</script>
+<script>
+    var btnAddProduct1 = document.querySelector('.adding-item-email');
+    var btnDeleteProduct1 = document.querySelector('.deliting-item-email');
+    var table1 = document.querySelector('.customer-email-group');
+
+    function insRow1() {
+        var target = event.target;
+        var grItem = table1.querySelectorAll('.customer-email-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item-email').addEventListener('click', insRow1);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table1.appendChild(new_row);
+    }
+
+    function delRow1() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item-email');
+        if (!closeBtn) return;
+
+        var grItem = table1.querySelectorAll('.customer-email-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    }
+
+    btnAddProduct1.addEventListener('click', insRow1);
+
+    table1.addEventListener('click', delRow1);
+</script>
+<script>
+    var btnAddProduct = document.querySelector('.adding-item-tel');
+    var btnDeleteProduct = document.querySelector('.deliting-item-tel');
+    var table = document.querySelector('.customer-tel-group');
+
+    function insRow() {
+        var target = event.target;
+        var grItem = table.querySelectorAll('.customer-tel-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item-tel').addEventListener('click', insRow);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table.appendChild(new_row);
+    }
+
+    function delRow() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item-tel');
+        if (!closeBtn) return;
+
+        var grItem = table.querySelectorAll('.customer-tel-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    }
+
+    btnAddProduct.addEventListener('click', insRow);
+
+    table.addEventListener('click', delRow);
 </script>
