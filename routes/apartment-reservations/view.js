@@ -1,6 +1,10 @@
 const db = require('../../libs/db');
 const APARTMENT_STATUSES = require('../../config/apartment-statuses');
 
+const {
+    customersModel
+} = require('../../models');
+
 module.exports = async (req, res, next) => {
 
     const { id } = req.params;
@@ -53,7 +57,7 @@ module.exports = async (req, res, next) => {
         .filter(item => !!item)
         .map(item => servicesList.find(service => service.id == item));
 
-    const customers = await db.execQuery(`SELECT * FROM customers`);
+    const customers = await customersModel.get();
 
     customers.map(item => {
         if (item.id == reservation.customer_id) {

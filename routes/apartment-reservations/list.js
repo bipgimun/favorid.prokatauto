@@ -1,7 +1,10 @@
 const db = require('../../libs/db');
 
 const APARTMENT_STATUS = require('../../config/apartment-statuses');
-const { apartmentsReservsModel } = require('../../models');
+const {
+    apartmentsReservsModel,
+    customersModel
+} = require('../../models');
 
 module.exports = async (req, res, next) => {
 
@@ -17,7 +20,7 @@ module.exports = async (req, res, next) => {
         item.statusName = APARTMENT_STATUS.get(item.status);
     });
 
-    const customers = await db.execQuery(`SELECT * FROM customers`);
+    const customers = await customersModel.get();
 
     return res.render(__dirname + '/apartment-reservations', {
         customers,

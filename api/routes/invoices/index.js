@@ -220,7 +220,7 @@ router.get('/act-works-print/:invoiceId', async (req, res, next) => {
         throw new Error('Отсутствует заказчик');
     }
 
-    const [customer = {}] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [invoice.customer_id]);
+    const [customer = {}] = await customersModel.get({ id: invoice.customer_id });
 
     if (!customer.id) {
         throw new Error('Заказчик не найден');
