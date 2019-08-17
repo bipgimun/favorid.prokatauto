@@ -635,7 +635,11 @@ $(document).ready(() => {
 
         if ($('#js-cash-storages-table').length) {
             insertTable('cash-storages', data.id, [data.cashbox, data.name, data.number]);
+        } else {
+            Object.keys(data).forEach(key => $form.find(`[data-target=${key}]`).text(data[key]));
+            $('.js-toggleEditable').click();
         }
+
 
         return false;
     })
@@ -846,7 +850,7 @@ $(document).ready(() => {
 
             const { name, value } = item;
 
-            if((name == 'email' || name == 'contact_number') && !value) {
+            if ((name == 'email' || name == 'contact_number') && !value) {
                 return acc;
             }
 
