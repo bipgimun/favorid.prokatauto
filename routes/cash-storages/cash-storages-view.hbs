@@ -59,22 +59,28 @@
                         <input type="hidden" name="id" value="{{this.id}}">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Название</label>
-                            <div class="non-editable-content">
-                                {{this.name }}
+                            <div class="non-editable-content" data-target="name">
+                                {{name }}
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="name" type="text" class="form-control" placeholder="Введите данные"
-                                    value="{{this.name }}" required>
+                                    value="{{name }}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Номер</label>
-                            <div class="non-editable-content">
-                                {{this.number }}
+                            <div class="non-editable-content" data-target="number">
+                                {{number }}
                             </div>
                             <div class="col-sm-8 editable-content">
                                 <input name="number" type="text" class="form-control" placeholder="Введите данные"
-                                    value="{{this.number }}" required>
+                                    value="{{number }}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Баланс</label>
+                            <div>
+                                {{../balance }} руб.
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
