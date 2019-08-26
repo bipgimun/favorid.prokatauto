@@ -1,0 +1,101 @@
+<style>
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Позиции поставщиков</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <span>Позиции поставщиков</span>
+                <span class="separator"></span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Подробнее о кассе/счете</h2>
+            </header>
+            <div class="panel-body js-editable-body">
+                <form action="/api/suppliers-positions/update" onsubmit="SuppliersPositions.update_form_submit(this); return false;" id="js-suppliers-positions-add-form" class="form-horizontal mb-lg"
+                    novalidate="novalidate">
+
+                    <input type="hidden" name="id" value="{{id}}">
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Название</label>
+                        <div class="non-editable-content" data-target="name">
+                            {{position.name }}
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <input name="name" type="text" class="form-control" placeholder="Введите данные"
+                                value="{{position.name }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Стоимость</label>
+                        <div class="non-editable-content" data-target="cost">
+                            {{position.cost }}
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <input name="cost" type="text" class="form-control" placeholder="Введите данные"
+                                value="{{position.cost }}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-right editable-content">
+                        <button class="btn btn-success">Сохранить</button>
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button data-id="{{id}}" data-target="suppliers-positions"
+                        class="btn btn-danger js-tableEssence-remove">Удалить</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+
+
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>

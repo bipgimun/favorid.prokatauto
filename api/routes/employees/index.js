@@ -52,7 +52,7 @@ router.post('/update', async (req, res, next) => {
         data.is_senior_manager = '1';
         post = 'Старший менеджер';
     } else {
-        data.is_director = '0';
+        data.is_director = '1';
         post = 'Руководитель';
     }
 

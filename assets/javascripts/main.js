@@ -1089,10 +1089,26 @@ const SuppliersPositions = {
 
         $('#js-suppliers-positions-table')
             .dataTable()
-            .fnAddData([data.name, data.cost]);
+            .fnAddData([data.name, data.cost, `<a href="/suppliers-positions/${data.id}">Подробнее</a>`]);
 
         return false;
     },
+
+    async update_form_submit(form) {
+
+        const $form = $(form);
+        const values = getFormValues(form);
+
+        const { data } = await request($form.attr('action'), values, { showNotify: true });
+
+        Object.keys(data).forEach(key => {
+            $(form).find(`[data-target=${key}]`).text(data[key]);
+        });
+
+        $('.js-toggleEditable').click();
+
+        return false;
+    }
 };
 
 const SuppliersDeals = {

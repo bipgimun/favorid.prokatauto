@@ -270,7 +270,7 @@ function main({
         ws.cell(row, 1, row, 2, true).string('ИП Орехова Мария Юрьевна')
             .style({ font: { size: 10 } });
 
-        ws.cell(row, 5, row, 6, true).string('*ВСТАВИТЬ ДОЛЖНОСТЬ И ФИО*')
+        ws.cell(row, 5, row, 6, true).string('Ответственное лицо')
             .style({ font: { size: 10 } });
 
         row++;
