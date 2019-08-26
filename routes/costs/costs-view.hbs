@@ -97,9 +97,6 @@
                                                     {{this.title}}</option>
                                             {{/each}}
                                         </select>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Добавить</button>
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -120,9 +117,6 @@
                                                     {{name}}</option>
                                             {{/each}}
                                         </select>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Добавить</button>
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +153,7 @@
                 </div>
             {{/each}}
             <div class="footer-btn-block-resrvation">
-                <a href="/api/costs/downloadPrint/{{id}}">Печать</a>
+                <a class="btn" href="/api/costs/downloadPrint/{{id}}">Печать</a>
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
@@ -170,4 +164,3 @@
         </section>
     </div>
 </section>
-<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>

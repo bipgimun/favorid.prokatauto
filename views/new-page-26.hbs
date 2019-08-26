@@ -1,0 +1,220 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Активный смена № *номер*</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Смена №*номер*</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Информация о смене</h2>
+            </header>
+            <div class="panel-body js-editable-body">
+                <form id="js-costs-add-form" action="/api/costs/update" class="form-horizontal mb-lg"
+                    novalidate="novalidate">
+                    <input type="hidden" name="id" value="{{id}}">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Заказчик контракта</label>
+                        <div class="non-editable-content" data-target="">
+                            ООО МУЗ "ЛАБЕАН"
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <select style="width: 100%" name="" id="">
+                                <option value="" selected disabled>Выберите заказчика</option>
+                                <option>Раз два три</option>
+                                <option>Три два раз</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12"> 
+                            <label class="col-sm-2 control-label">Водитель</label>
+                            <div class="non-editable-content" data-target="">
+                                Водитель 1
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <select style="width: 100%" name="" id="">
+                                    <option value="" selected disabled>Выберите водителя</option>
+                                    <option>Водитель 1</option>
+                                    <option>Водитель 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">                            
+                            <label class="col-sm-2 control-label">Часы</label>
+                            <div class="non-editable-content" data-target="">
+                                0
+                            </div>
+                            <div class="col-sm-2 editable-content">
+                                <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12"> 
+                            <label class="col-sm-2 control-label">Водитель</label>
+                            <div class="non-editable-content" data-target="">
+                                Водитель 2
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <select style="width: 100%" name="" id="">
+                                    <option value="" selected disabled>Выберите водителя</option>
+                                    <option>Водитель 1</option>
+                                    <option>Водитель 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">                            
+                            <label class="col-sm-2 control-label">Часы</label>
+                            <div class="non-editable-content" data-target="">
+                                0
+                            </div>
+                            <div class="col-sm-2 editable-content">
+                                <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12"> 
+                            <label class="col-sm-2 control-label">Водитель</label>
+                            <div class="non-editable-content" data-target="">
+                                Водитель 3
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <select style="width: 100%" name="" id="">
+                                    <option value="" selected disabled>Выберите водителя</option>
+                                    <option>Водитель 1</option>
+                                    <option>Водитель 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">                            
+                            <label class="col-sm-2 control-label">Часы</label>
+                            <div class="non-editable-content" data-target="">
+                                0
+                            </div>
+                            <div class="col-sm-2 editable-content">
+                                <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Менеджер</label>
+                        <div>{{manager_name}}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Комментарий</label>
+                        <div class="non-editable-content" data-target="comment">
+                            {{comment}}
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <textarea value="{{comment}}" name="comment" cols="20" rows="4" class="form-control"
+                                placeholder="Введите комментарий" required>{{comment}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-right editable-content">
+                        <div class="footer-btn-block-resrvation">
+                            <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="footer-btn-block-resrvation">
+                {{#unless item.completed}}
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
+                    <button data-target="costs" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить
+                        контракт</button>
+                {{/unless}}
+            </div>
+        </section>        
+    </div>
+</section>
+
+<!-- Модалки-->
+
+<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Открытие новой смены</h2>
+        </header>
+        <div class="panel-body">
+            <form action="/api/apartmentReservations/add" id="js-apartmentReservations-form"
+                class="form-horizontal mb-lg" novalidate="novalidate">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата начала смены</label>
+                    <div class="col-sm-8">
+                        <input name="entry" type="date" class="form-control" placeholder="Введите время"
+                            required>
+                    </div>
+                </div>
+                
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Комментарий</label>
+                    <div class="col-sm-8">
+                        <textarea name="comment" class="form-control" id="" cols="30" rows="5"
+                            placeholder="Введите комментарий"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-success">Принять</button>
+                        <button class="btn btn-default modal-dismiss">Отмена</button>
+                    </div>
+                </div>
+            </form>
+            {{#each additionalServices}}
+                <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
+            {{/each}}
+        </div>
+    </section>
+</div>
