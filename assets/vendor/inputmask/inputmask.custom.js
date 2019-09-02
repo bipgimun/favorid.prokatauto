@@ -9,10 +9,10 @@
     showMaskOnHover: true
   }).mask(inputsTel);
 
-  Inputmask({
+  /*Inputmask({
     "mask": "99-99-999999",
     showMaskOnHover: true
-  }).mask(inputsDriverLicense);
+  }).mask(inputsDriverLicense);*/
 
   Inputmask({
     "mask": "99-99-999999",

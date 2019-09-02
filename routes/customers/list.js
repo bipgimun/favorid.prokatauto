@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
 
     const customers = (await customersModel.get())
         .map(item => {
-            item.is_legal_entity = item.is_legal_entity == '1' ? 'Юридическре лицо' : 'Физ. лицо';
+            item.is_legal_entity = item.is_legal_entity == '1' ? 'Юридическое лицо' : 'Физ. лицо';
             return item;
         })
 

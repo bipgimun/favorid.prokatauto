@@ -55,19 +55,7 @@
                 <form id="js-costs-add-form" action="/api/costs/update" class="form-horizontal mb-lg"
                     novalidate="novalidate">
                     <input type="hidden" name="id" value="{{id}}">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Заказчик контракта</label>
-                        <div class="non-editable-content" data-target="">
-                            ООО МУЗ "ЛАБЕАН"
-                        </div>
-                        <div class="col-sm-8 editable-content">
-                            <select style="width: 100%" name="" id="">
-                                <option value="" selected disabled>Выберите заказчика</option>
-                                <option>Раз два три</option>
-                                <option>Три два раз</option>
-                            </select>
-                        </div>
-                    </div>
+
 
                     <div class="form-group">
                         <div class="col-sm-12"> 
@@ -83,6 +71,25 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Объект</label>
+                            <div class="non-editable-content col-sm-9" data-target="">
+                                Грязнова 47
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input type="number" class="form-control"
+                                    placeholder="Введите Объект" required>
+                            </div>
+                            <div>
+                                <label class="col-sm-2 control-label">Ставка</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    125р.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input type="number" class="form-control" placeholder="Введите цену" required>
+                                </div>  
+                            </div>
+                        </div>
                         <div class="col-sm-12">                            
                             <label class="col-sm-2 control-label">Часы</label>
                             <div class="non-editable-content" data-target="">
@@ -90,6 +97,27 @@
                             </div>
                             <div class="col-sm-2 editable-content">
                                 <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="background: yellow;">                            
+                            <label class="col-sm-2 control-label">СУММА ЗА СМЕНУ</label>
+                            <div class="non-editable-content col-sm-2" data-target="">
+                                125 руб.
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">                            
+                            <label class="col-sm-3 control-label">Номер путевого листа</label>
+                            <div class="non-editable-content col-sm-2" data-target="">
+                                2323
+                            </div>
+                        </div>
+                        <div class="form-group non-editable-content col-sm-12">
+                            <div class="control-label col-sm-3">
+                                <button class="btn btn-default">Печать путевого листа</button>    
                             </div>
                         </div>
                     </div>
@@ -107,6 +135,25 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Объект</label>
+                            <div class="non-editable-content col-sm-9" data-target="">
+                                Грязнова 47
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input type="number" class="form-control"
+                                    placeholder="Введите Объект" required>
+                            </div>
+                            <div>
+                                <label class="col-sm-2 control-label">Ставка</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    125р.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input type="number" class="form-control" placeholder="Введите цену" required>
+                                </div>  
+                            </div>
+                        </div>
                         <div class="col-sm-12">                            
                             <label class="col-sm-2 control-label">Часы</label>
                             <div class="non-editable-content" data-target="">
@@ -114,6 +161,26 @@
                             </div>
                             <div class="col-sm-2 editable-content">
                                 <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="background: yellow;">                            
+                            <label class="col-sm-2 control-label">СУММА ЗА СМЕНУ</label>
+                            <div class="non-editable-content col-sm-2" data-target="">
+                                125 руб.
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">                            
+                            <label class="col-sm-3 control-label">Номер путевого листа</label>
+                            <div class="non-editable-content col-sm-2" data-target="">
+                                231
+                            </div>
+                        </div>
+                        <div class="form-group non-editable-content col-sm-12">
+                            <div class="control-label col-sm-3">
+                                <button class="btn btn-default">Печать путевого листа</button>    
                             </div>
                         </div>
                     </div>
@@ -131,6 +198,25 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-2 control-label">Объект</label>
+                            <div class="non-editable-content col-sm-9" data-target="">
+                                Грязнова 47
+                            </div>
+                            <div class="col-sm-8 editable-content">
+                                <input type="number" class="form-control"
+                                    placeholder="Введите Объект" required>
+                            </div>
+                            <div>
+                                <label class="col-sm-2 control-label">Ставка</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    125р.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input type="number" class="form-control" placeholder="Введите цену" required>
+                                </div>  
+                            </div>
+                        </div>
                         <div class="col-sm-12">                            
                             <label class="col-sm-2 control-label">Часы</label>
                             <div class="non-editable-content" data-target="">
@@ -138,6 +224,26 @@
                             </div>
                             <div class="col-sm-2 editable-content">
                                 <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="background: yellow;">                            
+                            <label class="col-sm-2 control-label">СУММА ЗА СМЕНУ</label>
+                            <div class="non-editable-content col-sm-2" data-target="">
+                                125 руб.
+                            </div>
+                            <div class="col-sm-3 editable-content">
+                                <input value="0" type="number" name="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">                            
+                            <label class="col-sm-3 control-label">Номер путевого листа</label>
+                            <div class="non-editable-content col-sm-2" data-target="">
+                                2311
+                            </div>
+                        </div>
+                        <div class="form-group non-editable-content col-sm-12">
+                            <div class="control-label col-sm-3">
+                                <button class="btn btn-default">Печать путевого листа</button>    
                             </div>
                         </div>
                     </div>
@@ -170,8 +276,7 @@
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
-                    <button data-target="costs" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить
-                        контракт</button>
+                    <button data-target="costs" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить смену</button>
                 {{/unless}}
             </div>
         </section>        

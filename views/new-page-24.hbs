@@ -30,6 +30,7 @@
                 <thead>
                     <tr>
                         <th>Дата начала</th>
+                        <th>Дата окончания</th>
                         <th>Заказчик</th>
                         <th>Менеджер</th>
                         <th>Номер</th>
@@ -38,28 +39,21 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>4</td>
+                        <td>01.09.19</td>
+                        <td>01.11.19</td>
+                        <td>ООО МУЗ "ЛАБЕАН"</td>
+                        <td>Иванов Иван Иванович</td>
+                        <td>MUZ-123</td>
                         <td>
                             <a href="#" target="_blank">Подробнее</a>
                         </td>
                     </tr>
                     <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>4</td>
-                        <td>
-                            <a href="#" target="_blank">Подробнее</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>4</td>
+                        <td>01.11.19</td>
+                        <td>01.11.20</td>
+                        <td>ООО МУЗ "РОГА и КОПЫТА"</td>
+                        <td>Петров Иван Иванович</td>
+                        <td>MUZ-223</td>
                         <td>
                             <a href="#" target="_blank">Подробнее</a>
                         </td>
@@ -68,6 +62,7 @@
                 <tfoot>
                     <tr>
                         <th>Дата начала</th>
+                        <th>Дата окончания</th>
                         <th>Заказчик</th>
                         <th>Менеджер</th>
                         <th>Номер</th>
@@ -77,7 +72,7 @@
             </table>
         </div>
     </div>
-        <a class="btn btn-primary" href="/apartment-reservations/archive" target="_blank">Исполненные контракты</a>
+        <a class="btn btn-primary" href="/new-page-28" target="_blank">Исполненные контракты</a>
 </section>
 
 <!-- Модалки-->
@@ -104,20 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">Cкидка заказчика, %</label>
-                    <div class="col-sm-2">
-                        <input class="form-control" name="discount" id="js-customer-discount-input" value="0">
-                    </div>
-                </div>
                 
-                <div class="form-group">
-                    <label class="col-sm-5 control-label">Количество часов по контракту</label>
-                    <div class="col-sm-7">
-                        <input type="number" name="number_of_clients" class="form-control"
-                            placeholder="Введите количество часов" required>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата начала контракта</label>
                     <div class="col-sm-8">
@@ -132,13 +114,109 @@
                             required>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span style="font-weight: bold;">ВИДЫ ЧАСОВ</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Город</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Командировки</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Грузовые</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Питание</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Автобус</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Внедорожник</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label"><b>Скорая помощь</b></label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control"
+                                placeholder="Введите количество часов" required>
+                        </div>
+                        <div>
+                            <label class="col-sm-5 control-label">Цена</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="Введите цену" required>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group services-group">
                     <div class="col-sm-12 control-label" style="text-align:center;">
-                        <span>ВОДИТЕЛИ ДЛЯ КОНТРАКТА</span>
+                        <span><b>ВОДИТЕЛИ И ОБЪЕКТЫ ДЛЯ КОНТРАКТА</b></span>
                     </div>
-                    <div class="services-group__item">
-                        <label class="col-sm-2 control-label">Водитель</label>
-                        <div class="col-sm-10">
+                    <div class="services-group__item form-group">
+                        <label class="col-sm-2 control-label"><b>Водитель</b></label>
+                        <div class="col-sm-9">
                             <div class="input-group">
                                 <select class="form-control" name="services">
                                     <option value="0" selected disabled>Выберете водителя</option>
@@ -147,15 +225,24 @@
                                     {{/each}}
                                 </select>
                                 <span class="input-group-btn">
-                                    <a class="btn btn-primary" type="button" href="/additional-services"
-                                        target="_blank">Добавить</a>
-                                </span>
-                                <span class="input-group-btn">
                                     <button class="btn btn-default adding-item" type="button">+</button>
                                 </span>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default deliting-item" type="button">-</button>
                                 </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-3 control-label">Объект</label>
+                            <div class="col-sm-8">
+                                <input type="number" name="number_of_clients" class="form-control"
+                                    placeholder="Введите Объект" required>
+                            </div>
+                            <div>
+                                <label class="col-sm-3 control-label">Ставка</label>
+                                <div class="col-sm-3">
+                                    <input type="number" name="number_of_clients" class="form-control" placeholder="Введите цену" required>
+                                </div>  
                             </div>
                         </div>
                     </div>
@@ -169,8 +256,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Общая сумма контракта, руб.</label>
-                    <div class="col-sm-8">
+                    <label class="col-sm-5 control-label">Общая сумма контракта, руб.</label>
+                    <div class="col-sm-7">
+                        <input name="sum" type="number" class="form-control" placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">Общее количество часов по контракту</label>
+                    <div class="col-sm-7">
+                        <input name="sum" type="number" class="form-control" placeholder="Введите часы" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">Обеспечение по контракту, руб.</label>
+                    <div class="col-sm-7">
                         <input name="sum" type="number" class="form-control" placeholder="Введите сумму" required>
                     </div>
                 </div>

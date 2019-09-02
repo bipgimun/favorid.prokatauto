@@ -386,22 +386,7 @@
 <script src="/assets/vendor/inputmask/inputmask.dependencyLib.min.js"></script>
 <script src="/assets/vendor/inputmask/inputmask.min.js"></script>
 <script src="/assets/vendor/inputmask/inputmask.custom.js"></script>
-<script>
-    const cusRadioPer = document.querySelector('.customer__person-radio');
-    const cusRadioCom = document.querySelector('.customer__company-radio');
-    cusRadioPer.addEventListener('change', function () {
-        if (this.checked) {
-            document.querySelector('.customer__person').style.display = "block";
-            document.querySelector('.customer__company').style.display = "none";
-        }
-    });
-    cusRadioCom.addEventListener('change', function () {
-        if (this.checked) {
-            document.querySelector('.customer__company').style.display = "block";
-            document.querySelector('.customer__person').style.display = "none";
-        }
-    })
-</script>
+
 <script>
     'use strict';
     const pricesControlClass = document.querySelectorAll('.prices-control-class');
