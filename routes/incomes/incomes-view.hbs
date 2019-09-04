@@ -77,7 +77,8 @@
                                     <select style="width: 100%" name="customer_id">
                                         <option value="" selected disabled>Выберите заказчика из списка</option>
                                         {{#each ../customers}}
-                                            <option {{compare id ../customer_id 'selected' ''}} value="{{id}}">{{name}}</option>
+                                            <option {{compare id ../customer_id 'selected' ''}} value="{{id}}">{{name}}
+                                            </option>
                                         {{/each}}
                                     </select>
                                 </div>
@@ -147,7 +148,8 @@
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     <!--<button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>-->
-                    <button data-target="incomes" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove footer-resrvation-end-btn ">Удалить
+                    <button data-target="incomes" data-id="{{id}}"
+                        class="btn btn-danger js-tableEssence-remove footer-resrvation-end-btn ">Удалить
                         документ</button>
                 {{/unless}}
             </div>
