@@ -29,6 +29,12 @@ app.post('/get', async (req, res, next) => {
     res.json({ status: 'ok', clients });
 })
 
+app.get('/select2', async (req, res, next) => {
+    const { search = '' } = req.query;
+    const clients = await db.execQuery(`SELECT * FROM passengers WHERE name LIKE '%${safeStr(search)}%'`);
+    res.json({ items: clients });
+})
+
 app.post('/getOne', async (req, res, next) => {
 
     const { id = '' } = req.body;

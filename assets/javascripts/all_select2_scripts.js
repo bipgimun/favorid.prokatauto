@@ -16,7 +16,15 @@ $(function () {
             data.ajax = {
                 url: ajaxUrl,
                 type: "GET",
+                delay: 250,
                 dataType: 'json',
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    }
+
+                    return query;
+                },
                 processResults: function (data) {
                     return {
                         results: $.map(data.items, function (item) {
@@ -71,26 +79,6 @@ $(function () {
                 $carReservations.find('[name=contact_number]').val(result.client.contact_number);
             })
     })
-
-
-    $('#js-select2-clients-id').select2({
-        dropdownParent: $('#add-products').length ? $('#add-products') : null,
-        ajax: {
-            url: '/api/clients/get',
-            type: "POST",
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: $.map(data.clients, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
-    });
 
     $('#js-pricesList-carNames-select').select2({
         dropdownParent: $('#add-products'),

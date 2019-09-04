@@ -1,13 +1,15 @@
 const db = require('../../libs/db');
 
 exports.get = async ({
-    id = ''
+    id = '',
+    search = '',
 } = {}) => {
     const customers = await db.execQuery(`
         SELECT * 
         FROM customers
         WHERE id > 0
             ${id ? `AND id = ${id}` : ''}
+            AND name LIKE '%${search}%'
     `);
 
     customers.forEach(customer => {

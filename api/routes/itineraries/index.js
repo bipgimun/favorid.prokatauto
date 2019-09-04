@@ -16,6 +16,11 @@ app.post('/get', async (req, res, next) => {
     return res.json({ status: 'ok', data: itineraries });
 })
 
+app.get('/select2', async (req, res, next) => {
+    const itineraries = await itinerariesModel.get();
+    return res.json({ items: itineraries });
+})
+
 app.post('/getOne', async (req, res, next) => {
 
     const { id } = req.body;
