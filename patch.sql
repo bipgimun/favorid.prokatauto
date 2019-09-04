@@ -153,3 +153,185 @@
 -- ALTER TABLE `detailing_apartments_details` ADD FOREIGN KEY (`detailing_id`) REFERENCES `detailing_apartments`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 -- ДОБАВЛЕНО В БД 12.06.19 КРУЦЕНКО
+
+-- 6.08.19
+-- пометка аккаунта директора
+ALTER TABLE `employees` ADD `is_director` BOOLEAN NOT NULL DEFAULT FALSE AFTER `middle_name`;
+-- добавление разделения прав
+ALTER TABLE `employees` ADD `is_senior_manager` BOOLEAN NOT NULL DEFAULT FALSE AFTER `is_director`, ADD `is_manager` BOOLEAN NOT NULL DEFAULT TRUE AFTER `is_senior_manager`;
+
+-- добавить номер телефона сотруднику
+ALTER TABLE `employees` ADD `phone` VARCHAR(255) NULL DEFAULT NULL AFTER `middle_name`;
+
+-- добавление флага уволен ли сотрудник
+ALTER TABLE `employees` ADD `is_fired` BOOLEAN NOT NULL DEFAULT FALSE AFTER `phone`;
+
+-- access_id - старое поле, которое использовалось для тату. сейчас не используется. по умолчанию всегда нулл
+ALTER TABLE `employees` CHANGE `access_id` `access_id` INT(11) NULL DEFAULT NULL;
+
+-- способ получения уведомлений для заказчика
+ALTER TABLE `cars_reservations` 
+    ADD `notify_sms` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id`, 
+    ADD `notify_email` BOOLEAN NOT NULL DEFAULT FALSE AFTER `notify_sms`;
+
+ALTER TABLE `apartment_reservations` 
+    ADD `notify_sms` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id`, 
+    ADD `notify_email` BOOLEAN NOT NULL DEFAULT FALSE AFTER `notify_sms`;
+
+ALTER TABLE `customers` 
+    ADD `notify_sms` BOOLEAN NOT NULL DEFAULT FALSE AFTER `id`, 
+    ADD `notify_email` BOOLEAN NOT NULL DEFAULT FALSE AFTER `notify_sms`;
+
+CREATE TABLE `sms_notifications` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `phone` VARCHAR(255) NOT NULL , 
+    `message` TEXT NULL DEFAULT NULL,
+    `customer_id` INT NOT NULL , 
+    `sms_id` VARCHAR(255) NULL , 
+    `status` VARCHAR(255) NOT NULL ,
+    `error` TEXT NULL DEFAULT NULL,
+    `cost` DECIMAL(11,2) NOT NULL ,
+    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`), INDEX (`customer_id`)
+) ENGINE = InnoDB;
+
+-- ДОБАВЛЕНО В БД 11.08.19 КРУЦЕНКО
+
+CREATE TABLE `balance` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `driver_id` INT NOT NULL , 
+    `income` DECIMAL(11,2) NOT NULL , 
+    `cost` DECIMAL(11,2) NOT NULL , 
+    `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    PRIMARY KEY (`id`), INDEX (`driver_id`)
+) ENGINE = InnoDB;
+
+ALTER TABLE `employees` ADD `birthday` DATE NULL DEFAULT NULL;
+-- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
+
+ALTER TABLE `costs` ADD `driver_id` INT NULL DEFAULT NULL AFTER `base_id`;
+-- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
+
+
+CREATE TABLE `suppliers` (
+  `id` int(11) NOT NULL,
+  `birthday` date DEFAULT NULL,
+  `driver_license_issue_date` date DEFAULT NULL,
+  `driver_license_expiration_date` date DEFAULT NULL,
+  `passport_issue_date` date DEFAULT NULL,
+  `passport_issued_by` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `passport_division_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `location` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `is_legal_entity` tinyint(1) NOT NULL COMMENT 'Юридическое лицо?',
+  `legal_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `actual_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ogrn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `inn` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bank_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `r_account` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `k_account` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bik` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `passport` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `driver_license` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `contact_number` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `discount` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `incomes` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `costs` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `salary_reports` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `act_sverki_documents` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `detailing_apartments` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `detailing_cars` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `invoices` ADD `manager_id` INT NOT NULL AFTER `id`, ADD INDEX (`manager_id`);
+ALTER TABLE `invoices` ADD `file` VARCHAR(255) NULL DEFAULT NULL AFTER `id`;
+ALTER TABLE `costs` ADD `supplier_id` INT NULL DEFAULT NULL AFTER `driver_id`, ADD INDEX (`supplier_id`);
+-- ДОБАВЛЕНО В БД 12.08.19 КРУЦЕНКО
+
+CREATE TABLE `act_works` ( `id` INT NOT NULL AUTO_INCREMENT , `code` VARCHAR(255) NOT NULL , `document_id` INT NOT NULL , `file` VARCHAR(512) NOT NULL , `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `act_works` CHANGE `file` `file` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `act_works` ADD `invoice_id` INT NOT NULL AFTER `id`;
+
+
+
+CREATE TABLE `suppliers_deals` ( 
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `supplier_id` INT NOT NULL , 
+    `position_id` DECIMAL(11,2) NOT NULL COMMENT 'Объект сделки',
+    `sum` DECIMAL(11,2) NOT NULL COMMENT 'Сумма сделки', 
+    `manager_id` INT NOT NULL , 
+    `date` DATE NOT NULL COMMENT 'дата сделки' ,
+    `comment` TEXT NULL DEFAULT NULL, 
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    PRIMARY KEY (`id`), INDEX (`supplier_id`), INDEX (`position_id`)
+) ENGINE = InnoDB;
+
+ALTER TABLE `suppliers_deals` ADD `is_paid` BOOLEAN NOT NULL DEFAULT FALSE AFTER `date`, ADD `paid_at` DATETIME NULL DEFAULT NULL AFTER `is_paid`;
+
+
+CREATE TABLE `suppliers_positions` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `cost` DECIMAL(11,2) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+CREATE TABLE `act_sverki_suppliers_documents` (
+  `id` int(11) NOT NULL,
+  `manager_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `period_left` date NOT NULL,
+  `period_right` date NOT NULL,
+  `saldo` decimal(11,2) NOT NULL DEFAULT '0.00',
+  `sum` decimal(11,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `act_sverki_suppliers_documents_details` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `income` decimal(11,2) DEFAULT NULL,
+  `gone` decimal(11,2) DEFAULT NULL,
+  `document_id` int(11) NOT NULL,
+  `base_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `act_sverki_suppliers_documents`
+--
+ALTER TABLE `act_sverki_suppliers_documents`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `manager_id` (`manager_id`);
+
+--
+-- Индексы таблицы `act_sverki_suppliers_documents_details`
+--
+ALTER TABLE `act_sverki_suppliers_documents_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `document_id` (`document_id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `act_sverki_suppliers_documents`
+--
+ALTER TABLE `act_sverki_suppliers_documents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `act_sverki_suppliers_documents_details`
+--
+ALTER TABLE `act_sverki_suppliers_documents_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+-- Добавлено в бд 15.08.19. КРУЦЕНКО
+
+
+ALTER TABLE `customers` CHANGE `email` `email` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL, CHANGE `contact_number` `contact_number` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;

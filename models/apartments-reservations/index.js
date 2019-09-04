@@ -8,13 +8,16 @@ exports.get = ({
     customer = '',
     rentStart = '',
     rentFinished = '',
+
+    passenger_id = '',
+    apartment_id = '',
+    manager_id = '',
     
     rentStartGt = '',
     rentStartLt = '',
 
     rentFinishedGt = '',
     rentFinishedLt = '',
-
 
     statuses = '',
     isArchive = null
@@ -34,6 +37,11 @@ exports.get = ({
         WHERE
             ar.id > 0
             ${id ? `AND ar.id = ${id}` : ''}
+            
+            ${passenger_id ? `AND ar.passenger_id = ${passenger_id}` : ''}
+            ${apartment_id ? `AND ar.apartment_id = ${apartment_id}` : ''}
+            ${manager_id ? `AND ar.manager_id = ${manager_id}` : ''}
+            
             ${ids ? `AND ar.id IN (${ids})` : ''}
             ${fromPeriod ? `AND DATE(ar.created_at) >= '${fromPeriod}'` : ''}
             ${endPeriod ? `AND DATE(ar.created_at) <= '${endPeriod}'` : ''}

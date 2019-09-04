@@ -2,7 +2,7 @@
 var excel = require('excel4node');
 const path = require('path');
 
-module.exports = ({
+function main({
     saldoSum = 0,
     dataArray = [],
     period_left = '',
@@ -10,8 +10,7 @@ module.exports = ({
     customer = {},
     currentDate = '',
     saldoDate = ''
-} = {}) => {
-
+} = {}) {
     return new Promise((resolve, reject) => {
         // if (!period)
         //     throw new Error('Отсутствует период для детализации');
@@ -169,13 +168,16 @@ module.exports = ({
         let totalDebet = 0;
         let totalCredit = 0;
 
+        const debetCell = 3;
+        const creditCell = 4;
+
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
-        ws.cell(row, 2).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText });
-        ws.cell(row, 3).string(`${saldoSum}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
+        ws.cell(row, 2).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText });
+        ws.cell(row, saldoSum >= 0 ? creditCell : debetCell).string(`${Math.abs(saldoSum)}`).style({ ...smallText, border: { ...allBorder }, ...hRight });
 
-        ws.cell(row, 6).string(`Остаток (сальдо) на ${period_left}`).style({ ...smallText, });
-        ws.cell(row, 8).string(`${saldoSum}`).style({ ...smallText, ...hRight });
+        ws.cell(row, 6).string(`Остаток (сальдо) на ${saldoDate}`).style({ ...smallText, });
+        ws.cell(row, saldoSum >= 0 ? debetCell + 4 : creditCell + 4).string(`${Math.abs(saldoSum)}`).style({ ...smallText, ...hRight });
 
         row++;
 
@@ -183,46 +185,65 @@ module.exports = ({
 
             ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
-            ws.cell(row, 1).string(`${index + 1}`).style({ ...smallText });
-            ws.cell(row, 2).string(`${data[0]}`).style({ ...smallText });
-            ws.cell(row, 3).string(`${data[1]}`).style({ ...smallText });
-            ws.cell(row, 4).string(`${data[2]}`).style({ ...smallText });
+            const [title, cost, income] = data;
 
-            ws.cell(row, 5).string(`${index + 1}`).style({ ...smallText });
-            ws.cell(row, 6).string(`${data[0]}`).style({ ...smallText });
-            ws.cell(row, 7).string(`${data[2]}`).style({ ...smallText });
-            ws.cell(row, 8).string(`${data[1]}`).style({ ...smallText });
+            ws.cell(row, 1).number(index + 1).style({ ...smallText });
+            ws.cell(row, 2).string(`${title}`).style({ ...smallText });
+            ws.cell(row, debetCell).string(`${income}`).style({ ...smallText });
+            ws.cell(row, creditCell).string(`${cost}`).style({ ...smallText });
 
-            totalDebet += +data[1];
-            totalCredit += +data[2];
+            ws.cell(row, 5).number(index + 1).style({ ...smallText });
+            ws.cell(row, 6).string(`${title}`).style({ ...smallText });
+            ws.cell(row, debetCell + 4).string(`${cost}`).style({ ...smallText });
+            ws.cell(row, creditCell + 4).string(`${income}`).style({ ...smallText });
+
+            totalDebet += +income;
+            totalCredit += +cost;
 
             row++;
         });
 
         ws.cell(row, 2).string(`Обороты за период`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 3).string(`${totalDebet}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 4).string(`${totalCredit}`).style({ font: { size: 10, bold: true } });
+
+        ws.cell(row, 3)
+            .string(`${totalDebet + (saldoSum < 0 ? Math.abs(saldoSum) : 0)}`)
+            .style({ font: { size: 10, bold: true } });
+        ws.cell(row, 4)
+            .string(`${totalCredit + (saldoSum < 0 ? 0 : Math.abs(saldoSum))}`)
+            .style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 6).string(`Обороты за период`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 7).string(`${totalCredit}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 8).string(`${totalDebet}`).style({ font: { size: 10, bold: true } });
+
+        ws.cell(row, 7)
+            .string(`${totalCredit + (saldoSum < 0 ? 0 : Math.abs(saldoSum))}`)
+            .style({ font: { size: 10, bold: true } });
+
+        ws.cell(row, 8)
+            .string(`${totalDebet + (saldoSum < 0 ? Math.abs(saldoSum) : 0)}`)
+            .style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
         row++;
 
-        ws.cell(row, 2).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 3).string(`${saldoSum - (totalDebet - totalCredit)}`).style({ font: { size: 10, bold: true } });
+        const sumOnPeriodEnd = saldoSum - (totalDebet - totalCredit);
 
-        ws.cell(row, 6).string(`Остаток (Сальдо) на ${saldoDate}`).style({ font: { size: 10, bold: true } });
-        ws.cell(row, 8).string(`${saldoSum - (totalDebet - totalCredit)}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, 2).string(`Остаток (Сальдо) на ${period_right}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, sumOnPeriodEnd < 0 ? debetCell : creditCell)
+            .number(Math.abs(sumOnPeriodEnd)).style({ font: { size: 10, bold: true } });
+
+        ws.cell(row, 6).string(`Остаток (Сальдо) на ${period_right}`).style({ font: { size: 10, bold: true } });
+        ws.cell(row, sumOnPeriodEnd < 0 ? creditCell + 4 : debetCell + 4)
+            .number(Math.abs(sumOnPeriodEnd)).style({ font: { size: 10, bold: true } });
 
         ws.cell(row, 1, row, 8).style({ border: { ...allBorder } });
 
         row++;
 
-        ws.cell(row, 1, row, 2, true).string('По данным ИП Орехова Мария Юрьевна').style({ ...smallText });
-        ws.cell(row, 5, row, 6, true).string(`По данным ${customer.name}`).style({ ...smallText });
+        ws.cell(row, 1, row, 2, true)
+            .string('По данным ИП Орехова Мария Юрьевна').style({ ...smallText });
+        ws.cell(row, 5, row, 6, true)
+            .string(`По данным ${customer.name}`).style({ ...smallText });
 
         row++;
 
@@ -230,17 +251,24 @@ module.exports = ({
 
         row++;
 
-        ws.cell(row, 1, row, 4, true).string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
+        const vPolzu = sumOnPeriodEnd < 0
+            ? 'ИП Орехова Мария Юрьевна'
+            : customer.name;
+
+        ws.cell(row, 1, row, 4, true)
+            .string(`на ${period_right} задолженность в пользу ${vPolzu} ${Math.abs(sumOnPeriodEnd)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
-        ws.cell(row, 5, row, 8, true).string(`на ${saldoDate} задолженность в пользу ИП Орехова Мария Юрьевна ${saldoSum - (totalDebet - totalCredit)} руб.`)
+        ws.cell(row, 5, row, 8, true)
+            .string(`на ${period_right} задолженность в пользу ${vPolzu} ${Math.abs(sumOnPeriodEnd)} руб.`)
             .style({ font: { size: 10, bold: true }, alignCenter: { ...wrapTrue } });
 
         row++;
 
         ws.row(row).setHeight(40);
 
-        ws.cell(row, 1, row, 8, true).string(`Просим подписать акт не позднее 30 календарных дней с даты составления и отправить его ИП Орехова Мария Юрьевна. Задолженность по акту, не подписанному в течение этого времени, считается подтвержденной со стороны ${customer.name}.`)
+        ws.cell(row, 1, row, 8, true)
+            .string(`Просим подписать акт не позднее 30 календарных дней с даты составления и отправить его ИП Орехова Мария Юрьевна. Задолженность по акту, не подписанному в течение этого времени, считается подтвержденной со стороны ${customer.name}.`)
             .style({ font: { size: 10 }, alignment: { ...wrapTrue, vertical: 'top' } });
 
         row++;
@@ -254,7 +282,7 @@ module.exports = ({
 
         ws.cell(row, 1, row, 2, true).string('ИП Орехова Мария Юрьевна')
             .style({ font: { size: 10 } });
-        ws.cell(row, 5, row, 6, true).string('*ВСТАВИТЬ ДОЛЖНОСТЬ И ФИО*')
+        ws.cell(row, 5, row, 6, true).string('Ответственное лицо')
             .style({ font: { size: 10 } });
 
         row++;
@@ -278,4 +306,6 @@ module.exports = ({
             resolve(fileName);
         });
     })
-};
+}
+
+module.exports = main;

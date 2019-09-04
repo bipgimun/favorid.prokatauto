@@ -10,5 +10,12 @@ module.exports = {
     detailingApartmentsModel: require('./detailing-apartments'),
     detailingApartmentsDetailsModel: require('./detailing-apartments-details'),
     customersModel: require('./customers'),
-    invoicesModel: require('./invoices')
+    invoicesModel: require('./invoices'),
+    passengersModel: require('./passengers'),
+    carsModel: require('./cars'),
+    managersModel: require('./managers'),
+    apartmentsModel: require('./apartments'),
+    employeesModel: require('./employees'),
+    suppliersDealsModel: require('./suppliers-deals'),
+    suppliersPositionsModel: require('./suppliers-positions'),
 }

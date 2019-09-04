@@ -121,7 +121,8 @@
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Количество гостей (включая клиента)</label>
                     <div class="col-sm-7">
-                        <input type="number" name="number_of_clients" class="form-control" placeholder="Введите количество гостей" required>
+                        <input type="number" name="number_of_clients" class="form-control"
+                            placeholder="Введите количество гостей" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -272,4 +273,29 @@
     btnAddProduct.addEventListener('click', insRow);
 
     table.addEventListener('click', delRow);
+</script>
+<script>
+    $(function () {
+        const $form = $('#js-apartmentReservations-form');
+        const $prepayment = $form.find('[name=prepayment]');
+        const $discount = $form.find('[name=discount]');
+        const $pricePerDay = $form.find('[name=price_per_day]');
+        const $numberDays = $form.find('[name=number_days]');
+
+        [$discount, $pricePerDay, $numberDays].forEach(item => {
+            item.on('change', calcPrepaymentSum);
+            item.on('input', calcPrepaymentSum);
+        })
+
+        function calcPrepaymentSum() {
+            const discount = $discount.val();
+            const pricePerDay = $pricePerDay.val();
+            const numberDays = $numberDays.val();
+
+            const preSum = pricePerDay * numberDays;
+            const sum = preSum - (preSum * (discount / 100));
+            $prepayment.val(sum || 0);
+        }
+
+    })
 </script>

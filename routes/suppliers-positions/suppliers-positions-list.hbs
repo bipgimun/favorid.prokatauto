@@ -1,0 +1,98 @@
+<header class="page-header">
+    <h2>Позиции поставщиков</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <span>Позиции поставщиков</span>
+                <span class="separator"></span>
+            </li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Список позиций поставщиков</h2>
+    </header>
+    <div class="panel-body">
+        <button href="#add-suppliers-positions" type="button"
+            class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+            <i class="fa fa-plus"></i> Добавить позицию
+        </button>
+        <div class="zag">
+            <h1>Загрузка</h1>
+        </div>
+        <div class="table-responsive">
+            <table id="js-suppliers-positions-table" class="table display table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each positions}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{cost}}</td>
+                            <td>
+                                <a href="/suppliers-positions/{{id}}">Подробнее</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Название</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Модалки-->
+
+<div id="add-suppliers-positions" tabindex="-1" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Сделка с поставщиком</h2>
+        </header>
+        <div class="panel-body">
+            <form action="/api/suppliers-positions/add"
+                onsubmit="SuppliersPositions.add_form_submit(this); return false;" method="POST"
+                class="form-horizontal mb-lg" novalidate="novalidate">
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Название</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                </div>
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Стоимость</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" name="cost">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-success">Принять</button>
+                        <button class="btn btn-default modal-dismiss">Отмена</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

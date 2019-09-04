@@ -53,7 +53,8 @@
             <h1>заглушка</h1>
         </div>
         <div class="table-responsive">
-            <table id="js-detailing-cars-list" class="display table table-bordered table-striped table-condensed mb-none customize"
+            <table id="js-detailing-cars-list"
+                class="display table table-bordered table-striped table-condensed mb-none customize"
                 style="width:100%; display: none;">
                 <thead>
                     <tr>
@@ -119,8 +120,12 @@
             <div class="controls_details-child driver-control_details col-md-6">
                 <p class="header-details">Водитель</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-cars-driver" class="form-control">
                         <option value="" disabled selected>Сортировка по водителю</option>
+                        <option value="">Без сортировки</option>
+                        {{#each drivers}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -128,8 +133,12 @@
             <div class="controls_details-child passenger-control_details col-md-6">
                 <p class="header-details">Пассажир</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-cars-passenger" class="form-control">
                         <option value="" disabled selected>Сортировка по пассажиру</option>
+                        <option value="">Без сортировки</option>
+                        {{#each passengers}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -137,8 +146,12 @@
             <div class="controls_details-child car-control_details col-md-6">
                 <p class="header-details">Автомобиль</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-cars-car" class="form-control">
                         <option value="" disabled selected>Сортировка по автомобилю</option>
+                        <option value="">Без сортировки</option>
+                        {{#each cars}}
+                            <option value="{{id}}">{{name}} {{model}} {{number}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -146,8 +159,12 @@
             <div class="controls_details-child manager-control_details col-md-6">
                 <p class="header-details">Менеджер</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-cars-manager" class="form-control">
                         <option value="" disabled selected>Сортировка по менеджеру</option>
+                        <option value="">Без сортировки</option>
+                        {{#each managers}}
+                            <option value="{{id}}">{{first_name}} {{last_name}} {{middle_name}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -179,10 +196,10 @@
 
             <table class="js-detailing-cars-reservs-list table table-bordered table-striped mb-none">
                 <thead>
-                		<tr>
-                			<th colspan="5" style="text-align: right;">Общая сумма:</th>
-                			<th><span id="js-detailing-cars-total-sum">0</span> руб.</th>
-                		</tr>
+                    <tr>
+                        <th colspan="5" style="text-align: right;">Общая сумма:</th>
+                        <th><span id="js-detailing-cars-total-sum">0</span> руб.</th>
+                    </tr>
                     <tr>
                         <th>Даты</th>
                         <th>Заказчик</th>

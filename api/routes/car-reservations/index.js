@@ -1,7 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 
-const app = express.Router();
+const router = express.Router();
 
 const checkAuth = require('../../../libs/middlewares/check-auth');
 const db = require('../../../libs/db');
@@ -11,7 +11,15 @@ const messages = require('../../messages');
 const { wishList } = require('../../wish-list');
 const Joi = require('joi');
 
-const { carsReservsModel } = require('../.././../models');
+const {
+    carsReservsModel,
+    customersModel,
+    drivers: driversModel,
+    carsModel
+} = require('../.././../models');
+
+const smsSend = require('../../../libs/smsSend');
+const nodemailer = require('nodemailer');
 
 const statues = {
     '0': 'Новая заявка',
@@ -31,6 +39,8 @@ const addScheme = Joi.object({
     class_name: Joi.string().required(),
     rent_start: Joi.string().required(),
     rent_finished: Joi.string().required(),
+    itinerarie_point_a: Joi.string(),
+    itinerarie_point_b: Joi.string(),
     services: Joi.string(),
     prepayment: Joi.number().min(0).required(),
     sum: Joi.number().min(0).required(),
@@ -62,6 +72,8 @@ const updateSchema = Joi.object({
     class_name: Joi.string(),
     rent_start: Joi.string(),
     rent_finished: Joi.string(),
+    itinerarie_point_a: Joi.string(),
+    itinerarie_point_b: Joi.string(),
     services: Joi.string(),
     prepayment: Joi.number().min(0),
     sum: Joi.number().min(0),
@@ -83,9 +95,18 @@ const updateSchema = Joi.object({
         })
     })
 
-app.post('/get', async (req, res, next) => {
+router.post('/get', async (req, res, next) => {
 
-    const { fromPeriod, endPeriod, customer, withDriver, withoutDriver } = req.body;
+    const {
+        fromPeriod,
+        endPeriod,
+        customer,
+        withDriver,
+        driver,
+        passenger,
+        car,
+        manager,
+        withoutDriver } = req.body;
 
     let hasDriver = '';
 
@@ -95,21 +116,18 @@ app.post('/get', async (req, res, next) => {
     if (withDriver == '0' && withoutDriver == '1')
         hasDriver = '0';
 
-    const reservs = await carsReservsModel.get({ fromPeriod, endPeriod, customer, hasDriver });
-
-    // console.log('fromPeriod, endPeriod, customer, hasDriver');
-    // console.log(fromPeriod, endPeriod, customer, hasDriver);
-
-    // console.log('reservs', reservs);
-    // console.log('----------------------------------------');
+    const reservs = await carsReservsModel.get({
+        fromPeriod, endPeriod, customer, hasDriver,
+        driver_id: driver, passenger_id: passenger, car_id: car, manager_id: manager
+    });
 
     return res.json({ status: 'ok', data: reservs });
 })
 
-app.post('/add', async (req, res, next) => {
+router.post('/add', async (req, res, next) => {
 
     const { values } = req.body;
-    const { id: manager_id } = req.session.user;
+    const { employee_id: manager_id } = req.session.user;
 
     Object.assign(values, { manager_id });
 
@@ -155,7 +173,7 @@ app.post('/add', async (req, res, next) => {
     res.json({ status: 'ok', data: validValues });
 })
 
-app.post('/update', async (req, res, next) => {
+router.post('/update', async (req, res, next) => {
     const { id, ...fields } = req.body.values;
 
     const validValues = await updateSchema.validate(fields);
@@ -196,7 +214,7 @@ app.post('/update', async (req, res, next) => {
 
 });
 
-app.post('/delete', async (req, res, next) => {
+router.post('/delete', async (req, res, next) => {
 
     const { id } = req.body;
 
@@ -208,4 +226,119 @@ app.post('/delete', async (req, res, next) => {
     res.json({ status: 'ok' });
 })
 
-module.exports = app;
+router.post('/sendNotify', async (req, res, next) => {
+    const { id, sms, email } = req.body;
+
+    if (!id) {
+        throw new Error('Ошибка входных данных: отсутствует id');
+    }
+
+    const [reserv = {}] = await carsReservsModel.get({ id });
+
+    if (!reserv.id) {
+        throw new Error('Заявка не найдена');
+    }
+
+    const [customer = {}] = await customersModel.get({ id: reserv.customer_id });
+
+    if (!customer.id) {
+        throw new Error('Заказчик не найден');
+    }
+
+    if (reserv.has_driver != '1') {
+        throw new Error('Уведомления доступны для заявок с водителем');
+    }
+
+    if (!reserv.driver_id) {
+        throw new Error('Для заявки не назначен водитель');
+    }
+
+    const [driver = {}] = await driversModel.get({ id: reserv.driver_id });
+
+    if (!driver.id) {
+        throw new Error('Водитель не найден');
+    }
+
+    if (!reserv.car_id) {
+        throw new Error('В заявке не указан автомобиль');
+    }
+
+    const [car = {}] = await carsModel.get({ id: reserv.car_id });
+
+    if (!car.id) {
+        throw new Error('Автомобиль не найден');
+    }
+
+    const errors = [];
+    const message = 'Для вашей заявки № ' + id + ' назначен водитель - '
+        + driver.name + '. Телефон для связи ' + driver.contact_number
+        + '. Машина ' + car.name + ', ' + car.model + ', ' + car.number + '.';
+
+    if (sms == '1') {
+
+        if (!reserv.contact_number) {
+            errors.push(new Error('У заказчика не установлен номер телефона'));
+        } else {
+            const phone = reserv.contact_number.replace(/\D/g, '');
+            // const phone = reserv.contact_number.replace(/\D/g, '');
+
+
+            const smsData = await smsSend.send(phone, message, { from: 'prokatautom' });
+
+            if (smsData.status == 'OK') {
+                for (const phone of Object.keys(smsData.sms)) {
+                    const d = smsData.sms[phone];
+
+                    await db.insertQuery(`INSERT INTO sms_notifications SET ?`, {
+                        phone,
+                        message: message,
+                        customer_id: reserv.customer_id,
+                        sms_id: d.status === 'OK' ? d.sms_id : null,
+                        status: d.status,
+                        error: d.status !== 'OK' ? d.status_text : null,
+                        cost: d.cost || 0
+                    });
+
+                    if (d.status !== 'OK') {
+                        errors.push(new Error(`Не удалось отправить сообщение на номер ${phone}: ${d.status_text}`));
+                    }
+                }
+            } else {
+                errors.push(new Error('Не удалось отправить SMS сообщение: не удалось установить связь с сервером'));
+            }
+        }
+    }
+
+
+    if (email == '1') {
+
+        if (!customer.email) {
+            errors.push(new Error('У заказчика отсутствует email'));
+        } else {
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.mail.ru',
+                port: 465,
+                from: 'hotel-mgn@mail.ru',
+                auth: {
+                    user: 'hotel-mgn@mail.ru', // generated ethereal user
+                    pass: '174174mgn' // generated ethereal password
+                }
+            });
+
+            await transporter.sendMail({
+                from: '"avtoprokat74" <hotel-mgn@mail.ru>', // sender address
+                to: customer.email, // list of receivers
+                subject: "Заявка №" + id, // Subject line
+                text: message, // plain text body
+            });
+        }
+
+    }
+
+    res.json({
+        status: 'ok',
+        errors: errors.join('\n')
+    });
+});
+
+module.exports = router;

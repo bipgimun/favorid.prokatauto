@@ -1,0 +1,191 @@
+<style>
+    .js-editable-body .non-editable-content,
+    .style-non-editable {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Личный кабинет</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Личный кабинет</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-featured panel-featured-primary">
+    <header class="panel-heading">
+        <h2 class="panel-title">Личная информация</h2>
+    </header>
+
+    <div class="panel-body js-editable-body">
+        <form onsubmit="Employee.update_form(this); return false;" class="form-horizontal mb-lg"
+            novalidate="novalidate">
+            <input type="hidden" name="id" value="{{id}}">
+            <div class="form-group">
+                <label class="col-md-3 control-label">Аккаунт</label>
+                <div class="col-md-6">
+
+                    <div class="non-editable-content" data-target="login">
+                        {{employee.login}}
+                    </div>
+                    <div class="editable-content">
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input name="login" value="{{employee.login}}" type="text" class="form-control"
+                                placeholder="Юзернейм">
+                        </div>
+                    </div>
+
+                    <div class="non-editable-content" data-target="">
+                        Пароль: *********
+                    </div>
+                    <div class="editable-content">
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <input name="password" class="form-control" placeholder="Пароль">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Должность</label>
+                <div class="col-md-6">
+                    <div class="non-editable-content" data-target="post">
+                        {{employee.post}}
+                    </div>
+                    <div class="editable-content">
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-suitcase"></i>
+                            </span>
+                            <select name="postNumber" class="form-control">
+                                <option value="" disabled selected>Выберите должность</option>
+                                <option {{compare '2' employee.postNumber 'selected' ''}} value="2">Менеджер</option>
+                                <option {{compare '1' employee.postNumber 'selected' ''}} value="1">Старший менеджер
+                                </option>
+                                <option {{compare '0' employee.postNumber 'selected' ''}} value="0">Руководитель
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 control-label">Личная</label>
+                <div class="col-md-6">
+                    <div class="non-editable-content" data-target="fio">
+                        {{employee.last_name}} {{employee.first_name}} {{employee.middle_name}}
+                    </div>
+                    <div class="editable-content">
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input value="{{employee.last_name}}" name="last_name" type="text" class="form-control"
+                                placeholder="Фамилия">
+                        </div>
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input name="first_name" value="{{employee.first_name}}" type="text" class="form-control"
+                                placeholder="Имя">
+                        </div>
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input value="{{employee.middle_name}}" name="middle_name" type="text" class="form-control"
+                                placeholder="Отчество">
+                        </div>
+                    </div>
+
+                    <div class="non-editable-content" data-target="birthday">
+                        {{toIsoString employee.birthday 'DD.MM.YYYY'}}
+                    </div>
+                    <div class="editable-content">
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            <input value="{{toIsoString employee.birthday 'YYYY-MM-DD'}}" name="birthday" type="date"
+                                class="form-control" placeholder="Дата рождения" required>
+                        </div>
+                    </div>
+
+                    <div class="non-editable-content" data-target="phone">
+                        {{employee.phone}}
+                    </div>
+                    <div class="editable-content">
+                        <div class="input-group mb-md">
+                            <span class="input-group-addon">
+                                <i class="fa fa-phone"></i>
+                            </span>
+                            <input value="{{employee.phone}}" name="phone" type="text" class="form-control"
+                                placeholder="Телефон">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12 text-right editable-content">
+                <div class="footer-btn-block-resrvation">
+                    <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="footer-btn-block-resrvation">
+        {{#unless this.completed}}
+            <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+        {{/unless}}
+        {{#if employee.is_fired}}
+            <button onclick="Employee.come({{id}})" class="btn btn-success">Вернуть</button>
+        {{else}}
+            <button onclick="Employee.fired({{id}})" class="btn btn-danger">Уволить</button>
+        {{/if}}
+    </div>
+</section>
+
+<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>

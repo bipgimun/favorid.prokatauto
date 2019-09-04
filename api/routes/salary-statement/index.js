@@ -84,6 +84,8 @@ router.post('/saveReport', async (req, res, next) => {
     const sum = reservs.map(reserv => +reserv.driver_salary)
         .reduce((acc, value) => (acc + value), 0);
 
+    validValues.manager_id = req.session.user.employee_id;
+
     const id = await db.insertQuery(`INSERT INTO salary_reports SET ?`, [{ ...validValues, sum }]);
 
     const [report = {}] = await db.execQuery(`

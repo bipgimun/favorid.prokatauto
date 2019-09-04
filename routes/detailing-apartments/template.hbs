@@ -119,8 +119,12 @@
             <div class="controls_details-child client-control_details col-md-6">
                 <p class="header-details">Клиент</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-apartments-passenger" class="form-control">
                         <option value="" disabled selected>Сортировка по клиенту</option>
+                        <option value="">Без сортировки</option>
+                        {{#each passengers}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -128,8 +132,12 @@
             <div class="controls_details-child apartment-control_details col-md-6">
                 <p class="header-details">Квартира</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-apartments-apartment" class="form-control">
                         <option value="" disabled selected>Сортировка по квартире</option>
+                        <option value="">Без сортировки</option>
+                        {{#each apartments}}
+                            <option value="{{id}}">{{address}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -137,8 +145,12 @@
             <div class="controls_details-child manager-control_details col-md-6">
                 <p class="header-details">Менеджер</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control">
+                    <select id="js-detailing-apartments-manager" class="form-control">
                         <option value="" disabled selected>Сортировка по менеджеру</option>
+                        <option value="">Без сортировки</option>
+                        {{#each managers}}
+                            <option value="{{id}}">{{last_name}} {{first_name}} {{middle_name}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>

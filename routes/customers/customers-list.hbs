@@ -21,7 +21,7 @@
             <i class="fa fa-plus"></i> Добавить заказчика
         </button>
         <div class="zag">
-            <h1>заглушка</h1>
+            <h1>Загрузка</h1>
         </div>
         <div class="table-responsive">
             <table id="js-customers-table"
@@ -65,18 +65,21 @@
             <h2 class="panel-title">Добавление нового заказчика</h2>
         </header>
         <div class="panel-body">
-            <form action="/api/customers/add" id="js-customers-add-form" class="form-horizontal mb-lg" novalidate="novalidate">
+            <form action="/api/customers/add" id="js-customers-add-form" class="form-horizontal mb-lg"
+                novalidate="novalidate">
                 <div class="form-group mt-lg">
                     <label class="col-sm-4 control-label"></label>
                     <div class="col-sm-4">
                         <div class="radio-custom">
-                            <input type="radio" id="radioExample1" value="1" name="is_legal_entity" class="customer__company-radio" checked>
+                            <input type="radio" id="radioExample1" value="1" name="is_legal_entity"
+                                class="customer__company-radio" checked>
                             <label for="radioExample1">Юридическое лицо</label>
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="radio-custom">
-                            <input type="radio" id="radioExample2" value="0" name="is_legal_entity" class="customer__person-radio">
+                            <input type="radio" id="radioExample2" value="0" name="is_legal_entity"
+                                class="customer__person-radio">
                             <label for="radioExample2">Физ. лицо</label>
                         </div>
                     </div>
@@ -89,30 +92,52 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Реквизиты</label>
+                        <label class="col-sm-12 control-label"
+                            style="text-transform: uppercase; font-weight: bold; text-align: center;">Реквизиты</label>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Юр.адрес</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="legal_address" placeholder="Введите индекс, адрес" required>
+                            <input type="text" class="form-control" name="legal_address"
+                                placeholder="Введите индекс, адрес" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Фактический адрес</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="actual_address" placeholder="Введите индекс, адрес" required>
+                            <input type="text" class="form-control" name="actual_address"
+                                placeholder="Введите индекс, адрес" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Email</label>
                         <div class="col-sm-8">
-                            <input type="email" name="email" class="form-control email-input" placeholder="Введите email">
+                            <input type="email" name="email" class="form-control email-input"
+                                placeholder="Введите email">
+                        </div>
+                    </div>
+                    <div class="form-group customer-email-group">
+                        <div class="customer-email-group__item">
+                            <label class="col-sm-4 control-label">Доп.имейл</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="email" name="email" class="form-control email-input"
+                                        placeholder="Введите email">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default adding-item-email" type="button">+</button>
+                                    </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default deliting-item-email" type="button">-</button>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">ОГРН</label>
                         <div class="col-sm-8">
-                            <input type="number" name="ogrn" class="form-control ogrn-input" placeholder="Введите ОГРН" required>
+                            <input type="number" name="ogrn" class="form-control ogrn-input" placeholder="Введите ОГРН"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -124,19 +149,22 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Наимен-ие банка</label>
                         <div class="col-sm-8">
-                            <input type="text" name="bank_name" class="form-control" placeholder="ООО 'БАНК', г.Уфа" required>
+                            <input type="text" name="bank_name" class="form-control" placeholder="ООО 'БАНК', г.Уфа"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Р/счет</label>
                         <div class="col-sm-8">
-                            <input type="number" name="r_account" class="form-control" placeholder="Введите данные" required>
+                            <input type="number" name="r_account" class="form-control" placeholder="Введите данные"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">К/счет</label>
                         <div class="col-sm-8">
-                            <input type="number" name="k_account" class="form-control" placeholder="Введите данные" required>
+                            <input type="number" name="k_account" class="form-control" placeholder="Введите данные"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -162,63 +190,92 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Водительское удостоверение</label>
                         <div class="col-sm-8">
-                            <input name="driver_license" type="text" placeholder="12 34 567891" class="form-control" required>
+                            <input name="driver_license" type="text" placeholder="12 34 567891" class="form-control"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Дата выдачи</label>
                         <div class="col-sm-4">
-                            <input type="date" name="driver_license_issue_date" placeholder="Введите дату" class="form-control" required>
+                            <input type="date" name="driver_license_issue_date" placeholder="Введите дату"
+                                class="form-control" required>
                         </div>
                         <label class="col-sm-2 control-label">окончания</label>
                         <div class="col-sm-4">
-                            <input type="date" name="driver_license_expiration_date" placeholder="Введите дату" class="form-control" required>
+                            <input type="date" name="driver_license_expiration_date" placeholder="Введите дату"
+                                class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-12 control-label" style="text-transform: uppercase; font-weight: bold; text-align: center;">Паспортные данные</label>
+                        <label class="col-sm-12 control-label"
+                            style="text-transform: uppercase; font-weight: bold; text-align: center;">Паспортные
+                            данные</label>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Серия, номер</label>
                         <div class="col-sm-8">
-                            <input type="text" name="passport" placeholder="12 34 567891" class="form-control passport-vers_num-input" required>
+                            <input type="text" name="passport" placeholder="12 34 567891"
+                                class="form-control passport-vers_num-input" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Дата выдачи</label>
                         <div class="col-sm-8">
-                            <input type="date" name="passport_issue_date" placeholder="Введите дату" class="form-control" required>
+                            <input type="date" name="passport_issue_date" placeholder="Введите дату"
+                                class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Кем выдан</label>
                         <div class="col-sm-8">
-                            <input type="text" name="passport_issued_by" placeholder="Введите данные" class="form-control" required>
+                            <input type="text" name="passport_issued_by" placeholder="Введите данные"
+                                class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Код подразделения</label>
                         <div class="col-sm-8">
-                            <input type="text" name="passport_division_code" placeholder="123-456" class="form-control passport-division_code-input" required>
+                            <input type="text" name="passport_division_code" placeholder="123-456"
+                                class="form-control passport-division_code-input" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Место жительства</label>
                         <div class="col-sm-8">
-                            <textarea cols="20" name="location" rows="4" class="form-control" placeholder="Введите данные" required></textarea>
+                            <textarea cols="20" name="location" rows="4" class="form-control"
+                                placeholder="Введите данные" required></textarea>
                         </div>
                     </div>
-                </div>                
+                </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Контактный телефон</label>
                     <div class="col-sm-8">
-                        <input name="contact_number" id="phone" placeholder="+7(123) 123-12-34" class="form-control phone-input" required>
+                        <input name="contact_number" id="contact_number" placeholder="+7(123) 123-12-34"
+                            class="form-control phone-input" required>
+                    </div>
+                </div>
+                <div class="form-group customer-tel-group">
+                    <div class="customer-tel-group__item">
+                        <label class="col-sm-4 control-label">Доп.телефон</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input name="contact_number" placeholder="+7(123) 123-12-34"
+                                    class="form-control phone-input">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default adding-item-tel" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default deliting-item-tel" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Скидка, %</label>
                     <div class="col-sm-8">
-                        <input name="discount" type="number" placeholder="Введите размер скидки" max="100" min="0" value="0" class="form-control prices-control-class">
+                        <input name="discount" type="number" placeholder="Введите размер скидки" max="100" min="0"
+                            value="0" class="form-control prices-control-class">
                     </div>
                 </div>
                 <div class="col-md-12 text-right">
@@ -234,28 +291,102 @@
 <script src="/assets/vendor/inputmask/inputmask.custom.js"></script>
 
 <script>
-  'use strict';
-  const pricesControlClass = document.querySelectorAll('.prices-control-class');
-  pricesControlClass.forEach(function(item) {
-    item.addEventListener('input', function(evt) {
-        this.value < 0 ? this.value = 0 : this.value;
+    'use strict';
+    const pricesControlClass = document.querySelectorAll('.prices-control-class');
+    pricesControlClass.forEach(function (item) {
+        item.addEventListener('input', function (evt) {
+            this.value < 0 ? this.value = 0 : this.value;
+        });
     });
-  });
-</script> 
+</script>
 
 <script>
     const cusRadioPer = document.querySelector('.customer__person-radio');
     const cusRadioCom = document.querySelector('.customer__company-radio');
-    cusRadioPer.addEventListener('change', function() {
+    cusRadioPer.addEventListener('change', function () {
         if (this.checked) {
-            document.querySelector('.customer__person').style.display="block";
-            document.querySelector('.customer__company').style.display="none";
+            document.querySelector('.customer__person').style.display = "block";
+            document.querySelector('.customer__company').style.display = "none";
         }
     });
-    cusRadioCom.addEventListener('change', function() {
+    cusRadioCom.addEventListener('change', function () {
         if (this.checked) {
-            document.querySelector('.customer__company').style.display="block";
-            document.querySelector('.customer__person').style.display="none";
+            document.querySelector('.customer__company').style.display = "block";
+            document.querySelector('.customer__person').style.display = "none";
         }
     })
+</script>
+<script>
+    var btnAddProduct1 = document.querySelector('.adding-item-email');
+    var btnDeleteProduct1 = document.querySelector('.deliting-item-email');
+    var table1 = document.querySelector('.customer-email-group');
+
+    function insRow1() {
+        var target = event.target;
+        var grItem = table1.querySelectorAll('.customer-email-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item-email').addEventListener('click', insRow1);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table1.appendChild(new_row);
+    }
+
+    function delRow1() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item-email');
+        if (!closeBtn) return;
+
+        var grItem = table1.querySelectorAll('.customer-email-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    }
+
+    btnAddProduct1.addEventListener('click', insRow1);
+
+    table1.addEventListener('click', delRow1);
+</script>
+<script>
+    var btnAddProduct = document.querySelector('.adding-item-tel');
+    var btnDeleteProduct = document.querySelector('.deliting-item-tel');
+    var table = document.querySelector('.customer-tel-group');
+
+    function insRow() {
+        var target = event.target;
+        var grItem = table.querySelectorAll('.customer-tel-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item-tel').addEventListener('click', insRow);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table.appendChild(new_row);
+    }
+
+    function delRow() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item-tel');
+        if (!closeBtn) return;
+
+        var grItem = table.querySelectorAll('.customer-tel-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+    }
+
+    btnAddProduct.addEventListener('click', insRow);
+
+    table.addEventListener('click', delRow);
 </script>

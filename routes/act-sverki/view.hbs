@@ -49,8 +49,8 @@
 <section class="panel panel-featured panel-featured-primary">
     <header class="panel-heading">
         <h2 class="panel-title">Сохраненный документ сверки №<span> ActS-{{id}}</span> за
-            <span>{{toIsoString document.period_from 'DD.MM.YYYY'}} -
-                {{toIsoString document.period_end 'DD.MM.YYYY'}}</span> по контрагенту
+            <span>{{toIsoString document.period_left 'DD.MM.YYYY'}} -
+                {{toIsoString document.period_right 'DD.MM.YYYY'}}</span> по контрагенту
             <span>{{document.customer_name}}</span></h2>
     </header>
     <div class="panel-body">
@@ -59,6 +59,9 @@
                 <a href="/api/act-sverki/print?id={{id}}" class="btn btn-default">Печать</a>
                 <br>
                 <br>
+            </div>
+            <div class="save_and_print_buttons col-md-7">
+                <p>Менеджер: {{document.manager_name}}</p>
             </div>
 
             <table class="table table-bordered table-striped mb-none">

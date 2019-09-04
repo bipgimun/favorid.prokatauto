@@ -635,7 +635,11 @@ $(document).ready(() => {
 
         if ($('#js-cash-storages-table').length) {
             insertTable('cash-storages', data.id, [data.cashbox, data.name, data.number]);
+        } else {
+            Object.keys(data).forEach(key => $form.find(`[data-target=${key}]`).text(data[key]));
+            $('.js-toggleEditable').click();
         }
+
 
         return false;
     })
@@ -833,7 +837,10 @@ $(document).ready(() => {
         window.close();
     })
 
-    const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver') => {
+    const getFormValues = (
+        form,
+        selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver'
+    ) => {
 
         const arrayData = $(form).find(selectors).serializeArray();
 
@@ -842,6 +849,10 @@ $(document).ready(() => {
         arrayData.reduce((acc, item) => {
 
             const { name, value } = item;
+
+            if ((name == 'email' || name == 'contact_number') && !value) {
+                return acc;
+            }
 
             acc[name] = acc[name]
                 ? [...acc[name].split(','), value].join(',')
@@ -902,7 +913,7 @@ $(document).ready(() => {
     $count.on('input', function () {
         var value = $count.val()
         if (Number.isInteger(value)) {
-            return
+            return;
         } else {
             $count.val(Math.round($count.val()));
         }
@@ -958,7 +969,7 @@ const request = (url, data, options = { showNotify: false }) => {
     })
 };
 
-const getFormValues = (form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') => {
+function getFormValues(form, selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden]') {
 
     const arrayData = $(form).find(selectors).serializeArray();
 
@@ -984,3 +995,143 @@ const insertTable = (name, id, values = []) => {
         .dataTable()
         .fnAddData([...values, `<a href="/${name}/${id}" target="_blank">Подробнее</a>`]);
 }
+
+const Employee = {
+    submit_form: async (form) => {
+        const values = getFormValues(form);
+
+        const data = await request('/api/employees/add', values);
+
+        if (data.status == 'ok') {
+            location.reload();
+        }
+
+        return false;
+    },
+
+    update_form: async (form) => {
+
+        const values = getFormValues(form);
+
+        const data = await request('/api/employees/update', values);
+
+        console.log(data);
+
+        if (data.status == 'ok') {
+            location.reload();
+        }
+
+        return false;
+    },
+
+    fired: async (employee_id) => {
+        if (!confirm('Уволить сотрудника?')) {
+            return false;
+        }
+
+        await request('/api/employees/updateTarget', { is_fired: 1, id: employee_id });
+
+        location.reload();
+    },
+
+    come: async (employee_id) => {
+        if (!confirm('Вернуть сотрудника?')) {
+            return false;
+        }
+
+        await request('/api/employees/updateTarget', { is_fired: 0, id: employee_id });
+
+        location.reload();
+    }
+};
+
+const Suppliers = {
+
+    addUrl: '/api/suppliers/add',
+    updateUrl: '/api/suppliers/update',
+
+    async add_form_submit(form) {
+
+        const values = getFormValues(form);
+
+        const { data } = await request(this.addUrl, values, { showNotify: true });
+
+        $('#js-suppliers-table')
+            .dataTable()
+            .fnAddData([data.is_legal_entity, data.name, `<a href="/suppliers/${data.id}" target="_blank">Подробнее</a>`]);
+
+        return false;
+    },
+
+    async update_form_submit(form) {
+        const values = getFormValues(form);
+
+        const { data } = await request(this.updateUrl, values, { showNotify: true });
+
+        Object.keys(data).forEach(key => {
+            $(form).find(`[data-target=${key}]`).text(data[key]);
+        });
+
+        $('.js-toggleEditable').click();
+
+        return false;
+    }
+
+};
+const SuppliersPositions = {
+
+    async add_form_submit(form) {
+
+        const $form = $(form);
+        const values = getFormValues(form);
+
+        const { data } = await request($form.attr('action'), values, { showNotify: true });
+
+        $('#js-suppliers-positions-table')
+            .dataTable()
+            .fnAddData([data.name, data.cost, `<a href="/suppliers-positions/${data.id}">Подробнее</a>`]);
+
+        return false;
+    },
+
+    async update_form_submit(form) {
+
+        const $form = $(form);
+        const values = getFormValues(form);
+
+        const { data } = await request($form.attr('action'), values, { showNotify: true });
+
+        Object.keys(data).forEach(key => {
+            $(form).find(`[data-target=${key}]`).text(data[key]);
+        });
+
+        $('.js-toggleEditable').click();
+
+        return false;
+    }
+};
+
+const SuppliersDeals = {
+
+    async add_form_submit(form) {
+
+        const $form = $(form);
+        const $table = $('#js-suppliers-deals-table');
+        const values = getFormValues(form);
+
+        const { data } = await request($form.attr('action'), values, { showNotify: true });
+
+        $table.dataTable()
+            .fnAddData([
+                data.date,
+                data.supplier_name,
+                data.position_name,
+                data.sum,
+                `<a href="/suppliers/${data.id}" target="_blank">Подробнее</a>`
+            ]);
+
+        $form.find('[name]').val("").trigger('change');
+
+        return false;
+    },
+};

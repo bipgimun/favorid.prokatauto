@@ -4,7 +4,8 @@ const fs = require('fs');
 
 module.exports = {
 
-    sumToStr(sum) {
+    sumToStr(sum, printKop = true) {
+        sum = +sum;
         var mapNumbers = {
             0: [2, 1, "ноль"],
             1: [0, 2, "один", "одна"],
@@ -132,9 +133,12 @@ module.exports = {
                 // Capitalize first letter
                 arrRet[0] = arrRet[0].match(/^(.)/)[1].toLocaleUpperCase() + arrRet[0].match(/^.(.*)$/)[1];
             }
+            if (printKop) {
 
-            arrRet.push((fDec < 10) ? ("0" + fDec) : ("" + fDec));
-            From0To999(fDec, objKop, function () { }, PushToRes);
+                arrRet.push((fDec < 10) ? ("0" + fDec) : ("" + fDec));
+
+                From0To999(fDec, objKop, function () { }, PushToRes);
+            }
 
             return arrRet.join(" ");
         }

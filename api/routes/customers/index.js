@@ -1,3 +1,4 @@
+const moment = require('moment');
 const express = require('express');
 const app = express.Router();
 
@@ -7,11 +8,13 @@ const messages = require('../../messages');
 
 const { wishList } = require('../../wish-list');
 
-const moment = require('moment');
+const {
+    customersModel
+} = require('../../../models');
 
 app.post('/get', async (req, res, next) => {
 
-    const customers = await db.execQuery(`SELECT * FROM customers`);
+    const customers = await customersModel.get();
 
     res.json({ status: 'ok', customers });
 });
@@ -23,7 +26,7 @@ app.post('/getOne', async (req, res, next) => {
     if (!id)
         throw new Error(messages.missingId);
 
-    const [customer = {}] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [id]);
+    const [customer = {}] = await customersModel.get({ id });
 
     res.json({ status: 'ok', data: customer });
 })
@@ -33,6 +36,7 @@ app.post('/add', async (req, res, next) => {
     const { values } = req.body;
 
     const validValues = await wishList.customers.validate(values);
+
 
     const id = await db.insertQuery(`INSERT INTO customers SET ?`, validValues);
 

@@ -25,7 +25,7 @@ $(document).ready(() => {
         const { body } = await request('/api/detailing-apartments/save', { reservsIds: reservs, customer, period_from, period_end });
 
         $('#js-detailing-apartments-list').dataTable()
-            .fnAddData([body.created, body.id, body.customer_name, body.sum, `<a href="/detailing-apartments/${body.idid}" target="_blank">Подробнее</a>`]);
+            .fnAddData([body.created_at, body.id, body.customer_name, body.sum, `<a href="/detailing-apartments/${body.id}" target="_blank">Подробнее</a>`]);
     })
 
     $cancel.on('click', function () {
@@ -90,6 +90,10 @@ $(document).ready(() => {
         const endPeriod = $endPeriod.val();
         const customer = $customer.val();
 
+        const passenger_id = $('#js-detailing-apartments-passenger').val();
+        const apartment_id = $('#js-detailing-apartments-apartment').val();
+        const manager_id = $('#js-detailing-apartments-manager').val();
+
         if (!fromPeriod || !endPeriod) {
             return new PNotify({
                 title: 'Ошибка',
@@ -118,7 +122,14 @@ $(document).ready(() => {
             });
         }
 
-        const { data } = await request('/api/apartmentReservations/get', { fromPeriod, endPeriod, customer });
+        const { data } = await request('/api/apartmentReservations/get', {
+            fromPeriod,
+            endPeriod,
+            customer,
+            passenger_id,
+            apartment_id,
+            manager_id,
+        });
 
         reservsData = data;
 

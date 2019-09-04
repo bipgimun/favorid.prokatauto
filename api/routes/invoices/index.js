@@ -12,6 +12,8 @@ const carsReservsRegexp = /^(CRR)-(\d+)$/i;
 const printDetail = require('../../../libs/invoice-print');
 const db = require('../../../libs/db')
 
+const actWorksPrint = require('../../../libs/act-works');
+
 const {
     invoicesModel,
     detailingApartmentsModel,
@@ -101,7 +103,13 @@ router.post('/add', async (req, res, next) => {
 
     const { customer_id, sum: detailSum } = result;
 
-    const invoiceId = await invoicesModel.add({ base_id, code: detailCode, customer_id, sum: detailSum });
+    const invoiceId = await invoicesModel.add({
+        base_id,
+        code: detailCode,
+        customer_id,
+        sum: detailSum,
+        manager_id: req.session.user.employee_id,
+    });
 
     const [customer = {}] = await customersModel.get({ id: customer_id });
 
@@ -153,25 +161,31 @@ router.post('/add', async (req, res, next) => {
         throw new Error('Неверный код основания');
     }
 
-
     const dataArray = results.map((item, index) => {
         return [+index + 1, item.desc, 1, '', +item.sum];
     });
 
+    const file = await printDetail({
+        number: invoiceId,
+        customer,
+        dataArray,
+        date: moment().locale('ru').format('DD MMM YYYY')
+    });
 
-    const file = await printDetail({ number: invoiceId, customer, dataArray, date: moment().locale('ru').format('DD MMM YYYY') });
+    await db.execQuery(`UPDATE invoices SET ? WHERE id = ?`, [{ file }, invoiceId]);
 
     res.json({
-        status: 'ok', data: {
+        status: 'ok',
+        data: {
             file
         }
     });
 
 })
 
-router.get('/print-invoice', async (req, res, next) => {
+router.get('/print-invoice/:file', async (req, res, next) => {
 
-    const { file } = req.query;
+    const { file } = req.params;
 
     res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
         fs.unlinkSync(path.join(process.cwd(), 'uploads', file));
@@ -193,6 +207,41 @@ router.post('/delete', async (req, res, next) => {
 
     await db.execQuery(`DELETE FROM invoices WHERE id = ?`, [id]);
     return res.json({ status: 'ok' });
+})
+
+router.get('/act-works-print/:invoiceId', async (req, res, next) => {
+    const [invoice = {}] = await db.execQuery(`SELECT * FROM invoices WHERE id = ?`, [req.params.invoiceId]);
+
+    if (!invoice.id) {
+        throw new Error('Счёт не найден');
+    }
+
+    if (!invoice.customer_id) {
+        throw new Error('Отсутствует заказчик');
+    }
+
+    const [customer = {}] = await customersModel.get({ id: invoice.customer_id });
+
+    if (!customer.id) {
+        throw new Error('Заказчик не найден');
+    }
+
+    const title = `Акт № ${invoice.id} от ${moment(invoice.created).format('DD.MM.YYYY')}`;
+    const based = `По счёту № ${invoice.id} от ${moment(invoice.created).format('DD.MM.YYYY')}`;
+
+    let productName;
+
+    if (['APR', 'DET-K'].includes(invoice.code)) {
+        productName = 'Жилищные услуги';
+    } else if (['CRR', 'DET-A'].includes(invoice.code)) {
+        productName = 'Транспортные услуги';
+    } else {
+        throw new Error('Неверный код счёта')
+    }
+
+    const file = await actWorksPrint({ customer, title, based, productName, productSum: +invoice.sum });
+
+    res.download(file);
 })
 
 module.exports = router;

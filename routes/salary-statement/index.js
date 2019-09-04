@@ -17,9 +17,11 @@ router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     const [report] = await db.execQuery(`
         SELECT sr.*,
-            d.name as driver_name
+            d.name as driver_name,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name
         FROM salary_reports sr
             LEFT JOIN drivers d ON d.id = sr.driver_id
+            LEFT JOIN employees e ON e.id = sr.manager_id
         WHERE sr.id = ?`, [id]);
 
     if (!report)

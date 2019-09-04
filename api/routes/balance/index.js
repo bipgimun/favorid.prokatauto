@@ -1,0 +1,141 @@
+const {
+    carsReservsModel,
+    apartmentsReservsModel
+} = require('../../../models');
+
+const router = require('express').Router();
+const db = require('../../../libs/db');
+
+const moment = require('moment');
+
+router.post('/getTable', async (req, res, next) => {
+
+    const { period_left, period_right, driver_id } = req.body;
+
+    const {
+        money,
+        positions,
+        positionsCosts,
+        positionsIncome,
+        moneyCosts,
+        moneyIncome,
+        totalSum
+    } = await calcTable({ period_left, period_right, driver_id });
+
+    const {
+        totalSum: saldoSum
+    } = await calcTable({
+        period_right: moment(period_left).subtract(1, 'day').format('YYYY-MM-DD'),
+        driver_id
+    });
+
+    const totalIncome = +moneyIncome + +positionsIncome;
+    const totalCosts = +moneyCosts + +positionsCosts;
+
+    const total = saldoSum + totalIncome - totalCosts;
+    const saldoDate = moment(period_left).subtract(1, 'day').format('DD.MM.YYYY');
+
+    res.render('partials/driver-balance.hbs', {
+        layout: false,
+        totalSum,
+        saldoDate,
+        total,
+        positions,
+        money,
+        positionsCosts,
+        positionsIncome,
+        moneyIncome,
+        moneyCosts,
+        totalIncome,
+        totalCosts,
+        saldoSum
+    }, (error, html) => {
+        if (error) return res.json({ status: 'bad', body: error.message });
+
+        res.json({ status: 'ok', html, data: { positions, money, saldo: saldoSum, totalSum: total } });
+    });
+})
+
+
+async function calcTable({ period_left = '', period_right = '', driver_id = '' }) {
+    
+    const sqlFormat = 'YYYY-MM-DD HH:mm';
+
+    const dateLt = moment(period_right).set({ hours: 23, minutes: 59 }).format(sqlFormat);
+    const dateGt = period_left ? moment(period_left).set({ hours: 0, minute: 0 }).format(sqlFormat) : '';
+
+    let carOptions = {
+        statuses: '2',
+        driver_id: driver_id,
+        rentStartLt: dateLt,
+        rentStartGt: dateGt,
+    };
+
+    const date = period_left
+        ? `date BETWEEN '${dateGt}' AND '${dateLt}'`
+        : `date <= '${dateLt}'`;
+
+    // let incomesQuery = `SELECT * FROM incomes WHERE ${date} AND driver_id = ${customer_id}`;
+    // const incomes = await db.execQuery(incomesQuery);
+
+    const costs = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND driver_id = ${driver_id}`);
+
+    const carReservs = await carsReservsModel.get(carOptions);
+
+    const positions = [];
+    const money = [];
+
+    let positionsCosts = 0;
+    let positionsIncome = 0;
+
+    let moneyCosts = 0;
+    let moneyIncome = 0;
+
+    carReservs.forEach(reserv => {
+
+        const { id, has_driver, rent_start, sum } = reserv;
+        const date = moment(rent_start).format('DD.MM.YYYY');
+
+        const title = `Заявка на аренду авто ${has_driver == '1' ? 'с водителем' : ''} №${id} от ${date}`;
+
+        positionsIncome += +sum;
+
+        positions.push({
+            id,
+            code: 'CRR',
+            title,
+            income: sum,
+            gone: '--',
+        });
+    })
+
+    costs.forEach(income => {
+
+        const { id, date, sum } = income;
+
+        moneyCosts += +sum;
+
+        money.push({
+            id,
+            title: `Документ расхода №${id} от ${moment(date).format('DD.MM.YYYY')}`,
+            income: '--',
+            gone: sum
+        })
+    })
+
+    const totalSum = (+positionsIncome + +moneyIncome) - (+positionsCosts + +moneyCosts);
+
+    return {
+        money,
+        positions,
+        positionsCosts,
+        positionsIncome,
+        period_left,
+        period_right,
+        moneyCosts,
+        moneyIncome,
+        totalSum,
+    };
+}
+
+module.exports = router;

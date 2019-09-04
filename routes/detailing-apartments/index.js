@@ -5,13 +5,25 @@ const db = require('../../libs/db');
 
 const {
     detailingApartmentsModel,
+    passengersModel,
+    apartmentsModel,
+    managersModel,
     detailingApartmentsDetailsModel,
     apartmentsReservsModel
 } = require('../../models');
 
 router.get('/', async (req, res, next) => {
     const detailing = await detailingApartmentsModel.get();
-    return res.render(__dirname + '/template.hbs', { detailing });
+    const apartments = await apartmentsModel.get();
+    const managers = await managersModel.get();
+    const passengers = await passengersModel.get();
+
+    return res.render(__dirname + '/template.hbs', {
+        detailing,
+        passengers,
+        managers,
+        apartments
+    });
 })
 
 router.get('/:id', async (req, res, next) => {

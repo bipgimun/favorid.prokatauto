@@ -1,6 +1,10 @@
 const db = require('../../libs/db');
 const APARTMENT_STATUSES = require('../../config/apartment-statuses');
 
+const {
+    customersModel
+} = require('../../models');
+
 module.exports = async (req, res, next) => {
 
     const { id } = req.params;
@@ -31,6 +35,14 @@ module.exports = async (req, res, next) => {
         item.status_name = APARTMENT_STATUSES.get(item.status);
         item.nonEditable = [APARTMENT_STATUSES.get('AT_RECEPTION'), APARTMENT_STATUSES.get('COMPLETED')].includes(+item.status);
         item.completed = item.status == APARTMENT_STATUSES.get('COMPLETED');
+        item.can_edit = false;
+
+
+        if (req.session.user.is_director == '1') {
+            item.can_edit = true;
+        } else if (!item.completed && req.session.user.is_senior_manager == '1') {
+            item.can_edit = true;
+        }
     });
 
     const [reservation = {}] = apartmentReservations;
@@ -42,9 +54,10 @@ module.exports = async (req, res, next) => {
 
     const additionalServices = (reservation.services || '')
         .split(',')
+        .filter(item => !!item)
         .map(item => servicesList.find(service => service.id == item));
 
-    const customers = await db.execQuery(`SELECT * FROM customers`);
+    const customers = await customersModel.get();
 
     customers.map(item => {
         if (item.id == reservation.customer_id) {

@@ -72,6 +72,10 @@
                                 {{#if document_id}}
                                     <a
                                         href="/{{compare code 'CRR' 'car-reservation' 'apartment-reservations'}}/{{document_id}}">{{base}}</a>
+                                {{else if driver_id}}
+                                    <a href="/drivers/{{../driver.id}}" target="__blank">{{../driver.name}}</a>
+                                {{else if supplier_id}}
+                                    <a href="/suppliers/{{supplier_id}}">{{supplier_name}}</a>
                                 {{else}}
                                     <p>{{base}}</p>
                                 {{/if}}
@@ -93,9 +97,6 @@
                                                     {{this.title}}</option>
                                             {{/each}}
                                         </select>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Добавить</button>
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -116,9 +117,6 @@
                                                     {{name}}</option>
                                             {{/each}}
                                         </select>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button">Добавить</button>
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -133,13 +131,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-4 control-label">Менеджер</label>
+                            <div>{{manager_name}}</div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-4 control-label">Комментарий</label>
                             <div class="non-editable-content" data-target="comment">
                                 {{comment}}
                             </div>
                             <div class="col-sm-8 editable-content">
-                                <textarea value="{{comment}}" name="comment" cols="20" rows="4"
-                                    class="form-control" placeholder="Введите комментарий" required>{{comment}}</textarea>
+                                <textarea value="{{comment}}" name="comment" cols="20" rows="4" class="form-control"
+                                    placeholder="Введите комментарий" required>{{comment}}</textarea>
                             </div>
                         </div>
                         <div class="col-md-12 text-right editable-content">
@@ -151,6 +153,7 @@
                 </div>
             {{/each}}
             <div class="footer-btn-block-resrvation">
+                <a class="btn" href="/api/costs/downloadPrint/{{id}}">Печать</a>
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                     <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
@@ -161,10 +164,3 @@
         </section>
     </div>
 </section>
-
-<!-- Модалки-->
-
-<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
-
-</div>
-<script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>

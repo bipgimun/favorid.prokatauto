@@ -22,7 +22,7 @@ $(document).ready(function () {
         const values = getFormValues($form);
         const { data } = await request(url, values, { showNotify: true });
 
-        window.open('/api/invoices/print-invoice?file=' + data.file);
+        window.open('/api/invoices/print-invoice/' + data.file);
 
         location.reload();
 

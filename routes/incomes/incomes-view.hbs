@@ -127,6 +127,10 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-4 control-label">Менеджер</label>
+                            <div>{{manager_name}}</div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-4 control-label">Комментарий</label>
                             <div class="non-editable-content" data-target="comment">
                                 {{comment}}
@@ -145,9 +149,9 @@
                 </div>
             {{/each}}
             <div class="footer-btn-block-resrvation">
+                <a href="/api/incomes/print/{{id}}" class="btn btn-default" target="_blank">Печать</a>
                 {{#unless item.completed}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                    <!--<button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>-->
                     <button data-target="incomes" data-id="{{id}}"
                         class="btn btn-danger js-tableEssence-remove footer-resrvation-end-btn ">Удалить
                         документ</button>
