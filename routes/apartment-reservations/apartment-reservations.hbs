@@ -88,8 +88,8 @@
                     <label class="col-sm-3 control-label">Заказчик</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select style="width: 100%" id="js-select2-customer-id" name="customer_id"
-                                class="form-control">
+                            <select style="width: 100%" name="customer_id" id="js-select2-customer-id" class="form-control js-select2-init"
+                                data-ajax="/api/customers/select2" data-modal="#add-products">
                                 <option value="0" selected disabled>Выберете заказчика</option>
                             </select>
                             <span class="input-group-btn">
@@ -109,7 +109,7 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select style="width: 100%" id="js-select2-clients-id" name="passenger_id"
-                                class="form-control">
+                                class="form-control js-select2-init" data-modal="#add-products" data-ajax="/api/clients/select2">
                                 <option value="0" selected disabled>Выберете клиента</option>
                             </select>
                             <span class="input-group-btn">
@@ -137,7 +137,7 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select style="width: 100%" name="apartment_id" id="js-select2-apartments-id"
-                                class="form-control">
+                                class="form-control js-select2-init" data-ajax="/api/apartments/select2" data-modal="#add-products">
                                 <option value="0" selected disabled>Выберете Адрес</option>
                             </select>
                             <span class="input-group-btn">

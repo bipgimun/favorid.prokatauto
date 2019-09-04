@@ -85,7 +85,8 @@
                     <label class="col-sm-4 control-label">Заказчик</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select id="js-incomes-customer-id" style="width: 100%" name="customer_id">
+                            <select id="js-incomes-customer-id" class="js-select2-init" data-modal="#add-products"
+                                data-ajax="/api/customers/select2" style="width: 100%" name="customer_id">
                                 <option value="" selected disabled>Выберите заказчика из списка</option>
                                 {{#each customers}}
                                     <option value="{{id}}">{{name}}</option>
@@ -93,7 +94,7 @@
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/customers" target="_blank">Добавить</a>
-                            </span> 
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -141,15 +142,15 @@
                     <label class="col-sm-4 control-label">Касса / счет</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select style="width: 100%" name="cash_storage_id" id="js-incomesForm-cashStorages">
+                            <select style="width: 100%" name="cash_storage_id" id="js-incomesForm-cashStorages"
+                                class="js-select2-init" data-ajax="/api/cashStorages/select2"
+                                data-modal="#add-products">
                                 <option value="" selected disabled>Выберите кассу / счёт из списка</option>
-                                {{#each cashStorages}}
-                                    <option value="{{id}}">{{name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
-                                <a class="btn btn-primary" type="button" href="/cash-storages" target="_blank">Добавить</a>
-                            </span> 
+                                <a class="btn btn-primary" type="button" href="/cash-storages"
+                                    target="_blank">Добавить</a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -162,8 +163,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Комментарий</label>
                     <div class="col-sm-8">
-                        <textarea name="comment" cols="20" rows="4" class="form-control" placeholder="Введите комментарий"
-                            required></textarea>
+                        <textarea name="comment" cols="20" rows="4" class="form-control"
+                            placeholder="Введите комментарий" required></textarea>
                     </div>
                 </div>
                 <div class="col-md-12 text-right">

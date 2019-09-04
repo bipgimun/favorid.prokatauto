@@ -87,7 +87,7 @@
                         <th colspan="4">
                             <div class="date-header">
                                 <select id="js-salaryStatement-driver" name="driver_id"
-                                    class="form-control js-salaryStatement-loadTable">
+                                    class="form-control js-salaryStatement-loadTable js-select2-init" data-ajax="/api/drivers/select2">
                                     <option value="">По всем водителям</option>
                                     {{#each drivers}}
                                         <option value="{{id}}">{{name}}</option>

@@ -64,11 +64,8 @@
             <div class="controls_details-child customer-control_details col-md-12">
                 <p class="header-details">Водитель</p>
                 <div class="controls_details_date-range">
-                    <select class="form-control js-balance-driver">
+                    <select class="form-control js-balance-driver js-select2-init" data-ajax="/api/drivers/select2">
                         <option value="" disabled selected>Выберете водителя</option>
-                        {{#each drivers}}
-                            <option value="{{id}}">{{name}}</option>
-                        {{/each}}
                     </select>
                 </div>
             </div>

@@ -147,37 +147,12 @@ $(function () {
         dropdownParent: null,
     });
 
-    $('#js-incomesForm-cashStorages, #js-costsForm-cashStorages').select2({
-        dropdownParent: $('#add-products'),
-    });
-
-    $('#js-incomesForm-cashStorages-view, #js-costsForm-cashStorages-view').select2({
+    $('#js-costsForm-cashStorages-view').select2({
         dropdownParent: null,
     });
-
-    $('#js-costsForm-category').select2({
-        dropdownParent: $('#add-products'),
-    });
+    
     $('#js-costsForm-category-view').select2({
         dropdownParent: null,
-    });
-
-    $('#js-select2-apartments-id').select2({
-        ajax: {
-            url: '/api/apartments/get',
-            type: "POST",
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: $.map(data.data, function (item) {
-                        return {
-                            text: item.address,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
     });
 
     $('#js-select2-apartments-id').on('select2:select', async function (e) {
@@ -189,26 +164,7 @@ $(function () {
 
     })
 
-    $('#js-select2-customer-id').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products').length ? $('#add-products') : null,
-        ajax: {
-            url: '/api/customers/get',
-            dataType: 'json',
-            type: "POST",
-            quietMillis: 50,
-            processResults: function (data) {
-                return {
-                    results: $.map(data.customers, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
-    }).on('select2:select', async function (e) {
+    $('#js-select2-customer-id').on('select2:select', async function (e) {
         const val = $(this).val();
 
         const { data } = await request('/api/customers/getOne', { id: val })
@@ -220,25 +176,6 @@ $(function () {
         $carReservations.find('[name=discount]')
             .val(data.discount)
             .trigger('input');
-    });
-
-    $('#js-select2-apartments-id').select2({
-        dropdownParent: $('#add-products'),
-        ajax: {
-            url: '/api/apartments/get',
-            type: "POST",
-            dataType: 'json',
-            processResults: function (data) {
-                return {
-                    results: $.map(data.data, function (item) {
-                        return {
-                            text: item.address,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
     });
 
     $('#js-select2-cashStorages-id').select2({

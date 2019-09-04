@@ -25,6 +25,13 @@ app.post('/get', async (req, res, next) => {
     res.json({ status: 'ok', data: apartments });
 })
 
+app.get('/select2', async (req, res, next) => {
+
+    const apartments = await db.execQuery(`SELECT *, address as name FROM apartments`);
+
+    res.json({ status: 'ok', items: apartments });
+})
+
 app.post('/getOne', async (req, res, next) => {
 
     const { id = '' } = req.body;
