@@ -132,8 +132,10 @@
                                 class="form-control">
                                 <option value="0" selected disabled>Выберете пассажира</option>
                                 {{#each passengers}}
+                                <option value="">-</option>
                                     <option value="{{this.id}}">{{this.name}}</option>
                                 {{/each}}
+                                <option value="">-</option>
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/clients" target="_blank">Добавить</a>
