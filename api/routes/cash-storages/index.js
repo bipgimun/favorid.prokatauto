@@ -14,6 +14,13 @@ app.post('/get', async (req, res, next) => {
     res.json({ status: 'ok', data: storages });
 })
 
+app.get('/select2', async (req, res, next) => {
+    const { search = '' } = req.query;
+    const storages = await db.execQuery(`SELECT * FROM cash_storages WHERE name LIKE '%${safeStr(search)}%'`);
+
+    res.json({ items: storages });
+})
+
 app.post('/add', async (req, res, next) => {
 
     const { values } = req.body;

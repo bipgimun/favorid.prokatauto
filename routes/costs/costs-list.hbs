@@ -132,11 +132,9 @@
                                 </div>
                                 <div id="collapse4" class="accordion-body collapse">
                                     <div class="panel-body">
-                                        <select style="width: 100%" name="supplier_id" class="js-select2-select">
-                                            <option value="" selected disabled>Выберите лицо из списка</option>
-                                            {{#each suppliers}}
-                                                <option value="{{id}}">{{name}}</option>
-                                            {{/each}}
+                                        <select style="width: 100%" name="supplier_id" class="js-select2-init"
+                                            data-ajax="/api/suppliers/getSelect2" data-modal="#add-products">
+                                            <option value="" selected disabled>Выберите поставщика из списка</option>
                                         </select>
                                     </div>
                                 </div>
@@ -168,14 +166,14 @@
                     <label class="col-sm-4 control-label">Статья расходов</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select style="width: 100%" name="category_id" id="js-costsForm-category">
+                            <select style="width: 100%" name="category_id" id="js-costsForm-category"
+                                class="js-select2-init" data-ajax="/api/costs-categories/select2"
+                                data-modal="#add-products">
                                 <option value="" selected disabled>Выберите статью расхода из списка</option>
-                                {{#each costsCategories}}
-                                    <option value="{{id}}">{{title}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
-                                <a class="btn btn-primary" type="button" href="/costs-categories" target="_blank">Добавить</a>
+                                <a class="btn btn-primary" type="button" href="/costs-categories"
+                                    target="_blank">Добавить</a>
                             </span>
                         </div>
                     </div>
@@ -184,14 +182,14 @@
                     <label class="col-sm-4 control-label">Касса / счет</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select style="width: 100%" name="cash_storage_id" id="js-costsForm-cashStorages">
+                            <select style="width: 100%" name="cash_storage_id" id="js-costsForm-cashStorages"
+                                class="js-select2-init" data-ajax="/api/cashStorages/select2"
+                                data-modal="#add-products">
                                 <option value="" selected disabled>Выберите кассу / счёт из списка</option>
-                                {{#each cashStorages}}
-                                    <option value="{{id}}">{{name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
-                                <a class="btn btn-primary" type="button" href="/cash-storages" target="_blank">Добавить</a>
+                                <a class="btn btn-primary" type="button" href="/cash-storages"
+                                    target="_blank">Добавить</a>
                             </span>
                         </div>
                     </div>

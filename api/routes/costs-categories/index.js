@@ -14,6 +14,8 @@ const addSchema = Joi.object({
     title: Joi.string().required()
 })
 
+const safeStr = require('../../../libs/safe-string');
+
 router.post('/add', async (req, res, next) => {
 
     const validValues = await addSchema.validate(req.body.values);
@@ -24,6 +26,14 @@ router.post('/add', async (req, res, next) => {
 router.post('/get', async (req, res, next) => {
     const costsCategories = await costsCategoriesModel.get();
     return res.json({ status: 'ok', data: costsCategories });
+});
+
+router.get('/select2', async (req, res, next) => {
+
+    const { search = '' } = req.query;
+
+    const costsCategories = await costsCategoriesModel.get({ search: safeStr(search) });
+    return res.json({ items: costsCategories.map(item => (item.name = item.title, item)) });
 });
 
 router.post('/update', async (req, res, next) => {

@@ -1,11 +1,12 @@
 const db = require('../../libs/db');
 
-exports.get = ({ id = '' } = {}) => {
+exports.get = ({ id = '', search = '' } = {}) => {
     return db.execQuery(`
         SELECT * 
         FROM drivers
         WHERE
             id > 0
             ${id ? `AND id = ${id}` : ``}
+            AND name LIKE '%${search}%'
     `);
 }

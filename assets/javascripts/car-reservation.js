@@ -37,9 +37,7 @@ $(document).ready(function () {
         calcPrepaymentSum();
     });
 
-    $carReservations.find('select[name=driver_id]').select2({
-        dropdownParent: $('#add-products').length ? $('#add-products') : null
-    }).on('select2:select', async function (e) {
+    $carReservations.find('select[name=driver_id]').on('select2:select', async function (e) {
         const id = $(e.target).val();
         const { data: driver } = await request(`/api/drivers/get/${id}`);
 
@@ -65,6 +63,21 @@ $(document).ready(function () {
     });
 
     $carReservations.find('[name=itinerarie_id]').select2({
+        ajax: {
+            url: '/api/itineraries/select2',
+            type: "GET",
+            dataType: 'json',
+            processResults: function (data) {
+                return {
+                    results: $.map(data.items, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id,
+                        }
+                    })
+                }
+            }
+        },
         dropdownParent: $('#add-products').length ? $('#add-products') : null,
         placeholder: 'Выберите маршрут'
     }).on('select2:select', async function (e) {
@@ -81,32 +94,14 @@ $(document).ready(function () {
         calcPrepaymentSum();
     });
 
-    $carReservations.find('[name=customer_id]').select2({
-        allowClear: true,
-        dropdownParent: $('#add-products').length ? $('#add-products') : null,
-        ajax: {
-            url: '/api/customers/get',
-            dataType: 'json',
-            type: "POST",
-            processResults: function (data) {
-                return {
-                    results: $.map(data.customers, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        }
-                    })
-                }
-            }
-        }
-    }).on('select2:select', async function (e) {
+    $carReservations.find('[name=customer_id]').on('select2:select', async function (e) {
         const val = $(this).val();
 
         const { data: customer } = await request('/api/customers/getOne', { id: val });
 
         $carReservations.find('[name=contact_number]').val(customer.contact_number);
 
-        if(!$carReservations.find('#checkboxdriver').is(':checked')) {
+        if (!$carReservations.find('#checkboxdriver').is(':checked')) {
             $carReservations.find('[name=contact_number]').val(customer.contact_number);
         }
 

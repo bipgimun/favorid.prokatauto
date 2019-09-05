@@ -7,6 +7,8 @@ const messages = require('../../messages');
 
 const router = require('express').Router();
 
+const safeStr = require('../../../libs/safe-string');
+
 router.post('/add', async (req, res, next) => {
 
     const values = req.body;
@@ -58,7 +60,8 @@ router.post('/delete', async (req, res, next) => {
 })
 
 router.get('/getSelect2', async (req, res, next) => {
-    const suppliers = await db.execQuery(`SELECT * FROM suppliers`);
+    const { search = '' } = req.query;
+    const suppliers = await db.execQuery(`SELECT * FROM suppliers WHERE name LIKE '%${safeStr(search)}%'`);
     res.json({ items: suppliers });
 })
 

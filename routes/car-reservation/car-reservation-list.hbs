@@ -33,12 +33,8 @@
                     <tr>
                         <th>Водитель</th>
                         <th>Начало аренды</th>
-                        <!--<th>Номер</th>-->
                         <th>Маршрут</th>
-                        <!--<th>Дата заказа</th>-->
-                        <!--<th>Заказчик</th> -->
                         <th>Пассажир</th>
-                        <!--<th>Водитель</th>-->
                         <th>Статус</th>
                         <th>Подробнее</th>
                     </tr>
@@ -48,12 +44,8 @@
                         <tr style="{{compare orange 1 'background-color: orange' ''}}">
                             <td>{{compare has_driver '1' 'С водителем' 'Без водителя'}}</td>
                             <td>{{toIsoString this.rent_start 'DD.MM.YYYY HH:mm'}}</td>
-                            <!--<td>{{this.id}}</td>-->
                             <td>{{this.itinerarie_name}}</td>
-                            <!--<td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td> -->
-                            <!--<td>{{this.customer_name}}</td>-->
                             <td>{{this.passenger_name}}</td>
-                            <!--<td>{{this.driver_name}}</td>-->
                             <td>{{this.status_name}}</td>
                             <td>
                                 <a href="/car-reservation/{{this.id}}" target="_blank">Подробнее</a>
@@ -65,12 +57,8 @@
                     <tr>
                         <th>Водитель</th>
                         <th>Начало аренды</th>
-                        <!--<th>Номер</th>-->
                         <th>Маршрут</th>
-                        <!--<th>Дата заказа</th>-->
-                        <!--<th>Заказчик</th>-->
                         <th>Пассажир</th>
-                        <!--<th>Водитель</th>-->
                         <th>Статус</th>
                         <th>Подробнее</th>
                     </tr>
@@ -109,7 +97,7 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select style="width: 100%" id="js-carReservs-customerId" name="customer_id"
-                                class="form-control">
+                                class="form-control js-select2-init" data-modal="#add-products" data-ajax="/api/customers/select2">
                                 <option value="0" selected disabled>Выберете заказчика</option>
                             </select>
                             <span class="input-group-btn">
@@ -129,13 +117,11 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select style="width: 100%" id="js-select2-clients-id" name="passenger_id"
-                                class="form-control">
+                                class="form-control js-select2-init" data-modal="#add-products" data-ajax="/api/clients/select2">
                                 <option value="0" selected disabled>Выберете пассажира</option>
                                 {{#each passengers}}
-                                <option value="">-</option>
                                     <option value="{{this.id}}">{{this.name}}</option>
                                 {{/each}}
-                                <option value="">-</option>
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/clients" target="_blank">Добавить</a>
@@ -170,11 +156,8 @@
                     <label class="col-sm-3 control-label">Водитель</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="driver_id" class="form-control" style="width: 100%">
+                            <select name="driver_id" class="form-control js-select2-init" data-modal="#add-products" data-ajax="/api/drivers/select2" style="width: 100%">
                                 <option value="" selected disabled>Выберете водителя</option>
-                                {{#each drivers}}
-                                    <option value="{{this.id}}">{{this.name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/drivers" target="_blank">Добавить</a>
@@ -209,12 +192,10 @@
                             <select id="js-car-reservation-itinerarie_id" name="itinerarie_id" class="form-control"
                                 style="width: 100%">
                                 <option value="0" selected disabled>Выберете маршрут</option>
-                                {{#each itineraries}}
-                                    <option value="{{this.id}}">{{this.name}}</option>
-                                {{/each}}
                             </select>
                             <span class="input-group-btn">
-                                <a class="btn btn-primary" type="button" href="/itineraries" target="_blank">Добавить</a>
+                                <a class="btn btn-primary" type="button" href="/itineraries"
+                                    target="_blank">Добавить</a>
                             </span>
                         </div>
                     </div>
@@ -223,18 +204,20 @@
                     <div class="col-sm-12">
                         <label class="col-sm-4 control-label">Адрес пункта А в маршруте</label>
                         <div class="col-sm-8">
-                            <input type="text" name="itinerarie_point_a" class="form-control" placeholder="Введите пункт" required>
+                            <input type="text" name="itinerarie_point_a" class="form-control"
+                                placeholder="Введите пункт" required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <label class="col-sm-4 control-label">Адрес пункта Б в маршруте</label>
                         <div class="col-sm-8">
-                            <input type="text" name="itinerarie_point_b" class="form-control" placeholder="Введите пункт" required>
+                            <input type="text" name="itinerarie_point_b" class="form-control"
+                                placeholder="Введите пункт" required>
                         </div>
                     </div>
                 </div>
                 <div class="form-group group-drivers__hide-vis" style="display: none;">
-                    
+
                     <div class="col-sm-12">
                         <label class="col-sm-4 control-label">Зарплата водителя, руб.</label>
                         <div class="non-editable-content" data-target="driver_salary">

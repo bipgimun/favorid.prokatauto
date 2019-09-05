@@ -19,6 +19,14 @@ app.post('/get', async (req, res, next) => {
     res.json({ status: 'ok', customers });
 });
 
+app.get('/select2', async (req, res, next) => {
+
+    const { search = '' } = req.query;
+
+    const customers = await customersModel.get({ search });
+    res.json({ items: customers });
+});
+
 app.post('/getOne', async (req, res, next) => {
 
     const { id = '' } = req.body;

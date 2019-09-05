@@ -5,7 +5,8 @@ exports.add = async ({ title = '' }) => {
 }
 
 exports.get = ({
-    id = ''
+    id = '',
+    search = '',
 } = {}) => {
     return db.execQuery(`
         SELECT * 
@@ -13,6 +14,7 @@ exports.get = ({
         WHERE
             id > 0
             ${id ? `AND id = ${id}` : ''}
+            AND title LIKE '%${search}%' 
     `);
 }
 

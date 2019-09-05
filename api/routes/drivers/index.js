@@ -61,6 +61,13 @@ app.post('/get', async (req, res, next) => {
     return res.json({ status: 'ok', data: drivers })
 })
 
+app.get('/select2', async (req, res, next) => {
+    const { search = '' } = req.query;
+    const drivers = await driversModel.get({ search: safeStr(search) });
+
+    return res.json({ items: drivers })
+})
+
 app.post('/get/:id', async (req, res, next) => {
 
     const { id } = req.params;

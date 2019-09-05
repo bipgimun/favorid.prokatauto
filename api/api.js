@@ -6,7 +6,7 @@ const checkAuth = require('../libs/middlewares/check-auth');
 app.post('/login', require('./routes/login'));
 
 function checkPrivileges(req, res, next) {
-    
+
     const url = req.url;
 
     const privileges = {
@@ -63,8 +63,7 @@ app.use('/suppliers', checkAuth, checkPrivileges, require('./routes/suppliers'))
 app.use('/suppliers-deals', checkAuth, checkPrivileges, require('./routes/suppliers-deals'));
 app.use('/suppliers-positions', checkAuth, checkPrivileges, require('./routes/suppliers-positions'));
 
-
-app.use((req, res, next) => next(new Error('Страница не найдена')));
+app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Страница не найдена' }));
 
 app.use((error, req, res, next) => {
     console.error('[' + new Date().toLocaleString() + ']:', error);
