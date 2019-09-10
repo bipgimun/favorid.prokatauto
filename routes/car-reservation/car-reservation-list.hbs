@@ -119,6 +119,9 @@
                             <select style="width: 100%" id="js-select2-clients-id" name="passenger_id"
                                 class="form-control js-select2-init" data-modal="#add-products" data-ajax="/api/clients/select2">
                                 <option value="0" selected disabled>Выберете пассажира</option>
+                                {{#each passengers}}
+                                    <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
                             </select>
                             <span class="input-group-btn">
                                 <a class="btn btn-primary" type="button" href="/clients" target="_blank">Добавить</a>
