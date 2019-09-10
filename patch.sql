@@ -335,3 +335,7 @@ ALTER TABLE `act_sverki_suppliers_documents_details`
 
 
 ALTER TABLE `customers` CHANGE `email` `email` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL, CHANGE `contact_number` `contact_number` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+
+-- добавлено: 05.09.2019
+-- номер телефона клиентов может быть пустой
+ALTER TABLE `passengers` CHANGE `contact_number` `contact_number` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;

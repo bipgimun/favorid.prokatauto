@@ -29,6 +29,7 @@
     "nodemailer": "^6.3.0",
     "request": "^2.88.0",
     "select2": "^4.0.6-rc.1",
+    "xlsx": "^0.15.1",
     "xlsx-populate": "^1.20.1"
   },
   "devDependencies": {
