@@ -18,4 +18,5 @@ module.exports = {
     employeesModel: require('./employees'),
     suppliersDealsModel: require('./suppliers-deals'),
     suppliersPositionsModel: require('./suppliers-positions'),
+    muzContractsModel: require('./muz-contracts')
 }

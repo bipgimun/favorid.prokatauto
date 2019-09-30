@@ -29,5 +29,8 @@ router.use('/balance', require('./balance'));
 router.use('/suppliers', require('./suppliers'));
 router.use('/suppliers-deals', require('./suppliers-deals'));
 router.use('/suppliers-positions', require('./suppliers-positions'));
+router.use('/contracts', require('./contracts'));
+
+router.use('/contract-shift', require('./contract-shift'));
 
 module.exports = router;

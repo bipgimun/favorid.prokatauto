@@ -1,47 +1,50 @@
+function initSelect2(select) {
+    const data = {};
+    const $element = $(select);
+    const modal = $element.data('modal');
+    const ajaxUrl = $element.data('ajax');
+    const selected = $element.data('selected');
+
+    if (modal) {
+        data.dropdownParent = $(modal);
+    }
+
+    if (ajaxUrl) {
+        data.ajax = {
+            url: ajaxUrl,
+            type: "GET",
+            delay: 250,
+            dataType: 'json',
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                }
+
+                return query;
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data.items, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id,
+                            selected: selected
+                                ? selected == item.id
+                                : false
+                        }
+                    })
+                }
+            }
+        };
+    }
+
+    $element.select2(data);
+}
+
 $(function () {
 
     $('select.js-select2-init').each(function (index, element) {
-
-        const data = {};
-        const $element = $(element);
-        const modal = $element.data('modal');
-        const ajaxUrl = $element.data('ajax');
-        const selected = $element.data('selected');
-
-        if (modal) {
-            data.dropdownParent = $(modal);
-        }
-
-        if (ajaxUrl) {
-            data.ajax = {
-                url: ajaxUrl,
-                type: "GET",
-                delay: 250,
-                dataType: 'json',
-                data: function (params) {
-                    var query = {
-                        search: params.term,
-                    }
-
-                    return query;
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(data.items, function (item) {
-                            return {
-                                text: item.name,
-                                id: item.id,
-                                selected: selected
-                                    ? selected == item.id
-                                    : false
-                            }
-                        })
-                    }
-                }
-            };
-        }
-
-        $element.select2(data);
+        initSelect2(element);
     })
 
     const $apartmentReservations = $('#js-apartmentReservations-form');
@@ -150,7 +153,7 @@ $(function () {
     $('#js-costsForm-cashStorages-view').select2({
         dropdownParent: null,
     });
-    
+
     $('#js-costsForm-category-view').select2({
         dropdownParent: null,
     });

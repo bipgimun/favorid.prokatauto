@@ -62,6 +62,9 @@ app.use('/balance', checkAuth, checkPrivileges, require('./routes/balance'));
 app.use('/suppliers', checkAuth, checkPrivileges, require('./routes/suppliers'));
 app.use('/suppliers-deals', checkAuth, checkPrivileges, require('./routes/suppliers-deals'));
 app.use('/suppliers-positions', checkAuth, checkPrivileges, require('./routes/suppliers-positions'));
+app.use('/muz-contracts', checkAuth, checkPrivileges, require('./routes/muz-contracts'));
+
+app.use('/contract-shifts', checkAuth, checkPrivileges, require('./routes/contracts-shifts'));
 
 app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Страница не найдена' }));
 

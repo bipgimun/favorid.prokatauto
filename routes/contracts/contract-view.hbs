@@ -1,0 +1,587 @@
+<style>
+    .js-editable-body .non-editable-content {
+        display: block;
+        padding-top: 7px;
+        font-weight: bold;
+    }
+
+    .js-editable-body .editable-content {
+        display: none;
+    }
+
+    .js-editable-body.editable-on .editable-content {
+        display: block;
+    }
+
+    .js-editable-body.editable-on .non-editable-content {
+        display: none;
+    }
+
+    .footer-btn-block-resrvation {
+        display: flex;
+    }
+
+    .footer-resrvation-save-btn {
+        margin-right: auto;
+    }
+
+    .footer-resrvation-end-btn {
+        margin-left: auto;
+        margin-right: 10px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Активный контракт № MUZ-{{contract.id}}</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Контракт № MUZ-{{contract.id}}</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Основная информация</h2>
+            </header>
+            <div class="panel-body js-editable-body">
+                <form class="form-horizontal mb-lg" novalidate="novalidate">
+                    <input type="hidden" name="id" value="{{id}}">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Заказчик контракта</label>
+                        <div class="non-editable-content" data-target="customer_name">{{contract.customer_name}}</div>
+                        <div class="col-sm-8 editable-content">
+                            <select style="width: 100%" name="customer_id" class="js-select2-init"
+                                data-ajax="/api/customers/get_select2">
+                                <option value="" selected disabled>Выберите заказчика</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Сумма контракта</label>
+                        <div class="non-editable-content" data-target="total_value">{{contract.total_value}} рублей
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <input value="" type="number" name="total_value" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Обеспечение по контракту</label>
+                        <div class="non-editable-content" data-target="cash_security">{{contract.cash_security}} рублей
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <input value="" type="number" name="cash_security" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Количество часов по контракту</label>
+                        <div class="non-editable-content" data-target="total_hours">
+                            {{contract.total_hours}} часов
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Количество часов осталось</label>
+                        <div class="non-editable-content" data-target="">
+                            1000 часов
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12 control-label" style="text-align:center;">
+                            <span style="font-weight: bold;">ВИДЫ ЧАСОВ</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Город</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="gorod_hours">
+                                {{contract.gorod_hours}} час.</div>
+                            <div class="col-sm-6 editable-content">
+                                <input type="number" class="form-control" placeholder="Введите количество часов"
+                                    required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    {{contract.gorod_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    {{contract.gorod_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input name="gorod_value" value=" {{contract.gorod_value}}" type="number"
+                                        class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Город (остатки)</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="gorod_ostatki_hours">
+                                {{contract.gorod_ostatki_hours}} час.
+                            </div>
+                            <div class="editable-content col-sm-6">
+                                <input name="gorod_ostatki_hours" value="{{contract.gorod_ostatki_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3">
+                                    {{contract.gorod_ostatki_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="gorod_ostatki_value">
+                                    {{contract.gorod_ostatki_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input value="{{contract.gorod_ostatki_value}}" name="gorod_ostatki_value"
+                                        type="number" class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Командировки</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="komandirovki_hours">
+                                {{contract.komandirovki_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="komandirovki_hours" value="{{contract.komandirovki_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3">{{contract.komandirovki_hours}}</div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="komandirovki_value">
+                                    {{contract.komandirovki_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input value="{{contract.komandirovki_value}}" name="komandirovki_value"
+                                        type="number" class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Грузовые</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="gruzovie_hours">
+                                {{contract.gruzovie_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="gruzovie_hours" value="{{contract.gruzovie_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3">
+                                    {{contract.gruzovie_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="gruzovie_value">
+                                    {{contract.gruzovie_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input value="{{contract.gruzovie_value}}" name="gruzovie_value" type="number"
+                                        class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Питание</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="pitanie_hours">
+                                {{contract.pitanie_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="pitanie_hours" value="{{contract.pitanie_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    {{contract.pitanie_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="pitanie_value">
+                                    {{contract.pitanie_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input name="pitanie_value" value="{{contract.pitanie_value}}" type="number"
+                                        class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Автобус</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="avtobus_hours">
+                                {{contract.avtobus_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="avtobus_hours" value="{{contract.avtobus_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    {{contract.avtobus_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="avtobus_value">
+                                    {{contract.avtobus_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input name="avtobus_value" value="{{contract.avtobus_value}}" type="number"
+                                        class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Внедорожник</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="vnedorozhnik_hours">
+                                {{contract.vnedorozhnik_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="vnedorozhnik_hours" value="{{contract.vnedorozhnik_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3">
+                                    {{contract.vnedorozhnik_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="vnedorozhnik_value">
+                                    {{contract.vnedorozhnik_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input name="vnedorozhnik_value" value="{{contract.vnedorozhnik_value}}"
+                                        type="number" class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label"><b>Скорая помощь</b></label>
+                            <div class="non-editable-content col-sm-6" data-target="pomosh_hours">
+                                {{contract.pomosh_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="pomosh_hours" value="{{contract.pomosh_hours}}" type="number"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3" data-target="">
+                                    {{contract.pomosh_hours}}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="pomosh_value">
+                                    {{contract.pomosh_value}} руб.
+                                </div>
+                                <div class="col-sm-3 editable-content">
+                                    <input name="pomosh_value" value="{{contract.pomosh_value}}" type="number"
+                                        class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label non-editable-content">{{contract.other_name}}</label>
+                            <label class="col-sm-5 editable-content">
+                                <input name="other_name" value="{{contract.other_name}}" type="text"
+                                    class="form-control" placeholder="Введите тип"
+                                    style="max-width: 150px!important;margin-left: auto;">
+                            </label>
+                            <div class="non-editable-content col-sm-6" data-target="other_hours">
+                                {{contract.other_hours}} час.
+                            </div>
+                            <div class="col-sm-6 editable-content">
+                                <input name="other_hours" type="number" value="{{contract.other_hours}}"
+                                    class="form-control" placeholder="Введите количество часов" required>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Осталось часов</label>
+                                <div class="non-editable-content col-sm-3">{{contract.other_hours}}</div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-5 control-label">Цена</label>
+                                <div class="non-editable-content col-sm-3" data-target="other_value">
+                                    {{contract.other_value}} руб.</div>
+                                <div class="col-sm-3 editable-content">
+                                    <input name="other_value" value="{{contract.other_value}}" type="number"
+                                        class="form-control" placeholder="Введите цену" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span><b>ВОДИТЕЛИ И ОБЪЕКТЫ ДЛЯ КОНТРАКТА</b></span>
+                    </div>
+                    {{#each drivers2contracts}}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><b>Водитель</b></label>
+                            <div class="non-editable-content col-sm-9" data-target="">
+                                {{driver_name}}
+                            </div>
+                            <div class="col-sm-9 editable-content">
+                                <select class="form-control" name="driver_id">
+                                    <option value="" disabled>Выберете водителя</option>
+                                    {{#each ../drivers}}
+                                        <option {{compare ../driver_id id 'selected' ''}} value="{{id}}">{{name}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-3 control-label">Тип</label>
+                                <div class="non-editable-content col-sm-8" data-target="type">{{type_name}}</div>
+                                <div class="col-sm-8 editable-content">
+                                    <select class="form-control" name="type">
+                                        <option value="" selected disabled>Выберете тип объекта</option>
+                                        <option {{compare type 'gorod' 'selected' ''}} value="gorod">Город</option>
+                                        <option {{compare type 'gorod_ostatki' 'selected' ''}} value="gorod_ostatki">
+                                            Город (остатки)</option>
+                                        <option {{compare type 'komandirovki' 'selected' ''}} value="komandirovki">
+                                            Командировки</option>
+                                        <option {{compare type 'gruzovie' 'selected' ''}} value="gruzovie">Грузовые
+                                        </option>
+                                        <option {{compare type 'pitanie' 'selected' ''}} value="pitanie">Питание
+                                        </option>
+                                        <option {{compare type 'avtobus' 'selected' ''}} value="avtobus">Автобус
+                                        </option>
+                                        <option {{compare type 'vnedorozhnik' 'selected' ''}} value="vnedorozhnik">
+                                            Внедорожник</option>
+                                        <option {{compare type 'pomosh' 'selected' ''}} value="pomosh">Скорая помощь
+                                        </option>
+                                        <option {{compare type 'other' 'selected' ''}} value="other">Свой тип</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-3 control-label">Объект</label>
+                                <div class="non-editable-content col-sm-9" data-target="object">{{object}}</div>
+                                <div class="col-sm-8 editable-content">
+                                    <input name="object" value="{{object}}" type="text" class="form-control"
+                                        placeholder="Введите Объект" required>
+                                </div>
+                                <div>
+                                    <label class="col-sm-3 control-label">Ставка</label>
+                                    <div class="non-editable-content col-sm-3" data-target="value">
+                                        {{value}}р.
+                                    </div>
+                                    <div class="col-sm-3 editable-content">
+                                        <input name="value" value="{{value}}" type="number" class="form-control"
+                                            placeholder="Введите цену" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span><b>ПРОЧАЯ ИНФОРМАЦИЯ</b></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Менеджер</label>
+                        <div>{{contract.manager_name}}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Комментарий</label>
+                        <div class="non-editable-content" data-target="comment">
+                            {{contract.comment}}
+                        </div>
+                        <div class="col-sm-8 editable-content">
+                            <textarea value="{{contract.comment}}" name="comment" cols="20" rows="4"
+                                class="form-control" placeholder="Введите комментарий"
+                                required>{{contract.comment}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-right editable-content">
+                        <div class="footer-btn-block-resrvation">
+                            <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="footer-btn-block-resrvation">
+                {{#unless contract.completed}}
+                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+                    <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
+                    <button data-target="muz_contracts" data-id="{{id}}"
+                        class="btn btn-danger js-tableEssence-remove">Удалить
+                        контракт</button>
+                {{/unless}}
+            </div>
+        </section>
+
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Cписок активных смен на данный момент</h2>
+            </header>
+            <div class="panel-body">
+                <button href="#add-products" type="button"
+                    class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+                    <i class="fa fa-plus"></i> Открыть смену
+                </button>
+                <div class="zag">
+                    <h1>заглушка</h1>
+                </div>
+                <div class="table-responsive">
+                    <table class="display table table-bordered table-striped table-condensed mb-none customize"
+                        style="width:100%; display: none">
+                        <thead>
+                            <tr>
+                                <th>Дата начала</th>
+                                <th>Номер</th>
+                                <th>Менеджер</th>
+                                <th>Подробнее</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each shifts}}
+                                <tr>
+                                    <td>{{toIsoString date_start 'DD.MM.YYYY'}}</td>
+                                    <td>{{id}}</td>
+                                    <td>{{manager_name}}</td>
+                                    <td>
+                                        <a href="/contract-shift/{{id}}" target="_blank">Подробнее</a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Дата начала</th>
+                                <th>Номер</th>
+                                <th>Менеджер</th>
+                                <th>Подробнее</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <a class="btn btn-primary" href="#" target="_blank">Завершенные смены по контракту</a>
+        </section>
+    </div>
+</section>
+
+<!-- Модалки-->
+
+<div id="add-products" class="modal-block modal-block-primary mfp-hide" style="max-width: 700px;">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Открытие новой смены</h2>
+        </header>
+        <div class="panel-body">
+            <form class="form-horizontal mb-lg" onsubmit="contactsShiftAdd(this); return false;" novalidate="novalidate">
+                <input type="hidden" name="contract_id" value="{{contract.id}}">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Дата начала смены</label>
+                    <div class="col-sm-8">
+                        <input name="date_start" type="date" class="form-control" placeholder="Введите время" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>ВОДИТЕЛИ И ОБЪЕКТЫ СМЕНЫ</span>
+                    </div>
+                    {{#each drivers2contracts}}
+                        <div class="form-group js-contract-driver-block">
+                            <label class="col-sm-2 control-label"><b>Водитель</b></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="driver_id">
+                                    <option value="" disabled>Выберете водителя</option>
+                                    {{#each ../drivers}}
+                                        <option {{compare ../driver_id id 'selected' ''}} value="{{id}}">{{name}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-3 control-label">Тип</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="type">
+                                        <option value="" selected disabled>Выберете тип объекта</option>
+                                        <option {{compare type 'gorod' 'selected' ''}} value="gorod">Город</option>
+                                        <option {{compare type 'gorod_ostatki' 'selected' ''}} value="gorod_ostatki">
+                                            Город (остатки)</option>
+                                        <option {{compare type 'komandirovki' 'selected' ''}} value="komandirovki">
+                                            Командировки</option>
+                                        <option {{compare type 'gruzovie' 'selected' ''}} value="gruzovie">Грузовые
+                                        </option>
+                                        <option {{compare type 'pitanie' 'selected' ''}} value="pitanie">Питание
+                                        </option>
+                                        <option {{compare type 'avtobus' 'selected' ''}} value="avtobus">Автобус
+                                        </option>
+                                        <option {{compare type 'vnedorozhnik' 'selected' ''}} value="vnedorozhnik">
+                                            Внедорожник</option>
+                                        <option {{compare type 'pomosh' 'selected' ''}} value="pomosh">Скорая помощь
+                                        </option>
+                                        <option {{compare type 'other' 'selected' ''}} value="other">Свой тип</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label class="col-sm-3 control-label">Объект</label>
+                                <div class="col-sm-8">
+                                    <input name="object" value="{{object}}" type="text" class="form-control"
+                                        placeholder="Введите Объект" required>
+                                </div>
+                                <div>
+                                    <label class="col-sm-3 control-label">Ставка</label>
+                                    <div class="col-sm-3 editable-content">
+                                        <input name="value" value="{{value}}" type="number" class="form-control"
+                                            placeholder="Введите цену" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Комментарий</label>
+                    <div class="col-sm-8">
+                        <textarea name="comment" class="form-control" cols="30" rows="5"
+                            placeholder="Введите комментарий"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-success">Принять</button>
+                        <button class="btn btn-default modal-dismiss">Отмена</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

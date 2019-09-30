@@ -837,33 +837,6 @@ $(document).ready(() => {
         window.close();
     })
 
-    const getFormValues = (
-        form,
-        selectors = 'textarea:not(:hidden), select:not(:hidden), input:not(:hidden), input[type=hidden], input#checkboxdriver'
-    ) => {
-
-        const arrayData = $(form).find(selectors).serializeArray();
-
-        const values = {};
-
-        arrayData.reduce((acc, item) => {
-
-            const { name, value } = item;
-
-            if ((name == 'email' || name == 'contact_number') && !value) {
-                return acc;
-            }
-
-            acc[name] = acc[name]
-                ? [...acc[name].split(','), value].join(',')
-                : value;
-
-            return acc;
-        }, values);
-
-        return values;
-    };
-
     $('.js-toggleEditable').on('click', function (e) {
         e.preventDefault();
         $('.js-editable-body').toggleClass('editable-on');
@@ -978,6 +951,14 @@ function getFormValues(form, selectors = 'textarea:not(:hidden), select:not(:hid
     arrayData.reduce((acc, item) => {
 
         const { name, value } = item;
+
+        if ((name == 'email' || name == 'contact_number') && !value) {
+            return acc;
+        }
+
+        if (acc[name] && !value) {
+            return acc;
+        }
 
         acc[name] = acc[name]
             ? [...acc[name].split(','), value].join(',')
@@ -1134,4 +1115,62 @@ const SuppliersDeals = {
 
         return false;
     },
+};
+
+const contactsShiftAdd = async (form) => {
+
+    const $form = $(form);
+    const $dribersBlocks = $form.find('.js-contract-driver-block');
+    const date_start = $form.find('[name=date_start]').val();
+    const contract_id = $form.find('[name=contract_id]').val();
+    const comment = $form.find('[name=comment]').val();
+
+    if (!date_start) {
+        return alert('Не выбрана дата начала смены');
+    }
+
+    const drivers = [];
+
+    $dribersBlocks.each((index, driverBlock) => {
+        const $driverBlock = $(driverBlock);
+
+        const driver_id = $driverBlock.find('[name=driver_id]').val();
+        const type = $driverBlock.find('[name=type]').val();
+        const object = $driverBlock.find('[name=object]').val();
+        const value = $driverBlock.find('[name=value]').val();
+
+        drivers.push({ driver_id, type, object, value });
+    });
+
+    const { data } = await request('/api/contract-shifts/add', { drivers, contract_id, date_start, comment });
+
+    location.reload();
+
+    return false;
+};
+
+const contactsShiftUpdate = async (form) => {
+
+    const $form = $(form);
+    const $dribersBlocks = $form.find('.js-contract-driver-block');
+    const comment = $form.find('[name=comment]').val();
+
+    const drivers = [];
+
+    $dribersBlocks.each((index, driverBlock) => {
+        const $driverBlock = $(driverBlock);
+
+        const driver_id = $driverBlock.find('[name=driver_id]').val();
+        const type = $driverBlock.find('[name=type]').val();
+        const object = $driverBlock.find('[name=object]').val();
+        const value = $driverBlock.find('[name=value]').val();
+
+        drivers.push({ driver_id, type, object, value });
+    });
+
+    const { data } = await request('/api/contract-shifts/update', { drivers, comment });
+
+    // location.reload();
+
+    return false;
 };
