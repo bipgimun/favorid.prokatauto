@@ -1152,6 +1152,9 @@ const contactsShiftAdd = async (form) => {
 const contactsShiftUpdate = async (form) => {
 
     const $form = $(form);
+
+    let t = getFormValues(form);
+
     const $dribersBlocks = $form.find('.js-contract-driver-block');
     const comment = $form.find('[name=comment]').val();
 
@@ -1164,13 +1167,66 @@ const contactsShiftUpdate = async (form) => {
         const type = $driverBlock.find('[name=type]').val();
         const object = $driverBlock.find('[name=object]').val();
         const value = $driverBlock.find('[name=value]').val();
+        const hours = $driverBlock.find('[name=hours]').val();
+        const id = $driverBlock.find('[name=id]').val();
 
-        drivers.push({ driver_id, type, object, value });
+        drivers.push({ driver_id, type, object, value, hours, id });
     });
 
-    const { data } = await request('/api/contract-shifts/update', { drivers, comment });
+    const { data } = await request('/api/drivers2shifts/update', { drivers, comment });
 
-    // location.reload();
+    location.reload();
 
     return false;
 };
+
+const closeShift = async (id) => {
+    await request('/api/contract-shifts/close', { id });
+    location.reload();
+};
+
+const closeContract = async (id) => {
+    await request('/api/muz-contracts/close', { id });
+    location.reload();
+}
+
+const updateContract = async (form) => {
+
+    const $form = $(form);
+
+    const customer_id = $form.find('[name=customer_id]').val();
+    const total_value = $form.find('[name=total_value]').val();
+    const cash_security = $form.find('[name=cash_security]').val();
+    const total_hours = $form.find('[name=total_hours]').val();
+    const id = $form.find('[name=id]').val();
+    const comment = $form.find('[name=comment]').val();
+
+    const postData = {
+        comment,
+        customer_id, 
+        total_value, 
+        cash_security, 
+        total_hours, 
+        id,
+    };
+
+    $('.js-types-hours').each((index, element) => {
+        const $element = $(element);
+
+        const type = $element.data('type');
+        const hours = $element.find('[name=' + type + '_hours]').val();
+        const value = $element.find('[name=' + type + '_value]').val();
+
+        postData[type + '_hours'] = hours || null;
+        postData[type + '_value'] = value || null;
+
+        if (type === 'other') {
+            postData['other_name'] = $element.find('[name=other_name]').val();
+        }
+    });
+
+    // console.log(postData);
+    // console.log(postData);
+    await request('/api/muz-contracts/update', postData);
+    location.reload();
+}

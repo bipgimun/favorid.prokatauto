@@ -52,20 +52,21 @@
                 <h2 class="panel-title">Информация о смене</h2>
             </header>
             <div class="panel-body js-editable-body">
-                <form class="form-horizontal mb-lg" novalidate="novalidate" onsubmit="contactsShiftUpdate(this); return false;">
-                    <input type="hidden" name="id" value="{{shift.id}}">
-
+                <form class="form-horizontal mb-lg" novalidate="novalidate"
+                    onsubmit="contactsShiftUpdate(this); return false;">
                     {{#each drivers2shifts}}
-                        <div class="form-group">
+                        <div class="form-group js-contract-driver-block">
+                            <input type="hidden" name="id" value="{{id}}">
                             <div class="col-sm-12">
                                 <label class="col-sm-2 control-label">Водитель</label>
                                 <div class="non-editable-content" data-target="driver_name">
                                     {{driver_name}}
                                 </div>
                                 <div class="col-sm-6 editable-content">
-                                    <select style="width: 100%" name="driver_id" class="js-select2-init" data-ajax="/api/drivers/select2">
+                                    <select style="width: 100%" name="driver_id" class="js-select2-init"
+                                        data-ajax="/api/drivers/select2">
                                         <option value="" selected>Не выбрано</option>
-                                        <option value="{{id}}" selected>{{driver_name}}</option>
+                                        <option value="{{driver_id}}" selected>{{driver_name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -75,7 +76,7 @@
                                     {{../getType type}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                     <select class="form-control" name="type">
+                                    <select class="form-control" name="type">
                                         <option value="" selected disabled>Выберете тип объекта</option>
                                         <option {{compare type 'gorod' 'selected' ''}} value="gorod">Город</option>
                                         <option {{compare type 'gorod_ostatki' 'selected' ''}} value="gorod_ostatki">
@@ -102,7 +103,8 @@
                                     {{object}}
                                 </div>
                                 <div class="col-sm-8 editable-content">
-                                    <input type="text" name="object" value="{{object}}" class="form-control" placeholder="Введите Объект" required>
+                                    <input type="text" name="object" value="{{object}}" class="form-control"
+                                        placeholder="Введите Объект" required>
                                 </div>
                                 <div>
                                     <label class="col-sm-2 control-label">Ставка</label>
@@ -110,7 +112,8 @@
                                         {{value}}р.
                                     </div>
                                     <div class="col-sm-3 editable-content">
-                                        <input type="number" value="{{value}}" class="form-control" placeholder="Введите цену" required>
+                                        <input type="number" value="{{value}}" name="value" class="form-control"
+                                            placeholder="Введите цену" required>
                                     </div>
                                 </div>
                             </div>
@@ -125,11 +128,8 @@
                             </div>
                             <div class="col-sm-12" style="background: yellow;">
                                 <label class="col-sm-2 control-label">СУММА ЗА СМЕНУ</label>
-                                <div class="non-editable-content col-sm-2" data-target="total_value">
-                                    {{total_value}} руб.
-                                </div>
-                                <div class="col-sm-3 editable-content">
-                                    <input value="0" type="number" name="" class="form-control">
+                                <div class="col-sm-2" data-target="total_value">
+                                    {{multiplication hours value}} руб.
                                 </div>
                             </div>
 
@@ -141,7 +141,8 @@
                             </div>
                             <div class="form-group non-editable-content col-sm-12">
                                 <div class="control-label col-sm-3">
-                                    <a href="/contract-shift/print-list/{{id}}" class="btn btn-default">Печать путевого листа</a>
+                                    <a href="/contract-shift/print-list/{{id}}" class="btn btn-default">Печать путевого
+                                        листа</a>
                                 </div>
                             </div>
                         </div>
@@ -151,6 +152,13 @@
                         <label class="col-sm-2 control-label">Менеджер</label>
                         <div>{{shift.manager_name}}</div>
                     </div>
+
+                    {{#if shift.is_completed}}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Смена завершена</label>
+                            <div>{{toIsoString shift.complete_at 'DD.MM.YYYY в HH:mm'}}</div>
+                        </div>
+                    {{/if}}
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Комментарий</label>
@@ -165,19 +173,30 @@
 
                     <div class="col-md-12 text-right editable-content">
                         <div class="footer-btn-block-resrvation">
-                            <button class="btn btn-success footer-resrvation-save-btn">Сохранить</button>
+                            <button class="btn btn-success footer-resrvation-save-btn"
+                                id="js-save-update-shift">Сохранить</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="footer-btn-block-resrvation">
+
+                <button class="btn btn-primary js-toggleEditable">Редактировать</button>
+
                 {{#unless shift.is_completed}}
-                    <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                    <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
-                    <button data-target="shifts2contracts" data-id="{{id}}" class="btn btn-danger js-tableEssence-remove">Удалить
+                    <button class="btn btn-danger footer-resrvation-end-btn" data-id="{{shift.id}}"
+                        id="js-close-shift">Завершить</button>
+                    <button data-target="shifts2contracts" data-id="{{id}}"
+                        class="btn btn-danger js-tableEssence-remove">Удалить
                         смену</button>
                 {{/unless}}
             </div>
         </section>
     </div>
 </section>
+
+<script>
+    $('#js-close-shift').on('click', function () {
+        closeShift($(this).data('id'));
+    });
+</script>

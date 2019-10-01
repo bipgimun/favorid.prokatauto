@@ -52,15 +52,16 @@
                 <h2 class="panel-title">Основная информация</h2>
             </header>
             <div class="panel-body js-editable-body">
-                <form class="form-horizontal mb-lg" novalidate="novalidate">
-                    <input type="hidden" name="id" value="{{id}}">
+                <form class="form-horizontal mb-lg" novalidate="novalidate" onsubmit="updateContract(this); return false;">
+                    <input type="hidden" name="id" value="{{contract.id}}">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Заказчик контракта</label>
                         <div class="non-editable-content" data-target="customer_name">{{contract.customer_name}}</div>
                         <div class="col-sm-8 editable-content">
                             <select style="width: 100%" name="customer_id" class="js-select2-init"
-                                data-ajax="/api/customers/get_select2">
+                                data-ajax="/api/customers/select2">
                                 <option value="" selected disabled>Выберите заказчика</option>
+                                <option value="{{contract.customer_id}}" selected>{{contract.customer_name}}</option>
                             </select>
                         </div>
                     </div>
@@ -70,7 +71,8 @@
                         <div class="non-editable-content" data-target="total_value">{{contract.total_value}} рублей
                         </div>
                         <div class="col-sm-8 editable-content">
-                            <input value="" type="number" name="total_value" class="form-control">
+                            <input value="{{contract.total_value}}" type="number" name="total_value"
+                                class="form-control">
                         </div>
                     </div>
 
@@ -79,21 +81,25 @@
                         <div class="non-editable-content" data-target="cash_security">{{contract.cash_security}} рублей
                         </div>
                         <div class="col-sm-8 editable-content">
-                            <input value="" type="number" name="cash_security" class="form-control">
+                            <input value="{{contract.cash_security}}" type="number" name="cash_security"
+                                class="form-control">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Количество часов по контракту</label>
                         <div class="non-editable-content" data-target="total_hours">
-                            {{contract.total_hours}} часов
+                            {{contract.total_hours}} час.
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control editable-content" name="total_hours" value="{{contract.total_hours}}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Количество часов осталось</label>
-                        <div class="non-editable-content" data-target="">
-                            1000 часов
+                        <div class="" data-target="">
+                            {{minus contract.total_hours totalCompletedHours}} час.
                         </div>
                     </div>
 
@@ -102,18 +108,18 @@
                             <span style="font-weight: bold;">ВИДЫ ЧАСОВ</span>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="gorod">
                             <label class="col-sm-5 control-label"><b>Город</b></label>
                             <div class="non-editable-content col-sm-6" data-target="gorod_hours">
                                 {{contract.gorod_hours}} час.</div>
                             <div class="col-sm-6 editable-content">
-                                <input type="number" class="form-control" placeholder="Введите количество часов"
+                                <input type="number" name="gorod_hours" class="form-control" placeholder="Введите количество часов"
                                     required>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3" data-target="">
-                                    {{contract.gorod_hours}}
+                                    {{minus contract.gorod_hours completedHours.gorod}}
                                 </div>
                             </div>
                             <div>
@@ -122,14 +128,14 @@
                                     {{contract.gorod_value}} руб.
                                 </div>
                                 <div class="col-sm-3 editable-content">
-                                    <input name="gorod_value" value=" {{contract.gorod_value}}" type="number"
+                                    <input name="gorod_value" value="{{contract.gorod_value}}" type="number"
                                         class="form-control" placeholder="Введите цену" required>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="gorod_ostatki">
                             <label class="col-sm-5 control-label"><b>Город (остатки)</b></label>
                             <div class="non-editable-content col-sm-6" data-target="gorod_ostatki_hours">
                                 {{contract.gorod_ostatki_hours}} час.
@@ -141,7 +147,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3">
-                                    {{contract.gorod_ostatki_hours}}
+                                    {{minus contract.gorod_ostatki_hours completedHours.gorod_ostatki}}
                                 </div>
                             </div>
                             <div>
@@ -156,7 +162,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="komandirovki">
                             <label class="col-sm-5 control-label"><b>Командировки</b></label>
                             <div class="non-editable-content col-sm-6" data-target="komandirovki_hours">
                                 {{contract.komandirovki_hours}} час.
@@ -167,7 +173,9 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
-                                <div class="non-editable-content col-sm-3">{{contract.komandirovki_hours}}</div>
+                                <div class="non-editable-content col-sm-3">
+                                    {{minus contract.komandirovki_hours completedHours.komandirovki}}
+                                </div>
                             </div>
                             <div>
                                 <label class="col-sm-5 control-label">Цена</label>
@@ -180,7 +188,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="gruzovie">
                             <label class="col-sm-5 control-label"><b>Грузовые</b></label>
                             <div class="non-editable-content col-sm-6" data-target="gruzovie_hours">
                                 {{contract.gruzovie_hours}} час.
@@ -192,7 +200,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3">
-                                    {{contract.gruzovie_hours}}
+                                    {{minus contract.gruzovie_hours completedHours.gruzovie}}
                                 </div>
                             </div>
                             <div>
@@ -206,7 +214,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="pitanie">
                             <label class="col-sm-5 control-label"><b>Питание</b></label>
                             <div class="non-editable-content col-sm-6" data-target="pitanie_hours">
                                 {{contract.pitanie_hours}} час.
@@ -218,7 +226,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3" data-target="">
-                                    {{contract.pitanie_hours}}
+                                    {{minus contract.pitanie_hours completedHours.pitanie}}
                                 </div>
                             </div>
                             <div>
@@ -232,7 +240,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="avtobus">
                             <label class="col-sm-5 control-label"><b>Автобус</b></label>
                             <div class="non-editable-content col-sm-6" data-target="avtobus_hours">
                                 {{contract.avtobus_hours}} час.
@@ -244,7 +252,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3" data-target="">
-                                    {{contract.avtobus_hours}}
+                                    {{minus contract.avtobus_hours completedHours.avtobus}}
                                 </div>
                             </div>
                             <div>
@@ -258,7 +266,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="vnedorozhnik">
                             <label class="col-sm-5 control-label"><b>Внедорожник</b></label>
                             <div class="non-editable-content col-sm-6" data-target="vnedorozhnik_hours">
                                 {{contract.vnedorozhnik_hours}} час.
@@ -270,7 +278,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3">
-                                    {{contract.vnedorozhnik_hours}}
+                                    {{minus contract.vnedorozhnik_hours completedHours.vnedorozhnik}}
                                 </div>
                             </div>
                             <div>
@@ -284,7 +292,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="pomosh">
                             <label class="col-sm-5 control-label"><b>Скорая помощь</b></label>
                             <div class="non-editable-content col-sm-6" data-target="pomosh_hours">
                                 {{contract.pomosh_hours}} час.
@@ -296,7 +304,7 @@
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
                                 <div class="non-editable-content col-sm-3" data-target="">
-                                    {{contract.pomosh_hours}}
+                                    {{minus contract.pomosh_hours completedHours.pomosh}}
                                 </div>
                             </div>
                             <div>
@@ -310,7 +318,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group js-types-hours" data-type="other">
                             <label class="col-sm-5 control-label non-editable-content">{{contract.other_name}}</label>
                             <label class="col-sm-5 editable-content">
                                 <input name="other_name" value="{{contract.other_name}}" type="text"
@@ -326,7 +334,9 @@
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Осталось часов</label>
-                                <div class="non-editable-content col-sm-3">{{contract.other_hours}}</div>
+                                <div class="non-editable-content col-sm-3">
+                                    {{minus contract.other_hours completedHours.other}}
+                                </div>
                             </div>
                             <div class="col-sm-12">
                                 <label class="col-sm-5 control-label">Цена</label>
@@ -433,9 +443,13 @@
                 </form>
             </div>
             <div class="footer-btn-block-resrvation">
-                {{#unless contract.completed}}
+                
+                {{#if can_edit}}
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
-                    <button class="btn btn-danger footer-resrvation-end-btn">Завершить</button>
+                {{/if}}
+                
+                {{#unless contract.is_completed}}
+                    <button class="btn btn-danger footer-resrvation-end-btn" data-id="{{contract.id}}" id="js-contract-close">Завершить</button>
                     <button data-target="muz_contracts" data-id="{{id}}"
                         class="btn btn-danger js-tableEssence-remove">Удалить
                         контракт</button>
@@ -502,7 +516,8 @@
             <h2 class="panel-title">Открытие новой смены</h2>
         </header>
         <div class="panel-body">
-            <form class="form-horizontal mb-lg" onsubmit="contactsShiftAdd(this); return false;" novalidate="novalidate">
+            <form class="form-horizontal mb-lg" onsubmit="contactsShiftAdd(this); return false;"
+                novalidate="novalidate">
                 <input type="hidden" name="contract_id" value="{{contract.id}}">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата начала смены</label>
@@ -585,3 +600,9 @@
         </div>
     </section>
 </div>
+
+<script>
+    $('#js-contract-close').on('click', function() {
+        closeContract($(this).data('id'));
+    })
+</script>

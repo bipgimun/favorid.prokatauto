@@ -47,10 +47,58 @@ router.get('/:id', async (req, res, next) => {
         shift,
         drivers2shifts,
         types,
+        is_director: req.session.user.is_director,
+        is_senior_manager: req.session.user.is_senior_manager,
+        is_manager: req.session.user.is_manager,
+        can_edit: req.session.user.is_director == '1' || req.session.user.is_senior_manager == '1',
         getType: (type) => {
             return types[type];
         }
     });
+});
+
+const printPL = require('../../libs/print-putevoy-list');
+
+router.get('/print-list/:id', async (req, res, next) => {
+    
+    const [driver2shift] = await db.execQuery(`
+        SELECT * 
+        FROM drivers2shifts
+        WHERE id = ${req.params.id}
+    `);
+
+    if(!driver2shift) {
+        throw new Error('Запись поездки не найдена');
+    }
+
+    const [shift] = await db.execQuery(`SELECT * FROM shifts2contracts WHERE id = ${driver2shift.shift_id}`);
+
+    if(!shift) {
+        throw new Error('Смена не найдена');
+    }
+
+    const [contract] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ${shift.contract_id}`);
+    
+    if(!contract) {
+        throw new Error('Контракт не найден');
+    }
+
+    const [customer] = await db.execQuery(`SELECT * FROM customers WHERE id = ${contract.customer_id}`);
+
+    if(!customer) {
+        throw new Error('Заказчик не найден');
+    }
+
+    const [driver] = await db.execQuery(`SELECT * FROM drivers WHERE id = ${driver2shift.driver_id}`);
+
+    const filename = await printPL({
+        id: req.params.id,
+        driver,
+        customer,
+        shift
+    });
+    
+    res.download(filename, 'PL-' + req.params.id + '.xlsx');
 })
 
 module.exports = router;

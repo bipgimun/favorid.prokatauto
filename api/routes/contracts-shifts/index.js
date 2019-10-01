@@ -20,15 +20,25 @@ router.post('/add', async (req, res, next) => {
 });
 
 
-router.post('/complete', async(req, res, next) => {
+router.post('/close', async (req, res, next) => {
+    const { id: shift_id } = req.body;
 
+    if (!shift_id) {
+        throw new Error('Отсутствует номер смены');
+    }
+
+    await db.execQuery(`UPDATE shifts2contracts SET ? WHERE id = ${shift_id}`, [
+        { is_completed: 1, complete_at: new Date() }
+    ]);
+
+    res.json({ status: 'ok' })
 })
 
 router.post('/update', async (req, res, next) => {
 
-     const { drivers, ...values } = req.body;
+    const { drivers, ...values } = req.body;
 
-     console.log(req.body);
+    console.log(req.body);
 
     res.json({ status: 'ok', body: req.body });
 })

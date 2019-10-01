@@ -1,6 +1,9 @@
 const db = require('../../libs/db');
 
-exports.get = ({id = ''}) => {
+exports.get = ({
+    id = '',
+    is_completed = ''
+} = {}) => {
     return db.execQuery(`
         SELECT mc.*,
             c.name as customer_name,
@@ -10,6 +13,7 @@ exports.get = ({id = ''}) => {
             LEFT JOIN employees e ON mc.manager_id = e.id
         WHERE mc.id > 0
         ${id ? `AND mc.id = ${id}` : ''}
+        ${is_completed ? `AND is_completed = '${is_completed}'` : ``}
     `);
 };
 

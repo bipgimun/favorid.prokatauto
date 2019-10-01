@@ -1,4 +1,3 @@
-// Require library
 const excel = require('excel4node');
 const path = require('path');
 const Helpers = require('./Helpers');

@@ -43,6 +43,13 @@ app.engine('hbs', hbs({
         },
         stringify(data) {
             return JSON.stringify(data);
+        },
+        multiplication(v1, v2) {
+            return v1 * v2;
+        },
+
+        minus(v1, v2) {
+            return v1 - v2;
         }
     }
 }));
