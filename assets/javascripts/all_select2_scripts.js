@@ -23,16 +23,29 @@ function initSelect2(select) {
                 return query;
             },
             processResults: function (data) {
-                return {
-                    results: $.map(data.items, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id,
-                            selected: selected
-                                ? selected == item.id
-                                : false
-                        }
+                
+                const results = [];
+
+                $element.find('option[value=""]').each((index, item) => {
+                    results.push({
+                        text: $(item).text(),
+                        id: $(item).attr('value'),
+                        selected: $(item).prop('selected')
+                    });
+                });
+
+                $.each(data.items, function (index, item) {
+                    results.push({
+                        text: item.name,
+                        id: item.id,
+                        selected: selected
+                            ? selected == item.id
+                            : false
                     })
+                });
+
+                return {
+                    results: [...results]
                 }
             }
         };

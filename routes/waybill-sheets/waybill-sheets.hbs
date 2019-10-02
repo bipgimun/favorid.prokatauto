@@ -1,0 +1,67 @@
+<header class="page-header">
+    <h2>Ведомость путевых листов</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Ведомость путевых листов</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+<section class="panel panel-primary">
+    <header class="panel-heading">
+        <div class="panel-actions">
+            <a href="#" class="fa fa-caret-down"></a>
+        </div>
+        <h2 class="panel-title">Формирование ведомости путевых листов</h2>
+    </header>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed mb-none customize">
+                <thead>
+                    <tr>
+                        <th colspan="4">
+                            <div class="date-header">
+                                <span>Отчет с</span>
+                                <input id="js-waybill-time-min" type="date" class="form-control date-from">
+                                <span>по </span>
+                                <input id="js-waybill-time-max" type="date" class="form-control date-to">
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            <div class="date-header">
+                                <select id="js-waybill-driver-id" class="form-control js-select2-init"
+                                    data-ajax="/api/drivers/select2">
+                                    <option value="" selected>По всем водителям</option>
+                                </select>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            <button class="btn btn-primary" id="js-waybill-print">Сформировать и скачать</button>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        $('#js-waybill-print').on('click', async function () {
+
+            const timeMin = $('#js-waybill-time-min').val();
+            const timeMax = $('#js-waybill-time-max').val();
+            const driverId = $('#js-waybill-driver-id').val();
+
+            window.open('/api/waybill-sheets/print?' + $.param({ timeMin, timeMax, driverId }));
+        })
+    })
+</script>

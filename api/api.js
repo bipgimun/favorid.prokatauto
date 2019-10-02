@@ -66,6 +66,7 @@ app.use('/muz-contracts', checkAuth, checkPrivileges, require('./routes/muz-cont
 
 app.use('/contract-shifts', checkAuth, checkPrivileges, require('./routes/contracts-shifts'));
 app.use('/drivers2shifts', checkAuth, checkPrivileges, require('./routes/drivers2shifts'));
+app.use('/waybill-sheets', checkAuth, checkPrivileges, require('./routes/waybill-sheets'));
 
 app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Страница не найдена' }));
 

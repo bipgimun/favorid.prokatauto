@@ -32,5 +32,6 @@ router.use('/suppliers-positions', require('./suppliers-positions'));
 router.use('/contracts', require('./contracts'));
 
 router.use('/contract-shift', require('./contract-shift'));
+router.use('/waybill-sheets', require('./waybill-sheets'));
 
 module.exports = router;
