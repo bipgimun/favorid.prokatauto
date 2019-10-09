@@ -70,8 +70,7 @@
                             <label class="col-sm-4 control-label">Основание</label>
                             <div class="col-sm-8">
                                 {{#if document_id}}
-                                    <a
-                                        href="/{{compare code 'CRR' 'car-reservation' 'apartment-reservations'}}/{{document_id}}">{{base}}</a>
+                                    {{base}}
                                 {{else if driver_id}}
                                     <a href="/drivers/{{../driver.id}}" target="__blank">{{../driver.name}}</a>
                                 {{else if supplier_id}}

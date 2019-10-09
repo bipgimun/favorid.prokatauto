@@ -51,11 +51,14 @@ router.get('/', async (req, res, next) => {
     const detailingApartments = (await detailingApartmentsModel.get())
         .map(item => (item.code = 'DET-K-' + item.id, item));
 
+    const contracts = await db.execQuery(`SELECT *, CONCAT('MUZ-', id) as code FROM muz_contracts`);
+
     const groupDocuments = [
         { label: 'Детализация автомобилей', documents: detailingCars },
         { label: 'Детализация квартир', documents: detailingApartments },
         { label: 'Аренда автомобилей', documents: carReservations, },
-        { label: 'Аренда квартир', documents: apartmentReservations, }
+        { label: 'Аренда квартир', documents: apartmentReservations, },
+        { label: 'Контракты', documents: contracts, },
     ];
 
     res.render(__dirname + '/template.hbs', { invoices, groupDocuments });
@@ -105,6 +108,7 @@ router.get('/:id', async (req, res, next) => {
         invoice.isCRR = invoice.code == 'CRR';
         invoice.isDETK = invoice.code == 'DET-K';
         invoice.isDETA = invoice.code == 'DET-A';
+        invoice.isMUZ = invoice.code == 'MUZ';
     }
 
     res.render(__dirname + '/view.hbs', { id, invoices });

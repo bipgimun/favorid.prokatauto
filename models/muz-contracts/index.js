@@ -7,7 +7,8 @@ exports.get = ({
     return db.execQuery(`
         SELECT mc.*,
             c.name as customer_name,
-            CONCAT(e.last_name, ' ', e.first_name) as manager_name
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name,
+            mc.total_value as sum
         FROM muz_contracts mc
             LEFT JOIN customers c ON mc.customer_id = c.id
             LEFT JOIN employees e ON mc.manager_id = e.id

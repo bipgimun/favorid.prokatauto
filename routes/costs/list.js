@@ -26,19 +26,26 @@ module.exports = async (req, res, next) => {
     const drivers = await driversModel.get();
     const deals = await suppliersDealsModel.get({ paid: false });
 
+    const contracts = await db.execQuery(`SELECT * FROM muz_contracts`);
+
     costs.forEach(item => {
         item.base = item.base_id || item.base_other;
-    })
+    });
 
     cars.forEach(car => {
         car.subcode = `(${car.name} ${car.model} ${car.number})`;
-    })
+    });
+
+    contracts.forEach(contract => {
+        contract.code = `MUZ-${contract.id}`;
+    });
 
     const groupDocuments = [
         { label: 'Аренда автомобилей', documents: carReservations, },
         { label: 'Аренда квартир', documents: apartmentReservations, },
         { label: 'Автомобили', documents: cars, },
         { label: 'Сделки с поставщиками', documents: deals, },
+        { label: 'Контракты', documents: contracts, },
     ];
 
     res.render(__dirname + '/costs-list', {

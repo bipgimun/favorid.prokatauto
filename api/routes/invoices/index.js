@@ -8,6 +8,7 @@ const detailingCarsRegexp = /^(DET-A)-(\d+)$/i;
 const detailingApartmentsRegexp = /^(DET-K)-(\d+)$/i;
 const apartmentsReservsRegexp = /^(APR)-(\d+)$/i;
 const carsReservsRegexp = /^(CRR)-(\d+)$/i;
+const contractsRegexp = /^(MUZ)-(\d+)$/i;
 
 const printDetail = require('../../../libs/invoice-print');
 const db = require('../../../libs/db')
@@ -22,6 +23,7 @@ const {
     detailingCarsDetailsModel,
     apartmentsReservsModel,
     carsReservsModel,
+    muzContractsModel,
     customersModel,
 } = require('../../../models');
 
@@ -59,6 +61,10 @@ router.post('/get/code/:code', async (req, res, next) => {
         [, detailCode, base_id] = carsReservsRegexp.exec(code);
         objectModel = carsReservsModel;
     }
+    else if (contractsRegexp.test(code)) {
+        [, detailCode, base_id] = contractsRegexp.exec(code);
+        objectModel = muzContractsModel;
+    }
     else {
         throw new Error('Неверный код основания');
     }
@@ -92,6 +98,10 @@ router.post('/add', async (req, res, next) => {
         [, detailCode, base_id] = carsReservsRegexp.exec(code);
         objectModel = carsReservsModel;
     }
+    else if (contractsRegexp.test(code)) {
+        [, detailCode, base_id] = contractsRegexp.exec(code);
+        objectModel = muzContractsModel;
+    }
     else {
         throw new Error('Неверный код основания');
     }
@@ -101,13 +111,13 @@ router.post('/add', async (req, res, next) => {
     if (!result.id)
         throw new Error('Основание не найдено');
 
-    const { customer_id, sum: detailSum } = result;
+    const { customer_id } = result;
 
     const invoiceId = await invoicesModel.add({
+        sum,
         base_id,
         code: detailCode,
         customer_id,
-        sum: detailSum,
         manager_id: req.session.user.employee_id,
     });
 
@@ -149,7 +159,16 @@ router.post('/add', async (req, res, next) => {
         item.desc = `${resTitle} ${item.has_driver == '1' ? `с водителем` : `без водителя`} №${item.id} от ${moment(item.rent_start).format('DD.MM.YYYY')}`;
 
         results.push(item);
-    } else if (detailCode === 'APR') {
+    }
+    else if (detailCode === 'MUZ') {
+        const [item = {}] = await muzContractsModel.get({ id: base_id });
+
+        resTitle = 'Контракт';
+        item.desc = `${resTitle} № ${item.id} от ${moment(item.date_start).format('DD.MM.YYYY')}`;
+
+        results.push({ ...item, sum: +item.total_value });
+    }
+    else if (detailCode === 'APR') {
         const [item = {}] = await apartmentsReservsModel.get({ id: base_id });
 
         resTitle = 'Заявка на квартиру';
@@ -187,9 +206,7 @@ router.get('/print-invoice/:file', async (req, res, next) => {
 
     const { file } = req.params;
 
-    res.download(path.join(process.cwd(), 'uploads', file), file, (error) => {
-        fs.unlinkSync(path.join(process.cwd(), 'uploads', file));
-    });
+    res.download(path.join(process.cwd(), 'uploads', file), file);
 })
 
 router.post('/delete', async (req, res, next) => {

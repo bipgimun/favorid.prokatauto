@@ -153,7 +153,11 @@ app.get('/downloadPrint/:costsId', async (req, res, next) => {
     } else if (costs.code == 'SD') {
         const [o] = await suppliersDealsModel.get({ id: costs.document_id });
         base = `Сделка с поставщиком ${o.supplier_name} от ${moment(o.created_at).format('DD.MM.YYYY')}`;
-    } else {
+    } else if (costs.code == 'MUZ') {
+        const [o] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ?`, [costs.document_id]);
+        base = `Контракт № ${o.id} от ${moment(o.date_start).format('DD.MM.YYYY')}`;
+    }
+    else {
         throw new Error('Неизвестный код основания');
     }
 
