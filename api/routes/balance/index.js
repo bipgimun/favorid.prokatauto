@@ -58,7 +58,7 @@ router.post('/getTable', async (req, res, next) => {
 
 
 async function calcTable({ period_left = '', period_right = '', driver_id = '' }) {
-    
+
     const sqlFormat = 'YYYY-MM-DD HH:mm';
 
     const dateLt = moment(period_right).set({ hours: 23, minutes: 59 }).format(sqlFormat);
@@ -75,12 +75,20 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
         ? `date BETWEEN '${dateGt}' AND '${dateLt}'`
         : `date <= '${dateLt}'`;
 
-    // let incomesQuery = `SELECT * FROM incomes WHERE ${date} AND driver_id = ${customer_id}`;
-    // const incomes = await db.execQuery(incomesQuery);
-
     const costs = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND driver_id = ${driver_id}`);
 
     const carReservs = await carsReservsModel.get(carOptions);
+
+    const shifts = await db.execQuery(`
+        SELECT d2s.*,
+            s2c.contract_id,
+            s2c.date_start as shift_start
+        FROM drivers2shifts d2s
+            LEFT JOIN shifts2contracts s2c ON d2s.shift_id = s2c.id
+        WHERE d2s.driver_id = ${driver_id}
+            AND s2c.is_completed = 1
+            AND ${period_left ? `s2c.date_start BETWEEN '${dateGt}' AND '${dateLt}'` : `s2c.date_start <= '${dateLt}'`}
+    `);
 
     const positions = [];
     const money = [];
@@ -97,6 +105,26 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
         const date = moment(rent_start).format('DD.MM.YYYY');
 
         const title = `Заявка на аренду авто ${has_driver == '1' ? 'с водителем' : ''} №${id} от ${date}`;
+
+        positionsIncome += +sum;
+
+        positions.push({
+            id,
+            code: 'CRR',
+            title,
+            income: sum,
+            gone: '--',
+        });
+    })
+
+    shifts.forEach(shift => {
+
+        const { id, value, hours, contract_id, shift_start } = shift;
+
+        const date = moment(shift_start).format('DD.MM.YYYY');
+        const title = `Поездка по контракту №${contract_id} от ${date}`;
+
+        const sum = value * hours;
 
         positionsIncome += +sum;
 
