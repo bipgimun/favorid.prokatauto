@@ -21,9 +21,12 @@
         {{/if}}
     </header>
     <div class="panel-body">
-        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-            <i class="fa fa-plus"></i> Создать контракт
-        </button>
+        {{#if is_archive}}
+        {{else}}
+            <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+                <i class="fa fa-plus"></i> Создать контракт
+            </button>
+        {{/if}}
         <div class="zag">
             <h1>заглушка</h1>
         </div>
