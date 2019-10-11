@@ -339,3 +339,4 @@ ALTER TABLE `customers` CHANGE `email` `email` TEXT CHARACTER SET utf8 COLLATE u
 -- добавлено: 05.09.2019
 -- номер телефона клиентов может быть пустой
 ALTER TABLE `passengers` CHANGE `contact_number` `contact_number` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+-- Добавлено в бд 10.10.19. КРУЦЕНКО
