@@ -5,3 +5,4 @@ yarn.lock
 db.errors.log
 jsconfig.json
 .vscode/
+uploads/
