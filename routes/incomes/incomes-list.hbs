@@ -31,6 +31,7 @@
                     <tr>
                         <th>Дата</th>
                         <th>Номер</th>
+                        <th>От кого</th>
                         <th>Основание</th>
                         <th>Сумма</th>
                         <th>Подробнее</th>
@@ -41,6 +42,7 @@
                         <tr>
                             <td>{{toIsoString this.date 'DD.MM.YYYY'}}</td>
                             <td>{{this.id}}</td>
+                            <td>{{this.customer_name}}</td>
                             <td>{{this.base}}</td>
                             <td>
                                 {{this.sum}}
@@ -55,6 +57,7 @@
                     <tr>
                         <th>Дата</th>
                         <th>Номер</th>
+                        <th>От кого</th>
                         <th>Основание</th>
                         <th>Сумма</th>
                         <th>Подробнее</th>

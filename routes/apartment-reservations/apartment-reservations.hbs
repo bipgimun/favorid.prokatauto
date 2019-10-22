@@ -36,6 +36,7 @@
                         <th>Дата заказа</th>
                         <th>Адрес</th>
                         <th>Клиент</th>
+                        <th>Заказчик</th>
                         <th>Статус</th>
                         <th>Подробнее</th>
                     </tr>
@@ -48,6 +49,7 @@
                             <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
                             <td>{{this.address}}</td>
                             <td>{{this.client_name}}</td>
+                            <td>{{this.customer_name}}</td>
                             <td>{{this.statusName}}</td>
                             <td>
                                 <a href="/apartment-reservations/{{this.id}}" target="_blank">Подробнее</a>
@@ -62,6 +64,7 @@
                         <th>Дата заказа</th>
                         <th>Адрес</th>
                         <th>Клиент</th>
+                        <th>Заказчик</th>
                         <th>Статус</th>
                         <th>Подробнее</th>
                     </tr>

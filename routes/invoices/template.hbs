@@ -32,6 +32,8 @@
                     <tr>
                         <th>Дата создания</th>
                         <th>Номер</th>
+                        <th>Сумма</th>
+                        <th>Остаток</th>
                         <th>Заказчик</th>
                         <th>Авто/квартиры</th>
                         <th>Статус</th>
@@ -43,11 +45,13 @@
                         <tr style="{{ifTrue isClosed 'background-color: #92f392' ''}}">
                             <td style="background-color: inherit">{{toIsoString created 'DD.MM.YYYY'}}</td>
                             <td>{{id}}</td>
+                            <td>{{sum}}</td>
+                            <td>{{saldo}}</td>
                             <td>{{customer_name}}</td>
                             <td>{{desc}}</td>
                             <td>{{status}}</td>
                             <td>
-                                <a href="/invoices/{{id}}">Подробнее</a>
+                                <a href="/invoices/{{id}}" target="_blank">Подробнее</a>
                             </td>
                         </tr>
                     {{/each}}
@@ -56,6 +60,8 @@
                     <tr>
                         <th>Дата создания</th>
                         <th>Номер</th>
+                        <th>Сумма</th>
+                        <th>Остаток</th>
                         <th>Заказчик</th>
                         <th>Авто/квартиры</th>
                         <th>Статус</th>
