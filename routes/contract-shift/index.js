@@ -1,9 +1,30 @@
 const router = require('express').Router();
 const db = require('../../libs/db');
 
+router.get('/:id/archive', async (req, res, next) => {
+
+    if (!Number.isInteger(+req.params.id)) {
+        throw new Error('Неверный номер контракта');
+    }
+
+    const shifts = await db.execQuery(`
+        SELECT s2c.*,
+            CONCAT(e.last_name, ' ', e.first_name) as manager_name
+        FROM shifts2contracts s2c
+            LEFT JOIN employees e ON s2c.manager_id = e.id
+        WHERE contract_id = ${req.params.id}
+            AND s2c.is_completed = 1
+    `);
+
+    res.render(__dirname + '/shifts.hbs', {
+        shifts,
+        contract_id: req.params.id
+    });
+});
+
 router.get('/:id', async (req, res, next) => {
 
-    if(!Number.isInteger(+req.params.id)) {
+    if (!Number.isInteger(+req.params.id)) {
         throw new Error('Неверный номер смены');
     }
 
@@ -19,7 +40,7 @@ router.get('/:id', async (req, res, next) => {
         throw new Error('Смена не найдена');
     }
 
-      const types = {
+    const types = {
         'gorod': 'Город',
         'gorod_ostatki': 'Город (остатки)',
         'komandirovki': 'Командировки',
@@ -60,32 +81,32 @@ router.get('/:id', async (req, res, next) => {
 const printPL = require('../../libs/print-putevoy-list');
 
 router.get('/print-list/:id', async (req, res, next) => {
-    
+
     const [driver2shift] = await db.execQuery(`
         SELECT * 
         FROM drivers2shifts
         WHERE id = ${req.params.id}
     `);
 
-    if(!driver2shift) {
+    if (!driver2shift) {
         throw new Error('Запись поездки не найдена');
     }
 
     const [shift] = await db.execQuery(`SELECT * FROM shifts2contracts WHERE id = ${driver2shift.shift_id}`);
 
-    if(!shift) {
+    if (!shift) {
         throw new Error('Смена не найдена');
     }
 
     const [contract] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ${shift.contract_id}`);
-    
-    if(!contract) {
+
+    if (!contract) {
         throw new Error('Контракт не найден');
     }
 
     const [customer] = await db.execQuery(`SELECT * FROM customers WHERE id = ${contract.customer_id}`);
 
-    if(!customer) {
+    if (!customer) {
         throw new Error('Заказчик не найден');
     }
 
@@ -97,7 +118,7 @@ router.get('/print-list/:id', async (req, res, next) => {
         customer,
         shift
     });
-    
+
     res.download(filename, 'PL-' + req.params.id + '.xlsx');
 })
 

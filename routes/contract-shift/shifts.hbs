@@ -1,0 +1,42 @@
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Cписок завершенных смен</h2>
+    </header>
+    <div class="panel-body">
+        <div class="zag"></div>
+        <div class="table-responsive">
+            <table class="display table table-bordered table-striped table-condensed mb-none customize"
+                style="width:100%; display: none">
+                <thead>
+                    <tr>
+                        <th>Дата начала</th>
+                        <th>Номер</th>
+                        <th>Менеджер</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each shifts}}
+                    <tr>
+                        <td>{{toIsoString date_start 'DD.MM.YYYY'}}</td>
+                        <td>{{id}}</td>
+                        <td>{{manager_name}}</td>
+                        <td>
+                            <a href="/contract-shift/{{id}}" target="_blank">Подробнее</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Дата начала</th>
+                        <th>Номер</th>
+                        <th>Менеджер</th>
+                        <th>Подробнее</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <a class="btn btn-primary" href="/contracts/{{contract_id}}">Вернуться к контракту</a>
+</section>
