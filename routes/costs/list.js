@@ -9,9 +9,13 @@ module.exports = async (req, res, next) => {
 
     const costs = await db.execQuery(`
         SELECT c.*,
-            cc.title as category
+            cc.title as category,
+            s.name as supplier_name,
+            d.name as driver_name
         FROM costs c
             LEFT JOIN costs_categories cc ON cc.id = c.category_id
+            LEFT JOIN suppliers s ON s.id = c.supplier_id
+            LEFT JOIN drivers d ON d.id = c.driver_id
     `);
 
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);

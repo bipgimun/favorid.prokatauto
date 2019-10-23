@@ -13,9 +13,6 @@ module.exports = ({
         if (!period)
             throw new Error('Отсутствует период для детализации');
 
-        if (!customer.id)
-            throw new Error('Отсутствует заказчик');
-
         // Create a new instance of a Workbook class
         var wb = new excel.Workbook({
             defaultFont: {

@@ -4,7 +4,12 @@ const { invoicesModel, customersModel } = require('../../models');
 
 module.exports = async (req, res, next) => {
 
-    const incomes = await db.execQuery(`SELECT * FROM incomes`);
+    const incomes = await db.execQuery(`
+        SELECT i.*,
+            c.name as customer_name
+        FROM incomes i
+            LEFT JOIN customers c ON c.id = i.customer_id
+    `);
 
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);

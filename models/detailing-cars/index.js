@@ -8,9 +8,6 @@ exports.add = ({
     manager_id = ''
 } = {}) => {
 
-    if (!customer_id)
-        throw new Error('Отсутствует customer_id');
-
     if (!period_from)
         throw new Error('Отсутствует period_from');
 
@@ -23,7 +20,7 @@ exports.add = ({
     if (!manager_id)
         throw new Error('Отсутствует manager_id');
 
-    return db.insertQuery(`INSERT INTO detailing_cars SET ?`, { customer_id, period_from, period_end, sum, manager_id });
+    return db.insertQuery(`INSERT INTO detailing_cars SET ?`, { customer_id: customer_id || null, period_from, period_end, sum, manager_id });
 }
 
 exports.get = ({ id = '' } = {}) => {

@@ -92,7 +92,7 @@ $(document).ready(() => {
         const endPeriod = $endPeriod.val();
         const withDriver = $withDriver.is(':checked') ? '1' : '0';
         const withoutDriver = $withoutDriver.is(':checked') ? '1' : '0';
-        const customer = $customer.val();
+        const customer = $customer.val() || null;
 
         const driver = $('#js-detailing-cars-driver').val();
         const passenger = $('#js-detailing-cars-passenger').val();
@@ -103,20 +103,6 @@ $(document).ready(() => {
             return new PNotify({
                 title: 'Ошибка',
                 text: 'Не выбран период',
-                icon: 'fa fa-user',
-                shadow: true,
-                delay: 1000,
-                buttons: {
-                    closer: false,
-                    sticker: false
-                }
-            });
-        }
-
-        if (!customer) {
-            return new PNotify({
-                title: 'Ошибка',
-                text: 'Не выбран заказчик',
                 icon: 'fa fa-user',
                 shadow: true,
                 delay: 1000,

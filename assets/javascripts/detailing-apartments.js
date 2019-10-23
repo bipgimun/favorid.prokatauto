@@ -17,7 +17,7 @@ $(document).ready(() => {
             .map(item => item.id)
             .join(',');
 
-        const customer = $customer.val();
+        const customer = $customer.val() || null;
 
         const period_from = $fromPeriod.val();
         const period_end = $endPeriod.val();
@@ -88,7 +88,7 @@ $(document).ready(() => {
     $accept.on('click', async function (e) {
         const fromPeriod = $fromPeriod.val();
         const endPeriod = $endPeriod.val();
-        const customer = $customer.val();
+        const customer = $customer.val() || null;
 
         const passenger_id = $('#js-detailing-apartments-passenger').val();
         const apartment_id = $('#js-detailing-apartments-apartment').val();
@@ -98,20 +98,6 @@ $(document).ready(() => {
             return new PNotify({
                 title: 'Ошибка',
                 text: 'Не выбран период',
-                icon: 'fa fa-user',
-                shadow: true,
-                delay: 1000,
-                buttons: {
-                    closer: false,
-                    sticker: false
-                }
-            });
-        }
-
-        if (!customer) {
-            return new PNotify({
-                title: 'Ошибка',
-                text: 'Не выбран заказчик',
                 icon: 'fa fa-user',
                 shadow: true,
                 delay: 1000,

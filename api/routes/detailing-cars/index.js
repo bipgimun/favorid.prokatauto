@@ -44,8 +44,8 @@ router.get('/downloadDetail', async (req, res, next) => {
     const { fromPeriod, endPeriod, customer_id, ids, id } = req.query;
 
     const [detInfo = {}] = id
-        ? []
-        : (await detailingCarsModel.get({ id: id }));
+        ? (await detailingCarsModel.get({ id: id }))
+        : [];
 
     const period = detInfo.id
         ? moment(detInfo.period_from).format('DD.MM.YYYY') + ' - ' + moment(detInfo.period_end).format('DD.MM.YYYY')
@@ -76,8 +76,10 @@ router.get('/downloadDetail', async (req, res, next) => {
             ];
         })
 
-    const [customer = {}] = await customersModel.get({ id: detInfo.customer_id || customer_id });
-
+    const [customer = {}] = detInfo.customer_id || customer_id
+         ? (await customersModel.get({ id: detInfo.customer_id || customer_id }))
+         : [];
+         
     try {
         const file = await getCarDetailing({ period, customer, dataArray: reservs, number: id });
 

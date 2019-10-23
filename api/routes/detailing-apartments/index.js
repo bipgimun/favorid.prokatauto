@@ -25,7 +25,7 @@ router.post('/save', async (req, res, next) => {
         .reduce((acc, sum) => +acc + +sum, 0);
 
     const id = await detailingApartmentsModel.add({
-        customer_id: customer,
+        customer_id: customer || null,
         period_from,
         period_end,
         sum,
@@ -47,8 +47,8 @@ router.get('/downloadDetail', async (req, res, next) => {
     const { fromPeriod, endPeriod, customer_id, ids, id } = req.query;
 
     const [detInfo = {}] = id
-        ? []
-        : (await detailingApartmentsModel.get({ id: id }));
+        ? (await detailingApartmentsModel.get({ id: id }))
+        : [];
 
     const period = detInfo.id
         ? moment(detInfo.period_from).format('DD.MM.YYYY') + ' - ' + moment(detInfo.period_end).format('DD.MM.YYYY')
@@ -69,7 +69,9 @@ router.get('/downloadDetail', async (req, res, next) => {
                 item.sum,
             ];
         })
-    const [customer = {}] = await customersModel.get({ id: detInfo.customer_id || customer_id });
+    const [customer = {}] = detInfo.customer_id || customer_id
+        ? (await customersModel.get({ id: detInfo.customer_id || customer_id }))
+        : [];
 
     try {
         const file = await getApartmentDetailing({ period, customer, dataArray: reservs, number: id });
