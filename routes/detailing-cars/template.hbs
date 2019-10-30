@@ -59,6 +59,7 @@
                 <thead>
                     <tr>
                         <th>Дата формирования</th>
+                        <th>Период</th>
                         <th>Номер</th>
                         <th>Заказчик</th>
                         <th>Сумма</th>
@@ -69,6 +70,7 @@
                     {{#each detailing}}
                         <tr>
                             <td>{{toIsoString created 'DD.MM.YYYY'}}</td>
+                            <td>{{toIsoString period_from 'DD.MM.YYYY'}} - {{toIsoString period_end 'DD.MM.YYYY'}}</td>
                             <td>{{id}}</td>
                             <td>{{customer_name}}</td>
                             <td>{{sum}}</td>
@@ -81,6 +83,7 @@
                 <tfoot>
                     <tr>
                         <th>Дата формирования</th>
+                        <th>Период</th>
                         <th>Номер</th>
                         <th>Заказчик</th>
                         <th>Сумма</th>

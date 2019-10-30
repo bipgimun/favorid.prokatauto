@@ -31,6 +31,7 @@
                 style="width:100%; display: none">
                 <thead>
                     <tr>
+                        <th>Номер</th>
                         <th>Водитель</th>
                         <th>Начало аренды</th>
                         <th>Маршрут</th>
@@ -43,6 +44,7 @@
                 <tbody>
                     {{#each reservs}}
                         <tr style="{{compare orange 1 'background-color: orange' ''}}">
+                            <td>{{this.id}}</td>
                             <td>{{compare has_driver '1' 'С водителем' 'Без водителя'}}</td>
                             <td>{{toIsoString this.rent_start 'DD.MM.YYYY HH:mm'}}</td>
                             <td>{{this.itinerarie_name}}</td>
@@ -57,6 +59,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>Номер</th>
                         <th>Водитель</th>
                         <th>Начало аренды</th>
                         <th>Маршрут</th>

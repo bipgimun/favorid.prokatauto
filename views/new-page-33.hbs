@@ -1,0 +1,156 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+
+    .projectsRadio_wrapper {
+        margin: 10px 0 15px 0;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Рентабельность проектов</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <a href="/new-page-30">
+                    <span>Разделы аналитики</span>
+                </a>
+            </li>
+            <li><span>Рент.проектов</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Формирование рентабельности проектов</h2>
+    </header>
+    <div class="panel-body">
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-12">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input type="date" class="form-control">
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+            <div class="controls_details-child date-range_details col-md-12">
+                <p class="header-details">Выберите проект</p>
+                <div class="projectsRadio_wrapper col-sm-8">
+                    <div class="radio-custom radio-primary">
+                        <input type="radio" id="radioProkat" name="radioExample">
+                        <label for="radioProkat">Прокат</label>
+                    </div>
+                    <div class="radio-custom radio-primary">
+                        <input type="radio" id="radioHotel" name="radioExample">
+                        <label for="radioHotel">Отель</label>
+                    </div>
+                    <div class="radio-custom radio-primary">
+                        <input type="radio" id="radioMUZ" name="radioExample">
+                        <label for="radioMUZ">МУЗы</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="create_button col-md-12">
+            <button class="btn btn-primary">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button class="btn btn-info">Распечатать</button>
+                <button class="btn btn-default">Отмена</button>
+                <br>
+                <br>
+            </div>
+            <div>
+            <table class="table table-bordered table-striped table-condensed mb-none">
+                <thead>
+                    <tr>
+                        <th colspan="5" class="text-left">Баланс на данный момент: <span>-110000</span> руб.</th>
+                    </tr>
+                    <tr>
+                        <th colspan="5" class="text-left">Баланс на начало периода: <span>-110000</span> руб.</th>
+                    </tr>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Кому/От кого</th>
+                        <th class="text-right">Приход, руб.</th>
+                        <th class="text-right">Расход, руб.</th>
+                        <th class="text-right">Основание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>21.10.2019</td>
+                        <td>ООО "УБРиР"</td>
+                        <td class="text-right"></td>
+                        <td class="text-right">40000</td>
+                        <td class="text-right"><a href="#">Документ № <span>4</span></a></td>
+                    </tr>
+                    <tr>
+                        <td>23.10.2019</td>
+                        <td>ИП "Иван Иванов"</td>
+                        <td class="text-right"></td>
+                        <td class="text-right">5000</td>
+                        <td class="text-right"><a href="#">Документ № <span>10</span></a></td>
+                    </tr>
+                     <tr>
+                        <td>23.10.2019</td>
+                        <td>ИП "Иван Иванов"</td>
+                        <td class="text-right">2000</td>
+                        <td class="text-right"></td>
+                        <td class="text-right"><a href="#">Документ № <span>5</span></a></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                     <tr>
+                        <th>Дата</th>
+                        <th>Кому/От кого</th>
+                        <th class="text-right">Приход</th>
+                        <th class="text-right">Расход</th>
+                        <th class="text-right">Основание</th>
+                    </tr>
+                    <tr>
+                        <th colspan="5" class="text-left">Баланс на конец периода: <span>-153000</span> руб.</th>
+                    </tr>
+                </tfoot>
+            </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="" defer></script>

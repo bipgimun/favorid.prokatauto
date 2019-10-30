@@ -1,0 +1,142 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Движение Денежных Средств</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <a href="/new-page-30">
+                    <span>Разделы аналитики</span>
+                </a>
+            </li>
+            <li><span>ДДС</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Формирование ДДС</h2>
+    </header>
+
+    <div class="panel-body">
+
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-12">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input type="date" class="form-control">
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+
+            <div class="controls_details-child col-md-6">
+                <p class="header-details">Касса/Счет</p>
+                <div class="controls_details_date-range">
+                    <select id="" class="form-control">
+                        <option value="" disabled selected>Выберите кассу/счет</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="create_button col-md-12">
+            <button class="btn btn-primary">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button class="btn btn-info">Распечатать</button>
+                <button class="btn btn-default">Отмена</button>
+                <br>
+                <br>
+            </div>
+            <div>
+            <table class="table table-bordered table-striped table-condensed mb-none">
+                <thead>
+                    <tr>
+                        <th colspan="5" class="text-left">Остаток на начало периода: <span>5000</span> руб.</th>
+                    </tr>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Кому/От кого</th>
+                        <th class="text-right">Приход, руб.</th>
+                        <th class="text-right">Расход, руб.</th>
+                        <th class="text-right">Касса/счет</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>21.10.2019</td>
+                        <td>ООО "Рога и Копыта"</td>
+                        <td class="text-right">10000</td>
+                        <td class="text-right"></td>
+                        <td class="text-right">Касса 1488</td>
+                    </tr>
+                    <tr>
+                        <td>21.10.2019</td>
+                        <td>ООО "Рога и Копыта"</td>
+                        <td class="text-right"></td>
+                        <td class="text-right">2000</td>
+                        <td class="text-right">Касса 1488</td>
+                    </tr>
+                    <tr>
+                        <td>23.10.2019</td>
+                        <td>ИП "Иван Иванов"</td>
+                        <td class="text-right"></td>
+                        <td class="text-right">5000</td>
+                        <td class="text-right">Счет тиньков 406890</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                     <tr>
+                        <th>Дата</th>
+                        <th>Кому/От кого</th>
+                        <th class="text-right">Приход</th>
+                        <th class="text-right">Расход</th>
+                        <th class="text-right">Касса/счет</th>
+                    </tr>
+                    <tr>
+                        <th colspan="5" class="text-left">Остаток на конец периода: <span>8000</span> руб.</th>
+                    </tr>
+                </tfoot>
+            </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="" defer></script>
