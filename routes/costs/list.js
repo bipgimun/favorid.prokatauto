@@ -3,6 +3,7 @@ const {
     costsCategories: costsCategoriesModel,
     drivers: driversModel,
     suppliersDealsModel,
+    customersModel,
 } = require('../../models');
 
 module.exports = async (req, res, next) => {
@@ -45,6 +46,91 @@ module.exports = async (req, res, next) => {
     contracts.forEach(contract => {
         contract.code = `MUZ-${contract.id}`;
     });
+
+    for (const cost of costs) {
+
+        const { code, document_id: documentId } = cost;
+
+        let toCost = '';
+
+        if (code === 'CRR') {
+            const [CRR] = await db.execQuery(`SELECT * FROM cars_reservations WHERE id = ?`, [documentId]);
+
+            if (!CRR)
+                continue;
+
+            const [customer] = await customersModel.get({ id: CRR.customer_id });
+
+            if (!customer)
+                continue;
+
+            toCost = customer.name;
+        } else if (code === 'APR') {
+            const [APR] = await db.execQuery(`SELECT * FROM apartment_reservations WHERE id = ?`, [documentId]);
+
+            if (!APR)
+                continue;
+
+            const [customer] = await customersModel.get({ id: APR.customer_id });
+
+            if (!customer)
+                continue;
+
+            toCost = customer.name;
+        } else if (code === 'MUZ') {
+            const [MUZ] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ?`, [documentId]);
+
+            if (!MUZ)
+                continue;
+
+            const [customer] = await customersModel.get({ id: MUZ.customer_id });
+
+            if (!customer)
+                continue;
+
+            toCost = customer.name;
+        } else if (code === 'CAR') {
+            const [car] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [documentId]);
+
+            if (!car)
+                continue;
+
+            toCost = `${car.name} ${car.model} - ${car.number}`;
+        } else if (code === 'SD') {
+            const [supplierDeal] = await db.execQuery(`SELECT * FROM suppliers_deals WHERE id = ?`, [documentId]);
+
+            if (!supplierDeal)
+                continue;
+
+            const [supplier] = await db.execQuery(`SELECT * FROM suppliers WHERE id = ?`, [documentId]);
+
+            if (!supplier)
+                continue;
+
+            toCost = supplier.name;
+        }
+
+
+        if (cost.supplier_id) {
+            const [supplier] = await db.execQuery(`SELECT * FROM suppliers WHERE id = ?`, [cost.supplier_id]);
+
+            if (!supplier)
+                continue;
+
+            toCost = supplier.name;
+        }
+
+        if (cost.driver_id) {
+            const [driver] = await db.execQuery(`SELECT * FROM drivers WHERE id = ?`, [cost.driver_id]);
+
+            if (!driver)
+                continue;
+
+            toCost = driver.name;
+        }
+
+        cost.toCost = toCost;
+    }
 
     const groupDocuments = [
         { label: 'Аренда автомобилей', documents: carReservations, },
