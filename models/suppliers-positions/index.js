@@ -1,11 +1,12 @@
 const db = require('../../libs/db');
 
-exports.get = ({ id = '' } = {}) => {
+exports.get = ({ id = '', search = '' } = {}) => {
     return db.execQuery(`
         SELECT sp.*
         FROM suppliers_positions sp
         WHERE sp.id > 0
-            ${id ? `AND sp.id = ${id}` : ``}
+            ${id && `AND sp.id = ${id}`}
+            ${search && `AND sp.name LIKE '%${search}%'`}
     `);
 }
 
