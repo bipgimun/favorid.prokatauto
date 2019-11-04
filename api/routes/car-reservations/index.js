@@ -31,7 +31,7 @@ const addScheme = Joi.object({
     manager_id: Joi.number().required(),
     customer_id: Joi.number().required(),
     discount: Joi.number().default(0).empty(''),
-    passenger_id: Joi.number().required(),
+    passenger_id: Joi.number().empty([null]),
     contact_number: Joi.string().required(),
     driver_id: Joi.number().empty([null, '']),
     itinerarie_id: Joi.number().empty([null, '']),
@@ -51,14 +51,14 @@ const addScheme = Joi.object({
     Joi.object({
         has_driver: Joi.number().valid(1).required()
     }).unknown(), {
-        then: Joi.object({
-            driver_id: Joi.any().default(null),
-            itinerarie_id: Joi.required(),
-        }),
-        otherwise: Joi.object({
-            itinerarie_id: Joi.strip(),
-        })
+    then: Joi.object({
+        driver_id: Joi.any().default(null),
+        itinerarie_id: Joi.required(),
+    }),
+    otherwise: Joi.object({
+        itinerarie_id: Joi.strip(),
     })
+})
 
 const updateSchema = Joi.object({
     manager_id: Joi.number(),
@@ -85,15 +85,15 @@ const updateSchema = Joi.object({
     Joi.object({
         has_driver: Joi.number().valid(1).required()
     }).unknown(), {
-        then: Joi.object({
-            driver_id: Joi.any().default(null),
-            itinerarie_id: Joi.required(),
-        }),
-        otherwise: Joi.object({
-            driver_id: Joi.strip(),
-            itinerarie_id: Joi.strip(),
-        })
+    then: Joi.object({
+        driver_id: Joi.any().default(null),
+        itinerarie_id: Joi.required(),
+    }),
+    otherwise: Joi.object({
+        driver_id: Joi.strip(),
+        itinerarie_id: Joi.strip(),
     })
+})
 
 router.post('/get', async (req, res, next) => {
 
