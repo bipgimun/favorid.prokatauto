@@ -50,7 +50,10 @@ router.post('/delete', async (req, res, next) => {
 })
 
 router.get('/getSelect2', async (req, res, next) => {
-    const positions = await suppliersPositionsModel.get();
+
+    const { search } = req.query;
+
+    const positions = await suppliersPositionsModel.get({ search });
     res.json({ items: positions });
 })
 
