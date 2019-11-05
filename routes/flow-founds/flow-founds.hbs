@@ -1,0 +1,95 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+</style>
+
+<header class="page-header">
+    <h2>Движение Денежных Средств</h2>
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li>
+                <a href="/analytics">
+                    <span>Разделы аналитики</span>
+                </a>
+            </li>
+            <li><span>ДДС</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Формирование ДДС</h2>
+    </header>
+
+    <div class="panel-body">
+
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-12">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input id="js-flowFounds-timeMin" type="date" class="form-control">
+                    <input id="js-flowFounds-timeMax" type="date" class="form-control">
+                </div>
+            </div>
+
+            <div class="controls_details-child col-md-6">
+                <p class="header-details">Касса/Счет</p>
+                <div class="controls_details_date-range">
+                    <select id="js-flowFounds-cashStorage-id" class="form-control js-select2-init"
+                        data-ajax="/api/cashStorages/select2">
+                        <option value="" disabled selected>Выберите кассу/счет</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="create_button col-md-12">
+            <button id="js-flowFounds-accept" class="btn btn-primary">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button id="js-flowFounds-print" class="btn btn-info">Распечатать</button>
+                <button type="reset" id="js-flowFounds-cancel" class="btn btn-default">Отмена</button>
+                <br>
+                <br>
+            </div>
+            <div id="js-flow-founds-table">
+                {{> flow-founds-table}}
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/assets/javascripts/flow-founds.js"></script>

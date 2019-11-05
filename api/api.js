@@ -68,6 +68,8 @@ app.use('/contract-shifts', checkAuth, checkPrivileges, require('./routes/contra
 app.use('/drivers2shifts', checkAuth, checkPrivileges, require('./routes/drivers2shifts'));
 app.use('/waybill-sheets', checkAuth, checkPrivileges, require('./routes/waybill-sheets'));
 
+app.use('/flow-founds', checkAuth, require('./routes/flow-founds'));
+
 app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Страница не найдена' }));
 
 app.use((error, req, res, next) => {
