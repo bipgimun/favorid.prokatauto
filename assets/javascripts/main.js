@@ -756,7 +756,7 @@ $(document).ready(() => {
         $(e.target).find('.modal-dismiss').click();
 
         if ($('#js-incomes-table').length) {
-            insertTable('incomes', data.id, [data.date, data.id, data.base, data.sum]);
+            insertTable('incomes', data.id, [data.date, data.id, data.customer_name, data.base, data.sum, data.cashbox_name]);
         } else {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);
@@ -780,8 +780,10 @@ $(document).ready(() => {
 
         $(e.target).find('.modal-dismiss').click();
 
+        console.log(data);
+
         if ($('#js-costs-table').length) {
-            insertTable('costs', data.id, [data.date, data.id, data.category, data.sum]);
+            insertTable('costs', data.id, [data.date, data.id, data.toCost, data.category, data.cashbox_name, data.sum]);
         } else {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);

@@ -83,8 +83,21 @@ app.post('/add', async (req, res, next) => {
     validValues.base = validValues.base_id || validValues.base_other;
     validValues.date = moment(validValues.date).format('DD.MM.YYYY');
 
+    const [income] = await db.execQuery(`
+        SELECT i.*,
+            c.name as customer_name,
+            cs.name as cashbox_name
+        FROM incomes i
+            LEFT JOIN customers c ON c.id = i.customer_id
+            LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id
+        WHERE i.id = ${id}
+    `);
+
+    income.base = income.base_id || income.base_other;
+    income.date = moment(income.date).format('DD.MM.YYYY');
+
     res.json({
-        status: 'ok', data: validValues
+        status: 'ok', data: income
     });
 })
 

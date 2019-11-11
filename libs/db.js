@@ -51,8 +51,10 @@ module.exports = new class Db {
      * @param {Object | Array} [data] данные для подстановки в запрос
      * @returns {Promise<Array>}
      */
-    async execQuery(query = '', data) {
-        const [rows, fields] = await this.connection.query(query, data);
+    async execQuery(query = '', data, obj = {}) {
+        const sqlQuery = this.connection.format(query, data);
+        const [rows, fields, sql] = await this.connection.query(sqlQuery);
+        obj.sql = sqlQuery;
         return rows;
     }
     /**

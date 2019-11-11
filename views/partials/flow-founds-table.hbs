@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped table-condensed mb-none">
     <thead>
         <tr>
-            <th colspan="5" class="text-left">Остаток на начало периода: <span>5000</span> руб.</th>
+            <th colspan="5" class="text-left">Остаток на начало периода: <span>{{balanceAtStartPeriod}}</span> руб.</th>
         </tr>
         <tr>
             <th>Дата</th>
@@ -12,27 +12,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>21.10.2019</td>
-            <td>ООО "Рога и Копыта"</td>
-            <td class="text-right">10000</td>
-            <td class="text-right"></td>
-            <td class="text-right">Касса 1488</td>
-        </tr>
-        <tr>
-            <td>21.10.2019</td>
-            <td>ООО "Рога и Копыта"</td>
-            <td class="text-right"></td>
-            <td class="text-right">2000</td>
-            <td class="text-right">Касса 1488</td>
-        </tr>
-        <tr>
-            <td>23.10.2019</td>
-            <td>ИП "Иван Иванов"</td>
-            <td class="text-right"></td>
-            <td class="text-right">5000</td>
-            <td class="text-right">Счет тиньков 406890</td>
-        </tr>
+        {{#each incomes}}
+            <tr>
+                <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
+                <td>{{customer_name}}</td>
+                <td class="text-right">{{sum}}</td>
+                <td class="text-right"></td>
+                <td class="text-right">{{cashStorageName}}</td>
+            </tr>
+        {{/each}}
+        {{#each costs}}
+            <tr>
+                <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
+                <td>{{toCost}}</td>
+                <td class="text-right"></td>
+                <td class="text-right">{{sum}}</td>
+                <td class="text-right">{{cashStorageName}}</td>
+            </tr>
+        {{/each}}
     </tbody>
     <tfoot>
         <tr>
@@ -43,7 +40,7 @@
             <th class="text-right">Касса/счет</th>
         </tr>
         <tr>
-            <th colspan="5" class="text-left">Остаток на конец периода: <span>8000</span> руб.</th>
+            <th colspan="5" class="text-left">Остаток на конец периода: <span>{{balanceAtEndPeriod}}</span> руб.</th>
         </tr>
     </tfoot>
 </table>

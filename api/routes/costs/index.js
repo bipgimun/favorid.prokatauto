@@ -36,6 +36,7 @@ const updateScheme = Joi.object({
 const {
     costsCategories: costsCategoriesModel,
     suppliersDealsModel,
+    customersModel
 } = require('../../../models');
 
 app.post('/add', async (req, res, next) => {
@@ -77,10 +78,114 @@ app.post('/add', async (req, res, next) => {
         }
     }
 
+    const [cost] = await db.execQuery(`
+        SELECT c.*,
+            cc.title as category,
+            s.name as supplier_name,
+            d.name as driver_name,
+            cs.name as cashbox_name
+        FROM costs c
+            LEFT JOIN costs_categories cc ON cc.id = c.category_id
+            LEFT JOIN suppliers s ON s.id = c.supplier_id
+            LEFT JOIN drivers d ON d.id = c.driver_id
+            LEFT JOIN cash_storages cs ON cs.id = c.cash_storage_id
+        WHERE c.id = ${id}
+    `);
+
+    cost.base = cost.base_id || cost.base_other;
+    cost.date = moment(cost.date).format('DD.MM.YYYY');
+
+    const cost2 = await getCostDirection(cost);
+
     res.json({
-        status: 'ok', data: validValues
+        status: 'ok', data: cost2
     });
 })
+
+async function getCostDirection(cost) {
+    const { code, document_id: documentId } = cost;
+
+    let toCost = '';
+
+    if (code === 'CRR') {
+        const [CRR] = await db.execQuery(`SELECT * FROM cars_reservations WHERE id = ?`, [documentId]);
+
+        if (!CRR)
+            toCost = '';
+
+        const [customer] = await customersModel.get({ id: CRR.customer_id });
+
+        if (!customer)
+            toCost = '';
+
+        toCost = customer.name;
+    } else if (code === 'APR') {
+        const [APR] = await db.execQuery(`SELECT * FROM apartment_reservations WHERE id = ?`, [documentId]);
+
+        if (!APR)
+            toCost = '';
+
+        const [customer] = await customersModel.get({ id: APR.customer_id });
+
+        if (!customer)
+            toCost = '';
+
+        toCost = customer.name;
+    } else if (code === 'MUZ') {
+        const [MUZ] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ?`, [documentId]);
+
+        if (!MUZ)
+            toCost = '';
+
+        const [customer] = await customersModel.get({ id: MUZ.customer_id });
+
+        if (!customer)
+            toCost = '';
+
+        toCost = customer.name;
+    } else if (code === 'CAR') {
+        const [car] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [documentId]);
+
+        if (!car)
+            toCost = '';
+
+        toCost = `${car.name} ${car.model} - ${car.number}`;
+    } else if (code === 'SD') {
+        const [supplierDeal] = await db.execQuery(`SELECT * FROM suppliers_deals WHERE id = ?`, [documentId]);
+
+        if (!supplierDeal)
+            toCost = '';
+
+        const [supplier] = await db.execQuery(`SELECT * FROM suppliers WHERE id = ?`, [documentId]);
+
+        if (!supplier)
+            toCost = '';
+
+        toCost = supplier.name;
+    }
+
+
+    if (cost.supplier_id) {
+        const [supplier] = await db.execQuery(`SELECT * FROM suppliers WHERE id = ?`, [cost.supplier_id]);
+
+        if (!supplier)
+            toCost = '';
+
+        toCost = supplier.name;
+    }
+
+    if (cost.driver_id) {
+        const [driver] = await db.execQuery(`SELECT * FROM drivers WHERE id = ?`, [cost.driver_id]);
+
+        if (!driver)
+            toCost = '';
+
+        toCost = driver.name;
+    }
+
+    cost.toCost = toCost;
+    return cost;
+}
 
 app.post('/update', async (req, res, next) => {
 
