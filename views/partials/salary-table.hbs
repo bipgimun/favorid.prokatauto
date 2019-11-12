@@ -9,15 +9,26 @@
 <tr>
     <th>Дата</th>
     <th>Причина</th>
+    <th>Маршрут</th>
+    <th>Клиент</th>
+    <th>Адрес</th>
+    <th>Время</th>
+    <th>Заказчик</th>
     <th>Сумма, руб.</th>
     <th>Действие</th>
 </tr>
 {{#each details}}
+
     <tr class="js-tr" data-id="{{id}}">
         <td>{{date}}</td>
         <td>
             <a href="/car-reservation/{{id}}">{{description}}</a>
         </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
         <td data-sum="{{sum}}">{{round sum}} руб.</td>
         <td>
             <a href="javascript:void(0);">Удалить</a>

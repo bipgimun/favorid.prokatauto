@@ -67,20 +67,25 @@
             <table class="table table-bordered table-striped mb-none">
                 <thead>
                     <tr>
-                        <th colspan="4">
+                        <th colspan="9">
                             <span>Водитель:</span><span> {{det.driver_name}}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="9">
                             <span>Общая сумма: {{det.sum}}</span> <span> руб.</span>
                         </td>
                     </tr>
                     <tr>
                         <th>Дата</th>
                         <th>Причина</th>
+                        <th>Маршрут</th>
+                        <th>Клиент</th>
+                        <th>Адрес</th>
+                        <th>Время</th>
+                        <th>Заказчик</th>
                         <th>Сумма, руб.</th>
                         <th>Действие</th>
                     </tr>
@@ -90,6 +95,11 @@
                                 {{toIsoString created 'DD.MM.YYYY'}}
                             </td>
                             <td>Заявка №{{reserv_id}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>{{driver_salary}}</td>
                             <td>
                                 <a href="/car-reservation/{{reserv_id}}" target="_blank">Открыть</a>

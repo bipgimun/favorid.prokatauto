@@ -34,6 +34,7 @@
                 <thead>
                     <tr>
                         <th>Дата вхо-го док-та</th>
+                        <th>Номер входящего док-та</th>
                         <th>Поставщик</th>
                         <th>Позиция сделки</th>
                         <th>Сумма</th>
@@ -44,6 +45,7 @@
                     {{#each deals}}
                         <tr>
                             <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
+                            <td></td>
                             <td>{{supplier_name}}</td>
                             <td>{{position_name}}</td>
                             <td>{{sum}}</td>
@@ -56,6 +58,7 @@
                 <tfoot>
                     <tr>
                         <th>Дата вхо-го док-та</th>
+                        <th>Номер входящего док-та</th>
                         <th>Поставщик</th>
                         <th>Позиция сделки</th>
                         <th>Сумма</th>
@@ -108,6 +111,13 @@
                     <label class="col-sm-3 control-label">Дата сделки</label>
                     <div class="col-sm-9">
                         <input type="date" class="form-control" name="date">
+                    </div>
+                </div>
+
+                <div class="form-group mt-lg">
+                    <label class="col-sm-3 control-label">Номер входящего документа</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control">
                     </div>
                 </div>
 
