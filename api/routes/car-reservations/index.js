@@ -81,6 +81,8 @@ const updateSchema = Joi.object({
     has_driver: Joi.number().valid([0, 1]),
     driver_salary: Joi.number().min(0).empty(''),
     status: Joi.number(),
+    reserv_mileage: Joi.number(),
+    reserv_fuel_level: Joi.number(),
 }).when(
     Joi.object({
         has_driver: Joi.number().valid(1).required()
@@ -192,6 +194,14 @@ router.post('/update', async (req, res, next) => {
 
         if (reserv.has_driver == '1' && !reserv.driver_id) {
             throw new Error('Нельзя завершить заявку с водителем без указания водителя');
+        }
+
+        if (reserv.car_id && reserv.reserv_fuel_level) {
+            await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [{ fuel_level: reserv.reserv_fuel_level }, reserv.car_id]);
+        }
+       
+        if (reserv.car_id && reserv.reserv_mileage) {
+            await db.execQuery(`UPDATE cars SET ? WHERE id = ?`, [{ mileage: reserv.reserv_mileage }, reserv.car_id]);
         }
 
         validValues.close_at = new Date();

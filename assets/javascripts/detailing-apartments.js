@@ -52,20 +52,6 @@ $(document).ready(() => {
             });
         }
 
-        if (!customer_id) {
-            return new PNotify({
-                title: 'Ошибка',
-                text: 'Не выбран заказчик',
-                icon: 'fa fa-user',
-                shadow: true,
-                delay: 1000,
-                buttons: {
-                    closer: false,
-                    sticker: false
-                }
-            });
-        }
-
         if (!reservsData.length) {
             return new PNotify({
                 title: 'Ошибка',

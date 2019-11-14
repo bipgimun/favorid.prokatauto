@@ -38,6 +38,9 @@ module.exports = async (req, res, next) => {
 
         item.can_edit = false;
 
+        item.reserv_fuel_level = item.reserv_fuel_level || item.car_fuel_level;
+        item.reserv_mileage = item.reserv_mileage || item.car_mileage;
+
         if (req.session.user.is_director == '1') {
             item.can_edit = true;
         } else if (!item.completed && req.session.user.is_senior_manager == '1') {

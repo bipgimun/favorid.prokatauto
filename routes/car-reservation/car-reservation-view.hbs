@@ -234,25 +234,25 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Фактический пробег, км</label>
-                            <div class="non-editable-content" data-target="mileage">
-                                {{car_mileage }}
+                            <div class="non-editable-content" data-target="reserv_mileage">
+                                {{reserv_mileage }}
                             </div>
                             {{#if can_edit}}
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control" placeholder="Введите пробег"
-                                        value="{{car_mileage }}" required>
+                                    <input name="reserv_mileage" type="number" class="form-control" placeholder="Введите пробег"
+                                        value="{{reserv_mileage }}" required>
                                 </div>
                             {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Фактический уровень топлива</label>
-                            <div class="non-editable-content" data-target="fuel_level">
-                                {{car_fuel_level }}
+                            <div class="non-editable-content" data-target="reserv_fuel_level">
+                                {{reserv_fuel_level }}
                             </div>
                             {{#if can_edit}}
                                 <div class="col-sm-8 editable-content">
-                                    <input type="number" class="form-control"
-                                        placeholder="Введите уровень топлива" value="{{car_fuel_level }}" required>
+                                    <input name="reserv_fuel_level" type="number" class="form-control"
+                                        placeholder="Введите уровень топлива" value="{{reserv_fuel_level }}" required>
                                 </div>
                             {{/if}}
                         </div>

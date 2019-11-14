@@ -12,6 +12,10 @@ class CarReservation {
         this.driver_id = '';
         this.driver_name = '';
         this.car_id = '';
+        this.car_mileage = '';
+        this.car_fuel_level = '';
+        this.reserv_mileage = '';
+        this.reserv_fuel_level = '';
         this.status_name = '';
         this.class_name = '';
         this.has_driver = '';
