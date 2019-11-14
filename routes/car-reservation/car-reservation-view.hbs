@@ -122,7 +122,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="non-editable-content" data-target="passenger_name">
-                                        {{this.passenger_name}}
+                                        <a href="/clients/{{passenger_id}}">{{this.passenger_name}}</a>
                                     </div>
                                     {{#if can_edit}}
                                         <div class="editable-content">
@@ -181,7 +181,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="non-editable-content" data-target="driver_name">
-                                        {{this.driver_name}}
+                                       <a href="/drivers/{{driver_id}}">{{this.driver_name}}</a>
                                     </div>
                                     {{#if can_edit}}
                                         <div class="editable-content">
@@ -203,7 +203,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="non-editable-content">
-                                        {{this.car_name}} {{this.car_model}} - {{this.car_number}}
+                                        <a href="/cars/{{car_id}}">{{this.car_name}} {{this.car_model}} - {{this.car_number}}</a>
                                     </div>
                                     {{#if can_edit}}
                                         <div class="editable-content">
@@ -235,24 +235,24 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Фактический пробег, км</label>
                             <div class="non-editable-content" data-target="mileage">
-                                {{this.mileage }}
+                                {{car_mileage }}
                             </div>
                             {{#if can_edit}}
                                 <div class="col-sm-8 editable-content">
-                                    <input name="mileage" type="number" class="form-control" placeholder="Введите пробег"
-                                        value="{{this.mileage }}" required>
+                                    <input type="number" class="form-control" placeholder="Введите пробег"
+                                        value="{{car_mileage }}" required>
                                 </div>
                             {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Фактический уровень топлива</label>
                             <div class="non-editable-content" data-target="fuel_level">
-                                {{this.fuel_level }}
+                                {{car_fuel_level }}
                             </div>
                             {{#if can_edit}}
                                 <div class="col-sm-8 editable-content">
-                                    <input name="fuel_level" type="number" class="form-control"
-                                        placeholder="Введите уровень топлива" value="{{this.fuel_level }}" required>
+                                    <input type="number" class="form-control"
+                                        placeholder="Введите уровень топлива" value="{{car_fuel_level }}" required>
                                 </div>
                             {{/if}}
                         </div>

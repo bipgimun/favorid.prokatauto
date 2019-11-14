@@ -61,6 +61,8 @@ exports.get = ({
             c.name as car_name,
             c.model as car_model,
             c.number as car_number,
+            c.mileage as car_mileage,
+            c.fuel_level as car_fuel_level,
             cu.name as customer_name,
             cu.discount as customer_discount,
             p.name as passenger_name,
