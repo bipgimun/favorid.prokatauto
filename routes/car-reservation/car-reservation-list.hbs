@@ -251,8 +251,8 @@
                             услуги</label>
                     </div>
                     <div class="services-group__item">
-                        <label class="col-sm-3 control-label">Услуга</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-2 control-label">Услуга</label>
+                        <div class="col-sm-10">
                             <div class="input-group">
                                 <select class="form-control" name="services">
                                     <option value="0" selected disabled>Выберете услугу</option>
@@ -260,6 +260,7 @@
                                         <option value="{{id}}">{{name}}</option>
                                     {{/each}}
                                 </select>
+                                <input type="number" class="form-control input-sm" placeholder="руб">
                                 <span class="input-group-btn">
                                     <a class="btn btn-primary" type="button" href="/additional-services"
                                         target="_blank">Добавить</a>
@@ -282,9 +283,30 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-4 control-label">Залог</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control"
+                            placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-4 control-label">Общая сумма</label>
                     <div class="col-sm-8">
                         <input name="sum" type="number" class="form-control prices-control-class"
+                            placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">ОПЛАЧЕНО</label>
+                    <div class="col-sm-8">
+                        <input type="number" value="0" class="form-control"
+                            placeholder="Введите сумму" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">ОСТАЛОСЬ</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control"
                             placeholder="Введите сумму" required>
                     </div>
                 </div>
