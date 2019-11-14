@@ -136,12 +136,12 @@
                         <label class="col-sm-3 control-label">Номер входящего документа</label>
                         <div class="col-sm-9">
                             <div>
-                                <div class="non-editable-content">
-                                    
+                                <div class="non-editable-content" data-target="incoming_document_number">
+                                    {{document.incoming_document_number}}
                                 </div>
                                 {{#if can_edit}}
                                     <div class="editable-content">
-                                        <input type="text" class="form-control">
+                                        <input name="incoming_document_number" type="text" value="{{document.incoming_document_number}}" class="form-control">
                                     </div>
                                 {{/if}}
                             </div>
@@ -188,7 +188,7 @@
                     <button class="btn btn-primary js-toggleEditable">Редактировать</button>
                 {{/if}}
                 {{#unless document.paid}}
-                    <button data-id="{{id}}" data-target="carReservations"
+                    <button data-id="{{id}}" data-target="suppliers-deals"
                         class="btn btn-danger js-tableEssence-remove footer-resrvation-end-btn">Удалить заявку</button>
                 {{/unless}}
             </div>

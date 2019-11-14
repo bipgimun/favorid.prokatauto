@@ -45,7 +45,7 @@
                     {{#each deals}}
                         <tr>
                             <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
-                            <td></td>
+                            <td>{{incoming_document_number}}</td>
                             <td>{{supplier_name}}</td>
                             <td>{{position_name}}</td>
                             <td>{{sum}}</td>
@@ -117,7 +117,7 @@
                 <div class="form-group mt-lg">
                     <label class="col-sm-3 control-label">Номер входящего документа</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control">
+                        <input name="incoming_document_number" type="text" class="form-control">
                     </div>
                 </div>
 

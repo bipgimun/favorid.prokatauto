@@ -7,7 +7,8 @@ const addSchema = Joi.object({
     position_id: Joi.number().required(),
     date: Joi.date().required(),
     sum: Joi.number().greater(0).required(),
-    comment: Joi.number().greater(0).empty(''),
+    incoming_document_number: Joi.string(),
+    comment: Joi.string().empty(''),
 })
 
 const {
