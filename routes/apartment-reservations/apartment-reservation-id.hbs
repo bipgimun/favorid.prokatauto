@@ -285,10 +285,13 @@
                                                 <option value="" disabled selected>Выберите услугу</option>
                                                 {{#each ../../servicesList}}
                                                     <option {{compare selectedService.id id 'selected' ''}}
-                                                        value="{{id}}">{{name}}</option>
+                                                        value="{{id}}">{{name}}
+                                                    </option>
                                                 {{/each}}
                                             </select>
-                                            <input type="number" class="form-control input-sm" placeholder="руб">
+                                            <input type="number"
+                                                class="form-control input-sm js-apartmentReserv-service-price"
+                                                placeholder="руб" value="">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default adding-item" type="button">+</button>
                                             </span>
@@ -312,6 +315,12 @@
                                         </span>
                                     </div>
                                 </div>
+
+
+                                {{#each ../servicesList}}
+                                    <input type="hidden" class="service-data" value="{{price}}" data-id="{{id}}">
+                                {{/each}}
+
                             {{/if}}
                         </div>
 
@@ -346,15 +355,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ОПЛАЧЕНО</label>
                             <div class="col-sm-8">
-                                <input type="number" value="0" class="form-control"
-                                    placeholder="Введите сумму" required>
+                                <input type="number" value="0" class="form-control" placeholder="Введите сумму"
+                                    required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ОСТАЛОСЬ</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control"
-                                    placeholder="Введите сумму" required>
+                                <input type="number" class="form-control" placeholder="Введите сумму" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -418,6 +426,42 @@
 
     </div>
 </section>
+
+<script>
+
+    function initServiceSelect() {
+        var $additionalServicesSelects = $('.js-apartmentReservations-services');
+
+        $additionalServicesSelects.on('change', function () {
+            var $select = $(this);
+            var serviceId = $select.val();
+
+            var $parent = $select.parents('.input-group');
+            var $price = $parent.find('.js-apartmentReserv-service-price');
+            var $servicePrice = $('.service-data[data-id=' + serviceId + ']');
+
+            $price.val($servicePrice.val());
+        })
+
+        $additionalServicesSelects.each(function (index, select) {
+            var $select = $(select);
+            var serviceId = $select.val();
+
+            if (!serviceId) {
+                return;
+            }
+
+            var $parent = $select.parents('.input-group');
+            var $price = $parent.find('.js-apartmentReserv-service-price');
+            var $servicePrice = $('.service-data[data-id=' + serviceId + ']');
+
+            $price.val($servicePrice.val());
+        });
+    }
+
+    initServiceSelect();
+
+</script>
 
 <script>
     $(document).ready(() => {

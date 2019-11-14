@@ -181,7 +181,7 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="non-editable-content" data-target="driver_name">
-                                       <a href="/drivers/{{driver_id}}">{{this.driver_name}}</a>
+                                        <a href="/drivers/{{driver_id}}">{{this.driver_name}}</a>
                                     </div>
                                     {{#if can_edit}}
                                         <div class="editable-content">
@@ -203,7 +203,8 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="non-editable-content">
-                                        <a href="/cars/{{car_id}}">{{this.car_name}} {{this.car_model}} - {{this.car_number}}</a>
+                                        <a href="/cars/{{car_id}}">{{this.car_name}} {{this.car_model}} -
+                                            {{this.car_number}}</a>
                                     </div>
                                     {{#if can_edit}}
                                         <div class="editable-content">
@@ -239,8 +240,8 @@
                             </div>
                             {{#if can_edit}}
                                 <div class="col-sm-8 editable-content">
-                                    <input name="reserv_mileage" type="number" class="form-control" placeholder="Введите пробег"
-                                        value="{{reserv_mileage }}" required>
+                                    <input name="reserv_mileage" type="number" class="form-control"
+                                        placeholder="Введите пробег" value="{{reserv_mileage }}" required>
                                 </div>
                             {{/if}}
                         </div>
@@ -334,14 +335,17 @@
                                     <div class="editable-content">
                                         {{#each ../additionalServices as | adService |}}
                                             <div class="input-group services-group__item col-sm-12">
-                                                <select name="services" class="form-control">
+                                                <select name="services"
+                                                    class="form-control js-carReserv-services">
                                                     <option value="0" selected disabled>Выберете услугу</option>
                                                     {{#each ../../servicesList as | service |}}
                                                         <option {{compare adService.id service.id 'selected' ''}}
                                                             value="{{id}}">{{name}}</option>
                                                     {{/each}}
                                                 </select>
-                                                <input type="number" class="form-control input-sm" placeholder="руб">
+                                                <input type="number"
+                                                    class="form-control input-sm js-carReserv-service-price"
+                                                    placeholder="руб" value="{{adService.price}}">
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-default adding-item" type="button">+</button>
                                                 </span>
@@ -367,6 +371,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{#each ../servicesList as | service |}}
+                                   <input type="hidden" class="service-data" value="{{price}}" data-id="{{id}}">
+                                {{/each}}
                             {{/if}}
                         </div>
                         <div class="form-group">
@@ -396,8 +403,7 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Залог</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control"
-                                    placeholder="Введите сумму" required>
+                                <input type="number" class="form-control" placeholder="Введите сумму" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -415,15 +421,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ОПЛАЧЕНО</label>
                             <div class="col-sm-8">
-                                <input type="number" value="0" class="form-control"
-                                    placeholder="Введите сумму" required>
+                                <input type="number" value="0" class="form-control" placeholder="Введите сумму"
+                                    required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ОСТАЛОСЬ</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control"
-                                    placeholder="Введите сумму" required>
+                                <input type="number" class="form-control" placeholder="Введите сумму" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -513,6 +518,43 @@
 </section>
 
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+
+<script>
+
+    function initServiceSelect() {
+        var $additionalServicesSelects = $('.js-carReserv-services');
+
+        $additionalServicesSelects.on('change', function () {
+            var $select = $(this);
+            var serviceId = $select.val();
+
+            var $parent = $select.parents('.services-group__item');
+            var $price = $parent.find('.js-carReserv-service-price');
+            var $servicePrice = $('.service-data[data-id=' + serviceId + ']');
+
+            $price.val($servicePrice.val());
+        })
+
+        $additionalServicesSelects.each(function (index, select) {
+            var $select = $(select);
+            var serviceId = $select.val();
+
+            if (!serviceId) {
+                return;
+            }
+
+            var $parent = $select.parents('.services-group__item');
+            var $price = $parent.find('.js-carReserv-service-price');
+            var $servicePrice = $('.service-data[data-id=' + serviceId + ']');
+
+            $price.val($servicePrice.val());
+        });
+    }
+
+    initServiceSelect();
+
+</script>
+
 <script>
     var btnAddProduct = document.querySelector('.adding-item');
     var btnDeleteProduct = document.querySelector('.deliting-item');
