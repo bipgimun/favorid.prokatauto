@@ -30,7 +30,7 @@ const Joi = require('joi');
 
 const updateSchema = Joi.object({
     id: Joi.number().required(),
-    comment: Joi.string().empty('').default(null).required(),
+    comment: Joi.string().empty('').default(null),
     customer_id: Joi.number().required(),
     total_value: Joi.number().empty('').default(null).required(),
     cash_security: Joi.number().empty('').default(null).required(),
