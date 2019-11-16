@@ -36,7 +36,7 @@ router.use('/waybill-sheets', require('./waybill-sheets'));
 
 router.use('/analytics', require('./analytics'));
 router.use('/flow-of-founds', require('./flow-founds'));
-router.use('/unis-profitability', require('./units-profitability'));
+router.use('/units-profitability', require('./units-profitability'));
 router.use('/projects-profitability', require('./projects-profitability'));
 
 
