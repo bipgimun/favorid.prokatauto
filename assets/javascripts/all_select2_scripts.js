@@ -75,7 +75,7 @@ $(function () {
         $apartmentReservations.find('.modal-dismiss').click();
 
         if ($('#js-apartment-reservations-table').length) {
-            insertTable('apartment-reservations', data.id, [data.manager_id, data.id, data.created_at, data.address, data.client_name, data.statusName]);
+            insertTable('apartment-reservations', data.id, [data.manager_name, data.id, data.created_at, data.address, data.client_name, data.customer_name, data.statusName]);
         } else {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);

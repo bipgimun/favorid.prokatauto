@@ -22,6 +22,7 @@ const {
 
 const addSchema = Joi.object({
     manager_id: Joi.number().required(),
+    paid_sum: Joi.number().default(0),
     apartment_id: Joi.number().required(),
     customer_id: Joi.number().required(),
     passenger_id: Joi.number().required(),
@@ -40,6 +41,7 @@ const addSchema = Joi.object({
 
 const updateSchema = Joi.object({
     apartment_id: Joi.number(),
+    paid_sum: Joi.number(),
     customer_id: Joi.number(),
     passenger_id: Joi.number(),
     number_of_clients: Joi.number().min(1),
@@ -106,15 +108,7 @@ app.post('/add', async (req, res, next) => {
 
     const id = await db.insertQuery(`INSERT INTO apartment_reservations SET ?`, validValues);
 
-    const [ar = {}] = await db.execQuery(`
-        SELECT ar.*,
-            a.address,
-            p.name as client_name
-        FROM apartment_reservations ar
-            LEFT JOIN apartments a ON ar.apartment_id = a.id
-            LEFT JOIN passengers p ON ar.passenger_id = p.id
-        WHERE ar.id = ?`, [id]
-    );
+    const [ar = {}] = await apartmentsReservsModel.get({ id });
 
     ar.statusName = apartments_statuses.get(1);
     ar.created_at = moment(ar.created_at).format('DD.MM.YYYY');
