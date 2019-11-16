@@ -335,8 +335,7 @@
                                     <div class="editable-content">
                                         {{#each ../additionalServices as | adService |}}
                                             <div class="input-group services-group__item col-sm-12">
-                                                <select name="services"
-                                                    class="form-control js-carReserv-services">
+                                                <select name="services" class="form-control js-carReserv-services">
                                                     <option value="0" selected disabled>Выберете услугу</option>
                                                     {{#each ../../servicesList as | service |}}
                                                         <option {{compare adService.id service.id 'selected' ''}}
@@ -372,7 +371,7 @@
                                     </div>
                                 </div>
                                 {{#each ../servicesList as | service |}}
-                                   <input type="hidden" class="service-data" value="{{price}}" data-id="{{id}}">
+                                    <input type="hidden" class="service-data" value="{{price}}" data-id="{{id}}">
                                 {{/each}}
                             {{/if}}
                         </div>
@@ -402,9 +401,15 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Залог</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" placeholder="Введите сумму" required>
+                            <div class="col-sm-8 non-editable-content" data-target="car_deposit">
+                                {{car_deposit}}
                             </div>
+                            {{#if can_eidt}}
+                                <div class="col-sm-8">
+                                    <input type="number" name="car_deposit" value="{{car_deposit}}" class="form-control"
+                                        placeholder="Введите сумму" required>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Общая сумма</label>
@@ -420,15 +425,20 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ОПЛАЧЕНО</label>
-                            <div class="col-sm-8">
-                                <input type="number" value="0" class="form-control" placeholder="Введите сумму"
-                                    required>
+                            <div class="non-editable-content" data-target="paid_sum">
+                                {{paid_sum}}
                             </div>
+                            {{#if cat_eidt}}
+                                <div class="col-sm-8 editable-content">
+                                    <input type="number" name="paid_sum" value="{{paid_sum}}" class="form-control"
+                                        placeholder="Введите сумму" required>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">ОСТАЛОСЬ</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" placeholder="Введите сумму" required>
+                                {{minus sum paid_sum}}
                             </div>
                         </div>
                         <div class="form-group">

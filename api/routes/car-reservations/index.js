@@ -29,6 +29,8 @@ const statues = {
 
 const addScheme = Joi.object({
     manager_id: Joi.number().required(),
+    car_deposit: Joi.number().default(0),
+    paid_sum: Joi.number().default(0),
     customer_id: Joi.number().required(),
     discount: Joi.number().default(0).empty(''),
     passenger_id: Joi.number().empty([null]),
@@ -63,6 +65,8 @@ const addScheme = Joi.object({
 const updateSchema = Joi.object({
     manager_id: Joi.number(),
     customer_id: Joi.number(),
+    car_deposit: Joi.number(),
+    paid_sum: Joi.number(),
     discount: Joi.number().empty(''),
     passenger_id: Joi.number(),
     contact_number: Joi.string(),
