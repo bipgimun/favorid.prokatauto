@@ -24,11 +24,18 @@ module.exports = async ({ driver_id, leftDate = new Date(), rightDate = new Date
             const { id, created_at, driver_salary: sum } = item;
             const formatedDate = moment(created_at).format('DD.MM.YYYY');
 
+            const startTime = moment(item.rent_start).format('DD.MM.YYYY, HH:mm');
+
             return {
                 id,
                 sum,
                 description: `Заявка №${id}`,
                 date: formatedDate,
+                itinerarie_name: item.itinerarie_name,
+                passenger_name: item.passenger_name,
+                customer_name: item.customer_name,
+                startTime,
+                itinerarie_point_b: item.itinerarie_point_b
             };
         });
 

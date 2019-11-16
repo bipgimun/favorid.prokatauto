@@ -4,6 +4,7 @@ class CarReservation {
     constructor() {
         this.id = '';
         this.customer_id = '';
+        this.customer_name = '';
         this.contact_number = '';
         this.passenger_id = '';
         this.rent_start = '';

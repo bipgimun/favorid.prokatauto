@@ -60,8 +60,24 @@ router.get('/print', async (req, res, next) => {
         const reservs = reservsMapByDriver[driver_name];
 
         reservs.forEach(reserv => {
+
+            const { id, created_at, driver_salary: sum } = reserv;
+            const formatedDate = moment(created_at).format('DD.MM.YYYY');
+
+            const startTime = moment(reserv.rent_start).format('DD.MM.YYYY, HH:mm');
+
             result.total += +reserv.driver_salary;
-            result.details.push([moment(reserv.close_at).format(format), `Заявка №${reserv.id}`, +reserv.driver_salary]);
+            result.details.push({
+                id,
+                sum,
+                description: `Заявка №${id}`,
+                date: formatedDate,
+                itinerarie_name: reserv.itinerarie_name,
+                passenger_name: reserv.passenger_name,
+                customer_name: reserv.customer_name,
+                startTime,
+                itinerarie_point_b: reserv.itinerarie_point_b
+            });
         });
 
         totalSum += +result.total;
