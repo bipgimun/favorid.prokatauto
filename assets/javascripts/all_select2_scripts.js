@@ -80,7 +80,6 @@ $(function () {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);
             })
-            $('.js-toggleEditable').click();
         }
 
         return false;
