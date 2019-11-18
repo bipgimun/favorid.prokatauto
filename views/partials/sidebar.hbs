@@ -47,7 +47,7 @@
                             <span>Занятые авто</span>
                         </a>
                     </li>
-                    <li class="nav-parent {{setOpen reqUrl '/incomes'}}">
+                    <li class="nav-parent {{setOpen reqUrl '/incomes' '/costs' '/balance'}}">
                         <a>
                             <i class="fa fa-money" aria-hidden="true"></i>
                             <span>Деньги</span>
@@ -59,13 +59,13 @@
                                     <span>Приходы</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="{{setActive reqUrl '/costs'}}">
                                 <a href="/costs">
                                     <i class="fa fa-file-text-o" aria-hidden="true"></i>
                                     <span>Расходы</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="{{setActive reqUrl '/balance'}}">
                                 <a href="/balance">
                                     <i class="fa fa-file-text-o" aria-hidden="true"></i>
                                     <span>Баланс</span>

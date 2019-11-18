@@ -1,5 +1,9 @@
-function initSelect2(select) {
-    const data = {};
+function initSelect2(select, index = 0) {
+    const data = {
+        allowClear: true,
+        placeholder: 'Выберите значение',
+        width: '100%',
+    };
     const $element = $(select);
     const modal = $element.data('modal');
     const ajaxUrl = $element.data('ajax');
@@ -7,6 +11,10 @@ function initSelect2(select) {
 
     if (modal) {
         data.dropdownParent = $(modal);
+    }
+
+    if (!$element.attr('id')) {
+        $element.attr('id', 'js-select' + index);
     }
 
     if (ajaxUrl) {
@@ -23,7 +31,7 @@ function initSelect2(select) {
                 return query;
             },
             processResults: function (data) {
-                
+
                 const results = [];
 
                 $element.find('option[value=""]').each((index, item) => {
@@ -51,13 +59,20 @@ function initSelect2(select) {
         };
     }
 
-    $element.select2(data);
+    $element.select2(data).on('select2:unselecting', function() {
+        $(this).data('unselecting', true);
+    }).on('select2:opening', function(e) {
+        if ($(this).data('unselecting')) {
+            $(this).removeData('unselecting');
+            e.preventDefault();
+        }
+    });
 }
 
 $(function () {
 
     $('select.js-select2-init').each(function (index, element) {
-        initSelect2(element);
+        initSelect2(element, index);
     })
 
     const $apartmentReservations = $('#js-apartmentReservations-form');
