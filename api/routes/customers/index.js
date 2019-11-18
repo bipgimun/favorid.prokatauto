@@ -45,6 +45,20 @@ app.post('/add', async (req, res, next) => {
 
     const validValues = await wishList.customers.validate(values);
 
+    if(validValues.is_legal_entity == 1) {
+        const [similarCustomer] = await db.execQuery(`SELECT * FROM customers WHERE inn = ?`, [validValues.inn]);
+
+        if(similarCustomer) {
+            throw new Error('Заказчик с таким ИНН уже присутствует в справочнике');
+        }
+    } else {
+        const [similarCustomer] = await db.execQuery(`SELECT * FROM customers WHERE passport = ?`, [validValues.passport]);
+
+        if(similarCustomer) {
+            throw new Error('Заказчик с таким паспортом уже присутствует в справочнике');
+        }
+    }
+
 
     const id = await db.insertQuery(`INSERT INTO customers SET ?`, validValues);
 

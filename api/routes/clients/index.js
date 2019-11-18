@@ -53,6 +53,12 @@ app.post('/add', async (req, res, next) => {
 
     const validValues = await addSchema.validate(values);
 
+    const [similarPassenger] = await db.execQuery(`SELECT * FROM passengers WHERE contact_number = ?`, [validValues.contact_number]);
+
+    if(similarPassenger) {
+        throw new Error('Клиент с таким номером уже присутствует в справочнике');
+    }
+
     const id = await db.insertQuery(`INSERT INTO passengers SET ?`, validValues);
 
     validValues.id = id;

@@ -89,6 +89,12 @@ app.post('/add', async (req, res, next) => {
         const { values } = req.body;
         const validValues = await addSchema.validate(values);
 
+        const [similarDriver] = await db.execQuery(`SELECT * FROM drivers WHERE passport = ?`, [validValues.passport]);
+
+        if (similarDriver) {
+            throw new Error('Водитель с таким паспортом уже присутствует в справочнике');
+        }
+
         const id = await db.insertQuery(`INSERT INTO drivers SET ?`, validValues);
 
         validValues.id = id;
