@@ -5,52 +5,10 @@ const db = require('../../../libs/db');
 const safeStr = require('../../../libs/safe-string');
 const messages = require('../../messages');
 
-const { wishList } = require('../../wish-list');
 const moment = require('moment');
 
-const Joi = require('joi');
-
-const addSchema = Joi.object({
-    name: Joi.string().required(),
-    birthday: Joi.date().iso().required(),
-    contact_number: Joi.string().required(),
-    driver_license: Joi.string().required(),
-    license_date_issue: Joi.string().required(),
-    license_date_expiration: Joi.string().required(),
-    passport: Joi.string().required(),
-    passport_date_issue: Joi.date().iso().required(),
-    passport_issued_by: Joi.string().required(),
-    passport_division_code: Joi.string().required(),
-    passport_location: Joi.string().required(),
-    car_id: Joi.number().empty([null, '']).optional(),
-    is_individual: Joi.number().empty(''),
-}).with('is_individual', 'car_id');
-
-const updateSchema = Joi.object({
-    name: Joi.string(),
-    birthday: Joi.date().iso(),
-    contact_number: Joi.string(),
-    driver_license: Joi.string(),
-    license_date_issue: Joi.string(),
-    license_date_expiration: Joi.string(),
-    passport: Joi.string(),
-    passport_date_issue: Joi.date().iso(),
-    passport_issued_by: Joi.string(),
-    passport_division_code: Joi.string(),
-    passport_location: Joi.string(),
-    car_id: Joi.number()
-        .empty('')
-        .when('is_individual', {
-            is: Joi.number().valid([1, 0]),
-            then: Joi.required(),
-            otherwise: Joi.any().default(null)
-        }),
-    is_individual: Joi.number()
-        .valid([1, 0])
-        .allow('')
-        .empty('')
-        .default(null),
-})
+const { joiValidate } = require('../../../middlewares/joi-validation');
+const { addSchema, updateSchema } = require('../../../joi-schemas/drivers');
 
 const { drivers: driversModel } = require('../../../models');
 
@@ -83,7 +41,7 @@ app.post('/get/:id', async (req, res, next) => {
     return res.json({ status: 'ok', data: driver })
 })
 
-app.post('/add', async (req, res, next) => {
+app.post('/add', joiValidate(addSchema), async (req, res, next) => {
     try {
 
         const { values } = req.body;
