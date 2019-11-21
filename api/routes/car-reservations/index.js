@@ -35,7 +35,7 @@ const addScheme = Joi.object({
     discount: Joi.number().default(0).empty(''),
     passenger_id: Joi.number().empty([null]),
     contact_number: Joi.string().required(),
-    driver_id: Joi.number().empty([null, '']),
+    driver_id: Joi.number().empty([null, '']).default(null),
     itinerarie_id: Joi.number().empty([null, '']),
     car_id: Joi.number().required(),
     class_name: Joi.string().required(),
