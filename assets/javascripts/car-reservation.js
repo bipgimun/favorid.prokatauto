@@ -10,6 +10,7 @@ $(document).ready(function () {
     $carReservations.find('[name=car_id]').select2({
         dropdownParent: $('#add-products'),
         placeholder: 'Выберите автомобиль',
+        allowClear: true,
         ajax: {
             url: '/api/cars/get',
             type: "POST",

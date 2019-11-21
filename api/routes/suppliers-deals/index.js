@@ -15,9 +15,23 @@ const {
     suppliersDealsModel,
 } = require('../../../models');
 
+const db = require('../../../libs/db');
+
 router.post('/add', async (req, res, next) => {
 
     const values = await addSchema.validate(req.body);
+
+    const [similarDeal] = await db.execQuery(`
+        SELECT * 
+        FROM suppliers_deals 
+        WHERE incoming_document_number = ?
+            AND date LIKE ?`, 
+        [values.incoming_document_number, moment(values.date).format('YYYY-MM-DD')]
+    );
+
+    if(similarDeal) {
+        throw new Error('Сделка с таким номером и датой уже существует');
+    }
 
     const id = await suppliersDealsModel.add({ ...values, manager_id: req.session.user.employee_id });
     const [supplierDeal] = await suppliersDealsModel.get({ id });

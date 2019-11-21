@@ -89,6 +89,7 @@
                                             data-selected="{{document.supplier_id}}"
                                             class="form-control js-select2-init" style="width: 100%">
                                             <option value="0" selected disabled>Выберете заказчика</option>
+                                            <option value="{{document.supplier_id}}" selected>{{document.supplier_name}}</option>
                                         </select>
                                     </div>
                                 {{/if}}
@@ -109,6 +110,7 @@
                                             data-selected="{{document.position_id}}"
                                             class="form-control js-select2-init" style="width: 100%">
                                             <option value="0" selected disabled>Выберете позицию</option>
+                                             <option value="{{document.position_id}}" selected>{{document.position_name}}</option>
                                         </select>
                                     </div>
                                 {{/if}}

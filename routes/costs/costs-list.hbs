@@ -98,7 +98,7 @@
                                 </div>
                                 <div id="collapse1One" class="accordion-body collapse">
                                     <div class="panel-body">
-                                        <select style="width: 100%" name="base_id" id="js-costsForm-documents">
+                                        <select style="width: 100%" name="base_id" class="js-select2-init" data-modal="#add-products">
                                             <option value="" selected disabled>Выберите документ из списка</option>
                                             {{#each groupDocuments}}
                                                 <optgroup label="{{this.label}}">
@@ -156,7 +156,7 @@
                                 </div>
                                 <div id="collapse1Three" class="accordion-body collapse">
                                     <div class="panel-body">
-                                        <select style="width: 100%" name="driver_id" class="js-select2-select">
+                                        <select style="width: 100%" name="driver_id" class="js-select2-init" data-modal="#add-products">
                                             <option value="" selected disabled>Выберите лицо из списка</option>
                                             {{#each drivers}}
                                                 <option value="{{id}}">{{name}}</option>
