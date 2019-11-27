@@ -76,11 +76,43 @@ app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Ст
 app.use((error, req, res, next) => {
     console.error('[' + new Date().toLocaleString() + ']:', error);
 
+    let errorMessage = error.message;
+
     if (req.method !== 'POST')
         return next(error);
 
+    if (error.isJoi) {
+        const { details } = error;
 
-    return res.json({ status: 'bad', message: error.message, stack: error.stack });
+        const message = details.map(i => {
+
+            const { label } = i.context;
+
+            if (i.type === 'any.required') {
+                return `Поле ${label} является обязательным для заполнение`;
+            } else if (i.type === 'any.empty') {
+                return `Поле ${label} не должно быть пустым`;
+            } else if (i.type === 'date.isoDate') {
+                return `Поле ${label} имеет неверный формат даты`;
+            } else if(i.type === 'boolean.base') {
+                return `Поле ${label} должно быть типа логическим выражением`;
+            } else if(i.type === 'date.base') {
+                return `Поле ${label} должно быть типа датой`;
+            } else if(i.type === 'number.base') {
+                return `Поле ${label} должно быть числовым типом`;
+            } else if(i.type === 'string.base') {
+                return `Поле ${label} должно быть строковым типом`;
+            }
+
+
+            return i.message;
+
+        }).join(',');
+
+        errorMessage = message || errorMessage;
+    }
+
+    return res.json({ status: 'bad', message: errorMessage, stack: error.stack });
 })
 
 module.exports = app;

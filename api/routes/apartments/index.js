@@ -11,11 +11,11 @@ const apartments_statuses = require('../../../config/apartment-statuses');
 const Joi = require('joi');
 
 const addSchema = Joi.object({
-    address: Joi.strict().required(),
-    rooms: Joi.number().required(),
-    price_per_day: Joi.number().required(),
-    utilities_per_month: Joi.number().required(),
-    apartment_owned: Joi.number().valid([1, 0]).default(0),
+    address: Joi.string().required().label('Адрес'),
+    rooms: Joi.number().required().label('Количество комнат'),
+    price_per_day: Joi.number().required().label('Цена за сутки'),
+    utilities_per_month: Joi.number().required().label('Коммунальные услуги в месяц'),
+    apartment_owned: Joi.number().valid([1, 0]).default(0).label('Квартира принадлежит фирме'),
 })
 
 app.post('/get', async (req, res, next) => {
