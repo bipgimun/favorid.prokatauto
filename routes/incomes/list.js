@@ -7,10 +7,14 @@ module.exports = async (req, res, next) => {
     const incomes = await db.execQuery(`
         SELECT i.*,
             c.name as customer_name,
+            s.name as supplier_name,
+            d.name as driver_name,
             cs.name as cashbox_name
         FROM incomes i
             LEFT JOIN customers c ON c.id = i.customer_id
             LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id
+            LEFT JOIN suppliers s ON s.id = i.supplier_id
+            LEFT JOIN drivers d ON d.id = i.driver_id
     `);
 
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);
@@ -23,6 +27,7 @@ module.exports = async (req, res, next) => {
 
     incomes.forEach(item => {
         item.base = item.base_id || item.base_other;
+        item.from = item.customer_name || item.supplier_name || item.driver_name;
     });
 
     const groupDocuments = [

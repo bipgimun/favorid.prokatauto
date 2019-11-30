@@ -45,18 +45,18 @@ app.post('/add', async (req, res, next) => {
     const { base_id: baseId } = validValues;
 
     if (baseId) {
-        if (/([\w]+)-([\d]+)$/i.test(baseId)) {
-            const [, code = '', document_id = ''] = /([\w]+)-([\d]+)$/i.exec(validValues.base_id) || [];
+        if (/^([\w]+)-([\d]+)$/i.test(baseId)) {
+            const [, code = '', document_id = ''] = /^([\w]+)-([\d]+)$/i.exec(validValues.base_id) || [];
 
             validValues.code = code;
             validValues.document_id = document_id;
-        } else if (/([\w]+-[\w]+)-([\d]+)$/i.test(baseId)) {
-            const [, code = '', document_id = ''] = /([\w]+-[\w]+)-([\d]+)$/i.exec(validValues.base_id) || [];
+        } else if (/^([\w]+-[\w]+)-([\d]+)$/i.test(baseId)) {
+            const [, code = '', document_id = ''] = /^([\w]+-[\w]+)-([\d]+)$/i.exec(validValues.base_id) || [];
 
             validValues.code = code;
             validValues.document_id = document_id;
-        } else if (/(\w{1,2})-([\d]+)$/i.test(baseId)) {
-            const [, code = '', document_id = ''] = /(\w{1,2})-([\d]+)$/i.exec(validValues.base_id) || [];
+        } else if (/^(\w{1,2})-([\d]+)$/i.test(baseId)) {
+            const [, code = '', document_id = ''] = /^(\w{1,2})-([\d]+)$/i.exec(validValues.base_id) || [];
 
             validValues.code = code;
             validValues.document_id = document_id;
@@ -69,7 +69,7 @@ app.post('/add', async (req, res, next) => {
 
     const id = await db.insertQuery('INSERT INTO incomes SET ?', validValues);
 
-    
+
     if (baseId && validValues.code === 'pd') {
         const invoicePayments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', validValues.document_id]);
         const [invoice = {}] = await invoicesModel.get({ id: validValues.document_id });
@@ -129,6 +129,52 @@ app.post('/getDocuments', async (req, res, next) => {
         { text: 'Аренда квартир', children: apartmentReservations, },
         { text: 'Счета для оплаты', children: invoices, },
         { text: 'Контракты', children: contracts },
+    ];
+
+    res.json({
+        status: 'ok',
+        body: groupDocuments
+    });
+})
+
+app.post('/getDocumentsBySupplier', async (req, res, next) => {
+
+    const { supplierId } = req.body;
+
+    if (!supplierId)
+        throw new Error('Отсутствует поставщик');
+
+    const suppliersDeals = (await db.execQuery(`SELECT * FROM suppliers_deals WHERE supplier_id = ?`, [supplierId]))
+        .map(item => ({ id: 'SD-' + item.id, text: 'SD-' + item.id }));
+
+    const groupDocuments = [
+        { text: 'Сделки с поставщиками', children: suppliersDeals, },
+    ];
+
+    res.json({
+        status: 'ok',
+        body: groupDocuments
+    });
+})
+
+app.post('/getDocumentsByDriver', async (req, res, next) => {
+
+    const { driverId } = req.body;
+
+    if (!driverId)
+        throw new Error('Отсутствует поставщик');
+
+    const carReservations = (await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations WHERE driver_id = ?`, [driverId]))
+        .map(value => ({ id: value.code, text: value.code }));
+
+    const contractsQuery = (await db.execQuery(`SELECT * FROM drivers2shifts WHERE driver_id = ?`, [driverId]));
+
+
+    const contracts = contractsQuery.map(item => ({ id: 'muz-s-' + item.id, text: 'muz-s-' + item.id }));
+
+    const groupDocuments = [
+        { text: 'Аренда автомобилей', children: carReservations, },
+        { text: 'Поездка по смене', children: contracts, },
     ];
 
     res.json({
