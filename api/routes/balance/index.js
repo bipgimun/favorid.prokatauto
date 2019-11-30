@@ -130,7 +130,7 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
 
         positions.push({
             id,
-            code: 'CRR',
+            code: 'MUZ',
             title,
             income: sum,
             gone: '--',

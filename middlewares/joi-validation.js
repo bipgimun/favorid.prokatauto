@@ -13,8 +13,6 @@ exports.joiValidate = (schema, from = 'body') => {
         } else {
             const { details } = error;
 
-            console.log(details);
-
             const message = details.map(i => {
 
                 const { label } = i.context;
