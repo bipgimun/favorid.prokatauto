@@ -40,19 +40,19 @@
                 </thead>
                 <tbody>
                     {{#each incomes}}
-                        <tr>
-                            <td>{{toIsoString this.date 'DD.MM.YYYY'}}</td>
-                            <td>{{this.id}}</td>
-                            <td>{{this.customer_name}}</td>
-                            <td>{{this.base}}</td>
-                            <td>
-                                {{this.sum}}
-                            </td>
-                            <td>{{this.cashbox_name}}</td>
-                            <td>
-                                <a href="/incomes/{{this.id}}" target="_blank">Подробнее</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>{{toIsoString this.date 'DD.MM.YYYY'}}</td>
+                        <td>{{this.id}}</td>
+                        <td>{{this.customer_name}}</td>
+                        <td>{{this.base}}</td>
+                        <td>
+                            {{this.sum}}
+                        </td>
+                        <td>{{this.cashbox_name}}</td>
+                        <td>
+                            <a href="/incomes/{{this.id}}" target="_blank">Подробнее</a>
+                        </td>
+                    </tr>
                     {{/each}}
                 </tbody>
                 <tfoot>
@@ -95,7 +95,7 @@
                                 data-ajax="/api/customers/select2" style="width: 100%" name="customer_id">
                                 <option value="" selected disabled>Выберите заказчика из списка</option>
                                 {{#each customers}}
-                                    <option value="{{id}}">{{name}}</option>
+                                <option value="{{id}}">{{name}}</option>
                                 {{/each}}
                             </select>
                             <span class="input-group-btn">
@@ -108,7 +108,8 @@
                     <label class="col-sm-4 control-label">Поставщик</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select class="js-select2-init" data-ajax="" style="width: 100%" >
+                            <select name="supplier_id" class="js-select2-init" data-ajax="/api/suppliers/getSelect2"
+                                data-modal="#add-products" style="width: 100%">
                                 <option value="" selected disabled>Выберите поставщика из списка</option>
                             </select>
                             <span class="input-group-btn">
@@ -121,7 +122,8 @@
                     <label class="col-sm-4 control-label">Водитель</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <select class="js-select2-init" data-ajax="" style="width: 100%" >
+                            <select name="driver_id" class="js-select2-init" data-ajax="/api/drivers/select2" data-modal="#add-products"
+                                style="width: 100%">
                                 <option value="" selected disabled>Выберите водителя из списка</option>
                             </select>
                             <span class="input-group-btn">

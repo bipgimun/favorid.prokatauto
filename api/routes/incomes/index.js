@@ -11,6 +11,8 @@ const incomePrint = require('../../../libs/income-print');
 const addScheme = Joi.object({
     date: Joi.date().iso().required(),
     base_id: Joi.string(),
+    driver_id: Joi.number().default(null),
+    supplier_id: Joi.number().default(null),
     base_other: Joi.string(),
     sum: Joi.number().required(),
     cash_storage_id: Joi.number().integer().required(),
@@ -22,6 +24,8 @@ const updateScheme = Joi.object({
     date: Joi.date().iso().empty([null, '']),
     cash_storage_id: Joi.number().integer().empty([null, '']),
     sum: Joi.number().empty([null, '']),
+    driver_id: Joi.number().empty('').default(null),
+    supplier_id: Joi.number().empty('').default(null),
     comment: Joi.string().allow(''),
     customer_id: Joi.number(),
     id: Joi.number().required()
@@ -65,9 +69,9 @@ app.post('/add', async (req, res, next) => {
 
     const id = await db.insertQuery('INSERT INTO incomes SET ?', validValues);
 
-    const invoicePayments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', validValues.document_id]);
-
+    
     if (baseId && validValues.code === 'pd') {
+        const invoicePayments = await db.execQuery(`SELECT * FROM incomes WHERE code = ? AND document_id = ?`, ['pd', validValues.document_id]);
         const [invoice = {}] = await invoicesModel.get({ id: validValues.document_id });
 
         const invoicePaymentsSum = invoicePayments
@@ -117,10 +121,14 @@ app.post('/getDocuments', async (req, res, next) => {
     const invoices = (await invoicesModel.get({ isPaid: false, customerId }))
         .map(item => ({ id: 'pd-' + item.id, text: 'pd-' + item.id }));
 
+    const contracts = (await db.execQuery(`SELECT * FROM muz_contracts WHERE customer_id = ?`, [customerId]))
+        .map(item => ({ id: 'muz-' + item.id, text: 'muz-' + item.id }));
+
     const groupDocuments = [
         { text: 'Аренда автомобилей', children: carReservations, },
         { text: 'Аренда квартир', children: apartmentReservations, },
         { text: 'Счета для оплаты', children: invoices, },
+        { text: 'Контракты', children: contracts },
     ];
 
     res.json({
