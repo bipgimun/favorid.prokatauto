@@ -90,10 +90,14 @@ app.post('/add', async (req, res, next) => {
     const [income] = await db.execQuery(`
         SELECT i.*,
             c.name as customer_name,
+            s.name as supplier_name,
+            d.name as driver_name,
             cs.name as cashbox_name
         FROM incomes i
             LEFT JOIN customers c ON c.id = i.customer_id
             LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id
+            LEFT JOIN suppliers s ON s.id = i.supplier_id
+            LEFT JOIN drivers d ON d.id = i.driver_id
         WHERE i.id = ${id}
     `);
 
@@ -167,14 +171,23 @@ app.post('/getDocumentsByDriver', async (req, res, next) => {
     const carReservations = (await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations WHERE driver_id = ?`, [driverId]))
         .map(value => ({ id: value.code, text: value.code }));
 
-    const contractsQuery = (await db.execQuery(`SELECT * FROM drivers2shifts WHERE driver_id = ?`, [driverId]));
+    const driverShifts = (await db.execQuery(`
+        SELECT d2s.*,
+            s2c.contract_id
+        FROM drivers2shifts d2s
+            LEFT JOIN shifts2contracts s2c ON s2c.id = d2s.shift_id
+        WHERE d2s.driver_id = ?
+        `, [driverId]
+    ));
 
+    const driverContractsIds = [...new Set(driverShifts.map(item => item.contract_id))].join(',');
+    const contractsQuery = await db.execQuery(`SELECT * FROM muz_contracts WHERE id IN (${driverContractsIds})`);
 
-    const contracts = contractsQuery.map(item => ({ id: 'muz-s-' + item.id, text: 'muz-s-' + item.id }));
+    const contracts = contractsQuery.map(item => ({ id: 'muz-' + item.id, text: 'muz-' + item.id }));
 
     const groupDocuments = [
         { text: 'Аренда автомобилей', children: carReservations, },
-        { text: 'Поездка по смене', children: contracts, },
+        { text: 'Контракт', children: contracts, },
     ];
 
     res.json({

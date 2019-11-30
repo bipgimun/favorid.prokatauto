@@ -90,6 +90,15 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
             AND ${period_left ? `s2c.date_start BETWEEN '${dateGt}' AND '${dateLt}'` : `s2c.date_start <= '${dateLt}'`}
     `);
 
+    const incomes = await db.execQuery(`
+        SELECT i.*
+        FROM incomes i
+        WHERE i.driver_id = ${driver_id}
+    `);
+    
+    const contractIncome = incomes.filter(item => item.code === 'muz');
+    const reservIncome = incomes.filter(item => item.code.toLowerCase() === 'crr');
+
     const positions = [];
     const money = [];
 
@@ -111,6 +120,40 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
         positions.push({
             id,
             code: 'CRR',
+            title,
+            income: sum,
+            gone: '--',
+        });
+    })
+
+    reservIncome.forEach(item => {
+
+        const { id, sum } = item;
+
+        const title = `Приход по аренде авто №${item.document_id}`;
+
+        positionsIncome += +sum;
+
+        positions.push({
+            id,
+            code: 'CRR',
+            title,
+            income: sum,
+            gone: '--',
+        });
+    })
+
+    contractIncome.forEach(item => {
+
+        const { id, sum } = item;
+
+        const title = `Приход по контракту №${item.document_id}`;
+
+        positionsIncome += +sum;
+
+        positions.push({
+            id,
+            code: 'MUZ',
             title,
             income: sum,
             gone: '--',
