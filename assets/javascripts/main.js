@@ -756,7 +756,7 @@ $(document).ready(() => {
         $(e.target).find('.modal-dismiss').click();
 
         if ($('#js-incomes-table').length) {
-            insertTable('incomes', data.id, [data.date, data.id, data.customer_name, data.base, data.sum, data.cashbox_name]);
+            insertTable('incomes', data.id, [data.date, data.id, data.from, data.base, data.sum, data.cashbox_name]);
         } else {
             Object.keys(data).forEach(key => {
                 $form.find(`[data-target=${key}]`).text(data[key]);

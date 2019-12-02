@@ -88,10 +88,10 @@
                             <label class="col-sm-4 control-label">Поставщик</label>
                             <div class="col-sm-8">
                                 <div class="non-editable-content" data-target="">
-                                    {{}}
+                                    {{supplier_name}}
                                 </div>
                                 <div class="editable-content">
-                                    <select class="js-select2-init" data-ajax="" style="width: 100%" >
+                                    <select class="js-select2-init" data-ajax="/api/suppliers/getSelect2" style="width: 100%" >
                                         <option value="" selected disabled>Выберите поставщика из списка</option>
                                     </select>
                                 </div>
@@ -101,10 +101,10 @@
                             <label class="col-sm-4 control-label">Водитель</label>
                             <div class="col-sm-8">
                                 <div class="non-editable-content" data-target="">
-                                    {{}}
+                                    {{driver_name}}
                                 </div>
                                 <div class="editable-content">
-                                    <select class="js-select2-init" data-ajax="" style="width: 100%" >
+                                    <select class="js-select2-init" data-ajax="/api/drivers/select2" style="width: 100%" >
                                         <option value="" selected disabled>Выберите водителя из списка</option>
                                     </select>
                                 </div>

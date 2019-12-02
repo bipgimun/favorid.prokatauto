@@ -103,6 +103,7 @@ app.post('/add', async (req, res, next) => {
 
     income.base = income.base_id || income.base_other;
     income.date = moment(income.date).format('DD.MM.YYYY');
+    income.from = income.customer_name || income.supplier_name || income.driver_name;
 
     res.json({
         status: 'ok', data: income

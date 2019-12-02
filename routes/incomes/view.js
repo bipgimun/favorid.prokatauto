@@ -10,11 +10,15 @@ module.exports = async (req, res, next) => {
         SELECT i.*,
             cs.name as cashbox_name,
             cust.name as customer_name,
+            s.name as supplier_name,
+            d.name as driver_name,
             CONCAT(e.last_name, ' ', e.first_name) as manager_name
         FROM incomes i
             LEFT JOIN cash_storages cs ON cs.id = i.cash_storage_id
             LEFT JOIN customers cust ON cust.id = i.customer_id
             LEFT JOIN employees e ON e.id = i.manager_id
+            LEFT JOIN suppliers s ON s.id = i.supplier_id
+            LEFT JOIN drivers d ON d.id = i.driver_id
         WHERE i.id = ?
     `, [id]);
 
@@ -48,6 +52,8 @@ module.exports = async (req, res, next) => {
     ];
 
     const customers = await customersModel.get();
+
+    income.from = income.customer_name || income.supplier_name || income.driver_name;
 
     res.render(__dirname + '/incomes-view', {
         incomes,
