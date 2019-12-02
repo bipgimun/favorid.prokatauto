@@ -12,12 +12,14 @@ module.exports = async (req, res, next) => {
             cc.title as category,
             cs.name as cashbox_name,
             CONCAT(e.last_name, ' ', e.first_name) as manager_name,
-            s.name as supplier_name
+            s.name as supplier_name,
+            cust.name as customer_name
         FROM costs c
             LEFT JOIN costs_categories cc ON cc.id = c.category_id
             LEFT JOIN cash_storages cs ON cs.id = c.cash_storage_id
             LEFT JOIN employees e ON e.id = c.manager_id
             LEFT JOIN suppliers s ON s.id = c.supplier_id
+            LEFT JOIN customers cust ON cust.id = c.customer_id
         WHERE c.id = ?
     `, [id]);
 

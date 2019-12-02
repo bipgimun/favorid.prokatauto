@@ -776,11 +776,43 @@ $(document).ready(() => {
 
         const values = getFormValues($form);
 
-        const { data } = await request(url, { values }, { showNotify: true });
+        const details = {
+            auto: [],
+            apartments: [],
+            drivers: [],
+            contracts: []
+        };
+
+        const fillDetails = ($array, type) => {
+            $array.each((index, element) => {
+                const $element = $(element);
+                const target_id = $element.find('.target_id').val();
+                const price = $element.find('.price').val();
+
+                if (!target_id || !price) {
+                    return;
+                }
+
+                details[type].push({ target_id, price });
+            });
+        };
+
+        if ($form.data('target') == 'list') {
+            const $autos = $('.autos-group__item');
+            const $apartments = $('.apartments-group__item');
+            const $drivers = $('.drivers-group__item');
+            const $contracts = $('.contracts-group__item');
+
+
+            fillDetails($autos, 'auto');
+            fillDetails($apartments, 'apartments');
+            fillDetails($drivers, 'drivers');
+            fillDetails($contracts, 'contracts');
+        }
+
+        const { data } = await request(url, { values, details: JSON.stringify(details) }, { showNotify: true });
 
         $(e.target).find('.modal-dismiss').click();
-
-        console.log(data);
 
         if ($('#js-costs-table').length) {
             insertTable('costs', data.id, [data.date, data.id, data.toCost, data.category, data.cashbox_name, data.sum]);
@@ -1205,10 +1237,10 @@ const updateContract = async (form) => {
 
     const postData = {
         comment,
-        customer_id, 
-        total_value, 
-        cash_security, 
-        total_hours, 
+        customer_id,
+        total_value,
+        cash_security,
+        total_hours,
         id,
     };
 

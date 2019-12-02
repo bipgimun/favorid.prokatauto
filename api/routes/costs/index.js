@@ -16,17 +16,19 @@ const addScheme = Joi.object({
     base_id: Joi.string().empty(''),
     driver_id: Joi.string().empty(''),
     supplier_id: Joi.string().empty(''),
+    customer_id: Joi.number().empty(''),
     base_other: Joi.string().empty(''),
     sum: Joi.number().required(),
     cash_storage_id: Joi.number().integer().required(),
     category_id: Joi.number().integer().required(),
     comment: Joi.string().empty(''),
     date: Joi.date().iso().required(),
-}).xor('base_id', 'base_other', 'driver_id', 'supplier_id');
+}).xor('base_id', 'base_other', 'driver_id', 'supplier_id', 'customer_id');
 
 const updateScheme = Joi.object({
     date: Joi.date().iso().empty([null, '']),
     category_id: Joi.number().integer().empty([null, '']),
+    customer_id: Joi.number().empty('').default(null),
     cash_storage_id: Joi.number().integer().empty([null, '']),
     sum: Joi.number().empty([null, '']),
     comment: Joi.string().allow(''),
@@ -41,7 +43,7 @@ const {
 
 app.post('/add', async (req, res, next) => {
 
-    const { values } = req.body;
+    const { values, details = '' } = req.body;
 
     const validValues = await Joi.validate(values, addScheme);
 
@@ -52,9 +54,26 @@ app.post('/add', async (req, res, next) => {
         validValues.document_id = document_id;
     }
 
+
+    const jsonDetails = JSON.parse(details);
+
+
     validValues.manager_id = req.session.user.employee_id;
 
     const id = await db.insertQuery('INSERT INTO costs SET ?', [validValues]);
+
+    for (const key of Object.keys(jsonDetails)) {
+        const detail = jsonDetails[key] || [];
+
+        if (detail.length < 1) {
+            continue;
+        }
+
+        for (const detItem of detail) {
+            const { target_id, price } = detItem;
+            await db.insertQuery(`INSERT INTO costs_details SET ?`, [{ cost_id: id, target_type: key, target_id, price }]);
+        }
+    }
 
     validValues.id = id;
     validValues.base = validValues.base_id || validValues.base_other;
@@ -181,6 +200,15 @@ async function getCostDirection(cost) {
             toCost = '';
 
         toCost = driver.name;
+    }
+
+    if (cost.customer_id) {
+        const [customer] = await db.execQuery(`SELECT * FROM customers WHERE id = ?`, [cost.customer_id]);
+
+        if (!customer)
+            toCost = '';
+
+        toCost = customer.name;
     }
 
     cost.toCost = toCost;

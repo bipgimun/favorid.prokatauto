@@ -120,6 +120,14 @@ app.post('/get', async (req, res, next) => {
     return res.json({ status: 'ok', data: cars });
 });
 
+app.get('/select2', async (req, res, next) => {
+
+    const { search = '' } = req.query;
+
+    const cars = await db.execQuery(`SELECT *, CONCAT(name, ' ', model, ' - ', number) as name FROM cars WHERE CONCAT(name, ' ', model, ' - ', number) LIKE '%?%'`, [search]);
+    res.json({ items: cars });
+});
+
 app.post('/get/:id', async (req, res, next) => {
 
     const { id } = req.params;

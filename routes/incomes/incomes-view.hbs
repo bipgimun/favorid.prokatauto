@@ -74,12 +74,10 @@
                                     {{customer_name}}
                                 </div>
                                 <div class="editable-content">
-                                    <select style="width: 100%" name="customer_id">
-                                        <option value="" selected disabled>Выберите заказчика из списка</option>
-                                        {{#each ../customers}}
-                                            <option {{compare id ../customer_id 'selected' ''}} value="{{id}}">{{name}}
-                                            </option>
-                                        {{/each}}
+                                    <select style="width: 100%" name="customer_id" class="js-select2-init" data-ajax="/api/customers/select2">
+                                        {{#if customer_id}}
+                                            <option value="{{customer_id}}" selected>{{customer_name}}</option>
+                                        {{/if}}
                                     </select>
                                 </div>
                             </div>
@@ -92,7 +90,9 @@
                                 </div>
                                 <div class="editable-content">
                                     <select class="js-select2-init" data-ajax="/api/suppliers/getSelect2" style="width: 100%" >
-                                        <option value="" selected disabled>Выберите поставщика из списка</option>
+                                        {{#if supplier_id}}
+                                            <option value="{{supplier_id}}" selected>{{supplier_name}}</option>
+                                        {{/if}}
                                     </select>
                                 </div>
                             </div>
@@ -105,7 +105,9 @@
                                 </div>
                                 <div class="editable-content">
                                     <select class="js-select2-init" data-ajax="/api/drivers/select2" style="width: 100%" >
-                                        <option value="" selected disabled>Выберите водителя из списка</option>
+                                        {{#if driver_id}}
+                                            <option value="{{driver_id}}" selected>{{driver_name}}</option>
+                                        {{/if}}
                                     </select>
                                 </div>
                             </div>
@@ -131,8 +133,7 @@
                                         {{cashbox_name}}
                                     </div>
                                     <div class="editable-content">
-                                        <select style="width: 100%" name="cash_storage_id"
-                                            id="js-incomesForm-cashStorages-view">
+                                        <select style="width: 100%" name="cash_storage_id" class="js-select2-init" data-ajax="/api/cashStorages/select2">
                                             <option value="" selected disabled>Выберите кассу / счёт из списка</option>
                                             {{#each ../cashStorages}}
                                                 <option {{compare id ../cash_storage_id 'selected' ''}}

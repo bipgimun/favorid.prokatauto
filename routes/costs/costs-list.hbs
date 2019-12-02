@@ -76,7 +76,7 @@
             <h2 class="panel-title">Новый документ расхода</h2>
         </header>
         <div class="panel-body">
-            <form id="js-costs-add-form" action="/api/costs/add" class="form-horizontal mb-lg" novalidate="novalidate">
+            <form id="js-costs-add-form" data-target="list" action="/api/costs/add" class="form-horizontal mb-lg" novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Дата</label>
                     <div class="col-sm-8">
@@ -131,6 +131,23 @@
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                            href="#customersAccordion">
+                                            Заказчики
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="customersAccordion" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <select style="width: 100%" name="customer_id" class="js-select2-init"
+                                            data-ajax="/api/customers/select2" data-modal="#add-products">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                             href="#collapse4">
                                             Поставщики
                                         </a>
@@ -177,11 +194,13 @@
                         <label class="col-sm-2 control-label">Авто</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <select class="form-control" name="">
+                                <select class="form-control target_id">
                                     <option value="0" selected disabled>Выберете автомобиль</option>
-                                    <option value=""></option>
+                                    {{#each cars}}
+                                        <option value="{{id}}">{{name}} {{model}} - {{number}}</option>
+                                    {{/each}}
                                 </select>
-                                <input type="number" class="form-control input-sm"
+                                <input type="number" class="form-control input-sm price"
                                     placeholder="руб">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default adding-item-autos" type="button">+</button>
@@ -202,11 +221,13 @@
                         <label class="col-sm-2 control-label">Квартира</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <select class="form-control" name="">
+                                <select class="form-control target_id">
                                     <option value="0" selected disabled>Выберете квартиру</option>
-                                    <option value=""></option>
+                                     {{#each apartments}}
+                                        <option value="{{id}}">{{address}}</option>
+                                    {{/each}}
                                 </select>
-                                <input type="number" class="form-control input-sm"
+                                <input type="number" class="form-control input-sm price"
                                     placeholder="руб">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default adding-item-apartments" type="button">+</button>
@@ -227,11 +248,13 @@
                         <label class="col-sm-2 control-label">Водитель</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <select class="form-control" name="">
+                                <select class="form-control target_id">
                                     <option value="0" selected disabled>Выберете водителя</option>
-                                    <option value=""></option>
+                                     {{#each drivers}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
                                 </select>
-                                <input type="number" class="form-control input-sm"
+                                <input type="number" class="form-control input-sm price"
                                     placeholder="руб">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default adding-item-drivers" type="button">+</button>
@@ -252,11 +275,13 @@
                         <label class="col-sm-2 control-label">Контракт</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <select class="form-control" name="">
+                                <select class="form-control target_id">
                                     <option value="0" selected disabled>Выберете контракт</option>
-                                    <option value=""></option>
+                                     {{#each contracts}}
+                                        <option value="{{id}}">MUZ-{{id}}</option>
+                                    {{/each}}
                                 </select>
-                                <input type="number" class="form-control input-sm"
+                                <input type="number" class="form-control input-sm price"
                                     placeholder="руб">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default adding-item-contracts" type="button">+</button>
@@ -342,7 +367,6 @@
         }
 
         table.appendChild(new_row);
-        initServiceSelect();
     }
 
     function delRow() {
@@ -380,7 +404,6 @@
         }
 
         tableApart.appendChild(new_rowApart);
-        initServiceSelect();
     }
 
     function delRowApart() {

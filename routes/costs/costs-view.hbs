@@ -74,6 +74,8 @@
                                     {{base}}
                                 {{else if driver_id}}
                                     <a href="/drivers/{{../driver.id}}" target="__blank">{{../driver.name}}</a>
+                                {{else if customer_id}}
+                                    <a href="/customers/{{../customer_id}}" target="__blank">{{customer_name}}</a>
                                 {{else if supplier_id}}
                                     <a href="/suppliers/{{supplier_id}}">{{supplier_name}}</a>
                                 {{else}}
