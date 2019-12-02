@@ -10,14 +10,14 @@ const argsType = {
     created: null,
     sum: null,
     base: '',
-    customer: {}
+    customer: {},
+    takeFrom: ''
 };
 
-async function main({ id, created, customer, sum, base } = argsType) {
+async function main({ id, created, customer, sum, base, takeFrom } = argsType) {
 
     const documentNumber = id;
     const documentCreated = moment(created).format('DD.MM.YYYY');
-    const takeFrom = customer.is_legal_entity ? 'Юр. лицо' : 'Физ. лицо';
     const documentSum = sum;
     const sumLeft = documentSum.toString().split('.')[0];
     const sumRight = documentSum.toString().split('.')[1];

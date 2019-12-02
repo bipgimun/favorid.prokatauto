@@ -267,15 +267,36 @@ app.get('/print/:incomeId', async (req, res, next) => {
         throw new Error('Приход не найден');
     }
 
-    if (!income.customer_id) {
-        throw new Error('Отсутствует заказчик');
+    let from = '';
+
+    if(income.customer_id) {
+        const [customer = {}] = await customersModel.get({ id: income.customer_id });
+    
+        if (!customer.id) {
+            throw new Error('Заказчик не найден');
+        }
+
+        from = customer.is_legal_entity ? 'Юр. лицо' : 'Физ. лицо';
+    } else if(income.driver_id) {
+        const [driver] = await db.execQuery(`SELECT * FROM drivers WHERE id = ?`, [income.driver_id]);
+
+        if(!driver) {
+            throw new Error('Водитель не найден');
+        }
+
+        from = driver.name;
+    } else if(income.supplier_id) {
+        const [supplier] = await db.execQuery(`SELECT * FROM suppliers WHERE id = ?`, [income.supplier_id]);
+
+        if(!supplier) {
+            throw new Error('Поставщик не найден');
+        }
+
+        from = supplier.name;
+    } else {
+        throw new Error('Неизвестный отправитель денежных средств');
     }
 
-    const [customer = {}] = await customersModel.get({ id: income.customer_id });
-
-    if (!customer.id) {
-        throw new Error('Заказчик не найден');
-    }
 
     let base;
 
@@ -294,10 +315,10 @@ app.get('/print/:incomeId', async (req, res, next) => {
 
     const file = await incomePrint({
         base,
-        customer,
         id: income.id,
         created: income.created,
         sum: income.sum,
+        takeFrom: from
     });
 
     res.download(file);
