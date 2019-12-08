@@ -77,6 +77,25 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
 
     const costs = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND driver_id = ${driver_id}`);
 
+    // получить разбивки из расходов на текущего водителя
+    const costsSplitS = await db.execQuery('SELECT * FROM costs_details WHERE target_type = ? AND target_id = ?', ['drivers', driver_id]);
+    
+    // запросить расходники, в которых есть разбивка на водителя
+    const costsBySplit = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND id IN (?)`, [costsSplitS.map(item => item.cost_id).join(',')]);
+
+    const costsSplitsForDriver = [];
+
+    for (const { price, cost_id } of costsSplitS) {
+        const cost = costsBySplit.find(item => item.id == cost_id);
+
+        if (!cost) {
+            continue;
+        }
+
+        costsSplitsForDriver.push({ id: cost_id, sum: price, date: cost.date });
+    }
+
+
     const carReservs = await carsReservsModel.get(carOptions);
 
     const shifts = await db.execQuery(`
@@ -95,7 +114,7 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
         FROM incomes i
         WHERE i.driver_id = ${driver_id}
     `);
-    
+
     const contractIncome = incomes.filter(item => item.code === 'muz');
     const reservIncome = incomes.filter(item => item.code.toLowerCase() === 'crr');
 
@@ -140,6 +159,21 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
             title,
             income: sum,
             gone: '--',
+        });
+    })
+
+    costsSplitsForDriver.forEach(item => {
+        const { id, sum, date } = item;
+        const title = `Документ расхода №${id} от ${moment(date).format('DD.MM.YYYY')}`;
+
+        moneyCosts += +sum;
+        
+        positions.push({
+            id,
+            code: 'COST-S',
+            title,
+            income: '--',
+            gone: sum,
         });
     })
 
