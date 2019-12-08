@@ -780,7 +780,8 @@ $(document).ready(() => {
             auto: [],
             apartments: [],
             drivers: [],
-            contracts: []
+            contracts: [],
+            carsReserv: []
         };
 
         const fillDetails = ($array, type) => {
@@ -802,12 +803,14 @@ $(document).ready(() => {
             const $apartments = $('.apartments-group__item');
             const $drivers = $('.drivers-group__item');
             const $contracts = $('.contracts-group__item');
+            const $carsReservs = $('.carsReservs-group__item');
 
 
             fillDetails($autos, 'auto');
             fillDetails($apartments, 'apartments');
             fillDetails($drivers, 'drivers');
             fillDetails($contracts, 'contracts');
+            fillDetails($carsReservs, 'carsReserv');
         } else if ($form.data('target') == 'view') {
             const $detailsUpdate = $('.js-detail-update');
 

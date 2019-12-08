@@ -23,7 +23,6 @@ module.exports = async (req, res, next) => {
 
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);
-    const customers = await db.execQuery(`SELECT *, CONCAT('CUST-', id) as code FROM customers`);
 
     const suppliers = await db.execQuery(`SELECT * FROM suppliers`);
 
@@ -142,7 +141,6 @@ module.exports = async (req, res, next) => {
     const groupDocuments = [
         { label: 'Аренда автомобилей', documents: carReservations, },
         { label: 'Аренда квартир', documents: apartmentReservations, },
-        { label: 'Заказчики', documents: customers, },
         { label: 'Сделки с поставщиками', documents: deals, },
         { label: 'Контракты', documents: contracts, },
     ];
@@ -151,9 +149,9 @@ module.exports = async (req, res, next) => {
         costs,
         groupDocuments,
         cashStorages,
-        customers,
         contracts,
         costsCategories,
+        carReservations,
         drivers,
         suppliers,
         cars,

@@ -56,6 +56,13 @@ module.exports = async (req, res, next) => {
             } else if (item.target_type == 'contracts') {
                 const [contract] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ?`, [target_id]);
                 item.name = 'MUZ-' + contract.id;
+            } else if(item.target_type === 'carsReserv') {
+                const [carReserv] = await db.execQuery('SELECT * FROM cars_reservations WHERE id = ?', [target_id]);
+                
+                if(!carReserv) 
+                    continue;
+
+                item.name = 'CRR-' + carReserv.id;
             }
         }
     }
@@ -85,11 +92,13 @@ module.exports = async (req, res, next) => {
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
     const drivers = await db.execQuery(`SELECT * FROM drivers`);
     const contracts = await db.execQuery(`SELECT * FROM muz_contracts`);
+    const carsReservs = await db.execQuery('SELECT * FROM cars_reservations');
 
     res.render(__dirname + '/costs-view', {
         costs,
         groupDocuments,
         cashStorages,
+        carsReservs,
         cars,
         apartments,
         drivers,

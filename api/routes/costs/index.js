@@ -217,11 +217,29 @@ async function getCostDirection(cost) {
 
 app.post('/update', async (req, res, next) => {
 
-    const { values } = req.body;
+    const { values, details = '' } = req.body;
 
-    const { id, ...validValues } = await Joi.validate(values, updateScheme);
+    const { id: costId, ...validValues } = await Joi.validate(values, updateScheme);
+    const jsonDetails = JSON.parse(details);
 
-    await db.insertQuery('UPDATE costs SET ? WHERE id = ?', [validValues, id]);
+    await db.insertQuery('UPDATE costs SET ? WHERE id = ?', [validValues, costId]);
+
+    for (const key of Object.keys(jsonDetails)) {
+        const detail = jsonDetails[key];
+
+        for (const detailData of detail) {
+            const { id: detailId, ...detailValues } = detailData;
+            const { target_id, target_type, price } = detailValues;
+
+            if (detailId && target_id == '-1') {
+                await db.execQuery('DELETE FROM costs_details WHERE id = ?', [detailId]);
+            } else if (detailId) {
+                await db.execQuery('UPDATE costs_details SET ? WHERE id = ?', [detailValues, detailId]);
+            } else if (!detailId && (target_type && target_id && price)) {
+                await db.insertQuery('INSERT INTO costs_details SET ?', [{ cost_id: costId, ...detailValues }]);
+            }
+        }
+    }
 
     const [cost = {}] = await db.execQuery(`
         SELECT c.*,
@@ -231,7 +249,7 @@ app.post('/update', async (req, res, next) => {
             LEFT JOIN costs_categories cc ON cc.id = c.category_id
             JOIN cash_storages cs ON cs.id = c.cash_storage_id
         WHERE c.id = ?
-    `, [id]);
+    `, [costId]);
 
     const returnValues = { validValues, ...cost };
 
