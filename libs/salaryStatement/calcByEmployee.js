@@ -17,27 +17,60 @@ module.exports = async ({ driver_id, leftDate = new Date(), rightDate = new Date
         statuses: '2'
     });
 
-    const result = [...carReservs]
-        .sort((a, b) => (new Date(a.created_at).getTime() - new Date(b.created_at).getTime()))
-        .map(item => {
+    const shifts = await db.execQuery(`
+        SELECT d2s.*,
+            s2c.contract_id,
+            s2c.date_start as shift_start
+        FROM drivers2shifts d2s
+            LEFT JOIN shifts2contracts s2c ON d2s.shift_id = s2c.id
+        WHERE ${driver_id ? `d2s.driver_id = ${driver_id}` : 1}
+            AND s2c.is_completed = 1
+            AND ${`s2c.date_start BETWEEN '${sideLeftDate}' AND '${sideRightDate}'`}
+    `);
+    
 
-            const { id, created_at, driver_salary: sum } = item;
-            const formatedDate = moment(created_at).format('DD.MM.YYYY');
+    const result = [];
 
-            const startTime = moment(item.rent_start).format('DD.MM.YYYY, HH:mm');
+    for (const carReserv of carReservs) {
+        const { id, created_at, driver_salary: sum } = carReserv;
+        const formatedDate = moment(created_at).format('DD.MM.YYYY');
 
-            return {
-                id,
-                sum,
-                description: `Заявка №${id}`,
-                date: formatedDate,
-                itinerarie_name: item.itinerarie_name,
-                passenger_name: item.passenger_name,
-                customer_name: item.customer_name,
-                startTime,
-                itinerarie_point_b: item.itinerarie_point_b
-            };
+        const startTime = moment(carReserv.rent_start).format('DD.MM.YYYY, HH:mm');
+
+        result.push({
+            id,
+            sum,
+            description: `Заявка №${id}`,
+            date: formatedDate,
+            itinerarie_name: carReserv.itinerarie_name,
+            passenger_name: carReserv.passenger_name,
+            customer_name: carReserv.customer_name,
+            startTime,
+            itinerarie_point_b: carReserv.itinerarie_point_b
         });
+    }
+    
+    for (const shift of shifts) {
+        const { id, created_at, value: salaryRate, hours, shift_start } = shift;
+        const formatedDate = moment(created_at).format('DD.MM.YYYY');
+
+        const startTime = moment(shift_start).format('DD.MM.YYYY, HH:mm');
+
+        const sum = salaryRate * hours;
+
+        result.push({
+            id,
+            sum,
+            description: `Смена №${id} по контракту №${shift.contract_id}`,
+            date: formatedDate,
+            itinerarie_name: '',
+            passenger_name: '',
+            customer_name: '',
+            code: 'muz',
+            startTime,
+            itinerarie_point_b: ''
+        });
+    }
 
     const total = result.reduce((prev, cur) => +prev + +cur.sum, 0);
 

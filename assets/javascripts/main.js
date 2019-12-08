@@ -1170,7 +1170,7 @@ const SuppliersDeals = {
     },
 };
 
-const contactsShiftAdd = async (form) => {
+const contractsShiftAdd = async (form) => {
 
     const $form = $(form);
     const $dribersBlocks = $form.find('.js-contract-driver-block');

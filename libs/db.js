@@ -53,9 +53,15 @@ module.exports = new class Db {
      */
     async execQuery(query = '', data, obj = {}) {
         const sqlQuery = this.connection.format(query, data);
-        const [rows, fields, sql] = await this.connection.query(sqlQuery);
-        obj.sql = sqlQuery;
-        return rows;
+        try {
+            const [rows, fields, sql] = await this.connection.query(sqlQuery);
+            obj.sql = sqlQuery;
+            return rows;
+        } catch(error) {
+            console.log('Случилась ошибка');
+            console.error(sqlQuery);
+            throw error;
+        }
     }
     /**
      * @param {String} query строка запроса
