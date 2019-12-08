@@ -139,7 +139,7 @@ router.get('/print', async function (req, res, next) {
 })
 
 router.post('/document/save', async (req, res, next) => {
-    const { money: incomes, positions, customer_id, period_left, period_right, sum, saldo } = req.body;
+    const { money: incomes, positions = [], customer_id, period_left, period_right, sum, saldo } = req.body;
 
     if (!Array.isArray(incomes) || !Array.isArray(positions) || !customer_id) {
         throw new Error('Ошибка входных переменных');

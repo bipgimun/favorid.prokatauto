@@ -138,11 +138,17 @@ module.exports = async (req, res, next) => {
         cost.toCost = toCost;
     }
 
+    const actSverki = await db.execQuery(`SELECT *, CONCAT('ACT-', id) as code FROM act_sverki_documents`);
+    const actSverkiSuppliers = await db.execQuery(`SELECT *, CONCAT('ACT-S-', id) as code FROM act_sverki_suppliers_documents`);
+
     const groupDocuments = [
         { label: 'Аренда автомобилей', documents: carReservations, },
         { label: 'Аренда квартир', documents: apartmentReservations, },
         { label: 'Сделки с поставщиками', documents: deals, },
         { label: 'Контракты', documents: contracts, },
+        { label: 'Контракты', documents: contracts, },
+        { label: 'Акт сверки с заказчиком', documents: actSverki, },
+        { label: 'Акт сверки с поставщиком', documents: actSverkiSuppliers, },
     ];
 
     res.render(__dirname + '/costs-list', {

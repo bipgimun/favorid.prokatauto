@@ -30,13 +30,14 @@ $(document).ready(function () {
     });
 
     async function onSave() {
+
+        console.log(state);
+        
+
         const { money, deals, saldo, totalSumWithSaldo: totalSum } = state;
         const period_left = $periodLeft.val();
         const period_right = $periodRight.val();
         const supplier_id = $customer.val();
-
-        if (!money.length || !money.length)
-            return false;
 
         const { data: body } = await request('/api/act-sverki-suppliers/document/save', {
             money,

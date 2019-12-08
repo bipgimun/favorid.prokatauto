@@ -30,7 +30,7 @@ $(document).ready(function () {
     });
 
     async function onSave() {
-        const { money, positions, saldo, totalSum } = state;
+        const { money, positions = [], saldo, totalSum } = state;
         const period_left = $periodLeft.val();
         const period_right = $periodRight.val();
         const customer_id = $customer.val();

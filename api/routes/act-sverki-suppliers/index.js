@@ -136,8 +136,8 @@ router.get('/print', async function (req, res, next) {
 router.post('/document/save', async (req, res, next) => {
 
     const {
-        money,
-        deals,
+        money = [],
+        deals = [],
         saldo,
         totalSum,
         period_left,
@@ -188,17 +188,17 @@ router.post('/document/save', async (req, res, next) => {
     }
 
 
-    const [a] = await db.execQuery(`
+    const [actSverkiSupplier] = await db.execQuery(`
          SELECT d.*,
             s.name as supplier_name
         FROM act_sverki_suppliers_documents d
             LEFT JOIN suppliers s ON s.id = d.supplier_id
-        WHERE id = ${document_id}
+        WHERE d.id = ${document_id}
     `);
 
-    a.created_at = moment(a.created_at).format('DD.MM.YYYY');
+    actSverkiSupplier.created_at = moment(actSverkiSupplier.created_at).format('DD.MM.YYYY');
 
-    return res.json({ status: 'ok', data: a });
+    return res.json({ status: 'ok', data: actSverkiSupplier });
 })
 
 async function calcTable({ period_left = '', period_right = '', supplier_id = '' }) {
