@@ -808,6 +808,8 @@ $(document).ready(() => {
             fillDetails($apartments, 'apartments');
             fillDetails($drivers, 'drivers');
             fillDetails($contracts, 'contracts');
+        } else if($form.data('target') == 'view') {
+
         }
 
         const { data } = await request(url, { values, details: JSON.stringify(details) }, { showNotify: true });

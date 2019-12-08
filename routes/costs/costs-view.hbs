@@ -54,7 +54,7 @@
             </header>
             {{#each costs}}
                 <div class="panel-body js-editable-body">
-                    <form id="js-costs-add-form" action="/api/costs/update" class="form-horizontal mb-lg"
+                    <form id="js-costs-add-form" action="/api/costs/update" data-target="view" class="form-horizontal mb-lg"
                         novalidate="novalidate">
                         <input type="hidden" name="id" value="{{id}}">
                         <div class="form-group">
@@ -92,15 +92,17 @@
                             <div class="col-sm-12 control-label" style="text-align:center;">
                                 <span>АВТОМОБИЛИ</span>
                             </div>
-                            <div class="non-editable-content form-group col-sm-12">
-                                <label class="col-sm-2 control-label">Авто</label>
-                                <div class="non-editable-content">
-                                    <div class="input-group">
-                                        <div class="form-control" name="">Какая-то тачка</div>
-                                        <span class="form-control">100 руб.</span>
+                            {{#each ../grouppedDetails.auto}}
+                                <div class="form-group col-sm-12">
+                                    <label class="col-sm-2 control-label">Авто</label>
+                                    <div class="">
+                                        <div class="input-group">
+                                            <div class="form-control">{{name}}</div>
+                                            <span class="form-control">{{price}} руб.</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {{/each}}
                             <div class="editable-content">
                                 <div class="form-group col-sm-12 autos-group__item">
                                     <label class="col-sm-2 control-label">Авто</label>
@@ -108,7 +110,9 @@
                                         <div class="input-group">
                                             <select class="form-control" name="">
                                                 <option value="0" selected disabled>Выберете автомобиль</option>
-                                                <option value=""></option>
+                                                {{#each ../cars}}
+                                                    <option value="{{id}}">{{name}} {{model}} - {{number}}</option>
+                                                {{/each}}
                                             </select>
                                             <input type="number" class="form-control input-sm"
                                                 placeholder="руб">
@@ -128,15 +132,17 @@
                             <div class="col-sm-12 control-label" style="text-align:center;">
                                 <span>КВАРТИРЫ</span>
                             </div>
-                            <div class="non-editable-content form-group col-sm-12">
-                                <label class="col-sm-2 control-label">Квартира</label>
-                                <div class="non-editable-content">
-                                    <div class="input-group">
-                                        <div class="form-control" name="">Какая-то хата</div>
-                                        <span class="form-control">1332332323232 руб.</span>
+                            {{#each ../grouppedDetails.apartments}}
+                                <div class="form-group col-sm-12">
+                                    <label class="col-sm-2 control-label">Квартира</label>
+                                    <div class="">
+                                        <div class="input-group">
+                                            <div class="form-control" name="">{{name}}</div>
+                                            <span class="form-control">{{price}} руб.</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {{/each}}
                             <div class="editable-content">
                                 <div class="form-group col-sm-12 apartments-group__item">
                                     <label class="col-sm-2 control-label">Квартира</label>
@@ -164,15 +170,17 @@
                             <div class="col-sm-12 control-label" style="text-align:center;">
                                 <span>ВОДИТЕЛИ</span>
                             </div>
-                            <div class="non-editable-content form-group col-sm-12">
-                                <label class="col-sm-2 control-label">Водитель</label>
-                                <div class="non-editable-content">
-                                    <div class="input-group">
-                                        <div class="form-control" name="">Какой-то водила</div>
-                                        <span class="form-control">132323232 руб.</span>
+                            {{#each ../grouppedDetails.drivers}}
+                                <div class="form-group col-sm-12">
+                                    <label class="col-sm-2 control-label">Водитель</label>
+                                    <div class="">
+                                        <div class="input-group">
+                                            <div class="form-control" name="">{{name}}</div>
+                                            <span class="form-control">{{price}} руб.</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {{/each}}
                             <div class="editable-content">
                                 <div class="form-group col-sm-12 drivers-group__item">
                                     <label class="col-sm-2 control-label">Водитель</label>
@@ -200,15 +208,17 @@
                             <div class="col-sm-12 control-label" style="text-align:center;">
                                 <span>КОНТРАКТЫ</span>
                             </div>
-                            <div class="non-editable-content form-group col-sm-12">
-                                <label class="col-sm-2 control-label">Контракт</label>
-                                <div class="non-editable-content">
-                                    <div class="input-group">
-                                        <div class="form-control" name="">Какой-то контракт</div>
-                                        <span class="form-control">132 руб.</span>
+                            {{#each ../grouppedDetails.contracts}}
+                                <div class="form-group col-sm-12">
+                                    <label class="col-sm-2 control-label">Контракт</label>
+                                    <div class="">
+                                        <div class="input-group">
+                                            <div class="form-control" name="">{{name}}</div>
+                                            <span class="form-control">{{price}} руб.</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {{/each}}
                             <div class="editable-content">
                                 <div class="form-group col-sm-12 contracts-group__item">
                                     <label class="col-sm-2 control-label">Контракт</label>

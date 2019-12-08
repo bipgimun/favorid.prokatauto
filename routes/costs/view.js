@@ -27,6 +27,40 @@ module.exports = async (req, res, next) => {
         throw new Error('Страница не найдена или была удалена')
     }
 
+    const [cost] = costs;
+
+    const details = await db.execQuery(`SELECT * FROM costs_details WHERE cost_id = ?`, [cost.id]);
+
+    const grouppedDetails = details.reduce((acc, item) => {
+        acc[item.target_type] = acc[item.target_type] || [];
+        acc[item.target_type].push(item);
+        return acc;
+    }, {});
+
+    for (const key of Object.keys(grouppedDetails)) {
+        const detail = grouppedDetails[key];
+
+        for (const item of detail) {
+
+            const { target_id } = item;
+
+            if (item.target_type == 'auto') {
+                const [car] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [target_id]);
+                item.name = `${car.name} ${car.model} - ${car.number}`;
+            } else if (item.target_type == 'apartments') {
+                const [apartment] = await db.execQuery(`SELECT * FROM apartments WHERE id = ?`, [target_id]);
+                item.name = apartment.address;
+            } else if (item.target_type == 'drivers') {
+                const [driver] = await db.execQuery(`SELECT * FROM drivers WHERE id = ?`, [target_id]);
+                item.name = driver.name;
+            } else if (item.target_type == 'contracts') {
+                const [contract] = await db.execQuery(`SELECT * FROM muz_contracts WHERE id = ?`, [target_id]);
+                item.name = 'MUZ-' + contract.id;
+            }
+        }
+    }
+    
+
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);
 
@@ -48,11 +82,15 @@ module.exports = async (req, res, next) => {
         { label: 'Аренда квартир', documents: apartmentReservations, }
     ];
 
+    const cars = await db.execQuery(`SELECT * FROM cars`);
+
     res.render(__dirname + '/costs-view', {
         costs,
         groupDocuments,
         cashStorages,
+        cars,
         costsCategories,
+        grouppedDetails,
         id,
         driver
     });
