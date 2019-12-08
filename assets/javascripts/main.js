@@ -826,11 +826,6 @@ $(document).ready(() => {
             })
         }
 
-        console.log(details);
-        
-
-        return false;
-
         const { data } = await request(url, { values, details: JSON.stringify(details) }, { showNotify: true });
 
         $(e.target).find('.modal-dismiss').click();
