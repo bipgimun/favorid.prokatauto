@@ -2,8 +2,8 @@
     <td colspan="4">
         <span>Общая сумма:</span>
         <span>
-            <span id="js-salaryStatement-totalSum" data-total="{{total}}">{{round total}}</span> 
-        р</span>
+            <span id="js-salaryStatement-totalSum" data-total="{{total}}">{{round total}}</span>
+            р</span>
     </td>
 </tr>
 <tr>
@@ -15,23 +15,25 @@
     <th>Время</th>
     <th>Заказчик</th>
     <th>Сумма, руб.</th>
-    <th>Действие</th>
+    {{#unless viewPage}}
+        <th>Действие</th>
+    {{/unless}}
 </tr>
 {{#each details}}
 
     <tr class="js-tr" data-id="{{id}}">
         <td>{{date}}</td>
-        <td>
-            <a href="/car-reservation/{{id}}">{{description}}</a>
-        </td>
+        <td>{{description}}</td>
         <td>{{itinerarie_name}}</td>
         <td>{{passenger_name}}</td>
         <td>{{itinerarie_point_b}}</td>
         <td>{{startTime}}</td>
         <td>{{customer_name}}</td>
         <td data-sum="{{sum}}">{{round sum}} руб.</td>
-        <td>
-            <a href="javascript:void(0);">Удалить</a>
-        </td>
+        {{#unless ../viewPage}}
+            <td>
+                <a href="javascript:void(0);">Удалить</a>
+            </td>
+        {{/unless}}
     </tr>
 {{/each}}

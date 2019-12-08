@@ -3,6 +3,8 @@ const db = require('../../libs/db');
 
 const { drivers: driversModel } = require('../../models/')
 
+const calcSalary = require('../../libs/salaryStatement/calcByEmployee')
+
 router.get('/', async (req, res, next) => {
     const drivers = await driversModel.get();
     const reports = await db.execQuery(`  SELECT sr.*,
@@ -27,13 +29,11 @@ router.get('/:id', async (req, res, next) => {
     if (!report)
         throw new Error('Отчёт не найден');
 
-    const details = await db.execQuery(`
-        SELECT srd.*,
-            cr.driver_salary
-        FROM salary_reports_details srd
-            LEFT JOIN cars_reservations cr ON cr.id = srd.reserv_id
-        WHERE srd.report_id = ?`, [id]
-    );
+    const { details, total } = await calcSalary({ 
+        leftDate: report.period_left, 
+        rightDate: report.period_right, 
+        driver_id: report.driver_id
+    });
 
     res.render(__dirname + '/view.hbs', { det: report, details, id });
 })

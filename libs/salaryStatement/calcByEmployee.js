@@ -5,7 +5,11 @@ const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 const { carsReservsModel } = require('../../models');
 
-module.exports = async ({ driver_id, leftDate = new Date(), rightDate = new Date() }) => {
+module.exports = async ({ driver_id, leftDate, rightDate }) => {
+
+    if (!leftDate || !rightDate) {
+        return { total: 0, details: [] };
+    }
 
     const sideLeftDate = moment(leftDate).add(-1, 'd').hours(23).minutes(59).seconds(59).format(DATE_FORMAT);
     const sideRightDate = moment(rightDate).hour(23).minute(59).second(59).format(DATE_FORMAT);
@@ -27,7 +31,7 @@ module.exports = async ({ driver_id, leftDate = new Date(), rightDate = new Date
             AND s2c.is_completed = 1
             AND ${`s2c.date_start BETWEEN '${sideLeftDate}' AND '${sideRightDate}'`}
     `);
-    
+
 
     const result = [];
 
@@ -49,7 +53,7 @@ module.exports = async ({ driver_id, leftDate = new Date(), rightDate = new Date
             itinerarie_point_b: carReserv.itinerarie_point_b
         });
     }
-    
+
     for (const shift of shifts) {
         const { id, created_at, value: salaryRate, hours, shift_start } = shift;
         const formatedDate = moment(created_at).format('DD.MM.YYYY');
