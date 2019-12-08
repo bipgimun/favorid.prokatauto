@@ -1,5 +1,5 @@
 <style>
-   .js-editable-body .non-editable-content,
+    .js-editable-body .non-editable-content,
     .style-non-editable {
         display: block;
         padding-top: 7px;
@@ -54,8 +54,8 @@
             </header>
             {{#each costs}}
                 <div class="panel-body js-editable-body">
-                    <form id="js-costs-add-form" action="/api/costs/update" data-target="view" class="form-horizontal mb-lg"
-                        novalidate="novalidate">
+                    <form id="js-costs-add-form" action="/api/costs/update" data-target="view"
+                        class="form-horizontal mb-lg" novalidate="novalidate">
                         <input type="hidden" name="id" value="{{id}}">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Дата</label>
@@ -88,13 +88,133 @@
                             <span>--------Разбивка--------</span>
                         </div>
 
-                        <div class="form-group autos-group">
+                        <div class="form-group">
                             <div class="col-sm-12 control-label" style="text-align:center;">
                                 <span>АВТОМОБИЛИ</span>
                             </div>
                             {{#each ../grouppedDetails.auto}}
                                 <div class="form-group col-sm-12">
+                                    <div class="non-editable-content">
+                                        <label class="col-sm-2 control-label">Авто</label>
+                                        <div class="">
+                                            <div class="input-group">
+                                                <div class="form-control">{{name}}</div>
+                                                <span class="form-control">{{price}} руб.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="editable-content js-detail-update">
+                                        <label class="col-sm-2 control-label">Авто</label>
+                                        <select class="form-control js-detail-update-target_id">
+                                            <option value="" selected disabled>Выберите авто</option>
+                                            <option value="-1">Удалить (строка будет удалена после сохранения документа)
+                                            </option>
+                                            {{#each ../../cars}}
+                                                <option {{compare id ../target_id 'selected' ''}} value="{{id}}">
+                                                    {{name}} {{model}} - {{number}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <input type="number" class="form-control js-detail-update-price"
+                                            value="{{price}}">
+                                        <input type="hidden" value="{{id}}" class="js-detail-update-id">
+                                        <input type="hidden" value="auto" class="js-detail-update-target_type">
+                                    </div>
+                                </div>
+                            {{/each}}
+                            <div class="editable-content autos-group">
+                                <div class="form-group col-sm-12 autos-group__item">
                                     <label class="col-sm-2 control-label">Авто</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group js-detail-update">
+                                            <select class="form-control js-detail-update-target_id">
+                                                <option value="" selected disabled>Выберете автомобиль</option>
+                                                {{#each ../cars}}
+                                                    <option value="{{id}}">{{name}} {{model}} - {{number}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <input type="number" class="form-control input-sm js-detail-update-price"
+                                                placeholder="руб">
+                                            <input type="hidden" value="auto" class="js-detail-update-target_type">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default adding-item-autos"
+                                                    type="button">+</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default deliting-item-autos"
+                                                    type="button">-</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 control-label" style="text-align:center;">
+                                <span>КВАРТИРЫ</span>
+                            </div>
+                            {{#each ../grouppedDetails.apartments}}
+                                <div class="non-editable-content form-group col-sm-12">
+                                    <label class="col-sm-2 control-label">Квартира</label>
+                                    <div>
+                                        <div class="input-group">
+                                            <div class="form-control">{{name}}</div>
+                                            <span class="form-control">{{price}} руб.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="editable-content js-detail-update">
+                                    <label class="col-sm-2 control-label">Квартира</label>
+                                    <select class="form-control js-detail-update-target_id">
+                                        <option value="" selected disabled>Выберите квартиру</option>
+                                        <option value="-1">Удалить (строка будет удалена после сохранения документа)
+                                        </option>
+                                        {{#each ../../apartments}}
+                                            <option {{compare id ../target_id 'selected' ''}} value="{{id}}">{{address}}
+                                            </option>
+                                        {{/each}}
+                                    </select>
+                                    <input type="number" class="form-control js-detail-update-price" value="{{price}}">
+                                    <input type="hidden" value="{{id}}" class="js-detail-update-id">
+                                    <input type="hidden" value="apartments" class="js-detail-update-target_type">
+                                </div>
+                            {{/each}}
+                            <div class="editable-content apartments-group">
+                                <div class="form-group col-sm-12 apartments-group__item">
+                                    <label class="col-sm-2 control-label">Квартира</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group js-detail-update">
+                                            <select class="form-control js-detail-update-target_id">
+                                                <option value="0" selected disabled>Выберете квартиру</option>
+                                                {{#each ../apartments}}
+                                                    <option value="{{id}}">{{address}}</option>
+                                                {{/each}}
+                                            </select>
+                                            <input type="number" class="form-control input-sm js-detail-update-price"
+                                                placeholder="руб">
+                                            <input type="hidden" value="apartments"
+                                                class="js-detail-update-target_type">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default adding-item-apartments"
+                                                    type="button">+</button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default deliting-item-apartments"
+                                                    type="button">-</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12 control-label" style="text-align:center;">
+                                <span>ВОДИТЕЛИ</span>
+                            </div>
+                            {{#each ../grouppedDetails.drivers}}
+                                <div class="non-editable-content form-group col-sm-12">
+                                    <label class="col-sm-2 control-label">Водитель</label>
                                     <div class="">
                                         <div class="input-group">
                                             <div class="form-control">{{name}}</div>
@@ -102,101 +222,43 @@
                                         </div>
                                     </div>
                                 </div>
-                            {{/each}}
-                            <div class="editable-content">
-                                <div class="form-group col-sm-12 autos-group__item">
-                                    <label class="col-sm-2 control-label">Авто</label>
-                                    <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <select class="form-control" name="">
-                                                <option value="0" selected disabled>Выберете автомобиль</option>
-                                                {{#each ../cars}}
-                                                    <option value="{{id}}">{{name}} {{model}} - {{number}}</option>
-                                                {{/each}}
-                                            </select>
-                                            <input type="number" class="form-control input-sm"
-                                                placeholder="руб">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default adding-item-autos" type="button">+</button>
-                                            </span>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default deliting-item-autos" type="button">-</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group apartments-group">
-                            <div class="col-sm-12 control-label" style="text-align:center;">
-                                <span>КВАРТИРЫ</span>
-                            </div>
-                            {{#each ../grouppedDetails.apartments}}
-                                <div class="form-group col-sm-12">
-                                    <label class="col-sm-2 control-label">Квартира</label>
-                                    <div class="">
-                                        <div class="input-group">
-                                            <div class="form-control" name="">{{name}}</div>
-                                            <span class="form-control">{{price}} руб.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{/each}}
-                            <div class="editable-content">
-                                <div class="form-group col-sm-12 apartments-group__item">
-                                    <label class="col-sm-2 control-label">Квартира</label>
-                                    <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <select class="form-control" name="">
-                                                <option value="0" selected disabled>Выберете квартиру</option>
-                                                <option value=""></option>
-                                            </select>
-                                            <input type="number" class="form-control input-sm"
-                                                placeholder="руб">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default adding-item-apartments" type="button">+</button>
-                                            </span>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default deliting-item-apartments" type="button">-</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group drivers-group">
-                            <div class="col-sm-12 control-label" style="text-align:center;">
-                                <span>ВОДИТЕЛИ</span>
-                            </div>
-                            {{#each ../grouppedDetails.drivers}}
-                                <div class="form-group col-sm-12">
+                                <div class="editable-content js-detail-update">
                                     <label class="col-sm-2 control-label">Водитель</label>
-                                    <div class="">
-                                        <div class="input-group">
-                                            <div class="form-control" name="">{{name}}</div>
-                                            <span class="form-control">{{price}} руб.</span>
-                                        </div>
-                                    </div>
+                                    <select class="form-control js-detail-update-target_id">
+                                        <option value="" selected disabled>Выберите водителя</option>
+                                        <option value="-1">Удалить (строка будет удалена после сохранения документа)
+                                        </option>
+                                        {{#each ../../drivers}}
+                                            <option {{compare id ../target_id 'selected' ''}} value="{{id}}">{{name}}
+                                            </option>
+                                        {{/each}}
+                                    </select>
+                                    <input type="number" class="form-control js-detail-update-price" value="{{price}}">
+                                    <input type="hidden" value="{{id}}" class="js-detail-update-id">
+                                    <input type="hidden" value="drivers" class="js-detail-update-target_type">
                                 </div>
                             {{/each}}
-                            <div class="editable-content">
+                            <div class="editable-content drivers-group">
                                 <div class="form-group col-sm-12 drivers-group__item">
                                     <label class="col-sm-2 control-label">Водитель</label>
                                     <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <select class="form-control" name="">
-                                                <option value="0" selected disabled>Выберете водителя</option>
-                                                <option value=""></option>
+                                        <div class="input-group js-detail-update">
+                                            <select class="form-control js-detail-update-target_id">
+                                                <option value="" selected disabled>Выберете водителя</option>
+                                                {{#each ../drivers}}
+                                                    <option value="{{id}}">{{name}}</option>
+                                                {{/each}}
                                             </select>
-                                            <input type="number" class="form-control input-sm"
+                                            <input type="number" class="form-control input-sm js-detail-update-price"
                                                 placeholder="руб">
+                                            <input type="hidden" class="js-detail-update-target_type" value="drivers">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default adding-item-drivers" type="button">+</button>
+                                                <button class="btn btn-default adding-item-drivers"
+                                                    type="button">+</button>
                                             </span>
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default deliting-item-drivers" type="button">-</button>
+                                                <button class="btn btn-default deliting-item-drivers"
+                                                    type="button">-</button>
                                             </span>
                                         </div>
                                     </div>
@@ -204,37 +266,57 @@
                             </div>
                         </div>
 
-                        <div class="form-group contracts-group">
+                        <div class="form-group">
                             <div class="col-sm-12 control-label" style="text-align:center;">
                                 <span>КОНТРАКТЫ</span>
                             </div>
                             {{#each ../grouppedDetails.contracts}}
-                                <div class="form-group col-sm-12">
+                                <div class="non-editable-content form-group col-sm-12">
                                     <label class="col-sm-2 control-label">Контракт</label>
                                     <div class="">
                                         <div class="input-group">
-                                            <div class="form-control" name="">{{name}}</div>
+                                            <div class="form-control">{{name}}</div>
                                             <span class="form-control">{{price}} руб.</span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="editable-content js-detail-update">
+                                    <label class="col-sm-2 control-label">Контракт</label>
+                                    <select class="form-control js-detail-update-target_id">
+                                        <option value="" selected disabled>Выберите контракт</option>
+                                        <option value="-1">Удалить (строка будет удалена после сохранения документа)
+                                        </option>
+                                        {{#each ../../contracts}}
+                                            <option {{compare id ../target_id 'selected' ''}} value="{{id}}">MUZ-{{id}}
+                                            </option>
+                                        {{/each}}
+                                    </select>
+                                    <input type="number" class="form-control js-detail-update-price" value="{{price}}">
+                                    <input type="hidden" value="{{id}}" class="js-detail-update-id">
+                                    <input type="hidden" value="contracts" class="js-detail-update-target_type">
+                                </div>
                             {{/each}}
-                            <div class="editable-content">
+                            <div class="editable-content contracts-group">
                                 <div class="form-group col-sm-12 contracts-group__item">
                                     <label class="col-sm-2 control-label">Контракт</label>
                                     <div class="col-sm-10">
-                                        <div class="input-group">
-                                            <select class="form-control" name="">
-                                                <option value="0" selected disabled>Выберете контракт</option>
-                                                <option value=""></option>
+                                        <div class="input-group js-detail-update">
+                                            <select class="form-control js-detail-update-target_id">
+                                                <option value="" selected disabled>Выберете контракт</option>
+                                                {{#each ../contracts}}
+                                                    <option value="{{id}}">MUZ-{{id}}</option>
+                                                {{/each}}
                                             </select>
-                                            <input type="number" class="form-control input-sm"
-                                                placeholder="руб">
+                                            <input type="number" class="form-control input-sm" placeholder="руб">
+                                            <input type="hidden" value="contracts"
+                                                class="form-control input-sm js-detail-update-target_type">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default adding-item-contracts" type="button">+</button>
+                                                <button class="btn btn-default adding-item-contracts"
+                                                    type="button">+</button>
                                             </span>
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default deliting-item-contracts" type="button">-</button>
+                                                <button class="btn btn-default deliting-item-contracts"
+                                                    type="button">-</button>
                                             </span>
                                         </div>
                                     </div>
@@ -338,11 +420,14 @@
 
         var dateInp = new_row.querySelectorAll('input');
         for (var i = 0; i < dateInp.length; i++) {
+            if (dateInp[i].className.indexOf('js-detail-update') > -1) {
+                continue;
+            }
+
             dateInp[i].value = '';
         }
 
         table.appendChild(new_row);
-        initServiceSelect();
     }
 
     function delRow() {
@@ -353,6 +438,15 @@
         var grItem = table.querySelectorAll('.autos-group__item');
         var actualTbody = grItem.length;
         if (actualTbody == 1) {
+
+            $('.autos-group__item').find('input, select').each((index, element) => {
+                const $element = $(element);
+
+                if(!['js-detail-update-id', 'js-detail-update-target_type'].includes($element.get(0).className)) {
+                    $element.val('');
+                }
+            })
+
             return;
         } else {
             indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
@@ -376,11 +470,14 @@
 
         var dateInpApart = new_rowApart.querySelectorAll('input');
         for (var i = 0; i < dateInpApart.length; i++) {
+            if (dateInp[i].className.indexOf('js-detail-update') > -1) {
+                continue;
+            }
+
             dateInpApart[i].value = '';
         }
 
         tableApart.appendChild(new_rowApart);
-        initServiceSelect();
     }
 
     function delRowApart() {
@@ -391,6 +488,13 @@
         var grItemApart = tableApart.querySelectorAll('.apartments-group__item');
         var actualTbodyApart = grItemApart.length;
         if (actualTbodyApart == 1) {
+             $('.apartments-group__item').find('input, select').each((index, element) => {
+                const $element = $(element);
+
+                if(!['js-detail-update-id', 'js-detail-update-target_type'].includes($element.get(0).className)) {
+                    $element.val('');
+                }
+            })
             return;
         } else {
             indexRowApart = closeBtnApart.parentNode.parentNode.parentNode.parentNode.remove();
@@ -414,11 +518,14 @@
 
         var dateInpDrivers = new_rowDrivers.querySelectorAll('input');
         for (var i = 0; i < dateInpDrivers.length; i++) {
+            if (dateInp[i].className.indexOf('js-detail-update') > -1) {
+                continue;
+            }
+
             dateInpDrivers[i].value = '';
         }
 
         tableDrivers.appendChild(new_rowDrivers);
-        initServiceSelect();
     }
 
     function delRowDrivers() {
@@ -429,6 +536,13 @@
         var grItemDrivers = tableDrivers.querySelectorAll('.drivers-group__item');
         var actualTbodyDrivers = grItemDrivers.length;
         if (actualTbodyDrivers == 1) {
+             $('.drivers-group__item').find('input, select').each((index, element) => {
+                const $element = $(element);
+
+                if(!['js-detail-update-id', 'js-detail-update-target_type'].includes($element.get(0).className)) {
+                    $element.val('');
+                }
+            })
             return;
         } else {
             indexRowDrivers = closeBtnDrivers.parentNode.parentNode.parentNode.parentNode.remove();
@@ -452,6 +566,10 @@
 
         var dateInpContr = new_rowContr.querySelectorAll('input');
         for (var i = 0; i < dateInpContr.length; i++) {
+            if (dateInp[i].className.indexOf('js-detail-update') > -1) {
+                continue;
+            }
+
             dateInpContr[i].value = '';
         }
 
@@ -467,6 +585,13 @@
         var grItemContr = tableContr.querySelectorAll('.contracts-group__item');
         var actualTbodyContr = grItemContr.length;
         if (actualTbodyContr == 1) {
+             $('.contracts-group__item').find('input, select').each((index, element) => {
+                const $element = $(element);
+
+                if(!['js-detail-update-id', 'js-detail-update-target_type'].includes($element.get(0).className)) {
+                    $element.val('');
+                }
+            })
             return;
         } else {
             indexRowContr = closeBtnContr.parentNode.parentNode.parentNode.parentNode.remove();

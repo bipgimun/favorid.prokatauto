@@ -808,9 +808,28 @@ $(document).ready(() => {
             fillDetails($apartments, 'apartments');
             fillDetails($drivers, 'drivers');
             fillDetails($contracts, 'contracts');
-        } else if($form.data('target') == 'view') {
+        } else if ($form.data('target') == 'view') {
+            const $detailsUpdate = $('.js-detail-update');
 
+            $detailsUpdate.each((index, updatesParent) => {
+                
+                const $parent = $(updatesParent);
+
+                const target_id = $parent.find('.js-detail-update-target_id').val();
+                const target_type = $parent.find('.js-detail-update-target_type').val();
+                const id = $parent.find('.js-detail-update-id').val();
+                const price = $parent.find('.js-detail-update-price').val();
+                
+                if (target_id && price) {
+                    details[target_type].push({ id, target_id, target_type, price });
+                }
+            })
         }
+
+        console.log(details);
+        
+
+        return false;
 
         const { data } = await request(url, { values, details: JSON.stringify(details) }, { showNotify: true });
 

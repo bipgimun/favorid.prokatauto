@@ -59,7 +59,6 @@ module.exports = async (req, res, next) => {
             }
         }
     }
-    
 
     const carReservations = await db.execQuery(`SELECT *, CONCAT('CRR-', id) as code FROM cars_reservations`);
     const apartmentReservations = await db.execQuery(`SELECT *, CONCAT('APR-', id) as code FROM apartment_reservations`);
@@ -83,12 +82,18 @@ module.exports = async (req, res, next) => {
     ];
 
     const cars = await db.execQuery(`SELECT * FROM cars`);
+    const apartments = await db.execQuery(`SELECT * FROM apartments`);
+    const drivers = await db.execQuery(`SELECT * FROM drivers`);
+    const contracts = await db.execQuery(`SELECT * FROM muz_contracts`);
 
     res.render(__dirname + '/costs-view', {
         costs,
         groupDocuments,
         cashStorages,
         cars,
+        apartments,
+        drivers,
+        contracts,
         costsCategories,
         grouppedDetails,
         id,
