@@ -170,7 +170,18 @@
         });
 
         $print.on('click', () => {
-            location = '/';
+
+            const { time_min, time_max, unit } = $dataContainer.find('select:visible, input:visible').serializeArray().reduce((acc, { name, value }) => (acc[name] = value, acc), {});
+
+            if (!time_min || !time_max) {
+                return alert('Не выбран временной период');
+            }
+
+            if (!unit) {
+                return alert('Не выбрана единица');
+            }
+
+            location = '/api/units-profitability/print?' + $.param({ time_max, time_min, unit });
         })
     })
 </script>

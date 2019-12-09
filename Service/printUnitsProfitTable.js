@@ -5,9 +5,11 @@ const moment = require('moment');
 function main({
     timeMin = '',
     timeMax = '',
-    cashboxName = '',
+    unitTitle = '',
+    unitName = '',
     balanceAtStartPeriod = 0,
     balanceAtEndPeriod = 0,
+    balanceAtNow = 0,
     operations = []
 } = {}) {
     return new Promise((resolve, reject) => {
@@ -137,49 +139,63 @@ function main({
         ws.column(4).setWidth(15);
         ws.column(5).setWidth(25);
 
+        let titleUnitValue = '';
+
+        if (unitName == 'APR') {
+            titleUnitValue = 'апартаментов';
+        } else if (unitName == 'CAR') {
+            titleUnitValue = 'авто';
+        } else if (unitName == 'MUZ') {
+            titleUnitValue = 'муниципала';
+        }
+
         ws.cell(1, 1, 1, 5, true)
-            .string(`Отчет о движении денежных средств с ${timeMin} по ${timeMax}`)
+            .string(`Рентабельность ${titleUnitValue} - ${unitTitle}`)
             .style({ border: { ...allBorder }, alignment: { ...alignCenter }, font: { size: 14, bold: true } });
 
-        ws.cell(2, 1)
-            .string(`По кассе / счету:`)
-            .style({ border: { ...allBorder }, alignment: { ...alignCenter } });
+        ws.cell(2, 1, 2, 5, true)
+            .string(`С ${timeMin}-${timeMax}`)
+            .style({ border: { ...allBorder }, alignment: { ...alignCenter }, font: { size: 11 } });
 
-        ws.cell(2, 2, 2, 5, true)
-            .string(`${cashboxName || 'По всем'}`)
-            .style({ border: { ...allBorder }, alignment: { ...alignCenter } });
+        ws.cell(3, 1, 3, 2, true)
+            .string(`Баланс на данный момент:`)
+            .style({ border: { ...allBorder }, alignment: { horizontal: 'right' }, font: { size: 11, bold: true } });
 
-        ws.cell(3, 1, 3, 3, true)
-            .string(`Остаток на начало периода:`)
-            .style({ border: { ...allBorder }, alignment: { ...alignCenter }, font: { size: 12, bold: true } });
+        ws.cell(3, 3, 3, 5, true)
+            .string(`${balanceAtNow} рублей`)
+            .style({ border: { ...allBorder }, alignment: { horizontal: 'left' }, font: { size: 11, bold: true } });
 
-        ws.cell(3, 4, 3, 5, true)
-            .string(`${balanceAtStartPeriod} руб`)
-            .style({ border: { ...allBorder }, alignment: { ...alignCenter } });
+        ws.cell(4, 1, 4, 2, true)
+            .string(`Баланс на начало периода:`)
+            .style({ border: { ...allBorder }, alignment: { horizontal: 'right' }, font: { size: 11, bold: true } });
 
-        ws.cell(4, 1)
+        ws.cell(4, 3, 4, 5, true)
+            .string(`${balanceAtStartPeriod} рублей`)
+            .style({ border: { ...allBorder }, alignment: { horizontal: 'left' }, font: { size: 11, bold: true } });
+
+        ws.cell(5, 1)
             .string(`Дата`)
-            .style({ border: { ...allBorder } });
+            .style({ border: { ...allBorder }, font: { size: 11, bold: true } });
 
-        ws.cell(4, 2)
+        ws.cell(5, 2)
             .string(`Кому/От кого`)
-            .style({ border: { ...allBorder } });
+            .style({ border: { ...allBorder }, font: { size: 11, bold: true } });
 
-        ws.cell(4, 3)
+        ws.cell(5, 3)
             .string(`Приход, руб.`)
-            .style({ border: { ...allBorder } });
+            .style({ border: { ...allBorder }, font: { size: 11, bold: true } });
 
-        ws.cell(4, 4)
+        ws.cell(5, 4)
             .string(`Расход, руб.`)
-            .style({ border: { ...allBorder } });
+            .style({ border: { ...allBorder }, font: { size: 11, bold: true } });
 
-        ws.cell(4, 5)
-            .string(`Касса/счет`)
-            .style({ border: { ...allBorder } });
+        ws.cell(5, 5)
+            .string(`Основание`)
+            .style({ border: { ...allBorder }, font: { size: 11, bold: true } });
 
-        let currentRow = 4;
+        let currentRow = 5;
 
-        operations.sort((a, b) => a.date > b.date ? 1 : -1).forEach((item) => {
+        operations.forEach((item) => {
             currentRow++;
 
             ws.cell(currentRow, 1)
@@ -187,33 +203,33 @@ function main({
                 .style({ border: { ...allBorder } });
 
             ws.cell(currentRow, 2)
-                .string(item.sourceDir || '')
+                .string(item.from || '')
                 .style({ border: { ...allBorder }, alignment: { ...wrapTrue } });
 
             ws.cell(currentRow, 3)
-                .string(`${item.income_sum || ''}`)
+                .string(`${item.income ? item.sum : ''}`)
                 .style({ border: { ...allBorder } });
 
             ws.cell(currentRow, 4)
-                .string(`${item.cost_sum || ''}`)
+                .string(`${!item.income ? item.sum : ''}`)
                 .style({ border: { ...allBorder } });
 
             ws.cell(currentRow, 5)
-                .string(item.cashStorageName || '')
+                .string(`Документ ${item.income ? 'прихода' : 'расхода'} №${item.id}`)
                 .style({ border: { ...allBorder }, alignment: { ...wrapTrue } });
         });
 
         currentRow++
 
-        ws.cell(currentRow, 1, currentRow, 3, true)
-            .string(`Остаток на конец периода:`)
-            .style({ border: { ...allBorder }, alignment: { ...alignCenter }, font: { size: 12, bold: true } });
+        ws.cell(currentRow, 1, currentRow, 2, true)
+            .string(`Баланс на конец периода:`)
+            .style({ border: { ...allBorder }, alignment: { horizontal: 'right' }, font: { size: 11, bold: true } });
 
-        ws.cell(currentRow, 4, currentRow, 5, true)
+        ws.cell(currentRow, 3, currentRow, 5, true)
             .string(`${balanceAtEndPeriod} руб`)
-            .style({ border: { ...allBorder }, alignment: { ...alignCenter } });
+            .style({ border: { ...allBorder }, alignment: { horizontal: 'left' } });
 
-        const fileName = `dds.${new Date().getTime()}.xlsx`;
+        const fileName = `unit-profit.${new Date().getTime()}.xlsx`;
         const filePath = path.join(__dirname, '..', 'uploads', fileName);
 
         wb.write(filePath, (error, stats) => {

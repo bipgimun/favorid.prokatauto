@@ -3,7 +3,7 @@ const app = express.Router();
 
 const moment = require('moment');
 
-const printFlowTable = require('../../../Service/printFlowTable');
+const printUnitsTable = require('../../../Service/printUnitsProfitTable');
 
 const db = require('../../../libs/db');
 
@@ -21,7 +21,7 @@ app.post('/getTable', async (req, res, next) => {
         unit,
         time_max: moment(time_min).subtract(1, 'd').set({ h: 23, m: 59 }).format('YYYY-MM-DD')
     });
-    
+
     const { totalSum: balanceAtNow } = await calcData({
         unit,
         time_max: moment().add(1, 'd').set({ h: 23, m: 59 }).format('YYYY-MM-DD')
@@ -30,7 +30,7 @@ app.post('/getTable', async (req, res, next) => {
     const balanceAtEndPeriod = balanceAtStartPeriod + sumAtEndPeriod;
 
     const operations = [...moneyCosts, ...moneyIncomes].sort((a, b) => {
-       return new Date(a.date) - new Date(b.date);
+        return new Date(a.date) - new Date(b.date);
     });
 
     res.render('partials/units-profitability-table', {
@@ -54,6 +54,12 @@ app.post('/getTable', async (req, res, next) => {
 app.get('/print', async (req, res, next) => {
     const { time_min, time_max, unit } = req.query;
 
+    const [, typeOfUnit, unitValue] = unit.match(/([\w\-]*)-(\d*)/);
+
+    if (!['APR', 'CAR', 'MUZ'].includes(typeOfUnit)) {
+        throw new Error('Неверный тип объекта');
+    }
+
     const {
         moneyCosts,
         moneyIncomes,
@@ -64,7 +70,7 @@ app.get('/print', async (req, res, next) => {
         unit,
         time_max: moment(time_min).subtract(1, 'd').set({ h: 23, m: 59 }).format('YYYY-MM-DD')
     });
-    
+
     const { totalSum: balanceAtNow } = await calcData({
         unit,
         time_max: moment().add(1, 'd').set({ h: 23, m: 59 }).format('YYYY-MM-DD')
@@ -73,24 +79,39 @@ app.get('/print', async (req, res, next) => {
     const balanceAtEndPeriod = balanceAtStartPeriod + sumAtEndPeriod;
 
     const operations = [...moneyCosts, ...moneyIncomes].sort((a, b) => {
-       return new Date(a.date) - new Date(b.date);
+        return new Date(a.date) - new Date(b.date);
     });
 
-    res.render('partials/units-profitability-table', {
-        layout: false,
+    let unitTitle = '';
+
+    if (typeOfUnit == 'APR') {
+        const [apartment] = await db.execQuery(`SELECT * FROM apartments WHERE id = ?`, [unitValue]);
+
+        if (apartment) {
+            unitTitle = apartment.address;
+        }
+
+    } else if (typeOfUnit == 'CAR') {
+
+        const [car] = await db.execQuery(`SELECT * FROM cars WHERE id = ?`, [unitValue]);
+
+        if(car) {
+            unitTitle = `${car.name} ${car.model} ${car.number}`;
+        }
+
+    } else if (typeOfUnit == 'MUZ') {
+        unitTitle = 'MUZ-' + unitValue;
+    }
+
+    const filepath = await printUnitsTable({
         operations,
-        balanceAtNow,
-        balanceAtStartPeriod,
+        timeMax: moment(time_max).format('DD.MM.YYYY'),
+        timeMin: moment(time_min).format('DD.MM.YYYY'),
         balanceAtEndPeriod,
-    }, (error, html) => {
-
-        if (error)
-            return res.json({ status: 'bad', body: error.message });
-
-        res.json({
-            status: 'ok',
-            html
-        });
+        balanceAtStartPeriod,
+        balanceAtNow,
+        unitName: typeOfUnit,
+        unitTitle,
     });
 
     res.download(filepath);
@@ -98,7 +119,7 @@ app.get('/print', async (req, res, next) => {
 
 
 async function calcData({ time_min, time_max, unit }) {
-   
+
     const [, typeOfUnit, unitValue] = unit.match(/([\w\-]*)-(\d*)/);
 
     if (!['APR', 'CAR', 'CUST', 'MUZ'].includes(typeOfUnit)) {
@@ -343,7 +364,7 @@ const getCalcData = async ({ unit, unitValue, time_max = '', time_min = '' }) =>
         },
 
         'APR': async () => {
-            
+
             // разбивки по квартире
             const costsByApartmentsSpliting = await db.execQuery(`
                 SELECT c.*,
@@ -558,7 +579,7 @@ const getCalcData = async ({ unit, unitValue, time_max = '', time_min = '' }) =>
         },
 
         'MUZ': async () => {
-            
+
             // разбивки по контракту
             const costsByContractSpliting = await db.execQuery(`
                 SELECT c.*,
@@ -633,7 +654,7 @@ const getCalcData = async ({ unit, unitValue, time_max = '', time_min = '' }) =>
 
             // --------------END--------------------
 
-            for (const income of [ ...incomesByInvoiceContract, ...incomesByContractBase]) {
+            for (const income of [...incomesByInvoiceContract, ...incomesByContractBase]) {
                 const { sum, date, id } = income;
                 let from = 'Неизвестно';
 
