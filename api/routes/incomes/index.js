@@ -65,6 +65,39 @@ app.post('/add', async (req, res, next) => {
         }
     }
 
+    if(validValues.code.toLowerCase() == 'pd') {
+        const [invoice] = await db.execQuery('SELECT * FROM invoices WHERE id = ?', [validValues.document_id]);
+
+        if(!invoice) {
+            throw new Error('Счет не найден');
+        }
+        
+        // детализация по авто
+        if(invoice.code.toUpperCase() == 'DET-A') {
+            const [carDetailing] = await db.execQuery(`SELECT * FROM detailing_cars WHERE id = ?`, [invoice.base_id]);
+
+            if(!carDetailing) {
+                throw new Error('Детализация авто не найдена');
+            }
+
+            if(+validValues.sum < +carDetailing.sum) {
+                throw new Error('Сумма прихода не может быть меньше суммы детализации, по которой выставлен счёт');
+            }
+        } 
+        // детализация квартир
+        else if(invoice.code.toUpperCase() == 'DET-K') {
+            const [apartmentDetailing] = await db.execQuery(`SELECT * FROM detailing_apartments WHERE id = ?`, [invoice.base_id]);
+
+            if(!apartmentDetailing) {
+                throw new Error('Детализация квартир не найдена');
+            }
+
+            if(+validValues.sum < +apartmentDetailing.sum) {
+                throw new Error('Сумма прихода не может быть меньше суммы детализации');
+            }
+        }
+    }
+
     validValues.manager_id = req.session.user.employee_id;
 
     const id = await db.insertQuery('INSERT INTO incomes SET ?', validValues);
