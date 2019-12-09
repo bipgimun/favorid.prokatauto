@@ -136,8 +136,8 @@
         </div>
         <div class="after_create-wrapper">
             <div class="save_and_print_buttons col-md-7">
-                <button class="btn btn-info">Распечатать</button>
-                <button class="btn btn-default">Отмена</button>
+                <button class="btn btn-info js-print">Распечатать</button>
+                <button class="btn btn-default js-cancel">Отмена</button>
                 <br>
                 <br>
             </div>
@@ -151,6 +151,7 @@
     $(function () {
         const $dataContainer = $('.controls_details');
         const $accept = $('.js-accept');
+        const $print = $('.js-print');
         const $table = $('#js-table-container');
 
         $accept.on('click', async () => {
@@ -166,6 +167,10 @@
 
             const { html } = await request('/api/units-profitability/getTable', { time_max, time_min, unit });
             $table.html(html);
+        });
+
+        $print.on('click', () => {
+            location = '/';
         })
     })
 </script>
