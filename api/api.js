@@ -72,6 +72,8 @@ app.use('/flow-founds', checkAuth, require('./routes/flow-founds'));
 app.use('/units-profitability', checkAuth, require('./routes/units-profitability'));
 app.use('/projects-profitability', checkAuth, require('./routes/projects-profitability'));
 
+app.use('/notifications', checkAuth, require('./routes/notificatuins'));
+
 app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Страница не найдена' }));
 
 app.use((error, req, res, next) => {
