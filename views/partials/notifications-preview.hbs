@@ -1,0 +1,24 @@
+<div class="notification-title">
+    <span class="pull-right label label-default js-notifications-count">{{count}}</span>
+    Уведомления
+</div>
+
+<div class="content">
+    <ul style="overflow-y: scroll; max-height: 200px;">
+        {{#each notifications}}
+            <li>
+                <a href="#" class="clearfix">
+                    <div class="image">
+                        <i class="fa fa-warning bg-warning"></i>
+                    </div>
+                    <span class="title">{{title}} {{toIsoString target_date 'DD.MM.YYYY'}}</span>
+                    <span class="message">{{toIsoString create_at 'DD.MM.YYYY'}}</span>
+                </a>
+            </li>
+        {{/each}}
+    </ul>
+    <hr>
+    <div class="text-right">
+        <a href="/notifications" class="view-more">Посмотреть все</a>
+    </div>
+</div>

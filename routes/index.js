@@ -39,5 +39,7 @@ router.use('/flow-of-founds', require('./flow-founds'));
 router.use('/units-profitability', require('./units-profitability'));
 router.use('/projects-profitability', require('./projects-profitability'));
 
+router.use('/notifications', require('./notifications'));
+
 
 module.exports = router;

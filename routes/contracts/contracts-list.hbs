@@ -343,8 +343,8 @@
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Обеспечение по контракту, руб.</label>
                     <div class="col-sm-7">
-                        <input value="0" name="cash_security" type="number" class="form-control" placeholder="Введите сумму"
-                            required>
+                        <input value="0" name="cash_security" type="number" class="form-control"
+                            placeholder="Введите сумму" required>
                     </div>
                 </div>
 
@@ -392,20 +392,26 @@
 
     $('.js-contracts-list-type-hours').on('input change', function () {
 
-        let sum = 0;
+        let totalHours = 0;
+        let totalSum = 0;
 
         $('.js-contracts-list-type-hours').each((index, element) => {
-            sum += +$(element).val();
+            const $parent = $(element).closest('.form-group');
+            
+            totalHours += +$(element).val();
+            totalSum += (+$parent.find('.js-contracts-list-type-value').val() || 0) * (+$(element).val() || 0);
         });
 
-        $('#js-add-contract-modal-total-hours').val(sum);
+        $('#js-add-contract-modal-total-hours').val(totalHours);
+        $('#js-add-contract-modal-total-value').val(totalSum);
     })
 
     $('.js-contracts-list-type-value').on('input change', function () {
         let sum = 0;
 
         $('.js-contracts-list-type-value').each((index, element) => {
-            sum += +$(element).val();
+            const $parent = $(element).closest('.form-group');
+            sum += +$(element).val() * ($parent.find('.js-contracts-list-type-hours').val() || 0)
         });
 
         $('#js-add-contract-modal-total-value').val(sum);

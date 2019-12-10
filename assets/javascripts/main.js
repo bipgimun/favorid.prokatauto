@@ -815,14 +815,14 @@ $(document).ready(() => {
             const $detailsUpdate = $('.js-detail-update');
 
             $detailsUpdate.each((index, updatesParent) => {
-                
+
                 const $parent = $(updatesParent);
 
                 const target_id = $parent.find('.js-detail-update-target_id').val();
                 const target_type = $parent.find('.js-detail-update-target_type').val();
                 const id = $parent.find('.js-detail-update-id').val();
                 const price = $parent.find('.js-detail-update-price').val();
-                
+
                 if (target_id && price) {
                     details[target_type].push({ id, target_id, target_type, price });
                 }
@@ -1283,3 +1283,14 @@ const updateContract = async (form) => {
     await request('/api/muz-contracts/update', postData);
     location.reload();
 }
+
+function getNotifications() {
+    $.get('/api/notifications/get-preview', (response) => {
+        $('.js-notifications-count').html(response.count);
+        $('.js-notifications-preview-body').html(response.html);
+    })
+}
+
+getNotifications();
+
+setInterval(() => getNotifications(), 5000);
