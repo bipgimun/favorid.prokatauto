@@ -400,6 +400,26 @@
     table.addEventListener('click', delRow);
 </script>
 <script>
+    let sumPriceClass = $('.summary-price-class');
+    let prepaymentName = $('input[name=prepayment]');
+    let carDepositName = $('input[name=car_deposit]');
+
+    function countSumPriceClass() {
+        prepaymentName.on('input change', function() {
+            let sum1 = 0;
+            sum1 = +prepaymentName.val() + +carDepositName.val();
+            sumPriceClass.val(sum1);
+        });
+
+        carDepositName.on('input change', function() {
+            let sum2 = 0;
+            sum2 = +prepaymentName.val() + +carDepositName.val();
+            sumPriceClass.val(sum2);
+        });
+    }
+    countSumPriceClass();
+</script>
+<script>
     "use strict"
     const driversGroup = document.querySelector('.group-drivers');
     const driversGroupCheckbox = driversGroup.querySelector('.group-drivers__checkbox');

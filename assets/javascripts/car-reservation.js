@@ -35,7 +35,7 @@ $(document).ready(function () {
 
         currentCar = car;
         $carReservations.find('[name=class_name]').val(car.class_name);
-        $carReservations.find('[name=car_deposit]').val(car.deposit);
+        $carReservations.find('[name=car_deposit]').val(car.deposit).trigger('change');
         calcPrepaymentSum();
     });
 
@@ -136,6 +136,6 @@ $(document).ready(function () {
         const discount = +$carReservations.find('[name=discount]').val() || 0;
         const sum = (days * pricePerDay + itinerariePrice) - ((days * pricePerDay + itinerariePrice) * (discount / 100));
 
-        $carReservations.find('[name=prepayment]').val(sum);
+        $carReservations.find('[name=prepayment]').val(sum).trigger('change');
     }
 })
