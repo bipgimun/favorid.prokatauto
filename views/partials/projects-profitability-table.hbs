@@ -1,0 +1,51 @@
+<table class="table table-bordered table-striped table-condensed mb-none">
+    <thead>
+        <tr>
+            <th colspan="5" class="text-left">Баланс на данный момент: <span>{{balanceAtNow}}</span> руб.</th>
+        </tr>
+        <tr>
+            <th colspan="5" class="text-left">Баланс на начало периода: <span>{{balanceAtStartPeriod}}</span> руб.</th>
+        </tr>
+        <tr>
+            <th>Дата</th>
+            <th>Кому/От кого</th>
+            <th class="text-right">Приход, руб.</th>
+            <th class="text-right">Расход, руб.</th>
+            <th class="text-right">Основание</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each operations}}
+            <tr>
+                <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
+                <td>{{from}}</td>
+                {{#if income}}
+                    <td class="text-right">{{sum}}</td>
+                    <td class="text-right"></td>
+                {{else}}
+                    <td class="text-right"></td>
+                    <td class="text-right">{{sum}}</td>
+                {{/if}}
+                <td class="text-right">
+                    {{#if income}}
+                        <a href="/incomes/{{id}}">Документ прихода №<span>{{id}}</span></a>
+                    {{else}}
+                        <a href="/costs/{{id}}">Документ расхода №<span>{{id}}</span></a>
+                    {{/if}}
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Дата</th>
+            <th>Кому/От кого</th>
+            <th class="text-right">Приход</th>
+            <th class="text-right">Расход</th>
+            <th class="text-right">Основание</th>
+        </tr>
+        <tr>
+            <th colspan="5" class="text-left">Баланс на конец периода: <span>{{balanceAtEndPeriod}}</span> руб.</th>
+        </tr>
+    </tfoot>
+</table>

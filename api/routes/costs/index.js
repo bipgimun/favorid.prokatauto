@@ -57,6 +57,9 @@ app.post('/add', async (req, res, next) => {
 
     const jsonDetails = JSON.parse(details);
 
+    if (validValues.code === 'APR' && jsonDetails.apartments.length > 0) {
+        throw new Error('Невозможно создать разбивку на квартиры с основаним расхода по аренде квартиры');
+    }
 
     validValues.manager_id = req.session.user.employee_id;
 
@@ -221,6 +224,12 @@ app.post('/update', async (req, res, next) => {
 
     const { id: costId, ...validValues } = await Joi.validate(values, updateScheme);
     const jsonDetails = JSON.parse(details);
+
+    const [existedCost] = await db.execQuery(`SELECT * FROM costs WHERE id = ?`, [costId]);
+
+    if (existedCost.code === 'APR' && jsonDetails.apartments.length > 0) {
+        throw new Error('Невозможно создать разбивку на квартиры с основаним расхода по аренде квартиры');
+    }
 
     await db.insertQuery('UPDATE costs SET ? WHERE id = ?', [validValues, costId]);
 

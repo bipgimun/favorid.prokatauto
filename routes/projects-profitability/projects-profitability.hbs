@@ -1,5 +1,41 @@
+<style>
+    .controls_details {
+        display: block;
+        width: 100%;
+    }
+
+    .controls_details-child {
+        margin-bottom: 15px;
+    }
+
+    .controls_details_date-range {
+        display: flex;
+        max-width: 350px;
+    }
+
+    .header-details {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .header-details_span {
+        margin: 0;
+        display: block;
+        font-size: 12px;
+        color: #a6a8ab;
+    }
+
+    .save_and_print_buttons {
+        margin-top: 15px;
+    }
+
+    .projectsRadio_wrapper {
+        margin: 10px 0 15px 0;
+    }
+</style>
+
 <header class="page-header">
-    <h2>Выбор раздела аналитики</h2>
+    <h2>Рентабельность проектов</h2>
 
     <div class="right-wrapper pull-right">
         <ol class="breadcrumbs">
@@ -8,18 +44,100 @@
                     <i class="fa fa-book"></i>
                 </a>
             </li>
-            <li><span>Выбор раздела аналитики</span> <span class="separator"></span></li>
+            <li>
+                <a href="/analytics">
+                    <span>Разделы аналитики</span>
+                </a>
+            </li>
+            <li><span>Рент.проектов</span> <span class="separator"></span></li>
         </ol>
     </div>
 </header>
 
-
-<section class=".col-md-12 ">
-    <a class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block" href="/flow-of-founds">ДДС</a>
-    <a class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block" href="/units-profitability">Рентабельности единиц
-        (авто,
-        квартиры, заказчики МУЗов)</a>
-    <a class="mb-xs mt-xs mr-xs btn btn-primary btn-lg btn-block" href="/projects-profitability">Рентабельности проектов
-        (прокат,
-        отель, МУЗ)</a>
+<section class="panel">
+    <header class="panel-heading">
+        <h2 class="panel-title">Формирование рентабельности проектов</h2>
+    </header>
+    <div class="panel-body">
+        <div class="controls_details">
+            <div class="controls_details-child date-range_details col-md-12">
+                <p class="header-details">Временной период</p>
+                <div class="controls_details_date-range input-daterange input-group">
+                    <input type="date" name="time_min" class="form-control">
+                    <input type="date" name="time_max" class="form-control">
+                </div>
+            </div>
+            <div class="controls_details-child date-range_details col-md-12">
+                <p class="header-details">Выберите проект</p>
+                <div class="projectsRadio_wrapper col-sm-8">
+                    <div class="radio-custom radio-primary">
+                        <input value="carRents" type="radio" id="radioProkat" name="project">
+                        <label for="radioProkat">Прокат</label>
+                    </div>
+                    <div class="radio-custom radio-primary">
+                        <input value="apartmentRents" type="radio" id="radioHotel" name="project">
+                        <label for="radioHotel">Отель</label>
+                    </div>
+                    <div class="radio-custom radio-primary">
+                        <input value="contracts" type="radio" id="radioMUZ" name="project">
+                        <label for="radioMUZ">МУЗы</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="create_button col-md-12">
+            <button class="btn btn-primary js-accept">Сформировать</button>
+        </div>
+        <div class="after_create-wrapper">
+            <div class="save_and_print_buttons col-md-7">
+                <button class="btn btn-info js-print">Распечатать</button>
+                <button class="btn btn-default js-cancel">Отмена</button>
+                <br>
+                <br>
+            </div>
+            <div id="js-table-container">
+                {{> projects-profitability-table}}
+            </div>
+        </div>
+    </div>
 </section>
+
+<script>
+    $(function () {
+        const $dataContainer = $('.controls_details');
+        const $accept = $('.js-accept');
+        const $print = $('.js-print');
+        const $table = $('#js-table-container');
+
+        $accept.on('click', async () => {
+            const { time_min, time_max, project } = $dataContainer.find('input[type=date], input[type=radio]').serializeArray().reduce((acc, { name, value }) => (acc[name] = value, acc), {});
+
+            if (!time_min || !time_max) {
+                return alert('Не выбран временной период');
+            }
+
+            if (!project) {
+                return alert('Не выбран поект');
+            }
+
+            const { html } = await request('/api/projects-profitability/getTable', { time_max, time_min, project });
+            $table.html(html);
+        });
+
+        $print.on('click', () => {
+
+            const { time_min, time_max, project } = $dataContainer.find('input[type=date], input[type=radio]').serializeArray().reduce((acc, { name, value }) => (acc[name] = value, acc), {});
+
+            if (!time_min || !time_max) {
+                return alert('Не выбран временной период');
+            }
+
+            if (!project) {
+                return alert('Не выбран проект');
+            }
+
+            location = '/api/projects-profitability/print?' + $.param({ time_max, time_min, project });
+        });
+    })
+</script>
