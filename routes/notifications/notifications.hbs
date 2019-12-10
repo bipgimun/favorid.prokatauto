@@ -1,0 +1,74 @@
+<header class="page-header">
+    {{#if is_closed}}
+        <h2>Обработанные уведомления</h2>
+    {{else}}
+        <h2>Необработанные уведомления</h2>
+    {{/if}}
+
+    <div class="right-wrapper pull-right">
+        <ol class="breadcrumbs">
+            <li>
+                <a href="/">
+                    <i class="fa fa-book"></i>
+                </a>
+            </li>
+            <li><span>Уведомления</span> <span class="separator"></span></li>
+        </ol>
+    </div>
+</header>
+
+<section class="panel panel-featured panel-featured-primary">
+    <div class="panel-body">
+        <section class="panel">
+            <header class="panel-heading">
+                {{#if is_closed}}
+                    <h2 class="panel-title">Список обработанных уведомлений</h2>
+                {{else}}
+                    <h2 class="panel-title">Список необработанных уведомлений</h2>
+                {{/if}}
+            </header>
+            {{#if is_closed}}
+                <a class="btn btn-default mt-xs mb-xs" type="button" href="/notifications">Перейти в необработанные
+                    уведомления</a>
+            {{else}}
+                <a class="btn btn-default mt-xs mb-xs" type="button" href="/notifications/closed">Перейти в обработанные
+                    уведомления</a>
+            {{/if}}
+
+            <div class="panel-body">
+                {{#each notifications}}
+                    <div class="alert alert-danger fade in nomargin">
+                        <h4>{{title}} {{toIsoString target_date 'DD.MM.YYYY'}}</h4>
+                        <p>{{{description}}}</p>
+                        {{#if manager_id}}
+                            <div class="form-control">Взято в работу <strong>{{manager_name}}</strong></div>
+                        {{else}}
+                            <p>
+                                <button class="btn btn-info mt-xs mb-xs js-notification-takeToWork" data-id="{{id}}"
+                                    type="button">Взять в работу</button>
+                            </p>
+                        {{/if}}
+                        <p style="text-align: right;">Cоздано {{toIsoString create_at 'DD.MM.YYYY'}}</p>
+                    </div>
+                {{/each}}
+            </div>
+        </section>
+    </div>
+</section>
+
+<script>
+    $(function () {
+        $('.js-notification-takeToWork').on('click', async function () {
+            const id = $(this).data('id');
+
+            if (!id) {
+                alert('Что-то пошло не так: отсутствует айди уведомления');
+                return;
+            }
+
+            const { body } = await request('/api/notifications/take-work', { id });
+
+            location.reload();
+        })
+    })
+</script>
