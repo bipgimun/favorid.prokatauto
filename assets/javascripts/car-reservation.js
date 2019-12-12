@@ -138,4 +138,5 @@ $(document).ready(function () {
 
         $carReservations.find('[name=prepayment]').val(sum).trigger('change');
     }
+
 })

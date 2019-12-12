@@ -18,9 +18,9 @@
     </header>
     <div class="panel-body">
         {{#unless isArchive}}
-        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-            <i class="fa fa-plus"></i> Создать заказ
-        </button>
+            <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+                <i class="fa fa-plus"></i> Создать заказ
+            </button>
         {{/unless}}
         <div class="zag">
             <h1>заглушка</h1>
@@ -43,18 +43,18 @@
                 </thead>
                 <tbody>
                     {{#each reservs}}
-                    <tr style="{{compare orange 1 'background-color: orange' ''}}">
-                        <td>{{this.id}}</td>
-                        <td>{{compare has_driver '1' 'С водителем' 'Без водителя'}}</td>
-                        <td>{{toIsoString this.rent_start 'DD.MM.YYYY HH:mm'}}</td>
-                        <td>{{this.itinerarie_name}}</td>
-                        <td>{{this.passenger_name}}</td>
-                        <td>{{this.customer_name}}</td>
-                        <td>{{this.status_name}}</td>
-                        <td>
-                            <a href="/car-reservation/{{this.id}}" target="_blank">Подробнее</a>
-                        </td>
-                    </tr>
+                        <tr style="{{compare orange 1 'background-color: orange' ''}}">
+                            <td>{{this.id}}</td>
+                            <td>{{compare has_driver '1' 'С водителем' 'Без водителя'}}</td>
+                            <td>{{toIsoString this.rent_start 'DD.MM.YYYY HH:mm'}}</td>
+                            <td>{{this.itinerarie_name}}</td>
+                            <td>{{this.passenger_name}}</td>
+                            <td>{{this.customer_name}}</td>
+                            <td>{{this.status_name}}</td>
+                            <td>
+                                <a href="/car-reservation/{{this.id}}" target="_blank">Подробнее</a>
+                            </td>
+                        </tr>
                     {{/each}}
                 </tbody>
                 <tfoot>
@@ -73,7 +73,7 @@
         </div>
     </div>
     {{#unless isArchive}}
-    <a class="btn btn-primary" href="/car-reservation/archive" target="_blank">Завершенные заявки</a>
+        <a class="btn btn-primary" href="/car-reservation/archive" target="_blank">Завершенные заявки</a>
     {{/unless}}
 </section>
 
@@ -128,7 +128,7 @@
                                 data-ajax="/api/clients/select2">
                                 <option value="0" selected disabled>Выберете пассажира</option>
                                 {{#each passengers}}
-                                <option value="{{this.id}}">{{this.name}}</option>
+                                    <option value="{{this.id}}">{{this.name}}</option>
                                 {{/each}}
                             </select>
                             <span class="input-group-btn">
@@ -260,10 +260,12 @@
                                 <select class="form-control js-carReserv-additional-services-select" name="services">
                                     <option value="0" selected disabled>Выберете услугу</option>
                                     {{#each additionalServices}}
-                                    <option data-price="{{price}}" value="{{id}}">{{name}}</option>
+                                        <option data-price="{{price}}" value="{{id}}">{{name}}</option>
                                     {{/each}}
                                 </select>
-                                <input type="number" min="0" class="form-control input-sm js-carReserv-additional-services-price" placeholder="руб">
+                                <input type="number" min="0"
+                                    class="form-control input-sm js-carReserv-additional-services-price"
+                                    placeholder="руб">
                                 <span class="input-group-btn">
                                     <a class="btn btn-primary" type="button" href="/additional-services"
                                         target="_blank">Добавить</a>
@@ -288,20 +290,23 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Залог</label>
                     <div class="col-sm-8">
-                        <input type="number" min="0" class="form-control" name="car_deposit" placeholder="Введите сумму" required>
+                        <input type="number" min="0" class="form-control" name="car_deposit" placeholder="Введите сумму"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Общая сумма</label>
                     <div class="col-sm-8">
-                        <input name="sum" min="0" type="number" class="form-control prices-control-class summary-price-class"
-                            placeholder="Введите сумму" required>
+                        <input name="sum" min="0" type="number"
+                            class="form-control prices-control-class summary-price-class" placeholder="Введите сумму"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">ОПЛАЧЕНО</label>
                     <div class="col-sm-8">
-                        <input type="number" name="paid_sum" value="0" class="form-control" placeholder="Введите сумму" required>
+                        <input type="number" name="paid_sum" value="0" class="form-control" placeholder="Введите сумму"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -319,7 +324,7 @@
                 </div>
             </form>
             {{#each additionalServices}}
-            <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
+                <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
             {{/each}}
         </div>
     </section>
@@ -332,20 +337,43 @@
 
 <script>
 
+    function calcTotalSum() {
+
+        let sum = 0;
+
+        const carDeposit = +$('input[name=car_deposit]').val() || 0;
+        const prepaymentSum = +$('input[name=prepayment]').val() || 0;
+
+        sum += carDeposit;
+        sum += prepaymentSum;
+
+        $('.js-carReserv-additional-services-price').each((index, element) => {
+            sum += +$(element).val();
+        });
+
+        $('input[name=sum]').val(sum);
+    }
+
     function initServiceSelect() {
         var $additionalServicesSelects = $('.js-carReserv-additional-services-select');
         var additionalServicePrice = '.js-carReserv-additional-services-price';
 
-        $additionalServicesSelects.on('change', function (event) {
+        function onChangeServiceSelect(event) {
 
             var $select = $(this);
+
             var $parent = $select.parents('.services-group__item');
             var $price = $parent.find(additionalServicePrice);
 
             var $serviceInfo = $('.service-info[value=' + $select.val() + ']');
 
             $price.val($serviceInfo.data('price'));
-        })
+
+            calcTotalSum();
+        }
+
+        $(additionalServicePrice).on('change input', () => calcTotalSum());
+        $additionalServicesSelects.on('change', onChangeServiceSelect)
     }
 
     initServiceSelect();
@@ -393,6 +421,8 @@
         } else {
             indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        calcTotalSum();
     }
 
     btnAddProduct.addEventListener('click', insRow);
@@ -405,19 +435,22 @@
     let carDepositName = $('input[name=car_deposit]');
 
     function countSumPriceClass() {
-        prepaymentName.on('input change', function() {
+        prepaymentName.on('input change', function () {
             let sum1 = 0;
             sum1 = +prepaymentName.val() + +carDepositName.val();
             sumPriceClass.val(sum1);
+            calcTotalSum();
         });
 
-        carDepositName.on('input change', function() {
+        carDepositName.on('input change', function () {
             let sum2 = 0;
             sum2 = +prepaymentName.val() + +carDepositName.val();
             sumPriceClass.val(sum2);
+            calcTotalSum();
         });
     }
     countSumPriceClass();
+    calcTotalSum();
 </script>
 <script>
     "use strict"
