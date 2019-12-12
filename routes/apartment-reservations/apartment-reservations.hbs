@@ -18,9 +18,9 @@
     </header>
     <div class="panel-body">
         {{#unless isArchive}}
-        <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-            <i class="fa fa-plus"></i> Создать заказ
-        </button>
+            <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
+                <i class="fa fa-plus"></i> Создать заказ
+            </button>
         {{/unless}}
         <div class="zag">
             <h1>заглушка</h1>
@@ -43,18 +43,18 @@
                 </thead>
                 <tbody>
                     {{#each apartmentReservations}}
-                    <tr>
-                        <td>{{manager_name}}</td>
-                        <td>{{this.id}}</td>
-                        <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
-                        <td>{{this.address}}</td>
-                        <td>{{this.client_name}}</td>
-                        <td>{{this.customer_name}}</td>
-                        <td>{{this.statusName}}</td>
-                        <td>
-                            <a href="/apartment-reservations/{{this.id}}" target="_blank">Подробнее</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{manager_name}}</td>
+                            <td>{{this.id}}</td>
+                            <td>{{toIsoString this.created_at 'DD.MM.YYYY'}}</td>
+                            <td>{{this.address}}</td>
+                            <td>{{this.client_name}}</td>
+                            <td>{{this.customer_name}}</td>
+                            <td>{{this.statusName}}</td>
+                            <td>
+                                <a href="/apartment-reservations/{{this.id}}" target="_blank">Подробнее</a>
+                            </td>
+                        </tr>
                     {{/each}}
                 </tbody>
                 <tfoot>
@@ -73,7 +73,7 @@
         </div>
     </div>
     {{#unless isArchive}}
-    <a class="btn btn-primary" href="/apartment-reservations/archive" target="_blank">Завершенные заявки</a>
+        <a class="btn btn-primary" href="/apartment-reservations/archive" target="_blank">Завершенные заявки</a>
     {{/unless}}
 </section>
 
@@ -197,7 +197,7 @@
                                 <select class="form-control js-apartmentReserv-service-select" name="services">
                                     <option value="0" selected disabled>Выберете услугу</option>
                                     {{#each additionalServices}}
-                                    <option value="{{id}}">{{name}}</option>
+                                        <option value="{{id}}">{{name}}</option>
                                     {{/each}}
                                 </select>
                                 <input type="number" class="form-control input-sm js-apartmentReserv-service-price"
@@ -233,7 +233,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">ОПЛАЧЕНО</label>
                     <div class="col-sm-8">
-                        <input type="number" name="paid_sum" value="0" class="form-control" placeholder="Введите сумму" required>
+                        <input type="number" name="paid_sum" value="0" class="form-control" placeholder="Введите сумму"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -251,7 +252,7 @@
                 </div>
             </form>
             {{#each additionalServices}}
-            <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
+                <input type="hidden" class="service-info" value="{{id}}" data-price="{{price}}">
             {{/each}}
         </div>
     </section>
@@ -259,9 +260,24 @@
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
 
 <script>
-
-
+    
     var additionalServicePrice = '.js-apartmentReserv-service-price';
+
+     function calcTotalSum() {
+
+        let sum = 0;
+
+        const prepaymentSum = +$('input[name=prepayment]').val() || 0;
+
+        sum += prepaymentSum;
+
+        $(additionalServicePrice).each((index, element) => {
+            sum += +$(element).val();
+        });
+
+        $('input[name=sum]').val(sum);
+    }
+
 
     function initServiceSelect() {
 
@@ -275,8 +291,10 @@
             var $serviceInfo = $('.service-info[value=' + $select.val() + ']');
 
             $price.val($serviceInfo.data('price'));
+            calcTotalSum();
         }
 
+        $(additionalServicePrice).on('change input', () => calcTotalSum());
         $additionalServicesSelects.on('change', a);
     }
 
@@ -316,6 +334,8 @@
         } else {
             indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        calcTotalSum();
     }
 
     btnAddProduct.addEventListener('click', insRow);
@@ -331,9 +351,10 @@
         const $numberDays = $form.find('[name=number_days]');
 
         [$discount, $pricePerDay, $numberDays].forEach(item => {
-            item.on('change', calcPrepaymentSum);
-            item.on('input', calcPrepaymentSum);
-        })
+            item.on('change input', calcPrepaymentSum);
+        });
+
+        $prepayment.on('change input', () => calcTotalSum());a
 
         function calcPrepaymentSum() {
             const discount = $discount.val();
@@ -343,6 +364,8 @@
             const preSum = pricePerDay * numberDays;
             const sum = preSum - (preSum * (discount / 100));
             $prepayment.val(sum || 0);
+
+            calcTotalSum();
         }
 
     })
