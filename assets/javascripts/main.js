@@ -887,6 +887,8 @@ $(document).ready(() => {
 
         const { data } = await request('/api/' + target + '/delete', { id });
 
+        alert('Запись удалена! Страница закроется автоматически!');
+
         window.close();
     })
 
