@@ -25,11 +25,11 @@ router.post('/add', async (req, res, next) => {
         SELECT * 
         FROM suppliers_deals 
         WHERE incoming_document_number = ?
-            AND date LIKE ?`, 
+            AND date LIKE ?`,
         [values.incoming_document_number, moment(values.date).format('YYYY-MM-DD')]
     );
 
-    if(similarDeal) {
+    if (similarDeal) {
         throw new Error('Сделка с таким номером и датой уже существует');
     }
 
@@ -40,5 +40,22 @@ router.post('/add', async (req, res, next) => {
 
     res.json({ status: 'ok', data: supplierDeal });
 })
+
+router.post('/delete', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    const [deal] = await db.execQuery('SELECT id FROM suppliers_deals WHERE id = ?', [id]);
+
+    if (!deal) {
+        throw new Error('Сделка не найдена!');
+    }
+
+    await db.execQuery('DELETE FROM suppliers_deals WHERE id = ?', [id]);
+
+    res.json({
+        status: 'ok'
+    });
+});
 
 module.exports = router;
