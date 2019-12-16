@@ -53,7 +53,7 @@
             </header>
             <div class="panel-body js-editable-body">
                 <form class="form-horizontal mb-lg" novalidate="novalidate"
-                    onsubmit="contactsShiftUpdate(this); return false;">
+                    onsubmit="contactsShiftUpdate(this, '{{shift.id}}'); return false;">
                     {{#each drivers2shifts}}
                         <div class="form-group js-contract-driver-block">
                             <input type="hidden" name="id" value="{{id}}">
@@ -186,7 +186,7 @@
                 {{#unless shift.is_completed}}
                     <button class="btn btn-danger footer-resrvation-end-btn" data-id="{{shift.id}}"
                         id="js-close-shift">Завершить</button>
-                    <button data-target="shifts2contracts" data-id="{{id}}"
+                    <button data-target="contract-shifts" data-id="{{shift.id}}"
                         class="btn btn-danger js-tableEssence-remove">Удалить
                         смену</button>
                 {{/unless}}
@@ -196,6 +196,7 @@
 </section>
 
 <script>
+
     $('#js-close-shift').on('click', function () {
         closeShift($(this).data('id'));
     });

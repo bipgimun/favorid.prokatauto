@@ -10,17 +10,17 @@ router.post('/add', async (req, res, next) => {
 
     const { drivers, ...values } = req.body;
 
-    if(!values.contract_id) {
+    if (!values.contract_id) {
         throw new Error('Не выбран контракт');
     }
 
     const [contract] = await db.execQuery('SELECT * FROM muz_contracts WHERE id = ?', [values.contract_id]);
 
-    if(!contract) {
+    if (!contract) {
         throw new Error('Контракт не найден');
     }
 
-    if(contract.is_completed == '1') {
+    if (contract.is_completed == '1') {
         throw new Error('Нельзя открыть смену: контракт уже завершен')
     }
 
@@ -49,12 +49,22 @@ router.post('/close', async (req, res, next) => {
 })
 
 router.post('/update', async (req, res, next) => {
-
     const { drivers, ...values } = req.body;
-
-    console.log(req.body);
-
     res.json({ status: 'ok', body: req.body });
+})
+
+router.post('/delete', async (req, res, next) => {
+    const { id } = req.body;
+
+    const [shift] = await db.execQuery('SELECT id FROM shifts2contracts WHERE id = ?', [id]);
+
+    if (!shift) {
+        throw new Error('Смена не найдена');
+    }
+
+    await db.execQuery('DELETE FROM shifts2contracts WHERE id = ?', [id]);
+
+    res.json({ status: 'ok' });
 })
 
 module.exports = router;
