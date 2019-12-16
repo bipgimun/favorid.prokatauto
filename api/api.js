@@ -37,12 +37,6 @@ function checkPrivileges(req, res, next) {
 
 app.use('/notifications', checkAuth, require('./routes/notifications'));
 
-app.use((req, res, next) => {
-    console.log('Пришел запрос на: ' + req.url);
-    
-    next();
-})
-
 app.use('/apartmentReservations', checkAuth, checkPrivileges, require('./routes/apartment-reservations'));
 app.use('/carReservations', checkAuth, checkPrivileges, require('./routes/car-reservations'));
 

@@ -1,4 +1,4 @@
 module.exports = {
-    missingUpdateValues: 'Missing values for updates',
-    missingId: 'Missing id'
+    missingUpdateValues: 'Отсутствуют значения для обновления записи',
+    missingId: 'Отсутствует ID записи'
 };
