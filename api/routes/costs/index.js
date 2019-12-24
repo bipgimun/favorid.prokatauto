@@ -63,6 +63,26 @@ app.post('/add', async (req, res, next) => {
 
     validValues.manager_id = req.session.user.employee_id;
 
+    let splitSum = 0;
+
+    for (const key of Object.keys(jsonDetails)) {
+        const detail = jsonDetails[key] || [];
+
+        if (detail.length < 1) {
+            continue;
+        }
+
+        for (const detItem of detail) {
+            const { price } = detItem;
+
+            splitSum += price;
+        }
+    }
+
+    if(+splitSum !== +validValues.sum) {
+        throw new Error('Сумма разбивки не равна общей сумме');
+    }
+
     const id = await db.insertQuery('INSERT INTO costs SET ?', [validValues]);
 
     for (const key of Object.keys(jsonDetails)) {

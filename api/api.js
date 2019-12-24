@@ -33,6 +33,10 @@ function checkPrivileges(req, res, next) {
     next();
 }
 
+
+
+app.use('/notifications', checkAuth, require('./routes/notifications'));
+
 app.use('/apartmentReservations', checkAuth, checkPrivileges, require('./routes/apartment-reservations'));
 app.use('/carReservations', checkAuth, checkPrivileges, require('./routes/car-reservations'));
 
@@ -71,8 +75,6 @@ app.use('/waybill-sheets', checkAuth, checkPrivileges, require('./routes/waybill
 app.use('/flow-founds', checkAuth, require('./routes/flow-founds'));
 app.use('/units-profitability', checkAuth, require('./routes/units-profitability'));
 app.use('/projects-profitability', checkAuth, require('./routes/projects-profitability'));
-
-app.use('/notifications', checkAuth, require('./routes/notifications'));
 
 app.use((req, res, next) => res.status(404).json({ status: 'bad', message: 'Страница не найдена' }));
 

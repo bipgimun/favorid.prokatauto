@@ -58,9 +58,24 @@ const updateSchema = Joi.object({
 
 router.post('/update', async (req, res, next) => {
 
-    const {id, ...validValues} = await updateSchema.validate(req.body);
+    const { id, ...validValues } = await updateSchema.validate(req.body);
     await db.execQuery(`UPDATE muz_contracts SET ? WHERE id = ?`, [validValues, id]);
-    
+
+    res.json({ status: 'ok' });
+})
+
+router.post('/delete', async (req, res, next) => {
+
+    const { id } = req.body;
+
+    const [contract] = await db.execQuery('SELECT id FROM muz_contracts WHERE id = ?', [id]);
+
+    if (!contract) {
+        throw new Error('Контракт не найден');
+    }
+
+    await db.execQuery('DELETE FROM muz_contracts WHERE id = ?', [id])
+
     res.json({ status: 'ok' });
 })
 

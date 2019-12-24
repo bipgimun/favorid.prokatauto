@@ -887,6 +887,8 @@ $(document).ready(() => {
 
         const { data } = await request('/api/' + target + '/delete', { id });
 
+        alert('Запись удалена! Страница закроется автоматически!');
+
         window.close();
     })
 
@@ -1202,7 +1204,12 @@ const contractsShiftAdd = async (form) => {
     return false;
 };
 
-const contactsShiftUpdate = async (form) => {
+const contactsShiftUpdate = async (form, shiftId) => {
+
+    if(!shiftId) {
+        alert('Отсутствует номер смены');
+        return;
+    }
 
     const $form = $(form);
 
@@ -1226,7 +1233,7 @@ const contactsShiftUpdate = async (form) => {
         drivers.push({ driver_id, type, object, value, hours, id });
     });
 
-    const { data } = await request('/api/drivers2shifts/update', { drivers, comment });
+    const { data } = await request('/api/drivers2shifts/update', { drivers, comment, id: shiftId });
 
     location.reload();
 
