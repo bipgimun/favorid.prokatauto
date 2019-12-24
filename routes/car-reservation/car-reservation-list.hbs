@@ -344,7 +344,9 @@
 
             var $serviceInfo = $('.service-info[value=' + $select.val() + ']');
 
-            $price.val($serviceInfo.data('price'));
+            $price.val($serviceInfo.data('price')).trigger('change');
+            let evtCustom = new Event('input');
+
         })
     }
 
@@ -370,6 +372,17 @@
         var target = event.target;
         var grItem = table.querySelectorAll('.services-group__item');
         var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.js-carReserv-additional-services-price').addEventListener('input', function () {
+            let sumPriceClass1 = document.querySelector('.summary-price-class');
+            let prepaymentName1 = document.querySelector('input[name=prepayment]');
+            let carDepositName1 = document.querySelector('input[name=car_deposit]');
+            let loopForSum = table.querySelectorAll('.js-carReserv-additional-services-price');
+            let sumLoop = 0;
+            for (let j = 0; j < loopForSum.length; j++) {
+                sumLoop += Number(loopForSum[j].value);
+            }
+            sumPriceClass1.value = Number(prepaymentName1.value) + Number(carDepositName1.value) + sumLoop;
+        });
         new_row.querySelector('.adding-item').addEventListener('click', insRow);
 
         var dateInp = new_row.querySelectorAll('input');
@@ -407,15 +420,29 @@
     function countSumPriceClass() {
         prepaymentName.on('input change', function() {
             let sum1 = 0;
-            sum1 = +prepaymentName.val() + +carDepositName.val();
+            let servInpPrice = 0;
+            $('.js-carReserv-additional-services-price').each(function(){
+                servInpPrice += +$(this).val || 0;
+            });
+            sum1 = +prepaymentName.val() + +carDepositName.val() + +servInpPrice;
             sumPriceClass.val(sum1);
         });
 
         carDepositName.on('input change', function() {
             let sum2 = 0;
-            sum2 = +prepaymentName.val() + +carDepositName.val();
+            let servInpPrice1 = 0;
+            $('.js-carReserv-additional-services-price').each(function(){
+                servInpPrice1 += +$(this).val || 0;
+            });
+            sum2 = +prepaymentName.val() + +carDepositName.val() + +servInpPrice1;
             sumPriceClass.val(sum2);
         });
+
+        $('.js-carReserv-additional-services-price').on('input change', function() {
+            let sum3 = 0;
+            sum3 = +prepaymentName.val() + +carDepositName.val() + +$(this).val();
+            sumPriceClass.val(sum3);
+        })
     }
     countSumPriceClass();
 </script>
