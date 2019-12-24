@@ -64,6 +64,7 @@ app.post('/add', async (req, res, next) => {
     validValues.manager_id = req.session.user.employee_id;
 
     let splitSum = 0;
+    let detailsLength = 0;
 
     for (const key of Object.keys(jsonDetails)) {
         const detail = jsonDetails[key] || [];
@@ -76,10 +77,11 @@ app.post('/add', async (req, res, next) => {
             const { price } = detItem;
 
             splitSum += price;
+            detailsLength += 1;
         }
     }
-
-    if(+splitSum !== +validValues.sum) {
+    
+    if(+detailsLength > 0 && +splitSum !== +validValues.sum) {
         throw new Error('Сумма разбивки не равна общей сумме');
     }
 
