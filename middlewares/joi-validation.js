@@ -18,7 +18,7 @@ exports.joiValidate = (schema, from = 'body') => {
                 const { label } = i.context;
 
                 if (i.type === 'any.required') {
-                    return `Поле ${label} является обязательным для заполнение`;
+                    return `Поле ${label} является обязательным для заполнения`;
                 } else if (i.type === 'any.empty') {
                     return `Поле ${label} не должно быть пустым`;
                 } else if (i.type === 'date.isoDate') {

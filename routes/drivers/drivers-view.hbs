@@ -207,7 +207,7 @@
                             </div>
                             <div class="col-sm-9 editable-content">
                                 <div class="input-group">
-                                    <select name="car_id" class="form-control">
+                                    <select name="car_id" class="form-control js-select2-init">
                                         <option value="0" selected disabled>Выберете автомобиль</option>
                                         {{#each ../cars}}
                                             <option {{ifTrue this.selected 'selected' ''}} value="{{this.id}}">

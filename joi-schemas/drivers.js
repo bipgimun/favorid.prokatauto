@@ -12,8 +12,12 @@ const schema = {
     passport_issued_by: Joi.string().label('Кем выдан'),
     passport_division_code: Joi.string().label('Код подразделения'),
     passport_location: Joi.string().label('Место жительства'),
-    car_id: Joi.number().empty([null, '']).optional().label('Автомобиль'),
-    is_individual: Joi.number().valid([1, 0]).empty('').default(null),
+    is_individual: Joi.number().valid(0, 1).empty('').default(null),
+    car_id: Joi.number().label('Автомобиль').when('is_individual', {
+        is: null,
+        then: Joi.any().empty(Joi.number()).default(null),
+        otherwise: Joi.number().required()
+    }),
 };
 
 exports.addSchema = Joi.object({
@@ -28,9 +32,9 @@ exports.addSchema = Joi.object({
     passport_issued_by: schema.passport_issued_by.required(),
     passport_division_code: schema.passport_division_code.required(),
     passport_location: schema.passport_location.required(),
+    is_individual: schema.is_individual,
     car_id: schema.car_id,
-    is_individual: schema.is_individual
-}).with('is_individual', 'car_id')
+})
 
 exports.updateSchema = Joi.object({
     name: schema.name,
@@ -45,9 +49,5 @@ exports.updateSchema = Joi.object({
     passport_division_code: schema.passport_division_code,
     passport_location: schema.passport_location,
     is_individual: schema.is_individual,
-    car_id: schema.car_id.when('is_individual', {
-        is: Joi.number().valid([1, 0]),
-        then: Joi.required(),
-        otherwise: Joi.any().default(null)
-    }),
+    car_id: schema.car_id,
 })
