@@ -169,7 +169,7 @@
                     <label class="col-sm-3 control-label">Автомобиль</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select name="car_id" class="form-control js-select2-init">
+                            <select name="car_id" class="form-control js-select2-init" data-modal="#add-products">
                                 <option value="0" selected disabled>Выберете автомобиль</option>
                                 {{#each cars}}
                                     <option value="{{this.id}}">{{this.name}}-{{this.model}} {{this.number}}</option>

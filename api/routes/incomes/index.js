@@ -65,7 +65,7 @@ app.post('/add', async (req, res, next) => {
         }
     }
 
-    if(validValues.code.toLowerCase() == 'pd') {
+    if(validValues.code && validValues.code.toLowerCase() == 'pd') {
         const [invoice] = await db.execQuery('SELECT * FROM invoices WHERE id = ?', [validValues.document_id]);
 
         if(!invoice) {
