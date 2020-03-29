@@ -50,7 +50,7 @@ module.exports = async (req, res, next) => {
 
     const customers = await customersModel.get();
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
-    const drivers = await db.execQuery('SELECT * FROM drivers');
+    const drivers = await db.execQuery('SELECT * FROM drivers ORDER BY name ASC');
     const cars = await db.execQuery('SELECT * FROM cars');
     const itineraries = await db.execQuery('SELECT * FROM itineraries');
 

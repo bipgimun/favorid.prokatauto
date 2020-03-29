@@ -19,7 +19,7 @@ router.get('/print', async (req, res, next) => {
     const dates = getDateArray(new Date(timeMin), new Date(timeMax))
         .map(date => moment(date).format('DD.MM.YYYY'));
 
-    const drivers = (await db.execQuery(`SELECT * FROM drivers WHERE id > 0 ${driverId ? ` AND id = ${driverId}` : ''}`));
+    const drivers = (await db.execQuery(`SELECT * FROM drivers WHERE id > 0 ${driverId ? ` AND id = ${driverId} ORDER BY name ASC` : ''}`));
 
     const shifts = await db.execQuery(`SELECT * FROM shifts2contracts WHERE date_start BETWEEN '${moment(timeMin).format('YYYY-MM-DD')}' AND '${moment(timeMax).format('YYYY-MM-DD')}'`);
 

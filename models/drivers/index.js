@@ -8,5 +8,6 @@ exports.get = ({ id = '', search = '' } = {}) => {
             id > 0
             ${id ? `AND id = ${id}` : ``}
             AND name LIKE '%${search}%'
+        ORDER BY name ASC
     `);
 }

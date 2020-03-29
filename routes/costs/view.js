@@ -90,7 +90,7 @@ module.exports = async (req, res, next) => {
 
     const cars = await db.execQuery(`SELECT * FROM cars`);
     const apartments = await db.execQuery(`SELECT * FROM apartments`);
-    const drivers = await db.execQuery(`SELECT * FROM drivers`);
+    const drivers = await db.execQuery(`SELECT * FROM drivers ORDER BY name ASC`);
     const contracts = await db.execQuery(`SELECT * FROM muz_contracts`);
     const carsReservs = await db.execQuery('SELECT * FROM cars_reservations');
 

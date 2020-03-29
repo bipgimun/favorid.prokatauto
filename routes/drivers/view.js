@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
             CONCAT(c.name, ' ', c.model) as car_name
         FROM drivers d
             LEFT JOIN cars c ON c.id = d.car_id
-        WHERE d.id = ?`, [id]
+        WHERE d.id = ? ORDER BY d.name ASC`, [id]
     );
 
     const cars = await db.execQuery(`SELECT * FROM cars`);

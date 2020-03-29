@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
 
     const passengers = await db.execQuery(`SELECT * FROM passengers`);
     const itineraries = await db.execQuery('SELECT * FROM itineraries');
-    const drivers = await db.execQuery('SELECT * FROM drivers');
+    const drivers = await db.execQuery('SELECT * FROM drivers ORDER BY name ASC');
 
     res.render(__dirname + '/car-reservation-list', {
         reservs,
