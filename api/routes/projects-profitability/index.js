@@ -139,12 +139,11 @@ const getCalcData = async ({ project, time_max = '', time_min = '' }) => {
                     cd.price as sum
                 FROM costs c
                     LEFT JOIN costs_details cd ON cd.cost_id = c.id
-                WHERE cd.target_type = ?
+                WHERE cd.target_type = 'carsReserv'
                     ${time_max && time_min ? `AND DATE(c.date) BETWEEN '${dateGt}' AND '${dateLt}'` : ''}
                     ${time_min && !time_max ? `AND DATE(c.date) >= '${dateGt}'` : ''}
                     ${!time_min && time_max ? `AND DATE(c.date) <= '${dateLt}'` : ''}
-                `, ['carsReserv']
-            );
+            `);
 
             // расходы по основанию аренды
             const costsByRentBase = await db.execQuery(`
@@ -479,12 +478,11 @@ const getCalcData = async ({ project, time_max = '', time_min = '' }) => {
                     cd.price as sum
                 FROM costs c
                     LEFT JOIN costs_details cd ON cd.cost_id = c.id
-                WHERE cd.target_type = ?
+                WHERE cd.target_type = 'contracts'
                     ${time_max && time_min ? `AND DATE(c.date) BETWEEN '${dateGt}' AND '${dateLt}'` : ''}
                     ${time_min && !time_max ? `AND DATE(c.date) >= '${dateGt}'` : ''}
                     ${!time_min && time_max ? `AND DATE(c.date) <= '${dateLt}'` : ''}
-                `, ['contracts']
-            );
+            `);
 
             // расходы по основанию - контракт
             const costsByContractBase = await db.execQuery(`
