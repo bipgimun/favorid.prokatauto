@@ -143,7 +143,7 @@ router.get('/', async (req, res, next) => {
             notification.title = 'Окончание водительского удостоверения';
             notification.description = 'В связи с окончанием действия водительсого удостоверения, предупредите, запросите номер нового и измените его у ';
             
-            const [driver] = await db.execQuery('`SELECT * FROM drivers WHERE id = ?', [notification.target_id]);
+            const [driver] = await db.execQuery('SELECT * FROM drivers WHERE id = ?', [notification.target_id]);
 
             if(!driver) {
                 continue;
