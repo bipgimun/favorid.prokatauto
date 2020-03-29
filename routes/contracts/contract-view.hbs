@@ -535,6 +535,7 @@
                             <div class="col-sm-9">
                                 <select class="form-control" name="driver_id">
                                     <option value="" disabled>Выберете водителя</option>
+                                    <option value="-">Без водителя</option>
                                     {{#each ../drivers}}
                                         <option {{compare ../driver_id id 'selected' ''}} value="{{id}}">{{name}}
                                         </option>
@@ -603,6 +604,11 @@
 
 <script>
     $('#js-contract-close').on('click', function() {
+
+        if(!confirm('Завершить контракт?')) {
+            return false;
+        }
+
         closeContract($(this).data('id'));
     })
 </script>

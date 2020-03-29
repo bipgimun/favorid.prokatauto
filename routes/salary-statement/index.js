@@ -7,7 +7,7 @@ const calcSalary = require('../../libs/salaryStatement/calcByEmployee')
 
 router.get('/', async (req, res, next) => {
     const drivers = await driversModel.get();
-    const reports = await db.execQuery(`  SELECT sr.*,
+    const reports = await db.execQuery(`SELECT sr.*,
             d.name as driver_name
         FROM salary_reports sr
             LEFT JOIN drivers d ON d.id = sr.driver_id`);

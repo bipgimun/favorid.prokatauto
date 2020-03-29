@@ -107,13 +107,14 @@ router.get('/:id', async (req, res, next) => {
 
     const activeShifts = shifts.filter(shift => shift.is_completed != '1');
 
-    drivers2contracts.forEach(item => {
+    const d = drivers2contracts.filter(item => +item.driver_id !== 0).map(item => {
         item.type_name = types[item.type];
+        return item;
     });
 
     return res.render(__dirname + '/contract-view', {
         contract,
-        drivers2contracts,
+        drivers2contracts: d,
         drivers,
         can_edit: req.session.user.is_director == '1' || contract.is_completed == '0' && req.session.user.is_senior_manager == '1' ,
         totalCompletedHours,

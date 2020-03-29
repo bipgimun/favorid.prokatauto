@@ -198,6 +198,11 @@
 <script>
 
     $('#js-close-shift').on('click', function () {
+
+        if(!confirm('Закрыть смену?')) {
+            return false;
+        }
+
         closeShift($(this).data('id'));
     });
 </script>

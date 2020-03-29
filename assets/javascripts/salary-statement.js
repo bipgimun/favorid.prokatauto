@@ -46,17 +46,21 @@ $(document).ready(function () {
         const period_left = $leftDate.val();
         const period_right = $rightDate.val();
         const driver_id = $driver.val();
-        const ids = getIds().join(',');
+        
+        const getIdsResult = getIds();
+
+        const reservsIds = getIdsResult.filter(item => item.reservId).map(item => item.reservId).join(',');
+        const shiftsIds = getIdsResult.filter(item => item.shiftId).map(item => item.shiftId).join(',');
 
         if (!period_left || !period_right || driver_id === undefined) {
             return alert('Выбраны не все поля');
         }
 
-        if (!ids) {
+        if (!reservsIds && !shiftsIds) {
             return alert('Список не сформирован');
         }
 
-        const { body } = await request('/api/salaryStatement/saveReport', { period_left, period_right, driver_id, ids });
+        const { body } = await request('/api/salaryStatement/saveReport', { period_left, period_right, driver_id, reservsIds, shiftsIds });
         insertTable([body.created_at, body.id, body.driver_name, body.sum, `<a href="/salary-statement/${body.id}" target="_blank">Подробнее</a>`]);
     }
 
@@ -96,9 +100,12 @@ $(document).ready(function () {
             return alert('Выбраны не все поля');
         }
 
-        const ids = getIds();
+        const getIdsResult = getIds();
 
-        const query = $.param({ leftDate, rightDate, driver_id, ids: ids.join(',') });
+        const reservsIds = getIdsResult.filter(item => item.reservId).map(item => item.reservId).join(',');
+        const shiftsIds = getIdsResult.filter(item => item.shiftId).map(item => item.shiftId).join(',');
+
+        const query = $.param({ leftDate, rightDate, driver_id, reservsIds, shiftsIds });
 
         window.open('/api/salaryStatement/print?' + query);
     }
@@ -127,7 +134,15 @@ $(document).ready(function () {
 
     function getIds() {
         return $.map($('.js-tr'), (elem) => {
-            return $(elem).attr('data-id');
+            const data = $(elem).data();
+
+            if(data.shiftId) {
+                return {shiftId: data.shiftId};
+            } else if (data.reservId) {
+                return {reservId: data.reservId};
+            }
+
+            return false;
         });
     }
 })

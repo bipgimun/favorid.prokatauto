@@ -45,6 +45,7 @@ module.exports = async ({ driver_id, leftDate, rightDate }) => {
             id,
             sum,
             description: `Заявка №${id}`,
+            reservId: id,
             date: formatedDate,
             itinerarie_name: carReserv.itinerarie_name,
             passenger_name: carReserv.passenger_name,
@@ -55,8 +56,8 @@ module.exports = async ({ driver_id, leftDate, rightDate }) => {
     }
 
     for (const shift of shifts) {
-        const { id, created_at, value: salaryRate, hours, shift_start } = shift;
-        const formatedDate = moment(created_at).format('DD.MM.YYYY');
+        const { id, create_at, value: salaryRate, hours, shift_start } = shift;
+        const formatedDate = moment(create_at).format('DD.MM.YYYY');
 
         const startTime = moment(shift_start).format('DD.MM.YYYY, HH:mm');
 
@@ -64,8 +65,9 @@ module.exports = async ({ driver_id, leftDate, rightDate }) => {
 
         result.push({
             id,
+            shiftId: id,
             sum,
-            description: `Смена №${id} по контракту №${shift.contract_id}`,
+            description: `Смена №${shift.shift_id} по контракту №${shift.contract_id}`,
             date: formatedDate,
             itinerarie_name: '',
             passenger_name: '',

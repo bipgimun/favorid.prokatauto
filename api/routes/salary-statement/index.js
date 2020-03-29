@@ -17,15 +17,38 @@ const printSchema = Joi.object({
     leftDate: Joi.date().iso().required(),
     rightDate: Joi.date().iso().required(),
     driver_id: Joi.string().allow('').default(null),
-    ids: Joi.string().required(),
+    // ids: Joi.string(),
+    reservsIds: Joi.string().empty(''),
+    shiftsIds: Joi.string().empty('')
 });
 
 const saveReportSchema = Joi.object({
     period_left: Joi.date().iso().required(),
     period_right: Joi.date().iso().required(),
     driver_id: Joi.string().empty('').default(null),
-    ids: Joi.string().required(),
-})
+    // ids: Joi.string(),
+    reservsIds: Joi.string().empty(''),
+    shiftsIds: Joi.string().empty('')
+});
+
+const getShifts = async (ids = '') => {
+
+    if (!ids) {
+        return [];
+    }
+
+    return db.execQuery(`
+        SELECT d2s.*,
+            s2c.contract_id,
+            s2c.date_start as shift_start,
+            d.name as driver_name
+        FROM drivers2shifts d2s
+            LEFT JOIN shifts2contracts s2c ON d2s.shift_id = s2c.id
+            LEFT JOIN drivers d ON d.id = d2s.driver_id
+        WHERE 
+            d2s.id IN (${ids})
+    `);
+};
 
 router.post('/getTable', require('./getTable'));
 
@@ -33,16 +56,24 @@ router.get('/print', async (req, res, next) => {
 
     const safeValues = await printSchema.validate(req.query);
 
-    const { leftDate, rightDate, driver_id, ids } = safeValues;
+    const { leftDate, rightDate, driver_id, ids, reservsIds = '', shiftsIds = '' } = safeValues;
 
     const period = `${moment(leftDate).format(format)} - ${moment(rightDate).format(format)}`;
 
-    const reservs = await carsReservsModel.get({ ids, statuses: '2' });
+    const reservs = reservsIds ? await carsReservsModel.get({ ids: reservsIds, statuses: '2' }) : [];
+    const shifts = shiftsIds ? await getShifts(shiftsIds) : [];
 
-    const reservsMapByDriver = reservs.reduce((acc, value) => {
 
-        acc[value.driver_name] = acc[value.driver_name] || [];
-        acc[value.driver_name].push(value);
+
+    const reservsMapByDriver = [...reservs, ...shifts].reduce((acc, value) => {
+
+        acc[value.driver_name] = acc[value.driver_name] || { reservs: [], shifts: [] };
+
+        if (value.type && value.shift_id) {
+            acc[value.driver_name].shifts.push(value);
+        } else {
+            acc[value.driver_name].reservs.push(value);
+        }
 
         return acc;
     }, {});
@@ -57,7 +88,7 @@ router.get('/print', async (req, res, next) => {
             details: []
         };
 
-        const reservs = reservsMapByDriver[driver_name];
+        const {reservs, shifts} = reservsMapByDriver[driver_name];
 
         reservs.forEach(reserv => {
 
@@ -80,6 +111,31 @@ router.get('/print', async (req, res, next) => {
             });
         });
 
+        for (const shift of shifts) {
+            const { id, create_at, value: salaryRate, hours, shift_start } = shift;
+            const formatedDate = moment(create_at).format('DD.MM.YYYY');
+    
+            const startTime = moment(shift_start).format('DD.MM.YYYY, HH:mm');
+    
+            const sum = salaryRate * hours;
+
+            result.total += +sum;
+    
+            result.details.push({
+                id,
+                shiftId: id,
+                sum: String(sum),
+                description: `Смена №${shift.shift_id} по контракту №${shift.contract_id}`,
+                date: formatedDate,
+                itinerarie_name: '',
+                passenger_name: '',
+                customer_name: '',
+                code: 'muz',
+                startTime,
+                itinerarie_point_b: ''
+            });
+        }
+
         totalSum += +result.total;
 
         return result;
@@ -94,11 +150,16 @@ router.get('/print', async (req, res, next) => {
 
 router.post('/saveReport', async (req, res, next) => {
 
-    const { ids, ...validValues } = await saveReportSchema.validate(req.body);
+    const { ids, reservsIds = '', shiftsIds = '', ...validValues } = await saveReportSchema.validate(req.body);
 
-    const reservs = await carsReservsModel.get({ ids });
-    const sum = reservs.map(reserv => +reserv.driver_salary)
+    const reservs = reservsIds ? await carsReservsModel.get({ ids: reservsIds }) : [];
+    const shifts = shiftsIds ? await getShifts(shiftsIds) : [];
+
+    const sumReservs = reservs.map(reserv => +reserv.driver_salary)
         .reduce((acc, value) => (acc + value), 0);
+
+    const sum = shifts.map(item => (+item.value * +item.hours))
+        .reduce((acc, value) => (+acc + +value), sumReservs);
 
     validValues.manager_id = req.session.user.employee_id;
 
@@ -112,8 +173,16 @@ router.post('/saveReport', async (req, res, next) => {
         WHERE sr.id = ?`, [id]
     );
 
-    for (const reserv_id of ids.split(',')) {
-        await db.insertQuery(`INSERT INTO salary_reports_details SET ?`, { report_id: id, reserv_id });
+    if (reservsIds) {
+        for (const reserv_id of reservsIds.split(',')) {
+            await db.insertQuery(`INSERT INTO salary_reports_details SET ?`, { report_id: id, reserv_id });
+        }
+    }
+
+    if (shiftsIds) {
+        for (const shiftId of shiftsIds.split(',')) {
+            await db.insertQuery(`INSERT INTO salary_reports_details SET ?`, { report_id: id, shift_id: shiftId });
+        }
     }
 
     report.created_at = moment(report.created_at).format(format);

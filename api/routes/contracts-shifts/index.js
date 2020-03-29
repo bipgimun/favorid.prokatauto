@@ -41,6 +41,16 @@ router.post('/close', async (req, res, next) => {
         throw new Error('Отсутствует номер смены');
     }
 
+    const [shift] = await db.execQuery(`SELECT * FROM shifts2contracts WHERE id = ${shift_id}`);
+
+    if(!shift) {
+        throw new Error('Смена не найдена');
+    }
+
+    if(+shift.is_completed === 1) {
+        throw new Error('Смена уже завершена');
+    }
+
     await db.execQuery(`UPDATE shifts2contracts SET ? WHERE id = ${shift_id}`, [
         { is_completed: 1, complete_at: new Date() }
     ]);

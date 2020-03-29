@@ -1193,6 +1193,10 @@ const contractsShiftAdd = async (form) => {
         const type = $driverBlock.find('[name=type]').val();
         const object = $driverBlock.find('[name=object]').val();
         const value = $driverBlock.find('[name=value]').val();
+        
+        if(driver_id === '-') {
+            return false;
+        }
 
         drivers.push({ driver_id, type, object, value });
     });
