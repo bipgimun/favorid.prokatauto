@@ -50,6 +50,10 @@ app.engine('hbs', hbs({
 
         minus(v1, v2) {
             return v1 - v2;
+        },
+
+        getDefaultNowValue() {
+            return moment().format('YYYY-MM-DD');
         }
     }
 }));

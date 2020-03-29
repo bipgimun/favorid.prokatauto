@@ -22,7 +22,7 @@
             <i class="fa fa-plus"></i> Выставить счет
         </button>
         <div class="zag">
-            <h1>заглушка</h1>
+            <h1>Загрузка...</h1>
         </div>
         <div class="table-responsive">
             <table id="js-nomenclature-products-table"
@@ -80,6 +80,14 @@
         <div class="panel-body">
             <form id="js-invoices-add-form" action="/api/invoices/add" class="form-horizontal mb-lg"
                 novalidate="novalidate">
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Дата</label>
+                    <div class="col-sm-9">
+                        <input value="{{getDefaultNowValue}}" type="date" name="date" class="form-control" placeholder="Введите дату" required>
+                    </div>
+                </div>
+                
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Основание</label>
                     <div class="col-sm-9">

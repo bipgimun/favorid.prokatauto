@@ -29,7 +29,8 @@ const {
 
 const addSchema = Joi.object({
     code: Joi.string().required(),
-    sum: Joi.number().min(0).required()
+    sum: Joi.number().min(0).required(),
+    date: Joi.string()
 });
 
 router.post('/get', async (req, res, next) => {
@@ -76,7 +77,7 @@ router.post('/get/code/:code', async (req, res, next) => {
 
 router.post('/add', async (req, res, next) => {
 
-    const { code, sum } = await addSchema.validate(req.body);
+    const { code, sum, date } = await addSchema.validate(req.body);
 
     let base_id = null;
     let objectModel = null;
@@ -116,6 +117,7 @@ router.post('/add', async (req, res, next) => {
     const invoiceId = await invoicesModel.add({
         sum,
         base_id,
+        created: date,
         code: detailCode,
         customer_id,
         manager_id: req.session.user.employee_id,

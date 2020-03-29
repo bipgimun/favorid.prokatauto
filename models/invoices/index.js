@@ -40,6 +40,7 @@ exports.add = ({
     code = null,
     base_id = null,
     manager_id = null,
+    created = null
 } = {}) => {
 
     if (!customer_id)
@@ -57,5 +58,5 @@ exports.add = ({
     if (!manager_id)
         throw new Error('Отсутствует manager_id');
 
-    return db.insertQuery(`INSERT INTO invoices SET ?`, { customer_id, sum, code, base_id, manager_id });
+    return db.insertQuery(`INSERT INTO invoices SET ?`, { customer_id, sum, code, base_id, manager_id, created });
 };
