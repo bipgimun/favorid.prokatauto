@@ -6,6 +6,7 @@
         <tr>
             <th>Дата</th>
             <th>Кому/От кого</th>
+            <th>Основание</th>
             <th class="text-right">Приход, руб.</th>
             <th class="text-right">Расход, руб.</th>
             <th class="text-right">Касса/счет</th>
@@ -16,6 +17,9 @@
             <tr>
                 <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
                 <td>{{customer_name}}</td>
+                <td>
+                    <a href="/incomes/{{id}}">Документ прихода №{{id}}</a>
+                </td>
                 <td class="text-right">{{sum}}</td>
                 <td class="text-right"></td>
                 <td class="text-right">{{cashStorageName}}</td>
@@ -25,6 +29,9 @@
             <tr>
                 <td>{{toIsoString date 'DD.MM.YYYY'}}</td>
                 <td>{{toCost}}</td>
+                <td>
+                    <a href="/costs/{{id}}">Документ расхода №{{id}}</a>
+                </td>
                 <td class="text-right"></td>
                 <td class="text-right">{{sum}}</td>
                 <td class="text-right">{{cashStorageName}}</td>
@@ -35,12 +42,13 @@
         <tr>
             <th>Дата</th>
             <th>Кому/От кого</th>
+            <th>Основание</th>
             <th class="text-right">Приход</th>
             <th class="text-right">Расход</th>
             <th class="text-right">Касса/счет</th>
         </tr>
         <tr>
-            <th colspan="5" class="text-left">Остаток на конец периода: <span>{{balanceAtEndPeriod}}</span> руб.</th>
+            <th colspan="6" class="text-left">Остаток на конец периода: <span>{{balanceAtEndPeriod}}</span> руб.</th>
         </tr>
     </tfoot>
 </table>

@@ -1237,7 +1237,7 @@ const contactsShiftUpdate = async (form, shiftId) => {
         drivers.push({ driver_id, type, object, value, hours, id });
     });
 
-    const { data } = await request('/api/drivers2shifts/update', { drivers, comment, id: shiftId });
+    const { data } = await request('/api/drivers2shifts/update', { drivers, comment, id: shiftId, date_start: t.date_start });
 
     location.reload();
 

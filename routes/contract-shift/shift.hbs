@@ -54,9 +54,22 @@
             <div class="panel-body js-editable-body">
                 <form class="form-horizontal mb-lg" novalidate="novalidate"
                     onsubmit="contactsShiftUpdate(this, '{{shift.id}}'); return false;">
+
+                    <div class="col-sm-12">
+                        <label class="col-sm-2 control-label">Дата начала смены</label>
+                        <div class="non-editable-content" data-target="date_start">
+                            {{toIsoString shift.date_start 'DD.MM.YYYY'}}
+                        </div>
+                        <div class="col-sm-6 editable-content">
+                            <input type="date" class="form-control" name="date_start"
+                                value="{{toIsoString shift.date_start 'YYYY-MM-DD'}}">
+                        </div>
+                    </div>
+
                     {{#each drivers2shifts}}
                         <div class="form-group js-contract-driver-block">
                             <input type="hidden" name="id" value="{{id}}">
+
                             <div class="col-sm-12">
                                 <label class="col-sm-2 control-label">Водитель</label>
                                 <div class="non-editable-content" data-target="driver_name">
@@ -199,7 +212,7 @@
 
     $('#js-close-shift').on('click', function () {
 
-        if(!confirm('Закрыть смену?')) {
+        if (!confirm('Закрыть смену?')) {
             return false;
         }
 
