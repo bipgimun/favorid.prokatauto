@@ -322,6 +322,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">Общая сумма</label>
+                    <div class="col-sm-10">
+                        <input 
+                            type="number" 
+                            class="form-control"
+                            placeholder="руб"
+                            id="total-price"
+                            disabled />
+                    </div>
+                </div>
+
+                <div class="form-group">
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">Статья расходов</label>
@@ -377,6 +389,34 @@
     </section>
 </div>
 <script src="/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+
+<script>
+    
+    function getAllPrice() {
+        
+        let res = 0;
+        
+        $('.input-sm.price').each((index, element) => {
+            const $element = $(element);
+            
+            if($element.val()) {
+                res += +$element.val();
+            }
+        });
+
+        return res;
+    }
+
+    function insertTotalPrice() {
+        $('#total-price').val(getAllPrice());
+    }
+    
+    $('#add-products').on('input', '.input-sm.price', function() {
+        const price = getAllPrice();
+        $('#total-price').val(price);
+    })
+</script>
+
 <script>
     var btnAddProduct = document.querySelector('.adding-item-autos');
     var btnDeleteProduct = document.querySelector('.deliting-item-autos');
@@ -408,6 +448,8 @@
         } else {
             indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        insertTotalPrice();
     }
 
     btnAddProduct.addEventListener('click', insRow);
@@ -445,6 +487,8 @@
         } else {
             indexRowApart = closeBtnApart.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        insertTotalPrice();
     }
 
     btnAddProductApart.addEventListener('click', insRowApart);
@@ -482,6 +526,8 @@
         } else {
             indexRowDrivers = closeBtnDrivers.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        insertTotalPrice();
     }
 
     btnAddProductDrivers.addEventListener('click', insRowDrivers);
@@ -491,11 +537,12 @@
 <script>
     var btnAddProductContr = document.querySelector('.adding-item-contracts');
     var btnDeleteProductContr = document.querySelector('.deliting-item-contracts');
-    var tableContr = document.querySelector('.contracts-group');
+    var tableContract = document.querySelector('.contracts-group');
 
     function insRowContr() {
         var targetContr = event.target;
-        var grItemContr = tableContr.querySelectorAll('.contracts-group__item');
+        var grItemContr = tableContract.querySelectorAll('.contracts-group__item');
+
         var new_rowContr = grItemContr[0].cloneNode(true);
         new_rowContr.querySelector('.adding-item-contracts').addEventListener('click', insRowContr);
 
@@ -504,7 +551,7 @@
             dateInpContr[i].value = '';
         }
 
-        tableContr.appendChild(new_rowContr);
+        tableContract.appendChild(new_rowContr);
     }
 
     function delRowContr() {
@@ -512,27 +559,29 @@
         var closeBtnContr = targetContr.closest('.deliting-item-contracts');
         if (!closeBtnContr) return;
 
-        var grItemContr = tableContr.querySelectorAll('.contracts-group__item');
+        var grItemContr = tableContract.querySelectorAll('.contracts-group__item');
         var actualTbodyContr = grItemContr.length;
         if (actualTbodyContr == 1) {
             return;
         } else {
             indexRowContr = closeBtnContr.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        insertTotalPrice();
     }
 
     btnAddProductContr.addEventListener('click', insRowContr);
 
-    tableContr.addEventListener('click', delRowContr);
+    tableContract.addEventListener('click', delRowContr);
 </script>
 <script>
     var btnAddProductContr = document.querySelector('.adding-item-carsReservs');
     var btnDeleteProductContr = document.querySelector('.deliting-item-carsReservs');
-    var tableContr = document.querySelector('.carsReservs-group');
+    var tableCarReservs = document.querySelector('.carsReservs-group');
 
     function insRowContr() {
         var targetContr = event.target;
-        var grItemContr = tableContr.querySelectorAll('.carsReservs-group__item');
+        var grItemContr = tableCarReservs.querySelectorAll('.carsReservs-group__item');
         var new_rowContr = grItemContr[0].cloneNode(true);
         new_rowContr.querySelector('.adding-item-carsReservs').addEventListener('click', insRowContr);
 
@@ -541,24 +590,26 @@
             dateInpContr[i].value = '';
         }
 
-        tableContr.appendChild(new_rowContr);
+        tableCarReservs.appendChild(new_rowContr);
     }
 
     function delRowContr() {
         var targetContr = event.target;
-        var closeBtnContr = targetContr.closest('.deliting-item-contracts');
+        var closeBtnContr = targetContr.closest('.deliting-item-carsReservs');
         if (!closeBtnContr) return;
 
-        var grItemContr = tableContr.querySelectorAll('.contracts-group__item');
+        var grItemContr = tableCarReservs.querySelectorAll('.carsReservs-group__item');
         var actualTbodyContr = grItemContr.length;
         if (actualTbodyContr == 1) {
             return;
         } else {
             indexRowContr = closeBtnContr.parentNode.parentNode.parentNode.parentNode.remove();
         }
+
+        insertTotalPrice();
     }
 
     btnAddProductContr.addEventListener('click', insRowContr);
 
-    tableContr.addEventListener('click', delRowContr);
+    tableCarReservs.addEventListener('click', delRowContr);
 </script>
