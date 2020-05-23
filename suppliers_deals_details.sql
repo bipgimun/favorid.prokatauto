@@ -45,7 +45,6 @@ CREATE TABLE `suppliers_deals_details` (
 --
 ALTER TABLE `suppliers_deals_details`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `cost_id` (`suppliers_deal_id`),
   ADD KEY `target_type` (`target_type`),
   ADD KEY `target_id` (`target_id`);
 
