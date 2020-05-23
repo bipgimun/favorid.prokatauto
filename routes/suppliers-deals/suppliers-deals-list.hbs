@@ -83,7 +83,7 @@
             <h2 class="panel-title">Сделка с поставщиком</h2>
         </header>
         <div class="panel-body">
-            <form onsubmit="SuppliersDeals.add_form_submit(this); return false;" action="/api/suppliers-deals/add"
+            <form data-target="list" onsubmit="SuppliersDeals.add_form_submit(this); return false;" action="/api/suppliers-deals/add"
                 method="POST" class="form-horizontal mb-lg" novalidate="novalidate">
 
                 <div class="form-group mt-lg">
@@ -121,6 +121,154 @@
                     </div>
                 </div>
 
+                 <div class="form-group autos-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>АВТОМОБИЛИ</span>
+                    </div>
+                    <div class="form-group col-sm-12 autos-group__item">
+                        <label class="col-sm-2 control-label">Авто</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select class="form-control target_id">
+                                    <option value="" selected disabled>Выберете автомобиль</option>
+                                    {{#each cars}}
+                                        <option value="{{id}}">{{name}} {{model}} - {{number}}</option>
+                                    {{/each}}
+                                </select>
+                                <input type="number" class="form-control input-sm price"
+                                    placeholder="руб">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default adding-item-autos" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default deliting-item-autos" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group apartments-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>КВАРТИРЫ</span>
+                    </div>
+                    <div class="form-group col-sm-12 apartments-group__item">
+                        <label class="col-sm-2 control-label">Квартира</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select class="form-control target_id">
+                                    <option value="" selected disabled>Выберете квартиру</option>
+                                     {{#each apartments}}
+                                        <option value="{{id}}">{{address}}</option>
+                                    {{/each}}
+                                </select>
+                                <input type="number" class="form-control input-sm price"
+                                    placeholder="руб">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default adding-item-apartments" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default deliting-item-apartments" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group drivers-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>ВОДИТЕЛИ</span>
+                    </div>
+                    <div class="form-group col-sm-12 drivers-group__item">
+                        <label class="col-sm-2 control-label">Водитель</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select class="form-control target_id">
+                                    <option value="" selected disabled>Выберете водителя</option>
+                                     {{#each drivers}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <input type="number" class="form-control input-sm price"
+                                    placeholder="руб">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default adding-item-drivers" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default deliting-item-drivers" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group contracts-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>КОНТРАКТЫ</span>
+                    </div>
+                    <div class="form-group col-sm-12 contracts-group__item">
+                        <label class="col-sm-2 control-label">Контракт</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select class="form-control target_id">
+                                    <option value="0" selected disabled>Выберете контракт</option>
+                                     {{#each contracts}}
+                                        <option value="{{id}}">MUZ-{{id}}</option>
+                                    {{/each}}
+                                </select>
+                                <input type="number" class="form-control input-sm price"
+                                    placeholder="руб">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default adding-item-contracts" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default deliting-item-contracts" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group carsReservs-group">
+                    <div class="col-sm-12 control-label" style="text-align:center;">
+                        <span>ПРОКАТ АВТО</span>
+                    </div>
+                    <div class="form-group col-sm-12 carsReservs-group__item">
+                        <label class="col-sm-2 control-label">Заявка на аренду авто</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select class="form-control target_id">
+                                    <option value="" selected disabled>Выберете заявку</option>
+                                     {{#each carReservations}}
+                                        <option value="{{id}}">CRR-{{id}}</option>
+                                    {{/each}}
+                                </select>
+                                <input type="number" class="form-control input-sm price"
+                                    placeholder="руб">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default adding-item-carsReservs" type="button">+</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default deliting-item-carsReservs" type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Общая сумма</label>
+                    <div class="col-sm-10">
+                        <input 
+                            type="number" 
+                            class="form-control"
+                            placeholder="руб"
+                            id="total-price"
+                            disabled />
+                    </div>
+                </div>
+
+
                 <div class="form-group mt-lg">
                     <label class="col-sm-3 control-label">Сумма</label>
                     <div class="col-sm-9">
@@ -145,3 +293,227 @@
         </div>
     </section>
 </div>
+
+<script>
+    
+    function getAllPrice() {
+        
+        let res = 0;
+        
+        $('.input-sm.price').each((index, element) => {
+            const $element = $(element);
+            
+            if($element.val()) {
+                res += +$element.val();
+            }
+        });
+
+        return res;
+    }
+
+    function insertTotalPrice() {
+        $('#total-price').val(getAllPrice());
+    }
+    
+    $('#add-suppliers-deals').on('input', '.input-sm.price', function() {
+        const price = getAllPrice();
+        $('#total-price').val(price);
+    })
+</script>
+
+<script>
+    var btnAddProduct = document.querySelector('.adding-item-autos');
+    var btnDeleteProduct = document.querySelector('.deliting-item-autos');
+    var table = document.querySelector('.autos-group');
+
+    function insRow() {
+        var target = event.target;
+        var grItem = table.querySelectorAll('.autos-group__item');
+        var new_row = grItem[0].cloneNode(true);
+        new_row.querySelector('.adding-item-autos').addEventListener('click', insRow);
+
+        var dateInp = new_row.querySelectorAll('input');
+        for (var i = 0; i < dateInp.length; i++) {
+            dateInp[i].value = '';
+        }
+
+        table.appendChild(new_row);
+    }
+
+    function delRow() {
+        var target = event.target;
+        var closeBtn = target.closest('.deliting-item-autos');
+        if (!closeBtn) return;
+
+        var grItem = table.querySelectorAll('.autos-group__item');
+        var actualTbody = grItem.length;
+        if (actualTbody == 1) {
+            return;
+        } else {
+            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+
+        insertTotalPrice();
+    }
+
+    btnAddProduct.addEventListener('click', insRow);
+
+    table.addEventListener('click', delRow);
+</script>
+<script>
+    var btnAddProductApart = document.querySelector('.adding-item-apartments');
+    var btnDeleteProductApart = document.querySelector('.deliting-item-apartments');
+    var tableApart = document.querySelector('.apartments-group');
+
+    function insRowApart() {
+        var targetApart = event.target;
+        var grItemApart = tableApart.querySelectorAll('.apartments-group__item');
+        var new_rowApart = grItemApart[0].cloneNode(true);
+        new_rowApart.querySelector('.adding-item-apartments').addEventListener('click', insRowApart);
+
+        var dateInpApart = new_rowApart.querySelectorAll('input');
+        for (var i = 0; i < dateInpApart.length; i++) {
+            dateInpApart[i].value = '';
+        }
+
+        tableApart.appendChild(new_rowApart);
+    }
+
+    function delRowApart() {
+        var targetApart = event.target;
+        var closeBtnApart = targetApart.closest('.deliting-item-apartments');
+        if (!closeBtnApart) return;
+
+        var grItemApart = tableApart.querySelectorAll('.apartments-group__item');
+        var actualTbodyApart = grItemApart.length;
+        if (actualTbodyApart == 1) {
+            return;
+        } else {
+            indexRowApart = closeBtnApart.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+
+        insertTotalPrice();
+    }
+
+    btnAddProductApart.addEventListener('click', insRowApart);
+
+    tableApart.addEventListener('click', delRowApart);
+</script>
+<script>
+    var btnAddProductDrivers = document.querySelector('.adding-item-drivers');
+    var btnDeleteProductDrivers = document.querySelector('.deliting-item-drivers');
+    var tableDrivers = document.querySelector('.drivers-group');
+
+    function insRowDrivers() {
+        var targetDrivers = event.target;
+        var grItemDrivers = tableDrivers.querySelectorAll('.drivers-group__item');
+        var new_rowDrivers = grItemDrivers[0].cloneNode(true);
+        new_rowDrivers.querySelector('.adding-item-drivers').addEventListener('click', insRowDrivers);
+
+        var dateInpDrivers = new_rowDrivers.querySelectorAll('input');
+        for (var i = 0; i < dateInpDrivers.length; i++) {
+            dateInpDrivers[i].value = '';
+        }
+
+        tableDrivers.appendChild(new_rowDrivers);
+    }
+
+    function delRowDrivers() {
+        var targetDrivers = event.target;
+        var closeBtnDrivers = targetDrivers.closest('.deliting-item-drivers');
+        if (!closeBtnDrivers) return;
+
+        var grItemDrivers = tableDrivers.querySelectorAll('.drivers-group__item');
+        var actualTbodyDrivers = grItemDrivers.length;
+        if (actualTbodyDrivers == 1) {
+            return;
+        } else {
+            indexRowDrivers = closeBtnDrivers.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+
+        insertTotalPrice();
+    }
+
+    btnAddProductDrivers.addEventListener('click', insRowDrivers);
+
+    tableDrivers.addEventListener('click', delRowDrivers);
+</script>
+<script>
+    var btnAddProductContr = document.querySelector('.adding-item-contracts');
+    var btnDeleteProductContr = document.querySelector('.deliting-item-contracts');
+    var tableContract = document.querySelector('.contracts-group');
+
+    function insRowContr() {
+        var targetContr = event.target;
+        var grItemContr = tableContract.querySelectorAll('.contracts-group__item');
+
+        var new_rowContr = grItemContr[0].cloneNode(true);
+        new_rowContr.querySelector('.adding-item-contracts').addEventListener('click', insRowContr);
+
+        var dateInpContr = new_rowContr.querySelectorAll('input');
+        for (var i = 0; i < dateInpContr.length; i++) {
+            dateInpContr[i].value = '';
+        }
+
+        tableContract.appendChild(new_rowContr);
+    }
+
+    function delRowContr() {
+        var targetContr = event.target;
+        var closeBtnContr = targetContr.closest('.deliting-item-contracts');
+        if (!closeBtnContr) return;
+
+        var grItemContr = tableContract.querySelectorAll('.contracts-group__item');
+        var actualTbodyContr = grItemContr.length;
+        if (actualTbodyContr == 1) {
+            return;
+        } else {
+            indexRowContr = closeBtnContr.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+
+        insertTotalPrice();
+    }
+
+    btnAddProductContr.addEventListener('click', insRowContr);
+
+    tableContract.addEventListener('click', delRowContr);
+</script>
+<script>
+    var btnAddProductContr = document.querySelector('.adding-item-carsReservs');
+    var btnDeleteProductContr = document.querySelector('.deliting-item-carsReservs');
+    var tableCarReservs = document.querySelector('.carsReservs-group');
+
+    function insRowContr() {
+        var targetContr = event.target;
+        var grItemContr = tableCarReservs.querySelectorAll('.carsReservs-group__item');
+        var new_rowContr = grItemContr[0].cloneNode(true);
+        new_rowContr.querySelector('.adding-item-carsReservs').addEventListener('click', insRowContr);
+
+        var dateInpContr = new_rowContr.querySelectorAll('input');
+        for (var i = 0; i < dateInpContr.length; i++) {
+            dateInpContr[i].value = '';
+        }
+
+        tableCarReservs.appendChild(new_rowContr);
+    }
+
+    function delRowContr() {
+        var targetContr = event.target;
+        var closeBtnContr = targetContr.closest('.deliting-item-carsReservs');
+        if (!closeBtnContr) return;
+
+        var grItemContr = tableCarReservs.querySelectorAll('.carsReservs-group__item');
+        var actualTbodyContr = grItemContr.length;
+        if (actualTbodyContr == 1) {
+            return;
+        } else {
+            indexRowContr = closeBtnContr.parentNode.parentNode.parentNode.parentNode.remove();
+        }
+
+        insertTotalPrice();
+    }
+
+    btnAddProductContr.addEventListener('click', insRowContr);
+
+    tableCarReservs.addEventListener('click', delRowContr);
+</script>

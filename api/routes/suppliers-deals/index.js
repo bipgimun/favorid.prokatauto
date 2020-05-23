@@ -19,7 +19,8 @@ const db = require('../../../libs/db');
 
 router.post('/add', async (req, res, next) => {
 
-    const values = await addSchema.validate(req.body);
+    const { values: data, details = '' } = req.body;
+    const values = await addSchema.validate(data);
 
     const [similarDeal] = await db.execQuery(`
         SELECT * 
@@ -33,7 +34,46 @@ router.post('/add', async (req, res, next) => {
         throw new Error('Сделка с таким номером и датой уже существует');
     }
 
+    const jsonDetails = JSON.parse(details);
+
+    let splitSum = 0;
+    let detailsLength = 0;
+
+    for (const key of Object.keys(jsonDetails)) {
+        const detail = jsonDetails[key] || [];
+
+        if (detail.length < 1) {
+            continue;
+        }
+
+        for (const detItem of detail) {
+            const { price } = detItem;
+
+            splitSum += +price;
+            detailsLength += 1;
+        }
+    }
+    
+    if(+detailsLength > 0 && +splitSum !== +values.sum) {
+        throw new Error('Сумма разбивки не равна общей сумме');
+    }
+
     const id = await suppliersDealsModel.add({ ...values, manager_id: req.session.user.employee_id });
+
+
+    for (const key of Object.keys(jsonDetails)) {
+        const detail = jsonDetails[key] || [];
+
+        if (detail.length < 1) {
+            continue;
+        }
+
+        for (const detItem of detail) {
+            const { target_id, price } = detItem;
+            await db.insertQuery(`INSERT INTO suppliers_deals_details SET ?`, [{ suppliers_deal_id: id, target_type: key, target_id, price }]);
+        }
+    }
+
     const [supplierDeal] = await suppliersDealsModel.get({ id });
 
     supplierDeal.date = moment(supplierDeal.date).format('DD.MM.YYYY');

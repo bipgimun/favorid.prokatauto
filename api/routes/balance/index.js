@@ -78,14 +78,20 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
     const costs = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND driver_id = ${driver_id}`);
 
     // получить разбивки из расходов на текущего водителя
-    const costsSplitS = await db.execQuery('SELECT * FROM costs_details WHERE target_type = ? AND target_id = ?', ['drivers', driver_id]);
+    const costsSplits = await db.execQuery('SELECT * FROM costs_details WHERE target_type = ? AND target_id = ?', ['drivers', driver_id]);
+    
+    // получить разбивки из сделок с поставщиками на текущего водителя
+    const suppliersDealsSplits = await db.execQuery('SELECT * FROM suppliers_deals_details WHERE target_type = ? AND target_id = ?', ['drivers', driver_id]);
+
+    const suppliersBySplits = await db.execQuery(`SELECT * FROM suppliers_deals WHERE ${date} AND id IN (?)`, [suppliersDealsSplits.map(item => item.suppliers_deal_id).join(',')]);
     
     // запросить расходники, в которых есть разбивка на водителя
-    const costsBySplit = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND id IN (?)`, [costsSplitS.map(item => item.cost_id).join(',')]);
+    const costsBySplit = await db.execQuery(`SELECT * FROM costs WHERE ${date} AND id IN (?)`, [costsSplits.map(item => item.cost_id).join(',')]);
 
     const costsSplitsForDriver = [];
+    const suppliersDealsSplitsForDriver = [];
 
-    for (const { price, cost_id } of costsSplitS) {
+    for (const { price, cost_id } of costsSplits) {
         const cost = costsBySplit.find(item => item.id == cost_id);
 
         if (!cost) {
@@ -93,6 +99,16 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
         }
 
         costsSplitsForDriver.push({ id: cost_id, sum: price, date: cost.date });
+    }
+    
+    for (const { price, suppliers_deal_id } of suppliersDealsSplits) {
+        const suppliersDeal = suppliersBySplits.find(item => item.id == suppliers_deal_id);
+
+        if (!suppliersDeal) {
+            continue;
+        }
+
+        suppliersDealsSplitsForDriver.push({ id: suppliersDeal.id, sum: price, date: suppliersDeal.date });
     }
 
 
@@ -171,6 +187,21 @@ async function calcTable({ period_left = '', period_right = '', driver_id = '' }
         positions.push({
             id,
             code: 'COST-S',
+            title,
+            income: '--',
+            gone: sum,
+        });
+    })
+    
+    suppliersDealsSplitsForDriver.forEach(item => {
+        const { id, sum, date } = item;
+        const title = `Сделка с поставщиком №${id} от ${moment(date).format('DD.MM.YYYY')}`;
+
+        moneyCosts += +sum;
+        
+        positions.push({
+            id,
+            code: 'SUP-D-S',
             title,
             income: '--',
             gone: sum,
