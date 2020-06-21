@@ -367,19 +367,14 @@
 
             var $serviceInfo = $('.service-info[value=' + $select.val() + ']');
 
-
             $price.val($serviceInfo.data('price')).trigger('change');
             let evtCustom = new Event('input');
-
-        })
-
-            $price.val($serviceInfo.data('price'));
-
-            calcTotalSum();
         }
 
+        calcTotalSum();
+
         $(additionalServicePrice).on('change input', () => calcTotalSum());
-        $additionalServicesSelects.on('change', onChangeServiceSelect)
+        $additionalServicesSelects.on('change', onChangeServiceSelect);
     }
 
     initServiceSelect();
@@ -455,7 +450,7 @@
         prepaymentName.on('input change', function () {
             let sum1 = 0;
             let servInpPrice = 0;
-            $('.js-carReserv-additional-services-price').each(function(){
+            $('.js-carReserv-additional-services-price').each(function () {
                 servInpPrice += +$(this).val || 0;
             });
             sum1 = +prepaymentName.val() + +carDepositName.val() + +servInpPrice;
@@ -466,7 +461,7 @@
         carDepositName.on('input change', function () {
             let sum2 = 0;
             let servInpPrice1 = 0;
-            $('.js-carReserv-additional-services-price').each(function(){
+            $('.js-carReserv-additional-services-price').each(function () {
                 servInpPrice1 += +$(this).val || 0;
             });
             sum2 = +prepaymentName.val() + +carDepositName.val() + +servInpPrice1;
@@ -474,7 +469,7 @@
             calcTotalSum();
         });
 
-        $('.js-carReserv-additional-services-price').on('input change', function() {
+        $('.js-carReserv-additional-services-price').on('input change', function () {
             let sum3 = 0;
             sum3 = +prepaymentName.val() + +carDepositName.val() + +$(this).val();
             sumPriceClass.val(sum3);
