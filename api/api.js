@@ -10,7 +10,7 @@ function checkPrivileges(req, res, next) {
     const url = req.url;
 
     const privileges = {
-        can_edit: req.session.user.is_director == '1' || req.session.user.is_senior_manager == '1',
+        can_edit: req.session.user.is_director == '1' || req.session.user.is_senior_manager == '1' || req.session.user.is_manager,
         can_remove: req.session.user.is_director == '1'
     };
 

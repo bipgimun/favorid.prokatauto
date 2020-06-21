@@ -68,7 +68,7 @@ const updateSchema = Joi.object({
     car_deposit: Joi.number(),
     paid_sum: Joi.number(),
     discount: Joi.number().empty(''),
-    passenger_id: Joi.number(),
+    passenger_id: Joi.number().empty([null, '']).default(null),
     contact_number: Joi.string(),
     driver_id: Joi.number().allow(''),
     itinerarie_id: Joi.number().allow('').error(new Error('Выберите маршрут')),
@@ -78,7 +78,7 @@ const updateSchema = Joi.object({
     rent_finished: Joi.string(),
     itinerarie_point_a: Joi.string(),
     itinerarie_point_b: Joi.string(),
-    services: Joi.string(),
+    services: Joi.string().default(''),
     prepayment: Joi.number().min(0),
     sum: Joi.number().min(0),
     comment: Joi.string().allow(''),
@@ -180,7 +180,7 @@ router.post('/add', async (req, res, next) => {
 })
 
 router.post('/update', async (req, res, next) => {
-    const { id, ...fields } = req.body.values;
+    const { id, ...fields } = req.body.values;    
 
     const validValues = await updateSchema.validate(fields);
 

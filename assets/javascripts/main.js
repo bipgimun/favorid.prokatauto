@@ -717,7 +717,33 @@ $(document).ready(() => {
         return false;
     })
 
-    $('#js-carReservations-form').on('submit', async function (e) {
+    $('#js-carReservations-form:not(.js-carReservations-form--update)').on('submit', async function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const url = $form.attr('action');
+
+        const values = getFormValues($form);
+
+        const { data } = await request(url, { values }, { showNotify: true });
+
+        $(e.target).find('.modal-dismiss').click();
+
+        if ($('#js-carReservations-table').length) {
+            // insertTable('carReservations', data.id, [`${data.name} ${data.model}`, data.price_per_day, data.limit_per_day, data.surcharge]);
+            location.reload();
+        } else {
+            Object.keys(data).forEach(key => {
+                $form.find(`[data-target=${key}]`).text(data[key]);
+            })
+
+            $('.js-toggleEditable').click();
+        }
+
+        return false;
+    })
+   
+    $('.js-carReservations-form--update').on('submit', async function (e) {
         e.preventDefault();
 
         const $form = $(this);

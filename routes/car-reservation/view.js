@@ -32,6 +32,12 @@ module.exports = async (req, res, next) => {
         .filter(item => !!item)
         .map(item => servicesList.find(service => service.id == item));
 
+    const incomes = await db.execQuery(`SELECT * FROM incomes WHERE base_id = ?`, [`CRR-${reservation.id}`]);
+    const incomesSum = +incomes.reduce((acc, item) => +acc + +item.sum, 0) + +reservation.paid_sum;
+    
+    reservation.paid_sum = incomesSum;
+    
+
     reservs.forEach(item => {
         item.status_name = statues[String(item.status)];
         item.completed = item.status == '2';

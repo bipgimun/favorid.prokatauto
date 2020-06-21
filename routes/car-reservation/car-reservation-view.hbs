@@ -69,7 +69,7 @@
             </header>
             {{#each reservs}}
                 <div class="panel-body js-editable-body">
-                    <form id="js-carReservations-form" action="/api/carReservations/update"
+                    <form id="js-carReservations-form" class="js-carReservations-form--update" action="/api/carReservations/update"
                         class="form-horizontal mb-lg" novalidate="novalidate">
                         <input type="hidden" class="hidden-id-cars" name="id" value="{{this.id}}">
                         {{#if can_edit}}
@@ -319,8 +319,7 @@
                         <div class="form-group services-group">
                             <div class="form-group">
                                 <label class="col-sm-12 control-label"
-                                    style="text-transform: uppercase; font-weight: bold; text-align: center;">Дополнительные
-                                    услуги</label>
+                                    style="text-transform: uppercase; font-weight: bold; text-align: center;">Дополнительные услуги</label>
                             </div>
                             {{#each ../additionalServices as | adService |}}
                                 <div class="non-editable-content form-group col-sm-12">
@@ -597,7 +596,8 @@
         if (actualTbody == 1) {
             return;
         } else {
-            indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+            // indexRow = closeBtn.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+            closeBtn.parentNode.parentNode.remove();
         }
     }
 
