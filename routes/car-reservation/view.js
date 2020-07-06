@@ -26,6 +26,8 @@ module.exports = async (req, res, next) => {
         throw new Error('Страница не найдена');
 
     const servicesList = await db.execQuery(`SELECT * FROM additional_services`);
+    const zalogi = await db.execQuery(`SELECT * FROM costs_details WHERE target_type = ? AND target_id = ?`, ['zalog', reservation.id]);
+    const zalogiSum = zalogi.map(item => +item.price).reduce((acc, item) => +acc + +item, 0);
 
     const additionalServices = (reservation.services || '')
         .split(',')
@@ -46,6 +48,8 @@ module.exports = async (req, res, next) => {
 
         item.reserv_fuel_level = item.reserv_fuel_level || item.car_fuel_level;
         item.reserv_mileage = item.reserv_mileage || item.car_mileage;
+
+        item.car_deposit -= zalogiSum;
 
         if (req.session.user.is_director == '1') {
             item.can_edit = true;
@@ -70,6 +74,7 @@ module.exports = async (req, res, next) => {
         id,
         item: reservs[0],
         additionalServices,
-        servicesList
+        servicesList,
+        zalogiSum
     });
 }

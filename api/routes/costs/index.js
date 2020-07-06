@@ -46,6 +46,7 @@ app.post('/add', async (req, res, next) => {
     const { values, details = '' } = req.body;
 
     const validValues = await Joi.validate(values, addScheme);
+    
 
     if (validValues.base_id) {
         const [, code = '', document_id = ''] = /([\w]+)-([\d]+)/.exec(validValues.base_id) || [];
@@ -62,7 +63,6 @@ app.post('/add', async (req, res, next) => {
     }
 
     validValues.manager_id = req.session.user.employee_id;
-    
 
     let splitSum = 0;
     let detailsLength = 0;

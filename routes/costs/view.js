@@ -63,6 +63,13 @@ module.exports = async (req, res, next) => {
                     continue;
 
                 item.name = 'CRR-' + carReserv.id;
+            } else if(item.target_type === 'zalog') {
+                const [carReserv] = await db.execQuery('SELECT * FROM cars_reservations WHERE id = ?', [target_id]);
+                
+                if(!carReserv) 
+                    continue;
+
+                item.name = 'CRR-' + carReserv.id;
             }
         }
     }
