@@ -19,6 +19,13 @@ router.post('/add', async (req, res, next) => {
 
 router.post('/close', async (req, res, next) => {
     const { id } = req.body;
+
+    const canUpdate = [+req.session.user.is_director, +req.session.user.is_senior_manager].includes(1);
+
+    if(!canUpdate) {
+        throw new Error('Нет прав для данного действия');
+    }
+
     await db.execQuery(`UPDATE muz_contracts SET ? WHERE id = ?`, [{
         is_completed: 1
     }, id]);
@@ -59,6 +66,24 @@ const updateSchema = Joi.object({
 router.post('/update', async (req, res, next) => {
 
     const { id, ...validValues } = await updateSchema.validate(req.body);
+
+    const [contract] = await db.execQuery('SELECT * FROM muz_contracts WHERE id = ?', [id]);
+
+    if(!contract) {
+        throw new Error('Контракт не найден');
+    }
+
+    const canUpdateCompletedContract = [+req.session.user.is_director].includes(1);
+    const canUpdate = [+req.session.user.is_director, +req.session.user.is_senior_manager].includes(1);
+
+    if(+contract.is_completed === 1 && !canUpdateCompletedContract) {
+        throw new Error('Нет прав для данного действия');
+    }
+
+    if(!canUpdate) {
+        throw new Error('Нет прав для данного действия');
+    }
+
     await db.execQuery(`UPDATE muz_contracts SET ? WHERE id = ?`, [validValues, id]);
 
     res.json({ status: 'ok' });
@@ -66,7 +91,12 @@ router.post('/update', async (req, res, next) => {
 
 router.post('/delete', async (req, res, next) => {
 
+    if(+req.session.user.is_director !== 1) {
+        throw new Error('Нет прав для данного действия');
+    }
+
     const { id } = req.body;
+
 
     const [contract] = await db.execQuery('SELECT id FROM muz_contracts WHERE id = ?', [id]);
 

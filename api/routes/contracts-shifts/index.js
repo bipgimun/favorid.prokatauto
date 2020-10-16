@@ -51,6 +51,12 @@ router.post('/close', async (req, res, next) => {
         throw new Error('Смена уже завершена');
     }
 
+    const canUpdate = [+req.session.user.is_director, +req.session.user.is_senior_manager].includes(1);
+
+    if(!canUpdate) {
+        throw new Error('Нет прав для данного действия');
+    }
+
     await db.execQuery(`UPDATE shifts2contracts SET ? WHERE id = ${shift_id}`, [
         { is_completed: 1, complete_at: new Date() }
     ]);
@@ -70,6 +76,10 @@ router.post('/delete', async (req, res, next) => {
 
     if (!shift) {
         throw new Error('Смена не найдена');
+    }
+
+    if(+req.session.user.is_director !== 1) {
+        throw new Error('Нет прав для данного действия');
     }
 
     await db.execQuery('DELETE FROM shifts2contracts WHERE id = ?', [id]);

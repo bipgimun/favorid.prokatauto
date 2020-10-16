@@ -24,7 +24,8 @@
         {{#if is_archive}}
         {{else}}
             <button href="#add-products" type="button" class="mb-xs mt-xs mr-xs btn btn-sm btn-default modal-with-form">
-                <i class="fa fa-plus"></i> Создать контракт
+                <i class="fa fa-plus"></i>
+                Создать контракт
             </button>
         {{/if}}
         <div class="zag">
@@ -32,40 +33,40 @@
         </div>
         <div class="table-responsive">
             <table class="display table table-bordered table-striped table-condensed mb-none customize"
-                style="width:100%; display: none">
+                   style="width:100%; display: none">
                 <thead>
-                    <tr>
-                        <th>Дата начала</th>
-                        <th>Дата окончания</th>
-                        <th>Заказчик</th>
-                        <th>Менеджер</th>
-                        <th>Номер</th>
-                        <th>Подробнее</th>
-                    </tr>
+                <tr>
+                    <th>Дата начала</th>
+                    <th>Дата окончания</th>
+                    <th>Заказчик</th>
+                    <th>Менеджер</th>
+                    <th>Номер</th>
+                    <th>Подробнее</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {{#each contracts}}
-                        <tr>
-                            <td>{{toIsoString date_start 'DD.MM.YYYY'}}</td>
-                            <td>{{toIsoString date_end 'DD.MM.YYYY'}}</td>
-                            <td>{{customer_name}}</td>
-                            <td>{{manager_name}}</td>
-                            <td>MUZ-{{id}}</td>
-                            <td>
-                                <a href="/contracts/{{id}}" target="_blank">Подробнее</a>
-                            </td>
-                        </tr>
-                    {{/each}}
+                {{#each contracts}}
+                    <tr>
+                        <td>{{toIsoString date_start 'DD.MM.YYYY'}}</td>
+                        <td>{{toIsoString date_end 'DD.MM.YYYY'}}</td>
+                        <td>{{customer_name}}</td>
+                        <td>{{manager_name}}</td>
+                        <td>MUZ-{{id}}</td>
+                        <td>
+                            <a href="/contracts/{{id}}" target="_blank">Подробнее</a>
+                        </td>
+                    </tr>
+                {{/each}}
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <th>Дата начала</th>
-                        <th>Дата окончания</th>
-                        <th>Заказчик</th>
-                        <th>Менеджер</th>
-                        <th>Номер</th>
-                        <th>Подробнее</th>
-                    </tr>
+                <tr>
+                    <th>Дата начала</th>
+                    <th>Дата окончания</th>
+                    <th>Заказчик</th>
+                    <th>Менеджер</th>
+                    <th>Номер</th>
+                    <th>Подробнее</th>
+                </tr>
                 </tfoot>
             </table>
         </div>
@@ -91,7 +92,7 @@
                     <div class="col-sm-9">
                         <div class="input-group">
                             <select style="width: 100%" name="customer_id" class="form-control js-select2-init"
-                                data-ajax="/api/customers/select2" data-modal="#add-products">
+                                    data-ajax="/api/customers/select2" data-modal="#add-products">
                                 <option value="">Выберите заказчика</option>
                             </select>
                             <span class="input-group-btn">
@@ -121,14 +122,14 @@
                         <label class="col-sm-5 control-label"><b>Город</b></label>
                         <div class="col-sm-6">
                             <input name="gorod_hours" type="number" class="form-control js-contracts-list-type-hours"
-                                placeholder="Введите количество часов" required>
+                                   placeholder="Введите количество часов" required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="gorod_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -136,15 +137,16 @@
                         <label class="col-sm-5 control-label"><b>Город (остатки)</b></label>
                         <div class="col-sm-6">
                             <input name="gorod_ostatki_hours" type="number"
-                                class="form-control js-contracts-list-type-hours" placeholder="Введите количество часов"
-                                required>
+                                   class="form-control js-contracts-list-type-hours"
+                                   placeholder="Введите количество часов"
+                                   required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="gorod_ostatki_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -152,15 +154,16 @@
                         <label class="col-sm-5 control-label"><b>Командировки</b></label>
                         <div class="col-sm-6">
                             <input name="komandirovki_hours" type="number"
-                                class="form-control js-contracts-list-type-hours" placeholder="Введите количество часов"
-                                required>
+                                   class="form-control js-contracts-list-type-hours"
+                                   placeholder="Введите количество часов"
+                                   required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="komandirovki_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -168,14 +171,14 @@
                         <label class="col-sm-5 control-label"><b>Грузовые</b></label>
                         <div class="col-sm-6">
                             <input name="gruzovie_hours" type="number" class="form-control js-contracts-list-type-hours"
-                                placeholder="Введите количество часов" required>
+                                   placeholder="Введите количество часов" required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="gruzovie_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -183,14 +186,14 @@
                         <label class="col-sm-5 control-label"><b>Питание</b></label>
                         <div class="col-sm-6">
                             <input name="pitanie_hours" type="number" class="form-control js-contracts-list-type-hours"
-                                placeholder="Введите количество часов" required>
+                                   placeholder="Введите количество часов" required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="pitanie_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -198,14 +201,14 @@
                         <label class="col-sm-5 control-label"><b>Автобус</b></label>
                         <div class="col-sm-6">
                             <input name="avtobus_hours" type="number" class="form-control js-contracts-list-type-hours"
-                                placeholder="Введите количество часов" required>
+                                   placeholder="Введите количество часов" required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="avtobus_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -213,15 +216,16 @@
                         <label class="col-sm-5 control-label"><b>Внедорожник</b></label>
                         <div class="col-sm-6">
                             <input name="vnedorozhnik_hours" type="number"
-                                class="form-control js-contracts-list-type-hours" placeholder="Введите количество часов"
-                                required>
+                                   class="form-control js-contracts-list-type-hours"
+                                   placeholder="Введите количество часов"
+                                   required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="vnedorozhnik_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -229,33 +233,34 @@
                         <label class="col-sm-5 control-label"><b>Скорая помощь</b></label>
                         <div class="col-sm-6">
                             <input name="pomosh_hours" type="number" class="form-control js-contracts-list-type-hours"
-                                placeholder="Введите количество часов" required>
+                                   placeholder="Введите количество часов" required>
                         </div>
                         <div>
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="pomosh_value" type="number"
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-5">
                             <input name="other_name" type="text" class="form-control" placeholder="Введите тип"
-                                style="max-width: 150px!important;margin-left: auto;">
+                                   style="max-width: 150px!important;margin-left: auto;">
                         </label>
                         <div class="col-sm-6">
                             <input name="other_hours" type="number" value=""
-                                class="form-control js-contracts-list-type-hours" placeholder="Введите количество часов"
-                                required>
+                                   class="form-control js-contracts-list-type-hours"
+                                   placeholder="Введите количество часов"
+                                   required>
                         </div>
                         <div class="col-sm-12">
                             <label class="col-sm-5 control-label">Цена</label>
                             <div class="col-sm-3">
                                 <input name="other_value" type="number" value=""
-                                    class="form-control js-contracts-list-type-value" placeholder="Введите цену"
-                                    required>
+                                       class="form-control js-contracts-list-type-value" placeholder="Введите цену"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -270,12 +275,12 @@
                         </label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <select style="width: 100%" class="form-control js-contract-driver-id">
-                                    <option value="" selected>Не выбрано</option>
-                                    {{#each drivers}}
-                                        <option value="{{id}}">{{name}}</option>
-                                    {{/each}}
+
+                                <select style="width: 100%" class="form-control js-contract-driver-id js-select2-init"
+                                        data-ajax="/api/drivers/select2" data-modal="#add-products">
+                                    <option value="">Выберите водителя</option>
                                 </select>
+
                                 <span class="input-group-btn">
                                     <button class="btn btn-default adding-item" type="button">+</button>
                                 </span>
@@ -305,13 +310,13 @@
                             <label class="col-sm-3 control-label">Объект</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control js-contract-driver-object"
-                                    placeholder="Введите объект" required>
+                                       placeholder="Введите объект" required>
                             </div>
                             <div>
                                 <label class="col-sm-3 control-label">Ставка в час</label>
                                 <div class="col-sm-3">
                                     <input type="number" class="form-control js-contract-driver-value"
-                                        placeholder="Введите цену" required>
+                                           placeholder="Введите цену" required>
                                 </div>
                             </div>
                         </div>
@@ -322,21 +327,21 @@
                     <label class="col-sm-3 control-label">Комментарий</label>
                     <div class="col-sm-9">
                         <textarea name="comment" class="form-control" id="" cols="30" rows="5"
-                            placeholder="Введите комментарий"></textarea>
+                                  placeholder="Введите комментарий"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Общая сумма контракта, руб.</label>
                     <div class="col-sm-7">
                         <input value="0" id="js-add-contract-modal-total-value" name="total_value" type="number"
-                            class="form-control" placeholder="Введите сумму" required>
+                               class="form-control" placeholder="Введите сумму" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-5 control-label">Общее количество часов по контракту</label>
                     <div class="col-sm-7">
                         <input value="0" id="js-add-contract-modal-total-hours" name="total_hours" type="number"
-                            class="form-control" placeholder="Введите часы" required>
+                               class="form-control" placeholder="Введите часы" required>
                     </div>
                 </div>
 
@@ -344,7 +349,7 @@
                     <label class="col-sm-5 control-label">Обеспечение по контракту, руб.</label>
                     <div class="col-sm-7">
                         <input value="0" name="cash_security" type="number" class="form-control"
-                            placeholder="Введите сумму" required>
+                               placeholder="Введите сумму" required>
                     </div>
                 </div>
 
@@ -376,7 +381,7 @@
             const type = $block.find('.js-contract-driver-type').val();
             const value = $block.find('.js-contract-driver-value').val();
 
-            drivers.push({ driver_id: id, object, type, value });
+            drivers.push({driver_id: id, object, type, value});
         });
 
         values.drivers = drivers;
@@ -397,7 +402,7 @@
 
         $('.js-contracts-list-type-hours').each((index, element) => {
             const $parent = $(element).closest('.form-group');
-            
+
             totalHours += +$(element).val();
             totalSum += (+$parent.find('.js-contracts-list-type-value').val() || 0) * (+$(element).val() || 0);
         });
@@ -427,14 +432,27 @@
     function insRow() {
         var target = event.target;
         var grItem = table.querySelectorAll('.services-group__item');
-        var new_row = grItem[0].cloneNode(true);
-        new_row.querySelector('.adding-item').addEventListener('click', insRow);
 
-        var dateInp = new_row.querySelectorAll('input');
+        $(grItem).find('select.js-select2-init').each((index, $element) => {
+            $($element).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
+        });
+
+        var newRow = grItem[0].cloneNode(true);
+
+        newRow.querySelector('.adding-item').addEventListener('click', insRow);
+
+        var dateInp = newRow.querySelectorAll('input');
+
         for (var i = 0; i < dateInp.length; i++) {
             dateInp[i].value = '';
         }
-        table.appendChild(new_row);
+
+        table.appendChild(newRow);
+
+        $(table).find('.services-group__item').find('select.js-select2-init').each((index, $element) => {
+            initSelect2($element, Math.floor(Math.random() * 10000000));
+        })
+
     }
 
     function delRow() {

@@ -46,7 +46,6 @@ app.post('/add', async (req, res, next) => {
     const { values, details = '' } = req.body;
 
     const validValues = await Joi.validate(values, addScheme);
-    
 
     if (validValues.base_id) {
         const [, code = '', document_id = ''] = /([\w]+)-([\d]+)/.exec(validValues.base_id) || [];
@@ -56,11 +55,14 @@ app.post('/add', async (req, res, next) => {
     }
 
 
+
+
     const jsonDetails = JSON.parse(details);
 
     if (validValues.code === 'APR' && jsonDetails.apartments.length > 0) {
         throw new Error('Невозможно создать разбивку на квартиры с основаним расхода по аренде квартиры');
     }
+
 
     validValues.manager_id = req.session.user.employee_id;
 

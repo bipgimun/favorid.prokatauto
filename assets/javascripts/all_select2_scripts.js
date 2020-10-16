@@ -24,11 +24,9 @@ function initSelect2(select, index = 0) {
             delay: 250,
             dataType: 'json',
             data: function (params) {
-                var query = {
+                return {
                     search: params.term,
-                }
-
-                return query;
+                };
             },
             processResults: function (data) {
 
